@@ -28,7 +28,7 @@ class CompletedScreen extends StatelessWidget {
           const Center(
             child: FractionallySizedBox(
               widthFactor: 0.8,
-              child: ReusableButton(buttonText: '시작하기'),
+              child: ReusableButton(height: 40.0, buttonText: '시작하기'),
             ),
           ),
         ],

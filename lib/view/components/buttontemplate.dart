@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 
 class ReusableButton extends StatelessWidget {
   final String buttonText;
+  final double height;
 
   const ReusableButton({
     super.key,
     required this.buttonText,
+    required this.height,
   });
 
   @override
@@ -17,7 +19,7 @@ class ReusableButton extends StatelessWidget {
       child: Column(
         children: [
           Container(
-            height: 60.0,
+            height: height,
             width: 440.0,
             alignment: Alignment.center,
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
@@ -31,27 +33,6 @@ class ReusableButton extends StatelessWidget {
             height: 10,
           )
         ],
-      ),
-    );
-  }
-}
-
-class NextButton extends StatelessWidget {
-  const NextButton({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      child: Container(
-        height: 50.0,
-        width: 440.0,
-        alignment: Alignment.center,
-        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-        decoration: BoxDecoration(
-          color: Colors.grey,
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: const Center(child: Text('다음')),
       ),
     );
   }

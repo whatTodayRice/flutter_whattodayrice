@@ -29,15 +29,15 @@ class SelectDormitory extends StatelessWidget {
             Center(
               child: Column(
                 children: const [
-                  ReusableButton(buttonText: '세종기숙사'),
+                  ReusableButton(height: 50.0, buttonText: '세종기숙사'),
                   SizedBox(
                     height: 15,
                   ),
-                  ReusableButton(buttonText: '행복기숙사'),
+                  ReusableButton(height: 50.0, buttonText: '행복기숙사'),
                   SizedBox(
                     height: 50,
                   ),
-                  NextButton()
+                  ReusableButton(height: 40.0, buttonText: '다음'),
                 ],
               ),
             ),
