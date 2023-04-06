@@ -15,11 +15,3 @@ const kCompletedCheckCircle = Icon(
   size: 120.0,
   color: Colors.grey,
 );
-const kStartText = Text(
-  '시작하기',
-  style: TextStyle(
-    color: Colors.white,
-    fontSize: 20,
-    fontWeight: FontWeight.bold,
-  ),
-);
