@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_whattodayrice/view/components/buttontemplate.dart';
 import 'package:flutter_whattodayrice/view/components/texttemplate.dart';
 import 'package:flutter_whattodayrice/view/components/bottom_sheet_utils.dart';
+import 'package:flutter_whattodayrice/view/components/notification_switch.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -16,34 +17,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
   bool isSwitched = false;
 
   Widget buildNotificationSwitch() {
-    return Container(
-      margin: const EdgeInsets.only(left: 10.0, right: 10.0),
-      padding: const EdgeInsets.all(20.0),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10.0),
-        color: Colors.grey[300],
-      ),
-      height: 70,
-      // width: 800,
-      child: Row(
-        children: [
-          Expanded(
-            child: RichText(
-                text: TextSpan(children: [
-              notificationTextSpan,
-              linkTextSpan,
-            ])),
-          ),
-          Switch(
-              value: isSwitched,
-              onChanged: (value) {
-                setState(() {
-                  isSwitched = value;
-                });
-              })
-        ],
-      ),
-    );
+    return NotificationSwitch(
+        isSwitched: isSwitched,
+        onChanged: (value) {
+          setState(() {
+            isSwitched = value;
+          });
+        });
   }
 
   @override
