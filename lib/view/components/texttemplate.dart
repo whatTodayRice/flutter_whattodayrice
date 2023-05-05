@@ -53,7 +53,7 @@ final TextSpan notificationTextSpan = TextSpan(
   style: TextStyle(color: Colors.grey[700]),
 );
 
-final TextSpan linkTextSpan = TextSpan(
+final TextSpan checkTextSpan = TextSpan(
   text: '지금 눌러서 확인하기',
   style: TextStyle(color: Colors.grey[500], fontSize: 12),
 );
