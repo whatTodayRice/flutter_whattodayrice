@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_whattodayrice/view/screens/selectdormitory.dart';
+
+import 'package:flutter_whattodayrice/view/screens/settings_screen.dart';
+//import 'package:flutter_whattodayrice/screens/selectdormitory.dart';
 
 void main() {
   runApp(const MyApp());
@@ -10,14 +12,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
-          appBar: AppBar(
-            title: const Text('세종 기숙사'),
-            centerTitle: true,
-          ),
+          // appBar: AppBar(
+          //   title: const Text('세종 기숙사'),
+          //   centerTitle: true,
+          // ),
           //페이지 확인을 위한 버튼 추가함.
-          body: const SelectDormitory()),
+          body: SettingsScreen()),
     );
   }
 }

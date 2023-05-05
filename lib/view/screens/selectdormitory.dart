@@ -13,35 +13,36 @@ class SelectDormitory extends StatelessWidget {
         appBar: AppBar(
           title: const Text('기숙사 선택화면'),
         ),
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const BackIconButton(),
-            const SizedBox(
-              height: 100,
-            ),
-            buildText('안녕하세요!'),
-            buildText('현재 거주 중인'),
-            buildText('기숙사를 선택해주세요'),
-            const SizedBox(
-              height: 40,
-            ),
-            Center(
-              child: Column(
-                children: const [
-                  ReusableButton(height: 50.0, buttonText: '세종기숙사'),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  ReusableButton(height: 50.0, buttonText: '행복기숙사'),
-                  SizedBox(
-                    height: 50,
-                  ),
-                  ReusableButton(height: 40.0, buttonText: '다음'),
-                ],
+        body: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const BackIconButton(),
+              const SizedBox(
+                height: 80,
               ),
-            ),
-          ],
+              buildBoldText('안녕하세요!'),
+              buildBoldText('현재 거주 중인'),
+              buildBoldText('기숙사를 선택해주세요'),
+              const Spacer(),
+              Center(
+                child: Column(
+                  children: const [
+                    ReusableButton(height: 50.0, buttonText: '세종기숙사'),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    ReusableButton(height: 50.0, buttonText: '행복기숙사'),
+                    SizedBox(
+                      height: 50,
+                    ),
+                    ReusableButton(height: 40.0, buttonText: '다음'),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

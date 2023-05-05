@@ -50,3 +50,25 @@ class BackIconButton extends StatelessWidget {
         icon: const Icon(Icons.arrow_back_ios));
   }
 }
+
+// textbutton 템플릿
+class SelectButton extends StatelessWidget {
+  final String buttonText;
+
+  const SelectButton({
+    required this.buttonText,
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+      onPressed: null,
+      // 현재 저장되어 있는 값이 선택된 값으로 수정되도록 하는 함수 추가
+      child: Text(
+        buttonText,
+        style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+      ),
+    );
+  }
+}
