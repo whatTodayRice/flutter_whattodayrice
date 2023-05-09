@@ -2,13 +2,12 @@
 name: "\U0001F31F Feature request"
 about: 새로운 기능 추가 요청 이슈 작성 템플
 title: ''
-labels: ''
+labels: '✨ feat'
 assignees: ''
 
 ---
 
 ### 기능 요약
----
 (추가하고자 하는 새로운 기능에 대해 간략하게 설명해주세요.)
 
 ### 문제점/필요성
