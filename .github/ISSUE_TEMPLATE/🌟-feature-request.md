@@ -2,7 +2,7 @@
 name: "\U0001F31F Feature request"
 about: 새로운 기능 추가 요청 이슈 작성 템플
 title: ''
-labels: '✨ feat'
+labels: "✨ feat"
 assignees: ''
 
 ---
