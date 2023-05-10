@@ -10,7 +10,7 @@ class CompletedScreen extends StatelessWidget {
     return Container(
       child: Column(
         children: [
-          SizedBox(
+          const SizedBox(
             height: 180.0,
           ),
           Container(
@@ -22,13 +22,13 @@ class CompletedScreen extends StatelessWidget {
             child: kCompletedSubTitleText,
           ),
           kCompletedCheckCircle,
-          SizedBox(
+          const SizedBox(
             height: 140.0,
           ),
-          Center(
+          const Center(
             child: FractionallySizedBox(
               widthFactor: 0.8,
-              child: ReusableNextButton(),
+              child: ReusableButton(height: 40.0, buttonText: '시작하기'),
             ),
           ),
         ],
