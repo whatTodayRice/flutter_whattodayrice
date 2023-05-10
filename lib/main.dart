@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import './view/screens/completed.dart';
 
 void main() {
-  runApp(WhatTodayRiceApp());
+  runApp(const WhatTodayRiceApp());
 }
 
 class WhatTodayRiceApp extends StatelessWidget {
@@ -13,11 +12,11 @@ class WhatTodayRiceApp extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text('세종 기숙사'),
+          title: const Text('세종 기숙사'),
           centerTitle: true,
         ),
         body: Container(
-          child: Text('오밥뭐'),
+          child: const Text('오밥뭐'),
         ),
       ),
     );

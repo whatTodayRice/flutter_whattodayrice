@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'constants.dart';
 
 class ReusableNextButton extends StatelessWidget {
+  const ReusableNextButton({super.key});
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -11,7 +13,7 @@ class ReusableNextButton extends StatelessWidget {
       child: Container(
         height: 50.0,
         alignment: Alignment.center,
-        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
         decoration: BoxDecoration(
           color: Colors.grey,
           borderRadius: BorderRadius.circular(20),
