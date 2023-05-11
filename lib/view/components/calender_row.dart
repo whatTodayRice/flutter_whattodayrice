@@ -4,18 +4,18 @@ import 'package:flutter_whattodayrice/view/components/button_template.dart';
 class CalenderRow extends StatelessWidget {
   const CalenderRow({
     super.key,
-    required this.mainScreenWidth,
-    required this.mainScreenHeight,
+    required this.width,
+    required this.height,
   });
 
-  final double mainScreenWidth;
-  final double mainScreenHeight;
+  final double width;
+  final double height;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: mainScreenWidth,
-      height: mainScreenHeight * 0.06,
+      width: width,
+      height: height * 0.06,
       decoration: BoxDecoration(
         border: const Border(
           bottom: BorderSide(color: Colors.grey, width: 0.2),

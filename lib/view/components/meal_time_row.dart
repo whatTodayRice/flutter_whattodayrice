@@ -4,12 +4,12 @@ import 'package:flutter_whattodayrice/view/components/constants.dart';
 class MealTimeTextRow extends StatelessWidget {
   const MealTimeTextRow({
     super.key,
-    required this.mainScreenWidth,
-    required this.mainScreenHeight,
+    required this.width,
+    required this.height,
   });
 
-  final double mainScreenWidth;
-  final double mainScreenHeight;
+  final double width;
+  final double height;
 
   @override
   Widget build(BuildContext context) {
@@ -18,13 +18,11 @@ class MealTimeTextRow extends StatelessWidget {
       children: [
         const kMealCategoryText(),
         const SizedBox(
-          mainScreenWidth: 8,
+          width: 8,
         ),
-        kMealCategoryIcon(
-            mainScreenWidth: mainScreenWidth,
-            mainScreenHeight: mainScreenHeight),
+        kMealCategoryIcon(width: width, height: height),
         const SizedBox(
-          mainScreenWidth: 10,
+          width: 10,
         ),
         const kMealAvailableTimeText(),
       ],

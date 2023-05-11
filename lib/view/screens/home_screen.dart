@@ -11,11 +11,9 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final DateTime _selectedDate = DateTime.now();
-
   @override
   Widget build(BuildContext context) {
-    final mainScreenHeight = MediaQuery.of(context).size.height;
+    final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
 
     return Scaffold(
@@ -33,30 +31,23 @@ class _HomeScreenState extends State<HomeScreen> {
       body: SafeArea(
         child: Column(
           children: <Widget>[
-            CalenderRow(
-                mainScreenWidth: mainScreenWidth,
-                mainScreenHeight: mainScreenHeight),
+            CalenderRow(width: width, height: height),
             SizedBox(
-              height: mainScreenHeight * 0.039,
+              height: height * 0.039,
             ),
-            MealTimeTextRow(
-                mainScreenWidth: mainScreenWidth,
-                mainScreenHeight: mainScreenHeight),
+            MealTimeTextRow(width: width, height: height),
             SizedBox(
-              height: mainScreenHeight * 0.026,
+              height: height * 0.026,
             ),
-            happyMealContainer(
-                height: mainScreenHeight, mainScreenWidth: mainScreenWidth),
+            happyMealContainer(height: height, width: width),
             SizedBox(
-              height: mainScreenHeight * 0.1,
+              height: height * 0.1,
             ),
-            happyMealContainer(
-                height: mainScreenHeight, mainScreenWidth: mainScreenWidth),
+            happyMealContainer(height: height, width: width),
             SizedBox(
-              height: mainScreenHeight * 0.1,
+              height: height * 0.1,
             ),
-            happyMealContainer(
-                height: mainScreenHeight, mainScreenWidth: mainScreenWidth),
+            happyMealContainer(height: height, width: width),
           ],
         ),
       ),
