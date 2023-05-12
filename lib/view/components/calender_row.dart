@@ -29,7 +29,7 @@ class CalenderRow extends StatelessWidget {
           ),
         ],
       ),
-      child: const Row(
+      child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           MainScreenIconButton(

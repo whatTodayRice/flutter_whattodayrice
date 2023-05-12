@@ -55,9 +55,9 @@ class SelectMeal extends StatelessWidget {
                           padding: const EdgeInsets.only(left: 20.0),
                           child: SizedBox(
                             height: screenHeight * 0.4,
-                            child: Column(
+                            child: const Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              children: const [
+                              children: [
                                 SizedBox(
                                   height: 30,
                                 ),

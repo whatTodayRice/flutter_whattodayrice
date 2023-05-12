@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_whattodayrice/view/components/constants.dart';
 
 class MealTimeTextRow extends StatelessWidget {
   const MealTimeTextRow({
