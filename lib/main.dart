@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_whattodayrice/view/screens/home_screen.dart';
 import 'package:flutter_whattodayrice/view/screens/settings_screen.dart';
 
 void main() {
@@ -11,16 +11,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        // appBar: AppBar(
-        //   title: const Text('세종 기숙사'),
-        //   centerTitle: true,
-        // ),
-        //페이지 확인을 위한 버튼 추가함.
-        body: SettingsScreen(),
-      ),
+      home: const HomeScreen(),
+      routes: {
+        SettingsScreen.routeName: (context) => const SettingsScreen(),
+      },
     );
   }
 }
