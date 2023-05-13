@@ -26,8 +26,8 @@ void showBottomSheet(BuildContext context, Widget content) {
 
 //theme 에 대한 bottom sheet 구성 내용
 void buildThemeBottomSheet(BuildContext context) {
-  final content = Column(
-    children: const [
+  const content = Column(
+    children: [
       SelectButton(buttonText: '시스템 설정'),
       SizedBox(height: 10),
       SelectButton(buttonText: '다크 모드'),

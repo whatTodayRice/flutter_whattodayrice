@@ -19,7 +19,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.grey[800],
-        title: const Text('행복기숙사'),
+        title: Text('행복기숙사'),
         centerTitle: true,
         actions: <Widget>[
           IconButton(
