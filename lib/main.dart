@@ -15,12 +15,13 @@ class MyApp extends StatelessWidget {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-          // appBar: AppBar(
-          //   title: const Text('세종 기숙사'),
-          //   centerTitle: true,
-          // ),
-          //페이지 확인을 위한 버튼 추가함.
-          body: SettingsScreen()),
+        // appBar: AppBar(
+        //   title: const Text('세종 기숙사'),
+        //   centerTitle: true,
+        // ),
+        //페이지 확인을 위한 버튼 추가함.
+        body: SettingsScreen(),
+      ),
     );
   }
 }

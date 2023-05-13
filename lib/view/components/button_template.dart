@@ -72,3 +72,17 @@ class SelectButton extends StatelessWidget {
     );
   }
 }
+
+class MainScreenIconButton extends StatelessWidget {
+  final IconData iconShape;
+
+  const MainScreenIconButton({required this.iconShape});
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      icon: Icon(iconShape),
+      onPressed: () {},
+    );
+  }
+}
