@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_whattodayrice/view/components/constants.dart';
-import 'package:flutter_whattodayrice/view/components/buttontemplate.dart';
+import 'package:flutter_whattodayrice/view/components/button_template.dart';
 
 class CompletedScreen extends StatelessWidget {
   const CompletedScreen({super.key});
@@ -28,7 +28,7 @@ class CompletedScreen extends StatelessWidget {
           const Center(
             child: FractionallySizedBox(
               widthFactor: 0.8,
-              child: ReusableNextButton(),
+              child: ReusableButton(height: 40.0, buttonText: '시작하기'),
             ),
           ),
         ],
