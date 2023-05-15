@@ -75,3 +75,19 @@ class kMealCategoryText extends StatelessWidget {
     );
   }
 }
+
+var kTextStyleGuide = ThemeData(
+  textTheme: TextTheme(
+    bodySmall: const TextStyle(
+      fontSize: 12.0,
+      fontWeight: FontWeight.w500,
+      height: 18 / 12,
+    ),
+    headline2: const TextStyle(
+      fontSize: 18.0,
+      fontWeight: FontWeight.bold,
+    ),
+    titleSmall: const TextStyle(fontSize: 16.0, fontWeight: FontWeight.w600),
+    titleMedium: const TextStyle(fontSize: 20.0, fontWeight: FontWeight.w600),
+  ),
+);
