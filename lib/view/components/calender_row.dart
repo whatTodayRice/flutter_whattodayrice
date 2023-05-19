@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_whattodayrice/view/components/button_template.dart';
+import 'package:flutter_whattodayrice/utils/calendar_utils.dart';
 
 class CalenderRow extends StatelessWidget {
   const CalenderRow({
@@ -10,7 +11,6 @@ class CalenderRow extends StatelessWidget {
 
   final double width;
   final double height;
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -32,15 +32,20 @@ class CalenderRow extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          MainScreenIconButton(
+          const MainScreenIconButton(
             iconShape: Icons.arrow_back_ios,
           ),
-          Text(
-            '4월 29일',
-            style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
-            textAlign: TextAlign.center,
+          GestureDetector(
+            onTap: () {
+              showCalendarDialog(context); // 캘린더 다이얼로그가 뜨도록 하는 함수
+            },
+            child: const Text(
+              '4월 29일',
+              style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
+            ),
           ),
-          MainScreenIconButton(
+          const MainScreenIconButton(
             iconShape: Icons.arrow_forward_ios,
           ),
         ],

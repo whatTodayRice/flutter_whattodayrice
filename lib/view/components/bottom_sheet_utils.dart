@@ -40,8 +40,8 @@ void buildThemeBottomSheet(BuildContext context) {
 
 //dormitory에 대한 bottom sheet 내용 구성
 void buildDormitoryBottomSheet(BuildContext context) {
-  final content = Column(
-    children: const [
+  final content = const Column(
+    children: [
       SelectButton(buttonText: '행복기숙사'),
       SizedBox(height: 10),
       SelectButton(buttonText: '세종기숙사'),

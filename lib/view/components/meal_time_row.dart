@@ -16,7 +16,7 @@ class MealTimeTextRow extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        const kMealCategoryText(),
+        kMealCategoryText(width: width),
         const SizedBox(
           width: 8,
         ),

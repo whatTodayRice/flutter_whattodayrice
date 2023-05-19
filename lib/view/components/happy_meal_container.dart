@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
-class happyMealContainer extends StatelessWidget {
+// happt_meal_container.dart 를 붙여주었습니다 !
 
+class happyMealContainer extends StatelessWidget {
   const happyMealContainer({
     super.key,
     required this.height,
@@ -20,10 +21,10 @@ class happyMealContainer extends StatelessWidget {
         borderRadius: BorderRadius.circular(10.0),
         border: Border.all(width: 1.0, color: Colors.grey),
       ),
-      child: Column(
+      child: const Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-        ],),
+        children: [],
+      ),
     );
   }
 }

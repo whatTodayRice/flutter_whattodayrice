@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_whattodayrice/theme/text_styles.dart';
 
 const kMainScreenTitleText = Text('세종기숙사');
 const kCompleteTitleText = Text(
@@ -65,13 +66,32 @@ class kMealCategoryIcon extends StatelessWidget {
 class kMealCategoryText extends StatelessWidget {
   const kMealCategoryText({
     super.key,
+    required this.width,
   });
+  final double width;
 
   @override
   Widget build(BuildContext context) {
-    return const Text(
+    return Text(
       '조식',
-      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+      style: TextStyle(fontSize: width * 0.0555, fontWeight: FontWeight.bold),
     );
   }
 }
+
+const notiTitleText = Text(
+  '식단 업로드 알림을 받아보세요!',
+  style: TextStyles.heading01,
+);
+
+const notiSubTitleText = Text(
+  '어플에 접속하지 않아도, 내일 식단을 확인할 수 있어요',
+  style: TextStyles.body04,
+);
+const notiNextWeekTitleText = Text('다음 주 식단이 업로드되었어요');
+
+const String notiSettingText = '알림 설정하기';
+
+const jumpToMainText = Text('다음에 설정할래요!', style: TextStyles.body04);
+
+List<String> daysOfWeek = ['월', '화', '수', '목', '금', '토', '일'];
