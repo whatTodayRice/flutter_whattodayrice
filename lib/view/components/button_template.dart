@@ -45,7 +45,7 @@ class BackIconButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconButton(
         onPressed: () {
-          //뒤로 가기 기능 추가
+          Navigator.pop(context);
         },
         icon: const Icon(Icons.arrow_back_ios));
   }
