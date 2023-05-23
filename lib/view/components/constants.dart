@@ -27,18 +27,20 @@ const kStartText = Text(
 );
 
 class kMealAvailableTimeText extends StatelessWidget {
-  const kMealAvailableTimeText({
-    super.key,
-  });
-
+  const kMealAvailableTimeText({super.key, required this.mealTime});
+  final String mealTime;
   @override
   Widget build(BuildContext context) {
-    return const Text(
-      '8:00 ~ 9:30',
-      style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
+    return Text(
+      mealTime,
+      style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
     );
   }
 }
+
+const String breakfastTime = '7:30 ~ 9:30';
+const String lunchTime = '11:30 ~ 14:00';
+const String dinnerTime = '16:50 ~ 19:00';
 
 class kMealCategoryIcon extends StatelessWidget {
   const kMealCategoryIcon({
@@ -62,22 +64,29 @@ class kMealCategoryIcon extends StatelessWidget {
     );
   }
 }
+//아침 ,점심, 저녁 아이콘 변경하기
 
 class kMealCategoryText extends StatelessWidget {
   const kMealCategoryText({
     super.key,
+    required this.mealType,
     required this.width,
   });
   final double width;
+  final String mealType;
 
   @override
   Widget build(BuildContext context) {
     return Text(
-      '조식',
+      mealType,
       style: TextStyle(fontSize: width * 0.0555, fontWeight: FontWeight.bold),
     );
   }
 }
+
+const String breakfast = '조식';
+const String lunch = '중식';
+const String dinner = '석식';
 
 const notiTitleText = Text(
   '식단 업로드 알림을 받아보세요!',
@@ -95,3 +104,6 @@ const String notiSettingText = '알림 설정하기';
 const jumpToMainText = Text('다음에 설정할래요!', style: TextStyles.body04);
 
 List<String> daysOfWeek = ['월', '화', '수', '목', '금', '토', '일'];
+
+const notyExplainText =
+    '매일 저녁 19시에 다음 날 식단이 업데이트 되었다는 소식을\n아래와 같이 팝업을 통해 알려줍니다.';

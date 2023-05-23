@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_whattodayrice/view/components/constants.dart';
 import '../components/calender_row.dart';
-import '../components/happy_meal_container.dart';
+import '../components/sejong_meal_container.dart';
 import '../components/meal_time_row.dart';
-import 'package:intl/date_symbol_data_local.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -13,14 +12,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  bool isClicked = false;
-
-  @override
-  void initState() {
-    super.initState();
-    initializeDateFormatting();
-  }
-
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
@@ -29,7 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.grey[800],
-        title: const Text('행복기숙사'),
+        title: const Text('세종기숙사'), //기숙사에 따라 Text 내용 수정하기
         centerTitle: true,
         actions: <Widget>[
           IconButton(
@@ -50,20 +41,46 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             Padding(
               padding: const EdgeInsets.only(left: 20.0),
-              child: MealTimeTextRow(width: width, height: height),
+              child: MealTimeTextRow(
+                  mealTime: breakfastTime,
+                  mealType: breakfast,
+                  width: width,
+                  height: height),
             ),
             SizedBox(
               height: height * 0.026,
             ),
-            happyMealContainer(height: height, width: width),
+            SejongBreakfastContainer(height: height, width: width),
             SizedBox(
               height: height * 0.1,
             ),
-            happyMealContainer(height: height, width: width),
+            Padding(
+              padding: const EdgeInsets.only(left: 20.0),
+              child: MealTimeTextRow(
+                  mealTime: lunchTime,
+                  mealType: lunch,
+                  width: width,
+                  height: height),
+            ),
+            SizedBox(
+              height: height * 0.026,
+            ),
+            SejongLunchContainer(height: height, width: width),
             SizedBox(
               height: height * 0.1,
             ),
-            happyMealContainer(height: height, width: width),
+            Padding(
+              padding: const EdgeInsets.only(left: 20.0),
+              child: MealTimeTextRow(
+                  mealTime: dinnerTime,
+                  mealType: dinner,
+                  width: width,
+                  height: height),
+            ),
+            SizedBox(
+              height: height * 0.026,
+            ),
+            SejongDinnerContainer(height: height, width: width),
           ],
         ),
       ),
