@@ -22,32 +22,6 @@ Future<List<String>> fetchMeal(int menuIndex) async {
   }
 }
 
-Widget buildDayMealWidget(List<String> mealData, int weekIndex) {
-  return FetchDayMeal(meal: mealData[weekIndex]);
-} //요일별로 식단 가져오기 1이면 월요일 7일면 일요일
-
-class FetchDayMeal extends StatelessWidget {
-  const FetchDayMeal({
-    super.key,
-    required this.meal,
-  });
-
-  final String? meal;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        SizedBox(
-          height: MediaQuery.of(context).size.height * 0.05,
-          width: double.infinity,
-          child: Text(meal!, style: TextStyles.body02),
-        ),
-      ],
-    );
-  }
-}
-
 class FetchMealSizedBox extends StatelessWidget {
   const FetchMealSizedBox({
     super.key,
@@ -59,11 +33,14 @@ class FetchMealSizedBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.05,
+      height: MediaQuery.of(context).size.height * 0.1,
       width: double.infinity,
-      child: Text(
-        meal,
-        style: TextStyles.body02,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Text(
+          meal,
+          style: TextStyles.body02,
+        ),
       ),
     );
   }
@@ -71,10 +48,10 @@ class FetchMealSizedBox extends StatelessWidget {
 
 FutureBuilder<List<String>> fetchSejongBreakFast(int weeKIndex) {
   return FutureBuilder(
-    future: fetchMeal(9), //월요일 아침 데이터 가져오기
+    future: fetchMeal(9), //아침 데이터 가져오기
     builder: (context, snapshot) {
       if (snapshot.hasData) {
-        final meal = snapshot.data![weeKIndex]; //월요일 아침
+        final meal = snapshot.data![weeKIndex]; //아침
         return Column(
           children: [
             FetchMealSizedBox(meal: meal),
@@ -106,8 +83,6 @@ FutureBuilder<List<String>> fetchSejongLunch(int weekIndex) {
 }
 
 FutureBuilder<List<String>> fetchSejongDinner(int weekIndex) {
-  print(weekIndex);
-
   return FutureBuilder(
     future: fetchMeal(26),
     builder: (context, snapshot) {
