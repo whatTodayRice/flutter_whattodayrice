@@ -92,6 +92,6 @@ class SejongDinnerContainer extends StatelessWidget {
 //오늘 요일 인뎃스
 int getTodayIndex() {
   DateTime now = DateTime.now();
-  int weekdayIndex = now.weekday;
+  int weekdayIndex = now.weekday + 1;
   return weekdayIndex;
 }

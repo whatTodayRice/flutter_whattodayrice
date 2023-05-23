@@ -106,8 +106,10 @@ FutureBuilder<List<String>> fetchSejongLunch(int weekIndex) {
 }
 
 FutureBuilder<List<String>> fetchSejongDinner(int weekIndex) {
+  print(weekIndex);
+
   return FutureBuilder(
-    future: fetchMeal(27), //월요일 저녁 데이터 가져오기
+    future: fetchMeal(26),
     builder: (context, snapshot) {
       if (snapshot.hasData) {
         final meal = snapshot.data![weekIndex]; //각 요일별 저녁을 가져오기
