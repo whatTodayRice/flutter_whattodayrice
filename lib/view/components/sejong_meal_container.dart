@@ -97,5 +97,6 @@ class _BuildContainer extends StatelessWidget {
 int getTodayIndex() {
   DateTime now = DateTime.now();
   int weekdayIndex = now.weekday + 1;
+  print(weekdayIndex);
   return weekdayIndex;
 }

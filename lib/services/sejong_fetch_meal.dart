@@ -9,9 +9,14 @@ Future<List<String>> fetchMeal(int menuIndex) async {
 
   if (response.statusCode == 200) {
     var document = parse(response.body);
+    print(document);
     var targetElement = document.getElementsByClassName('board_box').first;
+    if (menuIndex == 7) {
+      var saturdayMenu = targetElement.getElementsByClassName('lineR').first;
+      print(saturdayMenu);
+    }
     String data = targetElement.text.replaceAll('\t', '');
-
+    print(data);
     String data2 = data.replaceAll('\n', ',');
 
     List<String> mealTime = data2.split(',,').sublist(menuIndex, menuIndex + 8);
@@ -51,6 +56,9 @@ FutureBuilder<List<String>> fetchSejongBreakFast(int weeKIndex) {
     future: fetchMeal(9), //아침 데이터 가져오기
     builder: (context, snapshot) {
       if (snapshot.hasData) {
+        if (weeKIndex == 7) {
+          final meal = snapshot.data![8];
+        }
         final meal = snapshot.data![weeKIndex]; //아침
         return Column(
           children: [
@@ -69,6 +77,9 @@ FutureBuilder<List<String>> fetchSejongLunch(int weekIndex) {
     future: fetchMeal(18), //점심 데이터 가져오기
     builder: (context, snapshot) {
       if (snapshot.hasData) {
+        if (weekIndex == 7) {
+          final meal = snapshot.data![8];
+        }
         final meal = snapshot.data![weekIndex]; //각 요일별 점심을 가져오기
         return Column(
           children: [
@@ -87,6 +98,9 @@ FutureBuilder<List<String>> fetchSejongDinner(int weekIndex) {
     future: fetchMeal(26),
     builder: (context, snapshot) {
       if (snapshot.hasData) {
+        if (weekIndex == 7) {
+          final meal = snapshot.data![weekIndex];
+        }
         final meal = snapshot.data![weekIndex]; //각 요일별 저녁을 가져오기
         return Column(
           children: [
