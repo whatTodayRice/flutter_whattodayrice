@@ -48,7 +48,7 @@ Widget buildSectionSubtitle(String subtitle) {
   );
 }
 
-final TextSpan notificationTextSpan = TextSpan(
+final TextSpan notificationTomorrowTxtSpan = TextSpan(
   text: '내일 식단이 업로드 되었어요! 🍚\n',
   style: TextStyle(color: Colors.grey[700]),
 );
@@ -56,6 +56,11 @@ final TextSpan notificationTextSpan = TextSpan(
 final TextSpan checkTextSpan = TextSpan(
   text: '지금 눌러서 확인하기',
   style: TextStyle(color: Colors.grey[500], fontSize: 12),
+);
+
+final TextSpan notificationNextWeekTextSpan = TextSpan(
+  text: '다음주 식단이 업로드 되었어요! 🍚\n',
+  style: TextStyle(color: Colors.grey[700]),
 );
 
 // textbutton 템플릿

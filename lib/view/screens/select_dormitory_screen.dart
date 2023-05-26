@@ -7,12 +7,11 @@ class SelectDormitory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return SafeArea(
+        child: MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: '기숙사 선택 화면',
       home: Scaffold(
-        appBar: AppBar(
-          title: const Text('기숙사 선택화면'),
-        ),
         body: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Column(
@@ -26,18 +25,23 @@ class SelectDormitory extends StatelessWidget {
               buildBoldText('현재 거주 중인'),
               buildBoldText('기숙사를 선택해주세요'),
               const Spacer(),
-              Center(
+              const Center(
                 child: Column(
-                  children: const [
-                    ReusableButton(height: 50.0, buttonText: '세종기숙사'),
+                  children: [
+                    //임의로 width값을 주었다 변경 필요!
+                    ReusableButton(
+                        width: 240, height: 50.0, buttonText: '세종기숙사'),
                     SizedBox(
                       height: 15,
                     ),
-                    ReusableButton(height: 50.0, buttonText: '행복기숙사'),
+                    //임의로 width값을 주었다 변경 필요!
+
+                    ReusableButton(
+                        width: 240, height: 50.0, buttonText: '행복기숙사'),
                     SizedBox(
                       height: 50,
                     ),
-                    ReusableButton(height: 40.0, buttonText: '다음'),
+                    ReusableButton(width: 240, height: 40.0, buttonText: '다음'),
                   ],
                 ),
               ),
@@ -45,6 +49,6 @@ class SelectDormitory extends StatelessWidget {
           ),
         ),
       ),
-    );
+    ));
   }
 }

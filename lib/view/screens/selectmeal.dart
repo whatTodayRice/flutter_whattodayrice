@@ -141,8 +141,8 @@ class SelectMeal extends StatelessWidget {
             ),
             const Padding(
               padding: EdgeInsets.fromLTRB(50, 250, 50, 10),
-              child: ReusableButton(height: 40.0, buttonText: '알림 설정 완료'),
-            ),
+// child: ReusableButton(height: 40.0, buttonText: '알림 설정 완료'),            ),
+            )
           ]),
         ));
   }

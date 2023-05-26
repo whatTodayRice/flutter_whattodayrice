@@ -26,7 +26,7 @@ class NotificationSwitch extends StatelessWidget {
             child: RichText(
               text: TextSpan(
                 children: [
-                  notificationTextSpan,
+                  notificationTomorrowTxtSpan,
                   checkTextSpan,
                 ],
               ),

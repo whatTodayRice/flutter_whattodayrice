@@ -4,6 +4,8 @@ import 'package:flutter_whattodayrice/view/components/text_template.dart';
 import 'package:flutter_whattodayrice/view/components/bottom_sheet_utils.dart';
 import 'package:flutter_whattodayrice/view/components/notification_switch.dart';
 
+import '../components/constants.dart';
+
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
 
@@ -56,7 +58,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             Padding(
               padding: const EdgeInsets.only(left: 10.0),
               child: Text(
-                '매일 저녁 19시에 다음 날 식단이 업데이트 되었다는 소식을\n아래와 같이 팝업을 통해 알려줍니다.',
+                notyExplainText,
                 style: TextStyle(color: Colors.grey[500], fontSize: 8),
               ),
             ),
