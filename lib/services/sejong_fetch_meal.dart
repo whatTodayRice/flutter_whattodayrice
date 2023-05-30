@@ -121,9 +121,6 @@ FutureBuilder<List<String>> fetchSejongDinner(int weekIndex) {
     future: fetchMeal(26),
     builder: (context, snapshot) {
       if (snapshot.hasData) {
-        if (weekIndex == 7) {
-          final meal = snapshot.data![weekIndex];
-        }
         final meal = snapshot.data![weekIndex]; //각 요일별 저녁을 가져오기
         return Column(
           children: [

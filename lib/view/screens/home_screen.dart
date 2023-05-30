@@ -3,7 +3,6 @@ import 'package:flutter_whattodayrice/view/components/constants.dart';
 import 'package:flutter_whattodayrice/view/components/calender_row.dart';
 import 'package:flutter_whattodayrice/view/components/meal_time_row.dart';
 import 'package:flutter_whattodayrice/view/components/sejong_meal_container.dart';
-import 'package:flutter_whattodayrice/view/screens/settings_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -27,7 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
           IconButton(
             icon: const Icon(Icons.settings),
             onPressed: () {
-              Navigator.pushNamed(context, SettingsScreen.routeName);
+              // Navigator.pushNamed(context, SettingsScreen.routeName);
             },
           ),
         ],
