@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 //import 'package:flutter_whattodayrice/screens/selectdormitory.dart';
 //import 'package:flutter_whattodayrice/view/screens/table_calendar_practice.dart';
 import 'package:flutter_whattodayrice/view/screens/home_screen.dart';
+import 'package:flutter_whattodayrice/view/screens/settings_screen.dart';
 import 'dart:io';
 import 'package:intl/date_symbol_data_local.dart';
 
@@ -22,6 +23,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
+      // theme: kTextStyleGuide,
       debugShowCheckedModeBanner: false,
       home: Scaffold(body: HomeScreen()),
     );

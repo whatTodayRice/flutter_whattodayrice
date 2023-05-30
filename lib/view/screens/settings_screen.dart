@@ -7,6 +7,8 @@ import 'package:flutter_whattodayrice/view/components/notification_switch.dart';
 import '../components/constants.dart';
 
 class SettingsScreen extends StatefulWidget {
+  static const String routeName = '/settings';
+
   const SettingsScreen({super.key});
 
   @override
@@ -30,6 +32,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    return Scaffold(
+      body: Padding(
+        padding: const EdgeInsets.fromLTRB(10.0, 30.0, 15.0, 10.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Stack(alignment: Alignment.topLeft, children: [
+              const BackIconButton(),
+              Align(
+                alignment: Alignment.center,
+                child: buildSectionTitle('설정'),
+              )
+            ]),
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.fromLTRB(10.0, 30.0, 15.0, 10.0),
@@ -67,6 +82,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
               height: 20,
             ),
             buildNotificationSwitch(),
+            const SizedBox(
+              height: 20,
+            ),
+            buildNotificationSwitch(),
 
             //구분선 삽입
             const SizedBox(
@@ -76,7 +95,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
               thickness: 2,
               color: Colors.grey[300],
             ),
+            //구분선 삽입
+            const SizedBox(
+              height: 20,
+            ),
+            Divider(
+              thickness: 2,
+              color: Colors.grey[300],
+            ),
 
+            const SizedBox(height: 20),
             const SizedBox(height: 20),
 
             Row(
@@ -98,7 +126,50 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 )
               ],
             ),
+            Row(
+              children: [
+                buildBoldText('기숙사 변경'),
+                const Spacer(),
+                Row(
+                  children: [
+                    TextButton(
+                        onPressed: () {
+                          buildDormitoryBottomSheet(context);
+                        },
+                        child: const Text(
+                          '세종기숙사',
+                          style: TextStyle(fontSize: 12),
+                        )),
+                    const Icon(arrowDropDown)
+                  ],
+                )
+              ],
+            ),
 
+            const SizedBox(height: 30),
+            Row(
+              children: [
+                buildBoldText('테마 변경'),
+                const Spacer(),
+                Row(
+                  children: [
+                    TextButton(
+                        onPressed: () {
+                          buildThemeBottomSheet(context);
+                        },
+                        child: const Text(
+                          '시스템 설정',
+                          style: TextStyle(fontSize: 12),
+                        )),
+                    const Icon(arrowDropDown)
+                  ],
+                )
+              ],
+            )
+          ],
+        ),
+      ),
+    );
             const SizedBox(height: 30),
             Row(
               children: [
