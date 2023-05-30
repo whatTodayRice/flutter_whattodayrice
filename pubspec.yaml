@@ -37,7 +37,7 @@ dependencies:
   table_calendar: ^3.0.9
   http: ^1.0.0
   dio: ^5.1.2
-  pedantic: 1.11.1
+ # pedantic: ^1.11.1
   html: ^0.15.3
   xml: ^6.3.0
 

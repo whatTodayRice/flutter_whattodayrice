@@ -11,21 +11,36 @@ Future<List<String>> fetchMeal(int menuIndex) async {
     var document = parse(response.body);
     print(document);
     var targetElement = document.getElementsByClassName('board_box').first;
-    if (menuIndex == 7) {
-      var saturdayMenu = targetElement.getElementsByClassName('lineR').first;
-      print(saturdayMenu);
-    }
     String data = targetElement.text.replaceAll('\t', '');
-    print(data);
+
     String data2 = data.replaceAll('\n', ',');
 
     List<String> mealTime = data2.split(',,').sublist(menuIndex, menuIndex + 8);
+    print(mealTime);
 
     return mealTime;
   } else {
     throw Exception('식단을 기다리고 있어요 조금만 기다려주세요😀 ');
   }
 }
+
+// Future<List<String>> fetchSejongSatMeal(int menuIndex) async {
+//   final response = await http.get(
+//       Uri.parse('https://dormitory.pknu.ac.kr/03_notice/req_getSchedule.php'));
+//   print(response.body);
+//   if (response.statusCode == 200) {
+//     var document = parse(response.body);
+//     var targetElement = document.getElementsByClassName('board_box').first;
+//     var saturdayElement = targetElement.getElementsByClassName('lineR').first;
+//     String data = saturdayElement.text.replaceAll('\t', '');
+
+//     List<String> mealTime = data.split(',,').sublist(menuIndex, menuIndex + 8);
+
+//     return mealTime;
+//   } else {
+//     throw Exception('식단을 기다리고 있어요 조금만 기다려주세요😀 ');
+//   }
+// }
 
 class FetchMealSizedBox extends StatelessWidget {
   const FetchMealSizedBox({
@@ -65,8 +80,12 @@ FutureBuilder<List<String>> fetchSejongBreakFast(int weeKIndex) {
             FetchMealSizedBox(meal: meal),
           ],
         );
+      } else if (snapshot.hasError) {
+        return Text('Error occurred: ${snapshot.error}');
       } else {
-        throw Error();
+        return const Center(
+          child: Text('No data'),
+        );
       }
     },
   );
@@ -86,8 +105,12 @@ FutureBuilder<List<String>> fetchSejongLunch(int weekIndex) {
             FetchMealSizedBox(meal: meal),
           ],
         );
+      } else if (snapshot.hasError) {
+        return Text('Error occurred: ${snapshot.error}');
       } else {
-        throw Error();
+        return const Center(
+          child: Text('No data'),
+        );
       }
     },
   );
@@ -107,8 +130,12 @@ FutureBuilder<List<String>> fetchSejongDinner(int weekIndex) {
             FetchMealSizedBox(meal: meal),
           ],
         );
+      } else if (snapshot.hasError) {
+        return Text('Error occurred: ${snapshot.error}');
       } else {
-        throw Error();
+        return const Center(
+          child: Text('No data'),
+        );
       }
     },
   );
