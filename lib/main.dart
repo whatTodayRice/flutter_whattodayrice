@@ -22,10 +22,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
+      routes: {
+        SettingsScreen.routeName: (context) => const SettingsScreen(),
+      },
       // theme: kTextStyleGuide,
       debugShowCheckedModeBanner: false,
-      home: Scaffold(body: HomeScreen()),
+      home: const Scaffold(body: HomeScreen()),
     );
   }
 }

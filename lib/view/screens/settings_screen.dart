@@ -45,19 +45,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 child: buildSectionTitle('설정'),
               )
             ]),
-    return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.fromLTRB(10.0, 30.0, 15.0, 10.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Stack(alignment: Alignment.topLeft, children: [
-              const BackIconButton(),
-              Align(
-                alignment: Alignment.center,
-                child: buildSectionTitle('설정'),
-              )
-            ]),
 
             const SizedBox(
               height: 10,
@@ -146,30 +133,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ],
             ),
 
-            const SizedBox(height: 30),
-            Row(
-              children: [
-                buildBoldText('테마 변경'),
-                const Spacer(),
-                Row(
-                  children: [
-                    TextButton(
-                        onPressed: () {
-                          buildThemeBottomSheet(context);
-                        },
-                        child: const Text(
-                          '시스템 설정',
-                          style: TextStyle(fontSize: 12),
-                        )),
-                    const Icon(arrowDropDown)
-                  ],
-                )
-              ],
-            )
-          ],
-        ),
-      ),
-    );
             const SizedBox(height: 30),
             Row(
               children: [

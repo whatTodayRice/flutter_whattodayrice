@@ -9,38 +9,18 @@ Future<List<String>> fetchMeal(int menuIndex) async {
 
   if (response.statusCode == 200) {
     var document = parse(response.body);
-    print(document);
     var targetElement = document.getElementsByClassName('board_box').first;
     String data = targetElement.text.replaceAll('\t', '');
 
     String data2 = data.replaceAll('\n', ',');
 
     List<String> mealTime = data2.split(',,').sublist(menuIndex, menuIndex + 8);
-    print(mealTime);
 
     return mealTime;
   } else {
     throw Exception('식단을 기다리고 있어요 조금만 기다려주세요😀 ');
   }
 }
-
-// Future<List<String>> fetchSejongSatMeal(int menuIndex) async {
-//   final response = await http.get(
-//       Uri.parse('https://dormitory.pknu.ac.kr/03_notice/req_getSchedule.php'));
-//   print(response.body);
-//   if (response.statusCode == 200) {
-//     var document = parse(response.body);
-//     var targetElement = document.getElementsByClassName('board_box').first;
-//     var saturdayElement = targetElement.getElementsByClassName('lineR').first;
-//     String data = saturdayElement.text.replaceAll('\t', '');
-
-//     List<String> mealTime = data.split(',,').sublist(menuIndex, menuIndex + 8);
-
-//     return mealTime;
-//   } else {
-//     throw Exception('식단을 기다리고 있어요 조금만 기다려주세요😀 ');
-//   }
-// }
 
 class FetchMealSizedBox extends StatelessWidget {
   const FetchMealSizedBox({
@@ -66,15 +46,12 @@ class FetchMealSizedBox extends StatelessWidget {
   }
 }
 
-FutureBuilder<List<String>> fetchSejongBreakFast(int weeKIndex) {
+FutureBuilder<List<String>> fetchSejongBreakFast(int weedkdayIndex) {
   return FutureBuilder(
     future: fetchMeal(9), //아침 데이터 가져오기
     builder: (context, snapshot) {
       if (snapshot.hasData) {
-        if (weeKIndex == 7) {
-          final meal = snapshot.data![8];
-        }
-        final meal = snapshot.data![weeKIndex]; //아침
+        final meal = snapshot.data![weedkdayIndex]; //요일에 맞는 인덱스의 아침
         return Column(
           children: [
             FetchMealSizedBox(meal: meal),
@@ -96,9 +73,6 @@ FutureBuilder<List<String>> fetchSejongLunch(int weekIndex) {
     future: fetchMeal(18), //점심 데이터 가져오기
     builder: (context, snapshot) {
       if (snapshot.hasData) {
-        if (weekIndex == 7) {
-          final meal = snapshot.data![8];
-        }
         final meal = snapshot.data![weekIndex]; //각 요일별 점심을 가져오기
         return Column(
           children: [
@@ -121,9 +95,6 @@ FutureBuilder<List<String>> fetchSejongDinner(int weekIndex) {
     future: fetchMeal(26),
     builder: (context, snapshot) {
       if (snapshot.hasData) {
-        if (weekIndex == 7) {
-          final meal = snapshot.data![weekIndex];
-        }
         final meal = snapshot.data![weekIndex]; //각 요일별 저녁을 가져오기
         return Column(
           children: [
