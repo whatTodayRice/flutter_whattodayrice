@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_whattodayrice/view/components/button_template.dart';
 import 'package:flutter_whattodayrice/utils/calendar_utils.dart';
 
-class CalenderRow extends StatelessWidget {
+class CalenderRow extends StatefulWidget {
   const CalenderRow({
     super.key,
     required this.width,
@@ -11,11 +11,17 @@ class CalenderRow extends StatelessWidget {
 
   final double width;
   final double height;
+
+  @override
+  State<CalenderRow> createState() => _CalenderRowState();
+}
+
+class _CalenderRowState extends State<CalenderRow> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: width,
-      height: height * 0.06,
+      width: widget.width,
+      height: widget.height * 0.06,
       decoration: BoxDecoration(
         border: const Border(
           bottom: BorderSide(color: Colors.grey, width: 0.2),

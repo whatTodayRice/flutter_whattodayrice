@@ -10,16 +10,16 @@ class SejongBreakfastContainer extends StatelessWidget {
 
   final double height;
   final double width;
-
   @override
   Widget build(BuildContext context) {
     int weekdayIndex = getTodayIndex();
+    // 여기를 내가 선택한 날짜의 인덱스가 전달되도록 수정해야한다.
 
     return _BuildContainer(
       height: height,
       width: width,
-      weekdayIndex: weekdayIndex,
       mealFetcher: fetchSejongBreakFast,
+      weekdayIndex: weekdayIndex,
     );
   }
 }
@@ -71,15 +71,14 @@ class _BuildContainer extends StatelessWidget {
   const _BuildContainer({
     required this.height,
     required this.width,
-    required this.weekdayIndex,
     required this.mealFetcher,
+    required this.weekdayIndex,
   });
 
   final double height;
   final double width;
   final int weekdayIndex;
   final FutureBuilder<List<String>> Function(int) mealFetcher;
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -96,7 +95,7 @@ class _BuildContainer extends StatelessWidget {
 
 int getTodayIndex() {
   DateTime now = DateTime.now();
-  int weekdayIndex = now.weekday + 1;
-  print(weekdayIndex);
+  int weekdayIndex = (now.weekday % 7) + 1;
+
   return weekdayIndex;
 }

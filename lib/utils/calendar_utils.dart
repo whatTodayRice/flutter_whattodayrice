@@ -4,7 +4,7 @@ import 'package:table_calendar/table_calendar.dart';
 Future<Object?> showCalendarDialog(BuildContext context) {
   return showGeneralDialog(
     context: context,
-    //d barrierDismissible: true,
+    // barrierDismissible: true,
     pageBuilder: (BuildContext context, animation, secondaryAnimation) {
       return Stack(
         children: [
@@ -23,6 +23,14 @@ Future<Object?> showCalendarDialog(BuildContext context) {
                   headerVisible: false,
                   calendarFormat: CalendarFormat.week,
                   locale: 'ko_KR',
+                  onDaySelected: (selectedDay, focusedDay) {
+                    DateTime date = selectedDay;
+                    int weekdayIndex = date.weekday + 1;
+                    Navigator.of(context).pop();
+                    print('Selected date: $weekdayIndex');
+
+                    // 해당 인덱스를 전달해줘야함
+                  },
                 ),
               ),
             ),
