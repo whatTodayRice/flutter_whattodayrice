@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_whattodayrice/theme/text_styles.dart';
 import 'package:html/parser.dart';
 import 'package:http/http.dart' as http;
+import '../services/sejong_fetch_meal_db.dart';
 
 Future<List<String>> fetchMeal(int menuIndex) async {
   final response = await http.get(
@@ -110,4 +111,58 @@ FutureBuilder<List<String>> fetchSejongDinner(int weekIndex) {
       }
     },
   );
+}
+
+FutureBuilder<String?> futurebuilderSejongBreakfast() {
+  return FutureBuilder(
+      future: fetchSejongFromdb(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          return Text('에러 발생! : ${snapshot.error}');
+        } else {
+          final breakfast = snapshot.data;
+
+          return Column(
+            children: [Text('$breakfast')],
+          );
+        }
+      });
+}
+
+FutureBuilder<String?> futurebuilderSejongLunch() {
+  return FutureBuilder(
+      future: fetchSejongLunchFromdb(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          return Text('에러 발생! : ${snapshot.error}');
+        } else {
+          final breakfast = snapshot.data;
+
+          return Column(
+            children: [Text('$breakfast')],
+          );
+        }
+      });
+}
+
+FutureBuilder<String?> futurebuilderSejongDinner() {
+  return FutureBuilder(
+      future: fetchSejongDinnerFromdb(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          return Text('에러 발생! : ${snapshot.error}');
+        } else {
+          final breakfast = snapshot.data;
+
+          return Column(
+            children: [Text('$breakfast')],
+          );
+        }
+      });
 }

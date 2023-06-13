@@ -18,7 +18,7 @@ class SejongBreakfastContainer extends StatelessWidget {
     return _BuildContainer(
       height: height,
       width: width,
-      mealFetcher: fetchSejongBreakFast,
+      mealFetcher: futurebuilderSejongBreakfast,
       weekdayIndex: weekdayIndex,
     );
   }
@@ -42,7 +42,7 @@ class SejongLunchContainer extends StatelessWidget {
       height: height,
       width: width,
       weekdayIndex: weekdayIndex,
-      mealFetcher: fetchSejongLunch,
+      mealFetcher: futurebuilderSejongLunch,
     );
   }
 }
@@ -62,7 +62,7 @@ class SejongDinnerContainer extends StatelessWidget {
       height: height,
       width: width,
       weekdayIndex: weekdayIndex,
-      mealFetcher: fetchSejongDinner,
+      mealFetcher: futurebuilderSejongDinner,
     );
   }
 }
@@ -78,7 +78,8 @@ class _BuildContainer extends StatelessWidget {
   final double height;
   final double width;
   final int weekdayIndex;
-  final FutureBuilder<List<String>> Function(int) mealFetcher;
+  // final FutureBuilder<List<String>> Function(int) mealFetcher;
+  final FutureBuilder<String?> Function() mealFetcher;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -88,7 +89,7 @@ class _BuildContainer extends StatelessWidget {
         borderRadius: BorderRadius.circular(10.0),
         border: Border.all(width: 1.0, color: Colors.grey),
       ),
-      child: mealFetcher(weekdayIndex),
+      child: mealFetcher(),
     );
   }
 }
