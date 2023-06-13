@@ -30,16 +30,6 @@ Future<String?> fetchSejongFromdb() async {
       RegExp breakfastRegex = RegExp(r'breakfast: (.*?)(?=, \w+:|$)');
       String? breakfast = breakfastRegex.firstMatch(modifiedItem)?.group(1);
       return breakfast;
-
-      //   //점심
-      //   RegExp lunchRegex = RegExp(r'lunch: (.*?)(?=, \w+:|$)');
-      //   String? lunch = lunchRegex.firstMatch(modifiedItem)?.group(1);
-      //   print('lunch : $lunch');
-
-      //   //저녁
-      //   RegExp dinnerRegex = RegExp(r'dinner: (.*?)(?=, \w+:|$)');
-      //   String? dinner = dinnerRegex.firstMatch(modifiedItem)?.group(1);
-      //   print('dinner : $dinner');
     }
   }
   await database.close();
