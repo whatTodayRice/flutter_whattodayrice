@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_whattodayrice/theme/colors.dart';
 
 class ReusableButton extends StatelessWidget {
   final String buttonText;
+  final double width;
   final double height;
 
   const ReusableButton({
     super.key,
     required this.buttonText,
+    required this.width,
     required this.height,
   });
 
@@ -14,23 +17,27 @@ class ReusableButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       // onTap: () {
-      //   Navigator.pushNamed(context, '/main');
+// Navigator.pushNamed(context, '/main');
+////노티화면에서 클릭한 경우 오밥뭐 알림창 수신 동의 뜨도록 함수 지정해주기
       // },
       child: Column(
         children: [
-          Container(
-            height: height,
-            width: 440.0,
-            alignment: Alignment.center,
-            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-            decoration: BoxDecoration(
-              color: Colors.grey,
-              borderRadius: BorderRadius.circular(20),
+          Padding(
+            padding:
+                EdgeInsets.only(left: width * 0.0694, right: width * 0.0694),
+            child: Container(
+              height: height,
+              width: width,
+              alignment: Alignment.center,
+              padding: EdgeInsets.only(left: width * 0.28, right: width * 0.28),
+              decoration: BoxDecoration(
+                color: gray01,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Center(
+                  child:
+                      Text(buttonText, style: const TextStyle(color: white))),
             ),
-            child: Center(child: Text(buttonText)),
-          ),
-          const SizedBox(
-            height: 10,
           )
         ],
       ),
@@ -45,7 +52,7 @@ class BackIconButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconButton(
         onPressed: () {
-          //뒤로 가기 기능 추가
+          Navigator.pop(context);
         },
         icon: const Icon(Icons.arrow_back_ios));
   }
@@ -73,16 +80,23 @@ class SelectButton extends StatelessWidget {
   }
 }
 
-class MainScreenIconButton extends StatelessWidget {
+class MainScreenIconButton extends StatefulWidget {
   final IconData iconShape;
 
   const MainScreenIconButton({super.key, required this.iconShape});
 
   @override
+  State<MainScreenIconButton> createState() => _MainScreenIconButtonState();
+}
+
+class _MainScreenIconButtonState extends State<MainScreenIconButton> {
+  @override
   Widget build(BuildContext context) {
     return IconButton(
-      icon: Icon(iconShape),
-      onPressed: () {},
+      icon: Icon(widget.iconShape),
+      onPressed: () {
+        setState(() {});
+      },
     );
   }
 }

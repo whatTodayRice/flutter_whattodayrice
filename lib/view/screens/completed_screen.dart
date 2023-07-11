@@ -7,8 +7,8 @@ class CompletedScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
+    return Scaffold(
+      body: Column(
         children: [
           const SizedBox(
             height: 180.0,
@@ -28,7 +28,8 @@ class CompletedScreen extends StatelessWidget {
           const Center(
             child: FractionallySizedBox(
               widthFactor: 0.8,
-              child: ReusableButton(height: 40.0, buttonText: '시작하기'),
+              child:
+                  ReusableButton(width: 240, height: 40.0, buttonText: '시작하기'),
             ),
           ),
         ],
