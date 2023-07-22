@@ -3,6 +3,7 @@
 //import 'package:flutter_whattodayrice/view/screens/table_calendar_practice.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_whattodayrice/view/screens/home_screen.dart';
+import 'package:flutter_whattodayrice/view/screens/settings_screen.dart';
 
 void main() async {
   // HttpClient httpClinet = HttpClient();
@@ -17,9 +18,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
+      theme: ThemeData().copyWith(useMaterial3: true),
       routes: {
-        // SettingsScreen.routeName: (context) => const SettingsScreen(),
+        SettingsScreen.routeName: (context) => const SettingsScreen(),
       },
       // theme: kTextStyleGuide,
       debugShowCheckedModeBanner: false,
