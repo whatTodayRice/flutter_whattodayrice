@@ -52,7 +52,7 @@ class BackIconButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconButton(
         onPressed: () {
-          //뒤로 가기 기능 추가
+          Navigator.pop(context);
         },
         icon: const Icon(Icons.arrow_back_ios));
   }
@@ -80,16 +80,23 @@ class SelectButton extends StatelessWidget {
   }
 }
 
-class MainScreenIconButton extends StatelessWidget {
+class MainScreenIconButton extends StatefulWidget {
   final IconData iconShape;
 
   const MainScreenIconButton({super.key, required this.iconShape});
 
   @override
+  State<MainScreenIconButton> createState() => _MainScreenIconButtonState();
+}
+
+class _MainScreenIconButtonState extends State<MainScreenIconButton> {
+  @override
   Widget build(BuildContext context) {
     return IconButton(
-      icon: Icon(iconShape),
-      onPressed: () {},
+      icon: Icon(widget.iconShape),
+      onPressed: () {
+        setState(() {});
+      },
     );
   }
 }
