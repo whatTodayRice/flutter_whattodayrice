@@ -10,7 +10,6 @@ void main() async {
   // httpClinet.badCertificateCallback =
   //     (X509Certificate cert, String host, int port) => true;
   DateTime now = DateTime.now();
-  print(now);
   List<MealData?> weeklyMeals = await fetchWeeklyMealsFromDb(now);
 
   print(weeklyMeals);
