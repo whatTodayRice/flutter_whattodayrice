@@ -2,15 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_whattodayrice/view/components/constants.dart';
 import 'package:flutter_whattodayrice/view/components/calender_row.dart';
 import 'package:flutter_whattodayrice/view/components/meal_time_row.dart';
-import 'package:flutter_whattodayrice/view/components/sejong_meal_container.dart';
 import 'package:intl/intl.dart';
 
 import '../../models/happy_meal.dart';
-import '../../services/sejong_fetch_meal_db.dart';
+import '../components/meal_container.dart';
 
 class HomeScreen extends StatefulWidget {
   List<HappyMealData?> weeklyMeals = [];
-
   HomeScreen(this.weeklyMeals, {super.key});
 
   @override
@@ -22,6 +20,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.orange,
@@ -44,13 +45,10 @@ class _HomeScreenState extends State<HomeScreen> {
           itemCount: widget.weeklyMeals.length,
           itemBuilder: (context, index) {
             HappyMealData? meal = widget.weeklyMeals[index];
-            return buildMealCard(meal, index);
+            return buildMealPage(
+                meal, index, screenWidth, screenHeight, moveToTodayMenu);
           },
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: moveToTodayMenu, // "오늘의 식단" 버튼 클릭 시 moveToTodayMenu 함수 호출
-        child: const Text('오늘의\n식단'),
       ),
     );
   }
@@ -94,36 +92,86 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-Widget buildMealCard(HappyMealData? meal, int index) {
+Widget buildMealPage(HappyMealData? meal, int index, double screenWidth,
+    double screenHeight, VoidCallback onPressed) {
   DateTime date = DateTime.now().add(Duration(days: index));
   String formattedDate = DateFormat('yyyy-MM-dd').format(date);
 
   if (meal != null) {
-    return Card(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              'Date: $formattedDate',
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
+    return Column(
+      children: [
+        CalenderRow(
+          width: screenWidth,
+          height: screenHeight,
+          onPressed: onPressed,
+        ),
+        SizedBox(
+          height: screenHeight * 0.039,
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 20.0),
+          child: MealTimeTextRow(
+              mealTime: breakfastTime,
+              mealType: breakfast,
+              width: screenWidth,
+              height: screenHeight),
+        ),
+        SizedBox(
+          height: screenHeight * 0.01,
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: BuildContainer(
+            content: '아침: ${meal.breakfast}',
+            height: screenHeight,
+            width: screenWidth,
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text('Breakfast: ${meal.breakfast}'),
+        ),
+        SizedBox(
+          height: screenHeight * 0.03,
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 20.0),
+          child: MealTimeTextRow(
+              mealTime: lunchTime,
+              mealType: lunch,
+              width: screenWidth,
+              height: screenHeight),
+        ),
+        SizedBox(
+          height: screenHeight * 0.01,
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: BuildContainer(
+            content: '점심: ${meal.lunch}',
+            height: screenHeight,
+            width: screenWidth,
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text('Lunch: ${meal.lunch}'),
+        ),
+        SizedBox(
+          height: screenHeight * 0.03,
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 20.0),
+          child: MealTimeTextRow(
+              mealTime: dinnerTime,
+              mealType: dinner,
+              width: screenWidth,
+              height: screenHeight),
+        ),
+        SizedBox(
+          height: screenHeight * 0.01,
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: BuildContainer(
+            content: '저녁: ${meal.dinner}',
+            height: screenHeight,
+            width: screenWidth,
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text('Dinner: ${meal.dinner}'),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   } else {
     return Card(
@@ -137,71 +185,3 @@ Widget buildMealCard(HappyMealData? meal, int index) {
     );
   }
 }
-
-// class MainFragMent extends StatelessWidget {
-//   const MainFragMent({
-//     super.key,
-//     required this.width,
-//     required this.height,
-//   });
-//
-//   final double width;
-//   final double height;
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Column(
-//       children: <Widget>[
-//         CalenderRow(
-//           width: width,
-//           height: height,
-//         ),
-//         SizedBox(
-//           height: height * 0.039,
-//         ),
-//         Padding(
-//           padding: const EdgeInsets.only(left: 20.0),
-//           child: MealTimeTextRow(
-//               mealTime: breakfastTime,
-//               mealType: breakfast,
-//               width: width,
-//               height: height),
-//         ),
-//         SizedBox(
-//           height: height * 0.026,
-//         ),
-//         SejongBreakfastContainer(height: height, width: width),
-//         SizedBox(
-//           height: height * 0.1,
-//         ),
-//         Padding(
-//           padding: const EdgeInsets.only(left: 20.0),
-//           child: MealTimeTextRow(
-//               mealTime: lunchTime,
-//               mealType: lunch,
-//               width: width,
-//               height: height),
-//         ),
-//         SizedBox(
-//           height: height * 0.026,
-//         ),
-//         SejongLunchContainer(height: height, width: width),
-//         SizedBox(
-//           height: height * 0.1,
-//         ),
-//         Padding(
-//           padding: const EdgeInsets.only(left: 20.0),
-//           child: MealTimeTextRow(
-//               mealTime: dinnerTime,
-//               mealType: dinner,
-//               width: width,
-//               height: height),
-//         ),
-//         SizedBox(
-//           height: height * 0.026,
-//         ),
-//         SejongDinnerContainer(height: height, width: width),
-//       ],
-//     );
-//   }
-// }
