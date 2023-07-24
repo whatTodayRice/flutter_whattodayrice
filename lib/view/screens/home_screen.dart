@@ -5,10 +5,11 @@ import 'package:flutter_whattodayrice/view/components/meal_time_row.dart';
 import 'package:flutter_whattodayrice/view/components/sejong_meal_container.dart';
 import 'package:intl/intl.dart';
 
+import '../../models/happy_meal.dart';
 import '../../services/sejong_fetch_meal_db.dart';
 
 class HomeScreen extends StatefulWidget {
-  List<MealData?> weeklyMeals = [];
+  List<HappyMealData?> weeklyMeals = [];
 
   HomeScreen(this.weeklyMeals, {super.key});
 
@@ -17,6 +18,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final PageController _pageController = PageController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,19 +39,62 @@ class _HomeScreenState extends State<HomeScreen> {
       body: SizedBox(
         height: 700, // Constrain the height of the PageView
         child: PageView.builder(
+          controller: _pageController,
           scrollDirection: Axis.horizontal,
           itemCount: widget.weeklyMeals.length,
           itemBuilder: (context, index) {
-            MealData? meal = widget.weeklyMeals[index];
+            HappyMealData? meal = widget.weeklyMeals[index];
             return buildMealCard(meal, index);
           },
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: moveToTodayMenu, // "오늘의 식단" 버튼 클릭 시 moveToTodayMenu 함수 호출
+        child: const Text('오늘의\n식단'),
+      ),
     );
+  }
+
+  void moveToTodayMenu() {
+    DateTime userAccessDate = DateTime.now();
+    String formattedDate = DateFormat('yyyy-MM-dd').format(userAccessDate);
+
+    // weeklyMeals 리스트를 순회하며 userAccessDate와 일치하는 식단을 찾습니다.
+    int todayMenuIndex = -1;
+    for (int i = 0; i < widget.weeklyMeals.length; i++) {
+      HappyMealData? meal = widget.weeklyMeals[i];
+      if (meal?.date == formattedDate) {
+        todayMenuIndex = i;
+        break;
+      }
+    }
+
+    if (todayMenuIndex != -1) {
+      // PageView를 해당 인덱스로 이동시킵니다.
+      _pageController.animateToPage(
+        todayMenuIndex,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
+    } else {
+      // userAccessDate와 일치하는 식단이 없는 경우에 대한 처리
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('오늘의 식단이 없습니다.'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('확인'),
+            ),
+          ],
+        ),
+      );
+    }
   }
 }
 
-Widget buildMealCard(MealData? meal, int index) {
+Widget buildMealCard(HappyMealData? meal, int index) {
   DateTime date = DateTime.now().add(Duration(days: index));
   String formattedDate = DateFormat('yyyy-MM-dd').format(date);
 
@@ -58,22 +104,22 @@ Widget buildMealCard(MealData? meal, int index) {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8.0),
             child: Text(
               'Date: $formattedDate',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
           ),
           Padding(
-            padding: EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8.0),
             child: Text('Breakfast: ${meal.breakfast}'),
           ),
           Padding(
-            padding: EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8.0),
             child: Text('Lunch: ${meal.lunch}'),
           ),
           Padding(
-            padding: EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8.0),
             child: Text('Dinner: ${meal.dinner}'),
           ),
         ],
@@ -82,10 +128,10 @@ Widget buildMealCard(MealData? meal, int index) {
   } else {
     return Card(
       child: Padding(
-        padding: EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8.0),
         child: Text(
           'Date: $formattedDate\nNo meal data available.',
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
         ),
       ),
     );
