@@ -80,23 +80,34 @@ class SelectButton extends StatelessWidget {
   }
 }
 
-class MainScreenIconButton extends StatefulWidget {
+class MainScreenBackIconButton extends StatelessWidget {
   final IconData iconShape;
+  final VoidCallback onPressed;
 
-  const MainScreenIconButton({super.key, required this.iconShape});
+  const MainScreenBackIconButton(
+      {super.key, required this.iconShape, required this.onPressed});
 
-  @override
-  State<MainScreenIconButton> createState() => _MainScreenIconButtonState();
-}
-
-class _MainScreenIconButtonState extends State<MainScreenIconButton> {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      icon: Icon(widget.iconShape),
-      onPressed: () {
-        setState(() {});
-      },
+      icon: Icon(iconShape),
+      onPressed: onPressed,
+    );
+  }
+}
+
+class MainScreenForwardIconButton extends StatelessWidget {
+  final IconData iconShape;
+  final VoidCallback onPressed;
+
+  const MainScreenForwardIconButton(
+      {super.key, required this.iconShape, required this.onPressed});
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      icon: Icon(iconShape),
+      onPressed: onPressed,
     );
   }
 }
