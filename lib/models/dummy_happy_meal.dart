@@ -8,7 +8,7 @@ List<HappyMealData?> dummyWeeklyData = [
       lunch: "정식 : 수수밥 얼갈이된장국 갈치소금구이 어묵조림 컬리플라워볶음 김치\n일품 : 쇠고기하이라이스 세트",
       dinner: "정식 : 쌀밥 들깨미역국 미니함박 잡채 연근조림 치커리사과무침\n일품 : 중국식짬뽕 세트"),
   HappyMealData(
-      date: "2023 - 06 - 06",
+      date: "2023-07-25",
       breakfast: '1',
       takeout: "카스테라 세트",
       lunch: "정식 : 수수밥 얼갈이된장국 갈치소금구이 어묵조림 컬리플라워볶음 김치\n일품 : 쇠고기하이라이스 세트",
