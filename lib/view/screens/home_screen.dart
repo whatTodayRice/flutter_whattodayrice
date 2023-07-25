@@ -3,13 +3,13 @@ import 'package:flutter_whattodayrice/view/components/constants.dart';
 import 'package:flutter_whattodayrice/view/components/calender_row.dart';
 import 'package:flutter_whattodayrice/view/components/meal_time_row.dart';
 import 'package:intl/intl.dart';
-
-import '../../models/happy_meal.dart';
+import '../../models/dormitory.dart';
+import '../../models/meal.dart';
 import '../components/meal_container.dart';
+import 'package:flutter_whattodayrice/services/fetch_meals_from_db.dart';
 
 class HomeScreen extends StatefulWidget {
-  List<HappyMealData?> weeklyMeals = [];
-  HomeScreen(this.weeklyMeals, {super.key});
+  const HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -17,6 +17,24 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final PageController _pageController = PageController(initialPage: 0);
+  List<MealData?> weeklyMeals = [];
+  DormitoryType dormitoryType = DormitoryType.sejong;
+
+  Future<void> fetchMealData() async {
+    DateTime now = DateTime.now();
+    if (dormitoryType == DormitoryType.sejong) {
+      weeklyMeals = await fetchMealDataFromDB(now, DormitoryType.sejong);
+    } else {
+      weeklyMeals = await fetchMealDataFromDB(now, DormitoryType.happiness);
+    }
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchMealData();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +44,30 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.orange,
-        title: const Text('세종기숙사'), // 기숙사에 따라 Text 내용 수정하기
+        title: DropdownButton<String>(
+          value: dormitoryType == DormitoryType.sejong ? "세종기숙사" : "행복기숙사",
+          items: const [
+            DropdownMenuItem(
+              value: "세종기숙사",
+              child: Text("세종기숙사"),
+            ),
+            DropdownMenuItem(
+              value: "행복기숙사",
+              child: Text("행복기숙사"),
+            ),
+          ],
+          onChanged: (value) {
+            setState(() {
+              // 사용자가 기숙사 타입을 선택하면 해당 데이터를 다시 가져옵니다.
+              if (value == "세종기숙사") {
+                dormitoryType = DormitoryType.sejong;
+              } else {
+                dormitoryType = DormitoryType.happiness;
+              }
+              fetchMealData();
+            });
+          },
+        ),
         centerTitle: true,
         actions: <Widget>[
           IconButton(
@@ -36,20 +77,31 @@ class _HomeScreenState extends State<HomeScreen> {
             },
           ),
         ],
-      ),
-      body: SizedBox(
-        height: 700, // Constrain the height of the PageView
-        child: PageView.builder(
-          controller: _pageController,
-          scrollDirection: Axis.horizontal,
-          itemCount: widget.weeklyMeals.length,
-          itemBuilder: (context, index) {
-            HappyMealData? meal = widget.weeklyMeals[index];
-            return buildMealPage(meal, index, screenWidth, screenHeight,
-                moveToTodayMenu, moveToPreviousPage, moveToNextPage);
-          },
-        ),
-      ),
+      ), // 기숙사에 따라 Text 내용 수정하기
+      body: weeklyMeals.isNotEmpty
+          ? SizedBox(
+              height: 700, // Constrain the height of the PageView
+              child: PageView.builder(
+                controller: _pageController,
+                scrollDirection: Axis.horizontal,
+                itemCount: weeklyMeals.length,
+                itemBuilder: (context, index) {
+                  var meal = weeklyMeals[index];
+                  return buildMealPage(
+                      meal,
+                      index,
+                      screenWidth,
+                      screenHeight,
+                      moveToTodayMenu,
+                      moveToPreviousPage,
+                      moveToNextPage,
+                      dormitoryType);
+                },
+              ),
+            )
+          : const Center(
+              child: CircularProgressIndicator(), // 데이터를 가져오는 동안 로딩 표시
+            ),
     );
   }
 
@@ -59,8 +111,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
     // weeklyMeals 리스트를 순회하며 userAccessDate와 일치하는 식단을 찾습니다.
     int todayMenuIndex = -1;
-    for (int i = 0; i < widget.weeklyMeals.length; i++) {
-      HappyMealData? meal = widget.weeklyMeals[i];
+    for (int i = 0; i < weeklyMeals.length; i++) {
+      MealData? meal = weeklyMeals[i];
       if (meal?.date == formattedDate) {
         todayMenuIndex = i;
         break;
@@ -94,10 +146,10 @@ class _HomeScreenState extends State<HomeScreen> {
   void moveToNextPage() {
     final currentPage = _pageController.page ?? 0;
     final nextPage = currentPage + 1;
-    if (nextPage < widget.weeklyMeals.length) {
+    if (nextPage < weeklyMeals.length) {
       _pageController.animateToPage(
         nextPage.toInt(),
-        duration: Duration(milliseconds: 500),
+        duration: const Duration(milliseconds: 500),
         curve: Curves.ease,
       );
     }
@@ -109,7 +161,7 @@ class _HomeScreenState extends State<HomeScreen> {
     if (previousPage >= 0) {
       _pageController.animateToPage(
         previousPage.toInt(),
-        duration: Duration(milliseconds: 500),
+        duration: const Duration(milliseconds: 500),
         curve: Curves.ease,
       );
     }
@@ -117,13 +169,14 @@ class _HomeScreenState extends State<HomeScreen> {
 }
 
 Widget buildMealPage(
-    HappyMealData? meal,
+    MealData? meal,
     int index,
     double screenWidth,
     double screenHeight,
     VoidCallback onPressedToday,
     VoidCallback onPressedBack,
-    VoidCallback onPressedForward) {
+    VoidCallback onPressedForward,
+    DormitoryType dormitoryType) {
   DateTime date = DateTime.now().add(Duration(days: index));
   String formattedDate = DateFormat('yyyy-MM-dd').format(date);
 
