@@ -16,7 +16,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final PageController _pageController = PageController();
+  final PageController _pageController = PageController(initialPage: 0);
 
   @override
   Widget build(BuildContext context) {
@@ -45,8 +45,8 @@ class _HomeScreenState extends State<HomeScreen> {
           itemCount: widget.weeklyMeals.length,
           itemBuilder: (context, index) {
             HappyMealData? meal = widget.weeklyMeals[index];
-            return buildMealPage(
-                meal, index, screenWidth, screenHeight, moveToTodayMenu);
+            return buildMealPage(meal, index, screenWidth, screenHeight,
+                moveToTodayMenu, moveToPreviousPage, moveToNextPage);
           },
         ),
       ),
@@ -90,10 +90,40 @@ class _HomeScreenState extends State<HomeScreen> {
       );
     }
   }
+
+  void moveToNextPage() {
+    final currentPage = _pageController.page ?? 0;
+    final nextPage = currentPage + 1;
+    if (nextPage < widget.weeklyMeals.length) {
+      _pageController.animateToPage(
+        nextPage.toInt(),
+        duration: Duration(milliseconds: 500),
+        curve: Curves.ease,
+      );
+    }
+  }
+
+  void moveToPreviousPage() {
+    final currentPage = _pageController.page ?? 0;
+    final previousPage = currentPage - 1;
+    if (previousPage >= 0) {
+      _pageController.animateToPage(
+        previousPage.toInt(),
+        duration: Duration(milliseconds: 500),
+        curve: Curves.ease,
+      );
+    }
+  }
 }
 
-Widget buildMealPage(HappyMealData? meal, int index, double screenWidth,
-    double screenHeight, VoidCallback onPressed) {
+Widget buildMealPage(
+    HappyMealData? meal,
+    int index,
+    double screenWidth,
+    double screenHeight,
+    VoidCallback onPressedToday,
+    VoidCallback onPressedBack,
+    VoidCallback onPressedForward) {
   DateTime date = DateTime.now().add(Duration(days: index));
   String formattedDate = DateFormat('yyyy-MM-dd').format(date);
 
@@ -103,7 +133,9 @@ Widget buildMealPage(HappyMealData? meal, int index, double screenWidth,
         CalenderRow(
           width: screenWidth,
           height: screenHeight,
-          onPressed: onPressed,
+          onPressedBack: onPressedBack,
+          onPressedForward: onPressedForward,
+          onPressedToday: onPressedToday,
         ),
         SizedBox(
           height: screenHeight * 0.039,

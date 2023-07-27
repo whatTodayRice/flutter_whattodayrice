@@ -7,12 +7,16 @@ class CalenderRow extends StatefulWidget {
     super.key,
     required this.width,
     required this.height,
-    required this.onPressed,
+    required this.onPressedBack,
+    required this.onPressedForward,
+    required this.onPressedToday,
   });
 
   final double width;
   final double height;
-  final VoidCallback onPressed;
+  final VoidCallback onPressedBack;
+  final VoidCallback onPressedForward;
+  final VoidCallback onPressedToday;
 
   @override
   State<CalenderRow> createState() => _CalenderRowState();
@@ -41,8 +45,9 @@ class _CalenderRowState extends State<CalenderRow> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           const Spacer(),
-          const MainScreenIconButton(
+          MainScreenBackIconButton(
             iconShape: Icons.arrow_back_ios,
+            onPressed: widget.onPressedBack,
           ),
           GestureDetector(
             onTap: () {
@@ -54,11 +59,12 @@ class _CalenderRowState extends State<CalenderRow> {
               textAlign: TextAlign.center,
             ),
           ),
-          const MainScreenIconButton(
+          MainScreenForwardIconButton(
             iconShape: Icons.arrow_forward_ios,
+            onPressed: widget.onPressedForward,
           ),
           const Spacer(),
-          TextButton(onPressed: widget.onPressed, child: const Text('오늘')),
+          TextButton(onPressed: widget.onPressedToday, child: const Text('오늘')),
         ],
       ),
     );
