@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_whattodayrice/view/components/constants.dart';
 import 'package:flutter_whattodayrice/view/components/calender_row.dart';
+import 'package:flutter_whattodayrice/view/components/constants.dart';
 import 'package:flutter_whattodayrice/view/components/meal_time_row.dart';
+import 'package:flutter_whattodayrice/view/screens/settings_screen.dart';
 import 'package:intl/intl.dart';
 
 import '../../models/happy_meal.dart';
 import '../components/meal_container.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 class HomeScreen extends StatefulWidget {
   List<HappyMealData?> weeklyMeals = [];
@@ -17,6 +19,57 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final PageController _pageController = PageController();
+
+  DateTime monday = DateTime.now()
+      .subtract(Duration(days: DateTime.now().weekday - 1)); // 월요일부터로 조정
+
+  DateTime sunday = DateTime.now()
+      .add(Duration(days: DateTime.daysPerWeek - DateTime.now().weekday));
+
+  DateTime selectedDate = DateTime.now();
+
+  void onDaySelected(DateTime selectedDay) {
+    int selectedDayWeekday = selectedDay.weekday;
+    DateTime monday =
+        selectedDay.subtract(Duration(days: selectedDayWeekday - 1));
+
+    setState(() {
+      selectedDate = selectedDay;
+    });
+
+    int differenceInDays = selectedDay.difference(monday).inDays;
+
+    if (differenceInDays >= 0 && differenceInDays < widget.weeklyMeals.length) {
+      if (selectedDate != DateTime.now()) {
+        _pageController.animateToPage(
+          differenceInDays,
+          duration: const Duration(milliseconds: 500),
+          curve: Curves.easeInOut,
+        );
+      } else {
+        moveToTodayMenu();
+      }
+    } else {
+      showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+                title: const Text(
+                  "그 날짜에 맞는 식단 데이터가 아직 올라오지 않았어요",
+                ),
+                actions: [
+                  TextButton(
+                      onPressed: () => Navigator.pop(context),
+                      child: const Text('확인'))
+                ],
+              ));
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    initializeDateFormatting();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,23 +85,55 @@ class _HomeScreenState extends State<HomeScreen> {
           IconButton(
             icon: const Icon(Icons.settings),
             onPressed: () {
-              // Navigator.pushNamed(context, SettingsScreen.routeName);
+              Navigator.pushNamed(context, SettingsScreen.routeName);
             },
           ),
         ],
       ),
-      body: SizedBox(
-        height: 700, // Constrain the height of the PageView
-        child: PageView.builder(
-          controller: _pageController,
-          scrollDirection: Axis.horizontal,
-          itemCount: widget.weeklyMeals.length,
-          itemBuilder: (context, index) {
-            HappyMealData? meal = widget.weeklyMeals[index];
-            return buildMealPage(
-                meal, index, screenWidth, screenHeight, moveToTodayMenu);
-          },
-        ),
+      body: Column(
+        children: [
+          // TableCalendar(
+          //   daysOfWeekStyle: const DaysOfWeekStyle(
+          //     weekdayStyle: TextStyle(fontSize: 10.0),
+          //     weekendStyle: TextStyle(fontSize: 10.0),
+          //   ),
+          //   calendarStyle: const CalendarStyle(
+          //     outsideDaysVisible: true,
+          //     weekendTextStyle: TextStyle(fontSize: 10.0),
+          //     defaultTextStyle: TextStyle(
+          //       fontSize: 10.0,
+          //     ),
+          //     todayTextStyle: TextStyle(
+          //       fontSize: 10.0,
+          //     ),
+          //     selectedTextStyle: TextStyle(
+          //       fontSize: 10.0,
+          //     ), // Adjust the font size for the selected date
+          //   ),
+          //   onDaySelected: (selectedDate, focusDay) {
+          //     onDaySelected(selectedDate, focusDay);
+          //   },
+          //   focusedDay: DateTime.now(),
+          //   firstDay: monday,
+          //   lastDay: DateTime(2023, 7, 31),
+          //   headerVisible: false,
+          //   calendarFormat: CalendarFormat.week,
+          //   locale: 'ko_KR',
+          // ),
+          SizedBox(
+            height: 700, // Constrain the height of the PageView
+            child: PageView.builder(
+              controller: _pageController,
+              scrollDirection: Axis.horizontal,
+              itemCount: widget.weeklyMeals.length,
+              itemBuilder: (context, index) {
+                HappyMealData? meal = widget.weeklyMeals[index];
+                return buildMealPage(meal, index, screenWidth, screenHeight,
+                    moveToTodayMenu, onDaySelected);
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -92,8 +177,14 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-Widget buildMealPage(HappyMealData? meal, int index, double screenWidth,
-    double screenHeight, VoidCallback onPressed) {
+Widget buildMealPage(
+  HappyMealData? meal,
+  int index,
+  double screenWidth,
+  double screenHeight,
+  void Function() moveToTodayMenu,
+  void Function(DateTime selectedDay) onDaySelected,
+) {
   DateTime date = DateTime.now().add(Duration(days: index));
   String formattedDate = DateFormat('yyyy-MM-dd').format(date);
 
@@ -103,7 +194,8 @@ Widget buildMealPage(HappyMealData? meal, int index, double screenWidth,
         CalenderRow(
           width: screenWidth,
           height: screenHeight,
-          onPressed: onPressed,
+          onPressed: moveToTodayMenu,
+          onDateSelected: onDaySelected,
         ),
         SizedBox(
           height: screenHeight * 0.039,

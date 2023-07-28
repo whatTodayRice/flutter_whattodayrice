@@ -6,6 +6,7 @@ import 'package:flutter_whattodayrice/view/components/notification_switch.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
+  static const routeName = '/settings_screen';
 
   @override
   State<SettingsScreen> createState() => _SettingsScreenState();
