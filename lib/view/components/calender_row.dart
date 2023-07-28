@@ -9,12 +9,14 @@ class CalenderRow extends StatefulWidget {
     required this.height,
     required this.onPressed,
     required this.onDateSelected,
+    required this.date,
   });
 
   final double width;
   final double height;
   final VoidCallback onPressed;
   final void Function(DateTime) onDateSelected;
+  final DateTime date;
 
   @override
   State<CalenderRow> createState() => _CalenderRowState();
@@ -29,7 +31,7 @@ class _CalenderRowState extends State<CalenderRow> {
       .add(Duration(days: DateTime.daysPerWeek - DateTime.now().weekday + 6));
 
   String getCurrentDate() {
-    String formattedDate = "${currentDate.month}월 ${currentDate.day}일";
+    String formattedDate = "${widget.date.month}월 ${widget.date.day}일";
     return formattedDate;
   }
 

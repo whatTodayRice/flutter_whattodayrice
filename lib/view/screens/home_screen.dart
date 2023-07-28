@@ -128,8 +128,11 @@ class _HomeScreenState extends State<HomeScreen> {
               itemCount: widget.weeklyMeals.length,
               itemBuilder: (context, index) {
                 HappyMealData? meal = widget.weeklyMeals[index];
+                DateTime date = DateTime.now().add(
+                    Duration(days: index)); // Get the date for the current page
+
                 return buildMealPage(meal, index, screenWidth, screenHeight,
-                    moveToTodayMenu, onDaySelected);
+                    moveToTodayMenu, onDaySelected, date);
               },
             ),
           ),
@@ -184,8 +187,11 @@ Widget buildMealPage(
   double screenHeight,
   void Function() moveToTodayMenu,
   void Function(DateTime selectedDay) onDaySelected,
+  DateTime date,
 ) {
-  DateTime date = DateTime.now().add(Duration(days: index));
+  DateTime date = DateTime.now()
+      .subtract(Duration(days: DateTime.now().weekday - 1))
+      .add(Duration(days: index));
   String formattedDate = DateFormat('yyyy-MM-dd').format(date);
 
   if (meal != null) {
@@ -196,6 +202,7 @@ Widget buildMealPage(
           height: screenHeight,
           onPressed: moveToTodayMenu,
           onDateSelected: onDaySelected,
+          date: date,
         ),
         SizedBox(
           height: screenHeight * 0.039,
