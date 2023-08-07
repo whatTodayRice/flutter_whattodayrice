@@ -3,6 +3,7 @@ import 'package:flutter_whattodayrice/view/components/button_template.dart';
 import 'package:flutter_whattodayrice/view/components/text_template.dart';
 import 'package:flutter_whattodayrice/view/components/bottom_sheet_utils.dart';
 import 'package:flutter_whattodayrice/view/components/notification_switch.dart';
+import 'package:adaptive_theme/adaptive_theme.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -13,9 +14,28 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
+  bool isDarkMood = false; //초기는 라이트모드로 설정
+  bool isSwitched = false;
   static const IconData arrowDropDown =
       IconData(0xe098, fontFamily: 'MaterialIcons');
-  bool isSwitched = false;
+
+  void setDarkMode() {
+    AdaptiveTheme.of(context).setDark();
+    setState(() {
+      isDarkMood = true;
+    });
+  }
+
+  void setLightMode() {
+    AdaptiveTheme.of(context).setLight();
+    setState(() {
+      isDarkMood = false;
+    });
+  }
+
+  void setSystemMode() {
+    AdaptiveTheme.of(context).setSystem();
+  }
 
   Widget buildNotificationSwitch() {
     return NotificationSwitch(
@@ -66,7 +86,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
               height: 20,
             ),
             buildNotificationSwitch(),
-
             //구분선 삽입
             const SizedBox(
               height: 20,
@@ -77,7 +96,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
 
             const SizedBox(height: 20),
-
             Row(
               children: [
                 buildBoldText('기숙사 변경'),
@@ -86,7 +104,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   children: [
                     TextButton(
                         onPressed: () {
-                          buildDormitoryBottomSheet(context);
+                          buildDormitoryBottomSheet(
+                            context,
+                          );
                         },
                         child: const Text(
                           '세종기숙사',
@@ -97,7 +117,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 )
               ],
             ),
-
             const SizedBox(height: 30),
             Row(
               children: [
@@ -106,13 +125,24 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 Row(
                   children: [
                     TextButton(
-                        onPressed: () {
-                          buildThemeBottomSheet(context);
-                        },
-                        child: const Text(
-                          '시스템 설정',
-                          style: TextStyle(fontSize: 12),
-                        )),
+                      onPressed: () {
+                        buildThemeBottomSheet(
+                          context,
+                        );
+                      },
+                      child: Text(
+                        buildThemeText(
+                            convertToThemeMode(AdaptiveTheme.of(context).mode)),
+                        style: const TextStyle(fontSize: 12),
+                      ),
+                      // SelectThemeButton(
+                      //   buttonText: '시스템 설정',
+                      //   adaptiveThemeMode: AdaptiveTheme.of(
+                      //     context,
+                      //   ).mode,
+                      //   onPressed: () {},
+                      // ),
+                    ),
                     const Icon(arrowDropDown)
                   ],
                 )
@@ -122,5 +152,31 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ),
       ),
     );
+  }
+}
+
+String buildThemeText(ThemeMode themeMode) {
+  switch (themeMode) {
+    case ThemeMode.light:
+      return '라이트 모드';
+    case ThemeMode.dark:
+      return '다크 모드';
+    case ThemeMode.system:
+    default:
+      return '시스템 설정';
+  }
+}
+
+ThemeMode convertToThemeMode(AdaptiveThemeMode adaptiveThemeMode) {
+  switch (adaptiveThemeMode) {
+    case AdaptiveThemeMode.light:
+      return ThemeMode.light;
+
+    case AdaptiveThemeMode.dark:
+      return ThemeMode.dark;
+
+    case AdaptiveThemeMode.system:
+    default:
+      return ThemeMode.system;
   }
 }

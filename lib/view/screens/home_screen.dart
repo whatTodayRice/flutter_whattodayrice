@@ -92,34 +92,6 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: Column(
         children: [
-          // TableCalendar(
-          //   daysOfWeekStyle: const DaysOfWeekStyle(
-          //     weekdayStyle: TextStyle(fontSize: 10.0),
-          //     weekendStyle: TextStyle(fontSize: 10.0),
-          //   ),
-          //   calendarStyle: const CalendarStyle(
-          //     outsideDaysVisible: true,
-          //     weekendTextStyle: TextStyle(fontSize: 10.0),
-          //     defaultTextStyle: TextStyle(
-          //       fontSize: 10.0,
-          //     ),
-          //     todayTextStyle: TextStyle(
-          //       fontSize: 10.0,
-          //     ),
-          //     selectedTextStyle: TextStyle(
-          //       fontSize: 10.0,
-          //     ), // Adjust the font size for the selected date
-          //   ),
-          //   onDaySelected: (selectedDate, focusDay) {
-          //     onDaySelected(selectedDate, focusDay);
-          //   },
-          //   focusedDay: DateTime.now(),
-          //   firstDay: monday,
-          //   lastDay: DateTime(2023, 7, 31),
-          //   headerVisible: false,
-          //   calendarFormat: CalendarFormat.week,
-          //   locale: 'ko_KR',
-          // ),
           SizedBox(
             height: 700, // Constrain the height of the PageView
             child: PageView.builder(
@@ -128,9 +100,7 @@ class _HomeScreenState extends State<HomeScreen> {
               itemCount: widget.weeklyMeals.length,
               itemBuilder: (context, index) {
                 HappyMealData? meal = widget.weeklyMeals[index];
-                DateTime date = DateTime.now().add(
-                    Duration(days: index)); // Get the date for the current page
-
+                DateTime date = DateTime.now().add(Duration(days: index));
                 return buildMealPage(meal, index, screenWidth, screenHeight,
                     moveToTodayMenu, onDaySelected, date);
               },

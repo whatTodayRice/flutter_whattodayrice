@@ -1,4 +1,6 @@
+import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_whattodayrice/main.dart';
 import 'package:flutter_whattodayrice/theme/colors.dart';
 
 class ReusableButton extends StatelessWidget {
@@ -59,18 +61,45 @@ class BackIconButton extends StatelessWidget {
 }
 
 // textbutton 템플릿
+class SelectThemeButton extends StatelessWidget {
+  final String buttonText;
+  final VoidCallback onPressed;
+  final AdaptiveThemeMode adaptiveThemeMode;
+
+  const SelectThemeButton({
+    super.key,
+    required this.buttonText,
+    required this.onPressed,
+    required this.adaptiveThemeMode,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final ThemeMode themeMode = convertToThemeMode(adaptiveThemeMode);
+    return TextButton(
+      onPressed: onPressed,
+      child: Text(
+        buttonText,
+        style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+      ),
+    );
+  }
+}
+
 class SelectButton extends StatelessWidget {
   final String buttonText;
+  final VoidCallback onPressed;
 
   const SelectButton({
     required this.buttonText,
+    required this.onPressed(),
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      onPressed: null,
+      onPressed: onPressed,
       // 현재 저장되어 있는 값이 선택된 값으로 수정되도록 하는 함수 추가
       child: Text(
         buttonText,
