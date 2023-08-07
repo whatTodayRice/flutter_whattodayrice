@@ -57,8 +57,9 @@ class _CalenderRowState extends State<CalenderRow> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           const Spacer(),
-          const MainScreenIconButton(
+          MainScreenIconButton(
             iconShape: Icons.arrow_back_ios,
+            onPressed: () {},
           ),
           GestureDetector(
             onTap: () => (BuildContext context) {
@@ -108,8 +109,9 @@ class _CalenderRowState extends State<CalenderRow> {
               textAlign: TextAlign.center,
             ),
           ),
-          const MainScreenIconButton(
+          MainScreenIconButton(
             iconShape: Icons.arrow_forward_ios,
+            onPressed: () {},
           ),
           const Spacer(),
           TextButton(onPressed: widget.onPressed, child: const Text('오늘')),

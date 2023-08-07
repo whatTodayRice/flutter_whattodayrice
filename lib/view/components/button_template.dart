@@ -1,7 +1,7 @@
-import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_whattodayrice/main.dart';
 import 'package:flutter_whattodayrice/theme/colors.dart';
+import 'package:adaptive_theme/adaptive_theme.dart';
 
 class ReusableButton extends StatelessWidget {
   final String buttonText;
@@ -111,8 +111,10 @@ class SelectButton extends StatelessWidget {
 
 class MainScreenIconButton extends StatefulWidget {
   final IconData iconShape;
+  final VoidCallback onPressed;
 
-  const MainScreenIconButton({super.key, required this.iconShape});
+  const MainScreenIconButton(
+      {super.key, required this.iconShape, required this.onPressed});
 
   @override
   State<MainScreenIconButton> createState() => _MainScreenIconButtonState();

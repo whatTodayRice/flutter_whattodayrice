@@ -86,6 +86,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               height: 20,
             ),
             buildNotificationSwitch(),
+
             //구분선 삽입
             const SizedBox(
               height: 20,
@@ -96,6 +97,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
 
             const SizedBox(height: 20),
+
             Row(
               children: [
                 buildBoldText('기숙사 변경'),
@@ -117,6 +119,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 )
               ],
             ),
+
             const SizedBox(height: 30),
             Row(
               children: [
