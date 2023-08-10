@@ -7,7 +7,6 @@ class CalenderRow extends StatefulWidget {
     super.key,
     required this.width,
     required this.height,
-    required this.onPressed,
     required this.onDateSelected,
     required this.date,
     required this.onPressedBack,
@@ -17,9 +16,9 @@ class CalenderRow extends StatefulWidget {
 
   final double width;
   final double height;
-  final VoidCallback onPressed;
   final void Function(DateTime) onDateSelected;
   final DateTime date;
+
   final VoidCallback onPressedBack;
   final VoidCallback onPressedForward;
   final VoidCallback onPressedToday;

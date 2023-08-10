@@ -19,6 +19,18 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final PageController _pageController = PageController(initialPage: 0);
+  List<MealData?> weeklyMeals = [];
+  DormitoryType dormitoryType = DormitoryType.sejong;
+
+  Future<void> fetchMealData() async {
+    DateTime now = DateTime.now();
+    if (dormitoryType == DormitoryType.sejong) {
+      weeklyMeals = await fetchMealDataFromDB(now, DormitoryType.sejong);
+    } else {
+      weeklyMeals = await fetchMealDataFromDB(now, DormitoryType.happiness);
+    }
+    setState(() {});
+  }
 
   DateTime monday = DateTime.now()
       .subtract(Duration(days: DateTime.now().weekday - 1)); // 월요일부터로 조정
@@ -39,7 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     int differenceInDays = selectedDay.difference(monday).inDays;
 
-    if (differenceInDays >= 0 && differenceInDays < widget.weeklyMeals.length) {
+    if (differenceInDays >= 0 && differenceInDays < weeklyMeals.length) {
       if (selectedDate != DateTime.now()) {
         _pageController.animateToPage(
           differenceInDays,
@@ -69,24 +81,6 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     initializeDateFormatting();
-  }
-
-  List<MealData?> weeklyMeals = [];
-  DormitoryType dormitoryType = DormitoryType.sejong;
-
-  Future<void> fetchMealData() async {
-    DateTime now = DateTime.now();
-    if (dormitoryType == DormitoryType.sejong) {
-      weeklyMeals = await fetchMealDataFromDB(now, DormitoryType.sejong);
-    } else {
-      weeklyMeals = await fetchMealDataFromDB(now, DormitoryType.happiness);
-    }
-    setState(() {});
-  }
-
-  @override
-  void initState() {
-    super.initState();
     fetchMealData();
   }
 
@@ -141,15 +135,24 @@ class _HomeScreenState extends State<HomeScreen> {
                 itemCount: weeklyMeals.length,
                 itemBuilder: (context, index) {
                   var meal = weeklyMeals[index];
+                  DateTime date = DateTime.now().add(
+                    Duration(
+                      days: index,
+                    ),
+                  );
                   return buildMealPage(
-                      meal,
-                      index,
-                      screenWidth,
-                      screenHeight,
-                      moveToTodayMenu,
-                      moveToPreviousPage,
-                      moveToNextPage,
-                      dormitoryType);
+                    meal,
+                    index,
+                    screenWidth,
+                    screenHeight,
+                    moveToTodayMenu,
+                    onDaySelected,
+                    date,
+                    moveToTodayMenu,
+                    moveToPreviousPage,
+                    moveToNextPage,
+                    dormitoryType,
+                  );
                 },
               ),
             )
@@ -222,8 +225,19 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-Widget buildMealPage(HappyMealData? meal, int index, double screenWidth,
-    double screenHeight, VoidCallback onPressed) {
+Widget buildMealPage(
+  MealData? meal,
+  int index,
+  double screenWidth,
+  double screenHeight,
+  void Function() moveToTodayMenu,
+  void Function(DateTime selectedDay) onDaySelected,
+  DateTime date,
+  VoidCallback onPressedToday,
+  VoidCallback onPressedBack,
+  VoidCallback onPressedForward,
+  DormitoryType dormitoryType,
+) {
   DateTime date = DateTime.now().add(Duration(days: index));
   String formattedDate = DateFormat('yyyy-MM-dd').format(date);
 
@@ -233,7 +247,11 @@ Widget buildMealPage(HappyMealData? meal, int index, double screenWidth,
         CalenderRow(
           width: screenWidth,
           height: screenHeight,
-          onPressed: onPressed,
+          onDateSelected: onDaySelected,
+          date: date,
+          onPressedBack: onPressedBack,
+          onPressedForward: onPressedForward,
+          onPressedToday: onPressedToday,
         ),
         SizedBox(
           height: screenHeight * 0.039,

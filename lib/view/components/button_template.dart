@@ -1,6 +1,5 @@
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_whattodayrice/main.dart';
 import 'package:flutter_whattodayrice/theme/colors.dart';
 
 class ReusableButton extends StatelessWidget {
@@ -75,7 +74,7 @@ class SelectThemeButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ThemeMode themeMode = convertToThemeMode(adaptiveThemeMode);
+    // final ThemeMode themeMode = convertToThemeMode(adaptiveThemeMode);
     return TextButton(
       onPressed: onPressed,
       child: Text(
