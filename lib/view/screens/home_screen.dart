@@ -4,21 +4,21 @@ import 'package:flutter_whattodayrice/view/components/constants.dart';
 import 'package:flutter_whattodayrice/view/components/meal_time_row.dart';
 import 'package:flutter_whattodayrice/view/screens/settings_screen.dart';
 import 'package:intl/intl.dart';
-
-import '../../models/happy_meal.dart';
+import '../../models/dormitory.dart';
+import '../../models/meal.dart';
 import '../components/meal_container.dart';
+import 'package:flutter_whattodayrice/services/fetch_meals_from_db.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
 class HomeScreen extends StatefulWidget {
-  List<HappyMealData?> weeklyMeals = [];
-  HomeScreen(this.weeklyMeals, {super.key});
+  const HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final PageController _pageController = PageController();
+  final PageController _pageController = PageController(initialPage: 0);
 
   DateTime monday = DateTime.now()
       .subtract(Duration(days: DateTime.now().weekday - 1)); // 월요일부터로 조정
@@ -71,6 +71,25 @@ class _HomeScreenState extends State<HomeScreen> {
     initializeDateFormatting();
   }
 
+  List<MealData?> weeklyMeals = [];
+  DormitoryType dormitoryType = DormitoryType.sejong;
+
+  Future<void> fetchMealData() async {
+    DateTime now = DateTime.now();
+    if (dormitoryType == DormitoryType.sejong) {
+      weeklyMeals = await fetchMealDataFromDB(now, DormitoryType.sejong);
+    } else {
+      weeklyMeals = await fetchMealDataFromDB(now, DormitoryType.happiness);
+    }
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchMealData();
+  }
+
   @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
@@ -79,7 +98,30 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.orange,
-        title: const Text('세종기숙사'), // 기숙사에 따라 Text 내용 수정하기
+        title: DropdownButton<String>(
+          value: dormitoryType == DormitoryType.sejong ? "세종기숙사" : "행복기숙사",
+          items: const [
+            DropdownMenuItem(
+              value: "세종기숙사",
+              child: Text("세종기숙사"),
+            ),
+            DropdownMenuItem(
+              value: "행복기숙사",
+              child: Text("행복기숙사"),
+            ),
+          ],
+          onChanged: (value) {
+            setState(() {
+              // 사용자가 기숙사 타입을 선택하면 해당 데이터를 다시 가져옵니다.
+              if (value == "세종기숙사") {
+                dormitoryType = DormitoryType.sejong;
+              } else {
+                dormitoryType = DormitoryType.happiness;
+              }
+              fetchMealData();
+            });
+          },
+        ),
         centerTitle: true,
         actions: <Widget>[
           IconButton(
@@ -89,25 +131,31 @@ class _HomeScreenState extends State<HomeScreen> {
             },
           ),
         ],
-      ),
-      body: Column(
-        children: [
-          SizedBox(
-            height: 700, // Constrain the height of the PageView
-            child: PageView.builder(
-              controller: _pageController,
-              scrollDirection: Axis.horizontal,
-              itemCount: widget.weeklyMeals.length,
-              itemBuilder: (context, index) {
-                HappyMealData? meal = widget.weeklyMeals[index];
-                DateTime date = DateTime.now().add(Duration(days: index));
-                return buildMealPage(meal, index, screenWidth, screenHeight,
-                    moveToTodayMenu, onDaySelected, date);
-              },
+      ), // 기숙사에 따라 Text 내용 수정하기
+      body: weeklyMeals.isNotEmpty
+          ? SizedBox(
+              height: 700, // Constrain the height of the PageView
+              child: PageView.builder(
+                controller: _pageController,
+                scrollDirection: Axis.horizontal,
+                itemCount: weeklyMeals.length,
+                itemBuilder: (context, index) {
+                  var meal = weeklyMeals[index];
+                  return buildMealPage(
+                      meal,
+                      index,
+                      screenWidth,
+                      screenHeight,
+                      moveToTodayMenu,
+                      moveToPreviousPage,
+                      moveToNextPage,
+                      dormitoryType);
+                },
+              ),
+            )
+          : const Center(
+              child: CircularProgressIndicator(), // 데이터를 가져오는 동안 로딩 표시
             ),
-          ),
-        ],
-      ),
     );
   }
 
@@ -117,8 +165,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
     // weeklyMeals 리스트를 순회하며 userAccessDate와 일치하는 식단을 찾습니다.
     int todayMenuIndex = -1;
-    for (int i = 0; i < widget.weeklyMeals.length; i++) {
-      HappyMealData? meal = widget.weeklyMeals[i];
+    for (int i = 0; i < weeklyMeals.length; i++) {
+      MealData? meal = weeklyMeals[i];
       if (meal?.date == formattedDate) {
         todayMenuIndex = i;
         break;
@@ -148,20 +196,35 @@ class _HomeScreenState extends State<HomeScreen> {
       );
     }
   }
+
+  void moveToNextPage() {
+    final currentPage = _pageController.page ?? 0;
+    final nextPage = currentPage + 1;
+    if (nextPage < weeklyMeals.length) {
+      _pageController.animateToPage(
+        nextPage.toInt(),
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.ease,
+      );
+    }
+  }
+
+  void moveToPreviousPage() {
+    final currentPage = _pageController.page ?? 0;
+    final previousPage = currentPage - 1;
+    if (previousPage >= 0) {
+      _pageController.animateToPage(
+        previousPage.toInt(),
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.ease,
+      );
+    }
+  }
 }
 
-Widget buildMealPage(
-  HappyMealData? meal,
-  int index,
-  double screenWidth,
-  double screenHeight,
-  void Function() moveToTodayMenu,
-  void Function(DateTime selectedDay) onDaySelected,
-  DateTime date,
-) {
-  DateTime date = DateTime.now()
-      .subtract(Duration(days: DateTime.now().weekday - 1))
-      .add(Duration(days: index));
+Widget buildMealPage(HappyMealData? meal, int index, double screenWidth,
+    double screenHeight, VoidCallback onPressed) {
+  DateTime date = DateTime.now().add(Duration(days: index));
   String formattedDate = DateFormat('yyyy-MM-dd').format(date);
 
   if (meal != null) {
@@ -170,9 +233,7 @@ Widget buildMealPage(
         CalenderRow(
           width: screenWidth,
           height: screenHeight,
-          onPressed: moveToTodayMenu,
-          onDateSelected: onDaySelected,
-          date: date,
+          onPressed: onPressed,
         ),
         SizedBox(
           height: screenHeight * 0.039,

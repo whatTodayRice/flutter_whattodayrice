@@ -6,11 +6,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_whattodayrice/models/dummy_happy_meal.dart';
 import 'package:flutter_whattodayrice/view/screens/home_screen.dart';
 import 'package:flutter_whattodayrice/view/screens/settings_screen.dart';
-import 'models/happy_meal.dart';
 
 void main() async {
   dummyWeeklyData;
   runApp(MyApp(dummyWeeklyData));
+
+
+
+// Function to convert AdaptiveThemeMode to ThemeMode
+ThemeMode convertToThemeMode(AdaptiveThemeMode adaptiveThemeMode) {
+  switch (adaptiveThemeMode) {
+    case AdaptiveThemeMode.light:
+      return ThemeMode.light;
+    case AdaptiveThemeMode.dark:
+      return ThemeMode.dark;
+    case AdaptiveThemeMode.system:
+    default:
+      return ThemeMode.system;
+  }
 }
 
 // Function to convert AdaptiveThemeMode to ThemeMode
