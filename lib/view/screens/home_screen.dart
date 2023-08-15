@@ -3,6 +3,7 @@ import 'package:flutter_whattodayrice/view/components/calender_row.dart';
 import 'package:flutter_whattodayrice/view/components/constants.dart';
 import 'package:flutter_whattodayrice/view/components/meal_time_row.dart';
 import 'package:flutter_whattodayrice/view/screens/settings_screen.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import '../../models/dormitory.dart';
 import '../../models/meal.dart';
@@ -10,14 +11,17 @@ import '../components/meal_container.dart';
 import 'package:flutter_whattodayrice/services/fetch_meals_from_db.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
-class HomeScreen extends StatefulWidget {
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_whattodayrice/providers/dormitory_provider.dart';
+
+class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends ConsumerState<HomeScreen> {
   final PageController _pageController = PageController(initialPage: 0);
   List<MealData?> weeklyMeals = [];
   DormitoryType dormitoryType = DormitoryType.sejong;
@@ -88,35 +92,13 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
+    final selectedDormitory = ref.watch(selectedDormitoryProvider);
 
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.orange,
-        title: DropdownButton<String>(
-          value: dormitoryType == DormitoryType.sejong ? "세종기숙사" : "행복기숙사",
-          items: const [
-            DropdownMenuItem(
-              value: "세종기숙사",
-              child: Text("세종기숙사"),
-            ),
-            DropdownMenuItem(
-              value: "행복기숙사",
-              child: Text("행복기숙사"),
-            ),
-          ],
-          onChanged: (value) {
-            setState(() {
-              // 사용자가 기숙사 타입을 선택하면 해당 데이터를 다시 가져옵니다.
-              if (value == "세종기숙사") {
-                dormitoryType = DormitoryType.sejong;
-              } else {
-                dormitoryType = DormitoryType.happiness;
-              }
-              fetchMealData();
-            });
-          },
-        ),
-        centerTitle: true,
+        title:
+            Text(selectedDormitory == DormitoryType.sejong ? "세종기숙사" : "행복기숙사"),
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.settings),
@@ -128,7 +110,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ), // 기숙사에 따라 Text 내용 수정하기
       body: weeklyMeals.isNotEmpty
           ? SizedBox(
-              height: 700, // Constrain the height of the PageView
+              height: 700,
               child: PageView.builder(
                 controller: _pageController,
                 scrollDirection: Axis.horizontal,

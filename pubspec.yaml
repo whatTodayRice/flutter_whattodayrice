@@ -48,6 +48,9 @@ dependencies:
   provider: ^6.0.5
   adaptive_theme: ^3.3.0
   path: ^1.8.3
+  riverpod: ^2.3.6
+  flutter_riverpod: ^2.3.6
+  hooks_riverpod: ^2.3.7
 
 
 dev_dependencies:

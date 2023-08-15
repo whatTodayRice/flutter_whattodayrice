@@ -1,41 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_whattodayrice/models/dormitory.dart';
 import 'package:flutter_whattodayrice/view/components/button_template.dart';
 import 'package:flutter_whattodayrice/view/components/text_template.dart';
 import 'package:flutter_whattodayrice/view/components/bottom_sheet_utils.dart';
 import 'package:flutter_whattodayrice/view/components/notification_switch.dart';
 import 'package:adaptive_theme/adaptive_theme.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_whattodayrice/providers/dormitory_provider.dart';
 
-class SettingsScreen extends StatefulWidget {
+class SettingsScreen extends ConsumerStatefulWidget {
   const SettingsScreen({super.key});
   static const routeName = '/settings_screen';
 
   @override
-  State<SettingsScreen> createState() => _SettingsScreenState();
+  ConsumerState<SettingsScreen> createState() => _SettingsScreenState();
 }
 
-class _SettingsScreenState extends State<SettingsScreen> {
+class _SettingsScreenState extends ConsumerState<SettingsScreen> {
+  //기본값은 세종으로
+  // 추후 기숙사 선택 화면에서 선택된 기숙사로 기본값 변경하기
+
   bool isDarkMood = false; //초기는 라이트모드로 설정
   bool isSwitched = false;
   static const IconData arrowDropDown =
       IconData(0xe098, fontFamily: 'MaterialIcons');
-
-  void setDarkMode() {
-    AdaptiveTheme.of(context).setDark();
-    setState(() {
-      isDarkMood = true;
-    });
-  }
-
-  void setLightMode() {
-    AdaptiveTheme.of(context).setLight();
-    setState(() {
-      isDarkMood = false;
-    });
-  }
-
-  void setSystemMode() {
-    AdaptiveTheme.of(context).setSystem();
-  }
 
   Widget buildNotificationSwitch() {
     return NotificationSwitch(
@@ -49,6 +37,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final selectedDormitory = ref.watch(selectedDormitoryProvider);
     return SafeArea(
       child: Scaffold(
         body: Padding(
@@ -104,13 +93,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     children: [
                       TextButton(
                           onPressed: () {
-                            buildDormitoryBottomSheet(
-                              context,
-                            );
+                            buildDormitoryBottomSheet(context, ref);
                           },
-                          child: const Text(
-                            '세종기숙사',
-                            style: TextStyle(fontSize: 12),
+                          child: Text(
+                            selectedDormitory == DormitoryType.sejong
+                                ? '세종기숙사'
+                                : '행복기숙사',
+                            style: const TextStyle(fontSize: 12),
                           )),
                       const Icon(arrowDropDown)
                     ],
@@ -135,13 +124,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               AdaptiveTheme.of(context).mode)),
                           style: const TextStyle(fontSize: 12),
                         ),
-                        // SelectThemeButton(
-                        //   buttonText: '시스템 설정',
-                        //   adaptiveThemeMode: AdaptiveTheme.of(
-                        //     context,
-                        //   ).mode,
-                        //   onPressed: () {},
-                        // ),
                       ),
                       const Icon(arrowDropDown)
                     ],
