@@ -1,6 +1,6 @@
-import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_whattodayrice/theme/colors.dart';
+import 'package:adaptive_theme/adaptive_theme.dart';
 
 class ReusableButton extends StatelessWidget {
   final String buttonText;
@@ -110,6 +110,7 @@ class SelectButton extends StatelessWidget {
 
 class MainScreenBackIconButton extends StatelessWidget {
   final IconData iconShape;
+  final VoidCallback onPressed;
   final VoidCallback onPressed;
 
   const MainScreenBackIconButton(

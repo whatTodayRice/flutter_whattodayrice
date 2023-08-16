@@ -95,61 +95,60 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 color: Colors.grey[300],
               ),
 
-              const SizedBox(height: 20),
-              Row(
-                children: [
-                  buildBoldText('기숙사 변경'),
-                  const Spacer(),
-                  Row(
-                    children: [
-                      TextButton(
-                          onPressed: () {
-                            buildDormitoryBottomSheet(
-                              context,
-                            );
-                          },
-                          child: const Text(
-                            '세종기숙사',
-                            style: TextStyle(fontSize: 12),
-                          )),
-                      const Icon(arrowDropDown)
-                    ],
-                  )
-                ],
-              ),
-              const SizedBox(height: 30),
-              Row(
-                children: [
-                  buildBoldText('테마 변경'),
-                  const Spacer(),
-                  Row(
-                    children: [
-                      TextButton(
+            const SizedBox(height: 20),
+            Row(
+              children: [
+                buildBoldText('기숙사 변경'),
+                const Spacer(),
+                Row(
+                  children: [
+                    TextButton(
                         onPressed: () {
-                          buildThemeBottomSheet(
+                          buildDormitoryBottomSheet(
                             context,
                           );
                         },
-                        child: Text(
-                          buildThemeText(convertToThemeMode(
-                              AdaptiveTheme.of(context).mode)),
-                          style: const TextStyle(fontSize: 12),
-                        ),
-                        // SelectThemeButton(
-                        //   buttonText: '시스템 설정',
-                        //   adaptiveThemeMode: AdaptiveTheme.of(
-                        //     context,
-                        //   ).mode,
-                        //   onPressed: () {},
-                        // ),
+                        child: const Text(
+                          '세종기숙사',
+                          style: TextStyle(fontSize: 12),
+                        )),
+                    const Icon(arrowDropDown)
+                  ],
+                )
+              ],
+            ),
+            const SizedBox(height: 30),
+            Row(
+              children: [
+                buildBoldText('테마 변경'),
+                const Spacer(),
+                Row(
+                  children: [
+                    TextButton(
+                      onPressed: () {
+                        buildThemeBottomSheet(
+                          context,
+                        );
+                      },
+                      child: Text(
+                        buildThemeText(
+                            convertToThemeMode(AdaptiveTheme.of(context).mode)),
+                        style: const TextStyle(fontSize: 12),
                       ),
-                      const Icon(arrowDropDown)
-                    ],
-                  )
-                ],
-              )
-            ],
-          ),
+                      // SelectThemeButton(
+                      //   buttonText: '시스템 설정',
+                      //   adaptiveThemeMode: AdaptiveTheme.of(
+                      //     context,
+                      //   ).mode,
+                      //   onPressed: () {},
+                      // ),
+                    ),
+                    const Icon(arrowDropDown)
+                  ],
+                )
+              ],
+            )
+          ],
         ),
       ),
     );
