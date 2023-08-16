@@ -111,7 +111,6 @@ class SelectButton extends StatelessWidget {
 class MainScreenBackIconButton extends StatelessWidget {
   final IconData iconShape;
   final VoidCallback onPressed;
-  final VoidCallback onPressed;
 
   const MainScreenBackIconButton(
       {super.key, required this.iconShape, required this.onPressed});
