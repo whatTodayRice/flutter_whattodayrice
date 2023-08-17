@@ -1,21 +1,44 @@
+import 'dart:developer';
 import 'dart:io';
 import 'package:intl/intl.dart';
+import 'package:path/path.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import '../models/dormitory.dart';
 import '../models/meal.dart';
 
+import 'package:flutter/services.dart' show rootBundle;
+import 'dart:typed_data';
+
 Future<List<MealData?>> fetchMealDataFromDB(
-    DateTime now, DormitoryType dormitoryType) async {
-  databaseFactory = databaseFactoryFfi;
+  DateTime now,
+  DormitoryType dormitoryType,
+) async {
   String dbPath = 'assets/db/meal.db';
-  bool dbExists = File(dbPath).existsSync();
-  if (!dbExists) {
-    print('db파일이 존재하지 않습니다.');
+
+  var databasesPath = await getDatabasesPath();
+  var path = join(databasesPath, dbPath);
+
+  var exists = await databaseExists(path);
+
+  if (!exists) {
+    print("creating new copy from the asset");
+
+    try {
+      await Directory(dirname(path)).create(recursive: true);
+    } catch (_) {}
+
+    ByteData data = await rootBundle.load('assets/db/meal.db');
+    List<int> bytes =
+        data.buffer.asInt8List(data.offsetInBytes, data.lengthInBytes);
+
+    await File(path).writeAsBytes(bytes, flush: true);
+  } else {
+    print("opening existing database");
   }
 
-  List<MealData?> weeklyMeals = [];
+  var database = await openDatabase(path, readOnly: true);
 
-  Database database = await openDatabase(dbPath, readOnly: true);
+  List<MealData?> weeklyMeals = [];
 
   try {
     for (int i = 0; i < 6; i++) {
