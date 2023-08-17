@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 import 'package:intl/intl.dart';
 import 'package:path/path.dart';
@@ -12,8 +13,6 @@ Future<List<MealData?>> fetchMealDataFromDB(
   DateTime now,
   DormitoryType dormitoryType,
 ) async {
-  //databaseFactory = databaseFactoryFfi;
-
   String dbPath = 'assets/db/meal.db';
 
   var databasesPath = await getDatabasesPath();

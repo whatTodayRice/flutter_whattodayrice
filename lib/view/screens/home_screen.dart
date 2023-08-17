@@ -1,27 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_whattodayrice/providers/dormitory_provider.dart';
+import 'package:flutter_whattodayrice/services/fetch_meals_from_db.dart';
 import 'package:flutter_whattodayrice/view/components/calender_row.dart';
 import 'package:flutter_whattodayrice/view/components/constants.dart';
 import 'package:flutter_whattodayrice/view/components/meal_time_row.dart';
 import 'package:flutter_whattodayrice/view/screens/settings_screen.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import '../../models/dormitory.dart';
 import '../../models/meal.dart';
 import '../components/meal_container.dart';
-import 'package:flutter_whattodayrice/services/fetch_meals_from_db.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'dart:developer';
 
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_whattodayrice/providers/dormitory_provider.dart';
-
-class HomeScreen extends ConsumerStatefulWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  ConsumerState<HomeScreen> createState() => _HomeScreenState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends ConsumerState<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen> {
   final PageController _pageController = PageController(initialPage: 0);
   List<MealData?> weeklyMeals = [];
   DormitoryType dormitoryType = DormitoryType.sejong;
@@ -34,6 +33,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       weeklyMeals = await fetchMealDataFromDB(now, DormitoryType.happiness);
     }
     setState(() {});
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    initializeDateFormatting();
+    fetchMealData();
   }
 
   DateTime monday = DateTime.now()
@@ -82,28 +88,48 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   @override
-  void initState() {
-    super.initState();
-    initializeDateFormatting();
-    fetchMealData();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
-    final selectedDormitory = ref.watch(selectedDormitoryProvider);
+    // var selectedDormitory = ref.watch(selectedDormitoryProvider);
+    //DormitoryType dormitoryType = DormitoryType.happiness;
+
 
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.orange,
-        title:
-            Text(selectedDormitory == DormitoryType.sejong ? "세종기숙사" : "행복기숙사"),
+        title: DropdownButton<String>(
+          value: dormitoryType == DormitoryType.sejong ? "세종기숙사" : "행복기숙사",
+          items: const [
+            DropdownMenuItem(
+              value: "세종기숙사",
+              child: Text("세종기숙사"),
+            ),
+            DropdownMenuItem(
+              value: "행복기숙사",
+              child: Text("행복기숙사"),
+            ),
+          ],
+          onChanged: (value) {
+            setState(() {
+              // 사용자가 기숙사 타입을 선택하면 해당 데이터를 다시 가져옵니다.
+              if (value == "세종기숙사") {
+                dormitoryType = DormitoryType.sejong;
+              } else {
+                dormitoryType = DormitoryType.happiness;
+              }
+              fetchMealData();
+            });
+          },
+        ),
+
+        // Text(selectedDormitory == DormitoryType.sejong ? "세종기숙사" : "행복기숙사"),
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.settings),
             onPressed: () {
               Navigator.pushNamed(context, SettingsScreen.routeName);
+              fetchMealData();
             },
           ),
         ],
@@ -220,6 +246,7 @@ Widget buildMealPage(
   VoidCallback onPressedForward,
   DormitoryType dormitoryType,
 ) {
+  DateTime currentDate = DateTime.now();
   DateTime date = DateTime.now().add(Duration(days: index));
   String formattedDate = DateFormat('yyyy-MM-dd').format(date);
 
@@ -241,7 +268,10 @@ Widget buildMealPage(
         Padding(
           padding: const EdgeInsets.only(left: 20.0),
           child: MealTimeTextRow(
-              mealTime: breakfastTime,
+              mealTime: getBreakfastTimeText(
+                dormitoryType,
+                currentDate,
+              ),
               mealType: breakfast,
               width: screenWidth,
               height: screenHeight),
@@ -263,7 +293,10 @@ Widget buildMealPage(
         Padding(
           padding: const EdgeInsets.only(left: 20.0),
           child: MealTimeTextRow(
-              mealTime: lunchTime,
+              mealTime: getLunchTimeText(
+                dormitoryType,
+                currentDate,
+              ),
               mealType: lunch,
               width: screenWidth,
               height: screenHeight),
@@ -285,7 +318,10 @@ Widget buildMealPage(
         Padding(
           padding: const EdgeInsets.only(left: 20.0),
           child: MealTimeTextRow(
-              mealTime: dinnerTime,
+              mealTime: getDinnerTimeText(
+                dormitoryType,
+                currentDate,
+              ),
               mealType: dinner,
               width: screenWidth,
               height: screenHeight),
@@ -314,4 +350,71 @@ Widget buildMealPage(
       ),
     );
   }
+}
+
+String getBreakfastTimeText(DormitoryType dormitoryType, DateTime currentDate) {
+  if (dormitoryType == DormitoryType.sejong) {
+    if (currentDate.isAfter(DateTime(2023, 6, 27)) &&
+        currentDate.isBefore(DateTime(2023, 8, 31))) {
+      log(sejongVacationBreakfastTime);
+      return sejongVacationBreakfastTime;
+    } else {
+      log(sejongBreakfastTime);
+      return sejongBreakfastTime;
+    }
+  } else {
+    if (isWeekday(currentDate)) {
+      log(happyBreakfastWeekTime);
+      return happyBreakfastWeekTime;
+    } else {
+      log(happyBreakfastTime);
+      return happyBreakfastTime;
+    }
+  }
+}
+
+String getLunchTimeText(DormitoryType dormitoryType, DateTime currentDate) {
+  if (dormitoryType == DormitoryType.sejong) {
+    if (currentDate.isAfter(DateTime(2023, 6, 27)) &&
+        currentDate.isBefore(DateTime(2023, 8, 31))) {
+      log(sejongVacationLunchTime);
+      return sejongVacationLunchTime;
+    } else {
+      log(sejongLunchTime);
+      return sejongLunchTime;
+    }
+  } else {
+    if (isWeekday(currentDate)) {
+      log(happyLunchWeekTime);
+      return happyLunchWeekTime;
+    } else {
+      log(happyLunchTime);
+      return happyLunchTime;
+    }
+  }
+}
+
+String getDinnerTimeText(DormitoryType dormitoryType, DateTime currentDate) {
+  if (dormitoryType == DormitoryType.sejong) {
+    if (currentDate.isAfter(DateTime(2023, 6, 27)) &&
+        currentDate.isBefore(DateTime(2023, 8, 31))) {
+      log(sejongVacaitonDinnerTime);
+      return sejongVacaitonDinnerTime;
+    } else {
+      log(sejongDinnerTime);
+      return sejongDinnerTime;
+    }
+  } else {
+    if (isWeekday(currentDate)) {
+      log(happyDinnerWeekTime);
+      return happyDinnerWeekTime;
+    } else {
+      log(happyDinnerTime);
+      return happyDinnerTime;
+    }
+  }
+}
+
+bool isWeekday(DateTime date) {
+  return date.weekday >= DateTime.monday && date.weekday <= DateTime.friday;
 }

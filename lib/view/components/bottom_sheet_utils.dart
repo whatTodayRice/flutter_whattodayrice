@@ -2,8 +2,8 @@ import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_whattodayrice/models/dormitory.dart';
-import 'package:flutter_whattodayrice/providers/dormitory_provider.dart';
 import 'package:flutter_whattodayrice/view/components/button_template.dart';
+import 'package:flutter_whattodayrice/providers/dormitory_provider.dart';
 
 // bottom sheet를 보여주는 함수
 void showBottomSheet(BuildContext context, Widget content) {

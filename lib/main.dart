@@ -6,9 +6,7 @@ import 'package:flutter_whattodayrice/view/screens/settings_screen.dart';
 
 void main() async {
   runApp(
-    const ProviderScope(
-      child: MyApp(),
-    ),
+    ProviderScope(child: MyApp())
   );
 }
 

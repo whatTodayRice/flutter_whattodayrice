@@ -7,10 +7,11 @@ final selectedDormitoryProvider =
 );
 
 class DormitoryNotifier extends StateNotifier<DormitoryType> {
-  DormitoryNotifier() : super(DormitoryType.sejong);
+  static DormitoryType? value;
+
+  DormitoryNotifier() : super(DormitoryType.happiness);
 
   void updateDormitory(DormitoryType dormitory) {
-    print('Updating dormitory: $dormitory');
     state = dormitory;
   }
 }
