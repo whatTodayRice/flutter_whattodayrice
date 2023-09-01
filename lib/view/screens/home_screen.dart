@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_whattodayrice/services/fetch_meals_from_db.dart';
 import 'package:flutter_whattodayrice/view/components/calender_row.dart';
 import 'package:flutter_whattodayrice/view/components/constants.dart';
 import 'package:flutter_whattodayrice/view/components/meal_time_row.dart';
 import 'package:flutter_whattodayrice/view/screens/settings_screen.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import '../../models/dormitory.dart';
 import '../../models/meal.dart';
 import '../components/meal_container.dart';
-import 'package:flutter_whattodayrice/services/fetch_meals_from_db.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_whattodayrice/providers/dormitory_provider.dart';
+import 'package:flutter_whattodayrice/providers/meal_data_provider.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -23,17 +23,28 @@ class HomeScreen extends ConsumerStatefulWidget {
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   final PageController _pageController = PageController(initialPage: 0);
-  List<MealData?> weeklyMeals = [];
-  DormitoryType dormitoryType = DormitoryType.sejong;
 
-  Future<void> fetchMealData() async {
-    DateTime now = DateTime.now();
-    if (dormitoryType == DormitoryType.sejong) {
-      weeklyMeals = await fetchMealDataFromDB(now, DormitoryType.sejong);
-    } else {
-      weeklyMeals = await fetchMealDataFromDB(now, DormitoryType.happiness);
-    }
-    setState(() {});
+  List<MealData?> weeklyMeals = [];
+  DormitoryType dormitoryType = DormitoryType.happiness;
+
+  void updateDormitory(DormitoryType dormitoryType) {
+    ref.read(selectedDormitoryProvider.notifier).updateDormitory(dormitoryType);
+
+    fetchMealDataFromDB(DateTime.now(), dormitoryType).then((newData) {
+      if (mounted) {
+        setState(() {
+          weeklyMeals = newData;
+        });
+      }
+    }).catchError((error) {
+      // 에러 처리
+      print('Error fetching meal data: $error');
+      if (mounted) {
+        setState(() {
+          weeklyMeals = [];
+        });
+      }
+    });
   }
 
   DateTime monday = DateTime.now()
@@ -85,7 +96,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   void initState() {
     super.initState();
     initializeDateFormatting();
-    fetchMealData();
+    final selectedDormitory = ref.read(selectedDormitoryProvider);
+    updateDormitory(selectedDormitory);
   }
 
   @override
@@ -93,6 +105,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
     final selectedDormitory = ref.watch(selectedDormitoryProvider);
+    final weeklyMealsAsynsValue = ref.watch(mealDataProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -107,40 +120,54 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             },
           ),
         ],
-      ), // 기숙사에 따라 Text 내용 수정하기
-      body: weeklyMeals.isNotEmpty
-          ? SizedBox(
-              height: 700,
-              child: PageView.builder(
-                controller: _pageController,
-                scrollDirection: Axis.horizontal,
-                itemCount: weeklyMeals.length,
-                itemBuilder: (context, index) {
-                  var meal = weeklyMeals[index];
-                  DateTime date = DateTime.now().add(
-                    Duration(
-                      days: index,
-                    ),
-                  );
-                  return buildMealPage(
-                    meal,
-                    index,
-                    screenWidth,
-                    screenHeight,
-                    moveToTodayMenu,
-                    onDaySelected,
-                    date,
-                    moveToTodayMenu,
-                    moveToPreviousPage,
-                    moveToNextPage,
-                    dormitoryType,
-                  );
-                },
-              ),
-            )
-          : const Center(
-              child: CircularProgressIndicator(), // 데이터를 가져오는 동안 로딩 표시
-            ),
+      ),
+      body: weeklyMealsAsynsValue.when(
+        data: (weeklyMeals) {
+          return weeklyMeals.isNotEmpty
+              ? SizedBox(
+                  height: 700,
+                  child: PageView.builder(
+                    controller: _pageController,
+                    scrollDirection: Axis.horizontal,
+                    itemCount: weeklyMeals.length,
+                    itemBuilder: (context, index) {
+                      var meal = weeklyMeals[index];
+                      DateTime date = DateTime.now().add(
+                        Duration(
+                          days: index,
+                        ),
+                      );
+                      return buildMealPage(
+                        meal,
+                        index,
+                        screenWidth,
+                        screenHeight,
+                        onDaySelected,
+                        date,
+                        moveToTodayMenu,
+                        moveToPreviousPage,
+                        moveToNextPage,
+                        selectedDormitory,
+                      );
+                    },
+                  ),
+                )
+              : const Center(
+                  child:
+                      CircularProgressIndicator(), // 데이터를 가져오는 동안 로딩 표시  //추후 삭제 할 것
+                );
+        },
+        loading: () => const Center(
+          child: CircularProgressIndicator(),
+        ),
+        error: (error, stackTrace) {
+          // 에러 처리
+          print('Error fetching meal data: $error');
+          return Center(
+            child: Text('Error: $error'),
+          );
+        },
+      ),
     );
   }
 
@@ -212,7 +239,6 @@ Widget buildMealPage(
   int index,
   double screenWidth,
   double screenHeight,
-  void Function() moveToTodayMenu,
   void Function(DateTime selectedDay) onDaySelected,
   DateTime date,
   VoidCallback onPressedToday,

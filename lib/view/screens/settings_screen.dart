@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_whattodayrice/models/dormitory.dart';
+import 'package:flutter_whattodayrice/services/fetch_meals_data.dart';
+import 'package:flutter_whattodayrice/services/fetch_meals_from_db.dart';
 import 'package:flutter_whattodayrice/view/components/button_template.dart';
 import 'package:flutter_whattodayrice/view/components/text_template.dart';
 import 'package:flutter_whattodayrice/view/components/bottom_sheet_utils.dart';
@@ -17,15 +19,12 @@ class SettingsScreen extends ConsumerStatefulWidget {
 }
 
 class _SettingsScreenState extends ConsumerState<SettingsScreen> {
-  //기본값은 세종으로
-  // 추후 기숙사 선택 화면에서 선택된 기숙사로 기본값 변경하기
-
-  bool isDarkMood = false; //초기는 라이트모드로 설정
+  bool isDarkMood = false;
   bool isSwitched = false;
   static const IconData arrowDropDown =
       IconData(0xe098, fontFamily: 'MaterialIcons');
 
-  Widget buildNotificationSwitch() {
+  Widget buildNotificationSwitch(BuildContext context) {
     return NotificationSwitch(
         isSwitched: isSwitched,
         onChanged: (value) {
@@ -74,7 +73,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               const SizedBox(
                 height: 20,
               ),
-              buildNotificationSwitch(),
+              buildNotificationSwitch(context),
               //구분선 삽입
               const SizedBox(
                 height: 20,

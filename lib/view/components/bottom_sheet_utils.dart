@@ -90,6 +90,7 @@ void buildDormitoryBottomSheet(
           ref
               .read(selectedDormitoryProvider.notifier)
               .updateDormitory(DormitoryType.sejong);
+
           Navigator.pop(context);
         },
       ),
