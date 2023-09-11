@@ -1,6 +1,9 @@
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_whattodayrice/models/dormitory.dart';
 import 'package:flutter_whattodayrice/view/components/button_template.dart';
+import 'package:flutter_whattodayrice/providers/dormitory_provider.dart';
 
 // bottom sheet를 보여주는 함수
 void showBottomSheet(BuildContext context, Widget content) {
@@ -64,14 +67,32 @@ void buildThemeBottomSheet(
 }
 
 //dormitory에 대한 bottom sheet 내용 구성
-void buildDormitoryBottomSheet(BuildContext context) {
+void buildDormitoryBottomSheet(
+  BuildContext context,
+  WidgetRef ref,
+) {
   final content = Column(
     children: [
-      SelectButton(buttonText: '행복기숙사', onPressed: () {}),
+      SelectButton(
+        buttonText: '행복기숙사',
+        onPressed: () {
+          ref
+              .read(selectedDormitoryProvider.notifier)
+              .updateDormitory(DormitoryType.happiness);
+
+          Navigator.pop(context);
+        },
+      ),
       const SizedBox(height: 10),
       SelectButton(
         buttonText: '세종기숙사',
-        onPressed: () {},
+        onPressed: () {
+          ref
+              .read(selectedDormitoryProvider.notifier)
+              .updateDormitory(DormitoryType.sejong);
+
+          Navigator.pop(context);
+        },
       ),
     ],
   );

@@ -1,26 +1,19 @@
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_whattodayrice/view/screens/home_screen.dart';
 import 'package:flutter_whattodayrice/view/screens/settings_screen.dart';
 
 void main() async {
-  runApp(const MyApp());
-}
-
-ThemeMode convertToThemeMode(AdaptiveThemeMode adaptiveThemeMode) {
-  switch (adaptiveThemeMode) {
-    case AdaptiveThemeMode.light:
-      return ThemeMode.light;
-    case AdaptiveThemeMode.dark:
-      return ThemeMode.dark;
-    case AdaptiveThemeMode.system:
-    default:
-      return ThemeMode.system;
-  }
+  WidgetsFlutterBinding.ensureInitialized();
+  //databaseFactory = databaseFactoryFfi;
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

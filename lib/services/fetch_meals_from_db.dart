@@ -1,12 +1,13 @@
 import 'dart:io';
 import 'package:intl/intl.dart';
 import 'package:path/path.dart';
-import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:sqflite/sqflite.dart';
 import '../models/dormitory.dart';
 import '../models/meal.dart';
-
 import 'package:flutter/services.dart' show rootBundle;
 import 'dart:typed_data';
+import 'package:path/path.dart' as p;
 
 Future<List<MealData?>> fetchMealDataFromDB(
   DateTime now,
@@ -14,30 +15,26 @@ Future<List<MealData?>> fetchMealDataFromDB(
 ) async {
   //databaseFactory = databaseFactoryFfi;
 
-  String dbPath = 'assets/db/meal.db';
-
-  var databasesPath = await getDatabasesPath();
-  var path = join(databasesPath, dbPath);
+  final dir = await getApplicationDocumentsDirectory();
+  if (!await dir.exists()) {
+    await dir.create(recursive: true);
+  }
+  final path = (p.join(dir.path, 'meal.db'));
 
   var exists = await databaseExists(path);
 
   if (!exists) {
-    print("creating new copy from the asset");
+    print("creating new copy from the asset : path name is -> $path");
+    ByteData data = await rootBundle.load("assets/db/meal.db");
+    List<int> bytes = data.buffer.asUint8List();
 
-    try {
-      await Directory(dirname(path)).create(recursive: true);
-    } catch (_) {}
+    await File(path).writeAsBytes(bytes);
 
-    ByteData data = await rootBundle.load('assets/db/meal.db');
-    List<int> bytes =
-        data.buffer.asInt8List(data.offsetInBytes, data.lengthInBytes);
-
-    await File(path).writeAsBytes(bytes, flush: true);
+    print("Copying database from asset : $path");
   } else {
-    print("opening existing database");
+    print("opening exising database");
   }
-
-  var database = await openDatabase(path, readOnly: true);
+  var database = await openDatabase(path);
 
   List<MealData?> weeklyMeals = [];
 
