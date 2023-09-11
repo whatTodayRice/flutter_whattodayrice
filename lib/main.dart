@@ -6,12 +6,8 @@ import 'package:flutter_whattodayrice/view/screens/settings_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // databaseFactory = databaseFactoryFfi;
-  runApp(
-    const ProviderScope(
-      child: MyApp(),
-    ),
-  );
+  //databaseFactory = databaseFactoryFfi;
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {

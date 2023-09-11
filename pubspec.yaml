@@ -41,7 +41,7 @@ dependencies:
   html: ^0.15.3
   xml: ^6.3.0
   sqflite: ^2.3.0
-  path_provider: ^2.1.1
+  path_provider: ^2.0.15
   sqflite_common_ffi: ^2.3.0  
   intl: ^0.18.1
   flutter_advanced_calendar: ^1.4.1
@@ -51,7 +51,6 @@ dependencies:
   riverpod: ^2.3.6
   flutter_riverpod: ^2.3.6
   flutter_hooks: ^0.20.1
-  sqlite3: ^2.1.0
 
 
 dev_dependencies:

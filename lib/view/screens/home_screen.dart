@@ -246,6 +246,7 @@ Widget buildMealPage(
   VoidCallback onPressedForward,
   DormitoryType dormitoryType,
 ) {
+  DateTime currentDate = DateTime.now();
   DateTime date = DateTime.now().add(Duration(days: index));
   String formattedDate = DateFormat('yyyy-MM-dd').format(date);
 
@@ -267,7 +268,10 @@ Widget buildMealPage(
         Padding(
           padding: const EdgeInsets.only(left: 20.0),
           child: MealTimeTextRow(
-              mealTime: breakfastTime,
+              mealTime: getBreakfastTimeText(
+                dormitoryType,
+                currentDate,
+              ),
               mealType: breakfast,
               width: screenWidth,
               height: screenHeight),
@@ -289,7 +293,7 @@ Widget buildMealPage(
         Padding(
           padding: const EdgeInsets.only(left: 20.0),
           child: MealTimeTextRow(
-              mealTime: lunchTime,
+              mealTime: getLunchTimeText(dormitoryType, currentDate),
               mealType: lunch,
               width: screenWidth,
               height: screenHeight),
@@ -311,7 +315,7 @@ Widget buildMealPage(
         Padding(
           padding: const EdgeInsets.only(left: 20.0),
           child: MealTimeTextRow(
-              mealTime: dinnerTime,
+              mealTime: getDinnerTimeText(dormitoryType, currentDate),
               mealType: dinner,
               width: screenWidth,
               height: screenHeight),
@@ -340,4 +344,59 @@ Widget buildMealPage(
       ),
     );
   }
+}
+
+String getBreakfastTimeText(DormitoryType dormitoryType, DateTime currentDate) {
+  if (dormitoryType == DormitoryType.sejong) {
+    if (currentDate.isAfter(DateTime(2023, 6, 27)) &&
+        currentDate.isBefore(DateTime(2023, 8, 31))) {
+      return sejongVacationBreakfastTime;
+    } else {
+      return sejongBreakfastTime;
+    }
+  } else {
+    if (isWeekday(currentDate)) {
+      return happyBreakfastWeekTime;
+    } else {
+      return happyBreakfastTime;
+    }
+  }
+}
+
+String getLunchTimeText(DormitoryType dormitoryType, DateTime currentDate) {
+  if (dormitoryType == DormitoryType.sejong) {
+    if (currentDate.isAfter(DateTime(2023, 6, 27)) &&
+        currentDate.isBefore(DateTime(2023, 8, 31))) {
+      return sejongVacationLunchTime;
+    } else {
+      return sejongLunchTime;
+    }
+  } else {
+    if (isWeekday(currentDate)) {
+      return happyLunchWeekTime;
+    } else {
+      return happyLunchTime;
+    }
+  }
+}
+
+String getDinnerTimeText(DormitoryType dormitoryType, DateTime currentDate) {
+  if (dormitoryType == DormitoryType.sejong) {
+    if (currentDate.isAfter(DateTime(2023, 6, 27)) &&
+        currentDate.isBefore(DateTime(2023, 8, 31))) {
+      return sejongVacaitonDinnerTime;
+    } else {
+      return sejongDinnerTime;
+    }
+  } else {
+    if (isWeekday(currentDate)) {
+      return happyDinnerWeekTime;
+    } else {
+      return happyDinnerTime;
+    }
+  }
+}
+
+bool isWeekday(DateTime date) {
+  return date.weekday >= DateTime.monday && date.weekday <= DateTime.friday;
 }
