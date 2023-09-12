@@ -38,21 +38,9 @@ class kMealAvailableTimeText extends StatelessWidget {
   }
 }
 
-String sejongBreakfastTime = '7:30 ~ 9:00';
-String sejongLunchTime = '11:30 ~ 13:30';
-String sejongDinnerTime = '17:00 ~ 18:30';
-
-String sejongVacationBreakfastTime = '7:30 ~ 9:00';
-String sejongVacationLunchTime = '12:00 ~ 13:30';
-String sejongVacaitonDinnerTime = '17:00 ~ 18:30';
-
-String happyBreakfastWeekTime = '7:30 ~ 9 30';
-String happyLunchWeekTime = '11:30 ~ 14:00';
-String happyDinnerWeekTime = '16:50 ~ 19:00';
-
-String happyBreakfastTime = '08:00 ~ 09:30';
-String happyLunchTime = '11:30 ~ 13:30';
-String happyDinnerTime = '17:30 ~ 18:45';
+const String breakfastTime = '7:30 ~ 9:30';
+const String lunchTime = '11:30 ~ 14:00';
+const String dinnerTime = '16:50 ~ 19:00';
 
 class kMealCategoryIcon extends StatelessWidget {
   const kMealCategoryIcon({
@@ -70,7 +58,7 @@ class kMealCategoryIcon extends StatelessWidget {
       width: width * 0.04615,
       height: height * 0.02132,
       child: const Icon(
-        Icons.sunny, //시간에 따라 아이콘 변경하기
+        Icons.sunny,
         size: 18,
       ),
     );
@@ -97,18 +85,18 @@ class kMealCategoryText extends StatelessWidget {
 }
 
 var kTextStyleGuide = ThemeData(
-  textTheme: const TextTheme(
-    bodySmall: TextStyle(
+  textTheme: TextTheme(
+    bodySmall: const TextStyle(
       fontSize: 12.0,
       fontWeight: FontWeight.w500,
       height: 18 / 12,
     ),
-    displayMedium: TextStyle(
+    displayMedium: const TextStyle(
       fontSize: 18.0,
       fontWeight: FontWeight.bold,
     ),
-    titleSmall: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w600),
-    titleMedium: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w600),
+    titleSmall: const TextStyle(fontSize: 16.0, fontWeight: FontWeight.w600),
+    titleMedium: const TextStyle(fontSize: 20.0, fontWeight: FontWeight.w600),
   ),
 );
 
