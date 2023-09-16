@@ -1,4 +1,6 @@
 import 'package:adaptive_theme/adaptive_theme.dart';
+import 'package:google_fonts/google_fonts.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_whattodayrice/view/screens/home_screen.dart';
@@ -18,8 +20,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AdaptiveTheme(
-      light: ThemeData.light(),
-      dark: ThemeData.dark(),
+      light: ThemeData(textTheme: GoogleFonts.notoSansKrTextTheme()),
+      dark: ThemeData(
+          brightness: Brightness.dark,
+          textTheme:
+              GoogleFonts.notoSansKrTextTheme().apply(bodyColor: Colors.white)),
       initial: AdaptiveThemeMode.light,
       builder: (theme, darkTheme) => MaterialApp(
         theme: theme,

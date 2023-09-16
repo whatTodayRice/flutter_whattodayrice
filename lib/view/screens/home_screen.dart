@@ -114,6 +114,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         backgroundColor: Colors.orange,
         title:
             Text(selectedDormitory == DormitoryType.sejong ? "세종기숙사" : "행복기숙사"),
+        centerTitle: true,
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.settings),
