@@ -58,68 +58,77 @@ class _CalenderRowState extends State<CalenderRow> {
           ),
         ],
       ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          const Spacer(),
-          MainScreenBackIconButton(
-            iconShape: Icons.arrow_back_ios,
-            onPressed: widget.onPressedBack,
-          ),
-          GestureDetector(
-            onTap: () => (BuildContext context) {
-              showDialog(
-                context: context,
-                builder: (context) => AlertDialog(
-                  content: SizedBox(
-                    height: 70,
-                    width: MediaQuery.of(context).size.width,
-                    child: TableCalendar(
-                      daysOfWeekStyle: const DaysOfWeekStyle(
-                        weekdayStyle: TextStyle(fontSize: 10.0),
-                        weekendStyle: TextStyle(fontSize: 10.0),
-                      ),
-                      calendarStyle: const CalendarStyle(
-                        outsideDaysVisible: true,
-                        weekendTextStyle: TextStyle(fontSize: 10.0),
-                        defaultTextStyle: TextStyle(
-                          fontSize: 10.0,
-                        ),
-                        todayTextStyle: TextStyle(
-                          fontSize: 10.0,
-                        ),
-                        selectedTextStyle: TextStyle(
-                          fontSize: 10.0,
-                        ), // Adjust the font size for the selected date
-                      ),
-                      focusedDay: currentDate,
-                      firstDay: monday,
-                      lastDay: sunday,
-                      headerVisible: false,
-                      calendarFormat: CalendarFormat.week,
-                      locale: 'ko_KR',
-                      onDaySelected: (selectedDate, focusDay) {
-                        Navigator.pop(context);
-                        widget.onDateSelected(selectedDate);
-                      },
-                    ),
-                  ),
-                ),
-              );
-            }(context),
-            child: Text(
-              getCurrentDate(),
-              style:
-                  const TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
-              textAlign: TextAlign.center,
+      child: Stack(
+        children: [
+          Align(
+            alignment: Alignment.centerRight,
+            child: TextButton(
+              onPressed: widget.onPressedToday,
+              child: const Text('오늘'),
             ),
           ),
-          MainScreenForwardIconButton(
-            iconShape: Icons.arrow_forward_ios,
-            onPressed: widget.onPressedForward,
+          Row(
+            children: <Widget>[
+              const Spacer(),
+              MainScreenBackIconButton(
+                iconShape: Icons.arrow_back_ios,
+                onPressed: widget.onPressedBack,
+              ),
+              GestureDetector(
+                onTap: () => (BuildContext context) {
+                  showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      content: SizedBox(
+                        height: 70,
+                        width: MediaQuery.of(context).size.width,
+                        child: TableCalendar(
+                          daysOfWeekStyle: const DaysOfWeekStyle(
+                            weekdayStyle: TextStyle(fontSize: 10.0),
+                            weekendStyle: TextStyle(fontSize: 10.0),
+                          ),
+                          calendarStyle: const CalendarStyle(
+                            outsideDaysVisible: true,
+                            weekendTextStyle: TextStyle(fontSize: 10.0),
+                            defaultTextStyle: TextStyle(
+                              fontSize: 10.0,
+                            ),
+                            todayTextStyle: TextStyle(
+                              fontSize: 10.0,
+                            ),
+                            selectedTextStyle: TextStyle(
+                              fontSize: 10.0,
+                            ), // Adjust the font size for the selected date
+                          ),
+                          focusedDay: currentDate,
+                          firstDay: monday,
+                          lastDay: sunday,
+                          headerVisible: false,
+                          calendarFormat: CalendarFormat.week,
+                          locale: 'ko_KR',
+                          onDaySelected: (selectedDate, focusDay) {
+                            Navigator.pop(context);
+                            widget.onDateSelected(selectedDate);
+                          },
+                        ),
+                      ),
+                    ),
+                  );
+                }(context),
+                child: Text(
+                  getCurrentDate(),
+                  style: const TextStyle(
+                      fontSize: 16.0, fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              MainScreenForwardIconButton(
+                iconShape: Icons.arrow_forward_ios,
+                onPressed: widget.onPressedForward,
+              ),
+              const Spacer(),
+            ],
           ),
-          const Spacer(),
-          TextButton(onPressed: widget.onPressedToday, child: const Text('오늘')),
         ],
       ),
     );
