@@ -9,6 +9,7 @@ import '../../models/dormitory.dart';
 import '../../models/meal.dart';
 import '../components/meal_container.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_whattodayrice/providers/dormitory_provider.dart';
@@ -111,13 +112,20 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.orange,
-        title:
-            Text(selectedDormitory == DormitoryType.sejong ? "세종기숙사" : "행복기숙사"),
+        backgroundColor: const Color(0xFFFF833D),
+        title: Text(
+            selectedDormitory == DormitoryType.sejong ? "세종기숙사" : "행복기숙사",
+            style: Theme.of(context)
+                .textTheme
+                .headlineMedium!
+                .copyWith(color: Colors.white)),
         centerTitle: true,
         actions: <Widget>[
           IconButton(
-            icon: const Icon(Icons.settings),
+            icon: const Icon(
+              Icons.settings,
+              color: Colors.white,
+            ),
             onPressed: () {
               Navigator.pushNamed(context, SettingsScreen.routeName);
             },
@@ -285,7 +293,7 @@ Widget buildMealPage(
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: BuildContainer(
-            content: '아침: ${meal.breakfast}',
+            content: '${meal.breakfast}',
             height: screenHeight,
             width: screenWidth,
           ),
@@ -307,7 +315,7 @@ Widget buildMealPage(
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: BuildContainer(
-            content: '점심: ${meal.lunch}',
+            content: '${meal.lunch}',
             height: screenHeight,
             width: screenWidth,
           ),
@@ -329,7 +337,7 @@ Widget buildMealPage(
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: BuildContainer(
-            content: '저녁: ${meal.dinner}',
+            content: '${meal.dinner}',
             height: screenHeight,
             width: screenWidth,
           ),
@@ -342,7 +350,10 @@ Widget buildMealPage(
         padding: const EdgeInsets.all(8.0),
         child: Text(
           'Date: $formattedDate\nNo meal data available.',
-          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          style: GoogleFonts.notoSans(
+            fontSize: 12,
+            fontWeight: FontWeight.w600,
+          ),
         ),
       ),
     );

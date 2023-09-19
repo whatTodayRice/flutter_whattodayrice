@@ -36,7 +36,8 @@ class _CalenderRowState extends State<CalenderRow> {
       .add(Duration(days: DateTime.daysPerWeek - DateTime.now().weekday + 6));
 
   String getCurrentDate() {
-    String formattedDate = "${widget.date.month}월 ${widget.date.day}일";
+    String formattedDate =
+        "${widget.date.month}월 ${widget.date.day}일 (${widget.date.weekday})";
     return formattedDate;
   }
 
@@ -64,7 +65,12 @@ class _CalenderRowState extends State<CalenderRow> {
             alignment: Alignment.centerRight,
             child: TextButton(
               onPressed: widget.onPressedToday,
-              child: const Text('오늘'),
+              child: Text(
+                '오늘',
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: const Color(0xFFFF833D)),
+              ),
             ),
           ),
           Row(
@@ -117,8 +123,7 @@ class _CalenderRowState extends State<CalenderRow> {
                 }(context),
                 child: Text(
                   getCurrentDate(),
-                  style: const TextStyle(
-                      fontSize: 16.0, fontWeight: FontWeight.bold),
+                  style: Theme.of(context).textTheme.titleSmall!,
                   textAlign: TextAlign.center,
                 ),
               ),

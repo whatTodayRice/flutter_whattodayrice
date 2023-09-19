@@ -20,11 +20,32 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AdaptiveTheme(
-      light: ThemeData(textTheme: GoogleFonts.notoSansKrTextTheme()),
+      light: ThemeData(
+        brightness: Brightness.light,
+        textTheme: TextTheme(
+          headlineMedium:
+              GoogleFonts.notoSans(fontSize: 18, fontWeight: FontWeight.bold),
+          titleMedium:
+              GoogleFonts.notoSans(fontSize: 20, fontWeight: FontWeight.w700),
+          titleSmall:
+              GoogleFonts.notoSans(fontSize: 16, fontWeight: FontWeight.w700),
+          bodyMedium: GoogleFonts.notoSans(
+              fontSize: 14, color: Colors.black, fontWeight: FontWeight.w500),
+        ),
+      ),
       dark: ThemeData(
-          brightness: Brightness.dark,
-          textTheme:
-              GoogleFonts.notoSansKrTextTheme().apply(bodyColor: Colors.white)),
+        brightness: Brightness.light,
+        textTheme: TextTheme(
+          headlineMedium:
+              GoogleFonts.notoSans(fontSize: 18, fontWeight: FontWeight.bold),
+          titleMedium:
+              GoogleFonts.notoSans(fontSize: 20, fontWeight: FontWeight.w700),
+          titleSmall:
+              GoogleFonts.notoSans(fontSize: 16, fontWeight: FontWeight.w700),
+          bodyMedium: GoogleFonts.notoSans(
+              fontSize: 14, color: Colors.black, fontWeight: FontWeight.w500),
+        ),
+      ),
       initial: AdaptiveThemeMode.light,
       builder: (theme, darkTheme) => MaterialApp(
         theme: theme,

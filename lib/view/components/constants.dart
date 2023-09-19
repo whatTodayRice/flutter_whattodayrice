@@ -33,7 +33,10 @@ class kMealAvailableTimeText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       mealTime,
-      style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
+      style: Theme.of(context)
+          .textTheme
+          .bodyMedium!
+          .copyWith(color: const Color(0xFF5C5C5C)),
     );
   }
 }
