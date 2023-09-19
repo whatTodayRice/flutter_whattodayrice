@@ -20,13 +20,13 @@ Future<List<MealData?>> fetchMealDataFromDB(
   if (!await dir.exists()) {
     await dir.create(recursive: true);
   }
-  final path = (p.join(dir.path, 'meal.db'));
+  final path = (p.join(dir.path, 'meal_2023_09_19.db'));
 
   var exists = await databaseExists(path);
 
   if (!exists) {
     print("creating new copy from the asset : path name is -> $path");
-    ByteData data = await rootBundle.load("assets/db/meal.db");
+    ByteData data = await rootBundle.load("assets/db/meal_2023_09_19.db");
     List<int> bytes = data.buffer.asUint8List();
 
     await File(path).writeAsBytes(bytes);

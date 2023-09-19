@@ -21,7 +21,10 @@ class BuildContainer extends StatelessWidget {
         borderRadius: BorderRadius.circular(10.0),
         border: Border.all(width: 1.0, color: Colors.grey),
       ),
-      child: Text(content),
+      child: Text(
+        content,
+        style: Theme.of(context).textTheme.bodyMedium!,
+      ),
     );
   }
 }
