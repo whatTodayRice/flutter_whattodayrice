@@ -14,6 +14,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_whattodayrice/providers/dormitory_provider.dart';
 import 'package:flutter_whattodayrice/providers/meal_data_provider.dart';
+import 'package:flutter_whattodayrice/services/fetch_happy_meals.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
