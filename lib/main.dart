@@ -10,10 +10,6 @@ import 'dart:io';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // databaseFactory = databaseFactoryFfi;
-
-  var testVariable = await fetchSejongMeal(9);
-  print(testVariable);
-
   runApp(const ProviderScope(child: MyApp()));
 }
 

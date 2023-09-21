@@ -20,7 +20,6 @@ Future<List<String>> fetchSejongMeal(int menuIndex) async {
     String data = targetElement.text.replaceAll('\t', '');
 
     String data2 = data.replaceAll('\n', ',');
-    print(data2);
 
     List<String> mealTime = data2.split(',,').sublist(menuIndex, menuIndex + 8);
 

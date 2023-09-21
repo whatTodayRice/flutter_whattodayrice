@@ -186,12 +186,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   void moveToTodayMenu() {
     DateTime userAccessDate = DateTime.now();
     String formattedDate = DateFormat('yyyy-MM-dd').format(userAccessDate);
+    print(formattedDate);
 
     // weeklyMeals 리스트를 순회하며 userAccessDate와 일치하는 식단을 찾습니다.
     int todayMenuIndex = -1;
     for (int i = 0; i < weeklyMeals.length; i++) {
       MealData? meal = weeklyMeals[i];
-      if (meal?.date == formattedDate) {
+      if (meal!.date == formattedDate) {
         todayMenuIndex = i;
         break;
       }
