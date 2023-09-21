@@ -1,13 +1,23 @@
+import 'dart:io';
+
 import 'package:adaptive_theme/adaptive_theme.dart';
+import 'package:flutter_whattodayrice/view/screens/home_screen.dart';
+import 'package:flutter_whattodayrice/view/screens/settings_screen.dart';
+import 'package:flutter_whattodayrice/view/screens/test.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_whattodayrice/view/screens/home_screen.dart';
-import 'package:flutter_whattodayrice/view/screens/settings_screen.dart';
+// import 'package:flutter_whattodayrice/view/screens/home_screen.dart';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+void main() {
+
+  print(fetchMeal(9));
+  HttpClient httpClinet = HttpClient();
+  httpClinet.badCertificateCallback =
+      (X509Certificate cert, String host, int port) => true;
+
+  print(fetchMeal(9));
   //databaseFactory = databaseFactoryFfi;
   runApp(const ProviderScope(child: MyApp()));
 }
