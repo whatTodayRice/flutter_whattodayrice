@@ -24,16 +24,37 @@ Future<List<MealData>> fetchHappyMeals() async {
       String rawDateString = weeklyDate[dateIndex].text;
       String formattedDate = rawDateString.replaceAll(RegExp(r'[()]'), '');
       formattedDate = formattedDate.split(' ').last; // 날짜 부분 추출
-      print(formattedDate);
+
+      // 각 식단 항목을 쉼표와 공백으로 구분하여 저장
+      String breakfast = menuElements[startIndex].text.splitMapJoin(
+          RegExp(r'\s+'),
+          onMatch: (match) => ' ',
+          onNonMatch: (nonMatch) => nonMatch);
+      String takeout = menuElements[startIndex + 2].text.splitMapJoin(
+          RegExp(r'\s+'),
+          onMatch: (match) => ' ',
+          onNonMatch: (nonMatch) => nonMatch);
+
+      // lunch와 dinner 변수에 들어가는 데이터에서 "일품" 앞에 들여쓰기 추가
+      String lunch = menuElements[startIndex + 5]
+          .text
+          .replaceAllMapped(RegExp(r'(일품 : .+)'), (match) => '\n\n${match[1]}')
+          .trim();
+      String dinner = menuElements[endIndex]
+          .text
+          .replaceAllMapped(RegExp(r'(일품 : .+)'), (match) => '\n\n${match[1]}')
+          .trim();
+
+      print(lunch);
 
       MealData menu = MealData(
         date: formattedDate,
-        breakfast: menuElements[startIndex].text,
-        takeout: menuElements[startIndex + 2].text,
-        lunch: menuElements[startIndex + 5].text,
-        dinner: menuElements[endIndex].text,
+        breakfast: breakfast,
+        takeout: takeout,
+        lunch: lunch,
+        dinner: dinner,
       );
-      print(menu);
+
       menus.add(menu);
     }
 
