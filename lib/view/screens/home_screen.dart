@@ -191,7 +191,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     int todayMenuIndex = -1;
     for (int i = 0; i < weeklyMeals.length; i++) {
       MealData? meal = weeklyMeals[i];
-      if (meal?.date == formattedDate) {
+      if (meal!.date == formattedDate) {
         todayMenuIndex = i;
         break;
       }
