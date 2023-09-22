@@ -7,7 +7,7 @@ final mealDataProvider = FutureProvider<List<MealData?>>(
   (ref) async {
     final now = DateTime.now();
 
-    final dormitoryType = ref.watch(selectedDormitoryProvider);
+    final dormitoryType = ref.watch(dormitoryProvider);
 
     try {
       final weeklyMeals = await fetchMealDataFromDB(now, dormitoryType);

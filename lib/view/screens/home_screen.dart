@@ -29,9 +29,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   List<MealData?> weeklyMeals = [];
   DormitoryType dormitoryType = DormitoryType.happiness;
 
-  void updateDormitory(DormitoryType dormitoryType) {
-    ref.read(selectedDormitoryProvider.notifier).updateDormitory(dormitoryType);
-
+  void updateDormitoryMeal(DormitoryType dormitoryType) {
     fetchMealDataFromDB(DateTime.now(), dormitoryType).then((newData) {
       if (mounted) {
         setState(() {
@@ -98,15 +96,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   void initState() {
     super.initState();
     initializeDateFormatting();
-    final selectedDormitory = ref.read(selectedDormitoryProvider);
-    updateDormitory(selectedDormitory);
+    updateDormitoryMeal(dormitoryType);
   }
 
   @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
-    final selectedDormitory = ref.watch(selectedDormitoryProvider);
+    final selectedDormitory = ref.watch(dormitoryProvider);
     final weeklyMealsAsynsValue = ref.watch(mealDataProvider);
     // var selectedDormitory = ref.watch(selectedDormitoryProvider);
     //DormitoryType dormitoryType = DormitoryType.happiness;
@@ -291,13 +288,12 @@ Widget buildMealPage(
         SizedBox(
           height: screenHeight * 0.01,
         ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: BuildContainer(
-            content: '${meal.breakfast}',
-            height: screenHeight,
-            width: screenWidth,
-          ),
+        BuildContainer(
+          content: (dormitoryType == DormitoryType.happiness)
+              ? '일반 : ${meal.breakfast}\n\nTAKE - OUT : ${meal.takeout}'
+              : '${meal.breakfast}',
+          height: screenHeight,
+          width: screenWidth,
         ),
         SizedBox(
           height: screenHeight * 0.03,
