@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_whattodayrice/models/dormitory.dart';
-import 'package:flutter_whattodayrice/services/fetch_meals_data.dart';
-import 'package:flutter_whattodayrice/services/fetch_meals_from_db.dart';
 import 'package:flutter_whattodayrice/view/components/button_template.dart';
 import 'package:flutter_whattodayrice/view/components/text_template.dart';
 import 'package:flutter_whattodayrice/view/components/bottom_sheet_utils.dart';

@@ -14,6 +14,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_whattodayrice/providers/dormitory_provider.dart';
 import 'package:flutter_whattodayrice/providers/meal_data_provider.dart';
+import 'package:flutter_whattodayrice/services/fetch_happy_meals.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -190,7 +191,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     int todayMenuIndex = -1;
     for (int i = 0; i < weeklyMeals.length; i++) {
       MealData? meal = weeklyMeals[i];
-      if (meal?.date == formattedDate) {
+      if (meal!.date == formattedDate) {
         todayMenuIndex = i;
         break;
       }
