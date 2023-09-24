@@ -45,8 +45,6 @@ Future<List<MealData>> fetchHappyMeals() async {
           .replaceAllMapped(RegExp(r'(일품 : .+)'), (match) => '\n\n${match[1]}')
           .trim();
 
-      print(lunch);
-
       MealData menu = MealData(
         date: formattedDate,
         breakfast: breakfast,
@@ -59,7 +57,11 @@ Future<List<MealData>> fetchHappyMeals() async {
     }
 
     return menus;
+  } else if (response.statusCode == 404) {
+    throw Exception('페이지를 찾을 수 없습니다.');
+  } else if (response.statusCode == 500) {
+    throw Exception('서버 오류가 발생했습니다.');
   } else {
-    throw Exception('식단을 받아오지 못했어요ㅠ_ㅠ');
+    throw Exception('알 수 없는 오류가 발생했습니다.');
   }
 }

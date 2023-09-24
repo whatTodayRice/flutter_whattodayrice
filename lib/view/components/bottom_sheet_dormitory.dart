@@ -31,9 +31,8 @@ class _DormitoryBottomSheetContent extends StatelessWidget {
         SelectButton(
           buttonText: '행복기숙사',
           onPressed: () {
-            ref
-                .read(selectedDormitoryProvider.notifier)
-                .updateDormitory(DormitoryType.happiness);
+            ref.read(dormitoryProvider.notifier).state =
+                DormitoryType.happiness;
 
             Navigator.pop(context);
           },
@@ -42,9 +41,7 @@ class _DormitoryBottomSheetContent extends StatelessWidget {
         SelectButton(
           buttonText: '세종기숙사',
           onPressed: () {
-            ref
-                .read(selectedDormitoryProvider.notifier)
-                .updateDormitory(DormitoryType.sejong);
+            ref.read(dormitoryProvider.notifier).state = DormitoryType.sejong;
             Navigator.pop(context);
           },
         ),
