@@ -1,5 +1,5 @@
 import 'package:flutter_whattodayrice/services/fetch_happy_meals.dart';
-import 'package:flutter_whattodayrice/services/fetch_sejong_meal.dart';
+import 'package:flutter_whattodayrice/services/fetch_sejong_meals.dart';
 import '../models/dormitory.dart';
 import '../models/meal.dart';
 
