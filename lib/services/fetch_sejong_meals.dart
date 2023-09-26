@@ -28,15 +28,24 @@ Future<List<MealData?>> fetchSejongMeals() async {
   List<MealData> menus = [];
   DateTime currentDate = DateTime.now();
   currentDate = currentDate.subtract(Duration(days: currentDate.weekday));
+  print('currentDate : $currentDate');
+  
+  //각 식단별 인덱스 값
   int breakfastIndex = 9;
   int lunchIndex = 19;
   int dinnerIndex = 27;
+  
+  //데이터 패치 & 가공
   List<String> breakfastData = await fetchMeal(breakfastIndex);
   breakfastData.removeAt(0);
+  
   List<String> lunchData = await fetchMeal(lunchIndex);
   lunchData.removeLast();
+  
   List<String> dinnerData = await fetchMeal(dinnerIndex);
   dinnerData.removeLast();
+  
+  //mealData에 넣어주기
   for (int dayIndex = 0; dayIndex < 7; dayIndex++) {
     String formattedDate = currentDate.add(Duration(days: dayIndex)).toString();
     MealData menu = MealData(

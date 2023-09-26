@@ -26,6 +26,7 @@ class HomeScreen extends ConsumerStatefulWidget {
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   final PageController _pageController = PageController(initialPage: 0);
 
+
   List<MealData?> weeklyMeals = [];
   DormitoryType dormitoryType = DormitoryType.happiness;
 
@@ -47,11 +48,17 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     });
   }
 
-  DateTime monday = DateTime.now()
-      .subtract(Duration(days: DateTime.now().weekday - 1)); // 월요일부터로 조정
+
 
   DateTime sunday = DateTime.now()
       .add(Duration(days: DateTime.daysPerWeek - DateTime.now().weekday));
+
+
+
+
+  DateTime monday = DateTime.now()
+      .add(Duration(days: DateTime.daysPerWeek - DateTime.now().weekday)).subtract(Duration(days: DateTime.daysPerWeek - 1));
+
 
   DateTime selectedDate = DateTime.now();
 
@@ -59,6 +66,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     int selectedDayWeekday = selectedDay.weekday;
     DateTime monday =
         selectedDay.subtract(Duration(days: selectedDayWeekday - 1));
+
 
     setState(() {
       selectedDate = selectedDay;
@@ -105,8 +113,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     final double screenHeight = MediaQuery.of(context).size.height;
     final selectedDormitory = ref.watch(dormitoryProvider);
     final weeklyMealsAsynsValue = ref.watch(mealDataProvider);
-    // var selectedDormitory = ref.watch(selectedDormitoryProvider);
-    //DormitoryType dormitoryType = DormitoryType.happiness;
+
 
     return Scaffold(
       appBar: AppBar(
@@ -141,11 +148,16 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     itemCount: weeklyMeals.length,
                     itemBuilder: (context, index) {
                       var meal = weeklyMeals[index];
-                      DateTime date = DateTime.now().add(
-                        Duration(
-                          days: index,
-                        ),
+                      print('weeklyMeals[0]?.date : ${weeklyMeals[0]?.date}');
+                      print('인덱스:$index');
+                      print('현재 페이지 index : $index');
+                      DateTime date = DateTime.now().subtract(Duration(days: DateTime.now().weekday)
+
+
+
                       );
+                      print('home_screen date  : $date');
+
                       return buildMealPage(
                         meal,
                         index,
@@ -183,16 +195,26 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   void moveToTodayMenu() {
     DateTime userAccessDate = DateTime.now();
     String formattedDate = DateFormat('yyyy-MM-dd').format(userAccessDate);
+    print('moveTodayMenu : $formattedDate');
 
     // weeklyMeals 리스트를 순회하며 userAccessDate와 일치하는 식단을 찾습니다.
     int todayMenuIndex = -1;
     for (int i = 0; i < weeklyMeals.length; i++) {
+
       MealData? meal = weeklyMeals[i];
       if (meal!.date == formattedDate) {
-        todayMenuIndex = i;
-        break;
-      }
+        print('today: $i');
+
+        if(dormitoryType == DormitoryType.sejong ) {
+          todayMenuIndex = i + 1; //세종의 경우 +1, 행복의 경우에는 그냥 i로 하면 됨.
+        } else {
+          todayMenuIndex = i;
+        }
+        }
+      break;
+
     }
+
 
     if (todayMenuIndex != -1) {
       // PageView를 해당 인덱스로 이동시킵니다.
@@ -219,7 +241,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   void moveToNextPage() {
-    final currentPage = _pageController.page ?? 0;
+    var currentPage = _pageController.page ?? 0;
     final nextPage = currentPage + 1;
     if (nextPage < weeklyMeals.length) {
       _pageController.animateToPage(
@@ -227,21 +249,25 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         duration: const Duration(milliseconds: 500),
         curve: Curves.ease,
       );
+      print('nextPage: $nextPage');
     }
   }
 
   void moveToPreviousPage() {
-    final currentPage = _pageController.page ?? 0;
+    var currentPage = _pageController.page ?? 0;
     final previousPage = currentPage - 1;
-    if (previousPage >= 0) {
+    if (previousPage >= -1) {
       _pageController.animateToPage(
         previousPage.toInt(),
         duration: const Duration(milliseconds: 500),
         curve: Curves.ease,
+
       );
+print('previousPage : $previousPage');
+    }
     }
   }
-}
+
 
 Widget buildMealPage(
   MealData? meal,
@@ -256,7 +282,9 @@ Widget buildMealPage(
   DormitoryType dormitoryType,
 ) {
   DateTime currentDate = DateTime.now();
-  DateTime date = DateTime.now().add(Duration(days: index));
+  DateTime date = DateTime.now()
+      .add(Duration(days: DateTime.daysPerWeek - DateTime.now().weekday)).subtract(Duration(days: 7 - index));
+  print('buildMealPage, date : $date');
   String formattedDate = DateFormat('yyyy-MM-dd').format(date);
 
   if (meal != null) {

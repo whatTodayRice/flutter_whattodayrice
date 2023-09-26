@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_whattodayrice/view/components/button_template.dart';
+import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class CalenderRow extends StatefulWidget {
@@ -31,15 +32,21 @@ class _CalenderRowState extends State<CalenderRow> {
   DateTime currentDate = DateTime.now();
 
   DateTime monday =
-      DateTime.now().subtract(Duration(days: DateTime.now().weekday - 1));
+      DateTime.now().subtract(Duration(days: DateTime.now().weekday - 2));
+
   DateTime sunday = DateTime.now()
-      .add(Duration(days: DateTime.daysPerWeek - DateTime.now().weekday + 6));
+     .subtract(Duration(days: DateTime.now().weekday-7));
 
   String getCurrentDate() {
+    final DateFormat dateFormat = DateFormat('(E)', 'ko_KR');
     String formattedDate =
-        "${widget.date.month}월 ${widget.date.day}일 (${widget.date.weekday})";
+        "${widget.date.month}월 ${widget.date.day}일 ${dateFormat.format(widget.date)}";
+
+    print('calendar_Row : $formattedDate');
+
     return formattedDate;
   }
+
 
   @override
   Widget build(BuildContext context) {
