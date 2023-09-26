@@ -114,7 +114,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     final selectedDormitory = ref.watch(dormitoryProvider);
     final weeklyMealsAsynsValue = ref.watch(mealDataProvider);
 
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(0xFFFF833D),

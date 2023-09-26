@@ -13,7 +13,9 @@ void main() {
   httpClinet.badCertificateCallback =
       (X509Certificate cert, String host, int port) => true;
 
-  //databaseFactory = databaseFactoryFfi;
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
   runApp(const ProviderScope(child: MyApp()));
 }
 
