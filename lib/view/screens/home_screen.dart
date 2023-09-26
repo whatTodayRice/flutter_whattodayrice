@@ -105,8 +105,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     final double screenHeight = MediaQuery.of(context).size.height;
     final selectedDormitory = ref.watch(dormitoryProvider);
     final weeklyMealsAsynsValue = ref.watch(mealDataProvider);
-    // var selectedDormitory = ref.watch(selectedDormitoryProvider);
-    //DormitoryType dormitoryType = DormitoryType.happiness;
 
     return Scaffold(
       appBar: AppBar(

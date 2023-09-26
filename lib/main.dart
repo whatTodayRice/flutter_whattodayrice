@@ -9,7 +9,7 @@ import 'dart:io';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // databaseFactory = databaseFactoryFfi;
+
   runApp(const ProviderScope(child: MyApp()));
 }
 
