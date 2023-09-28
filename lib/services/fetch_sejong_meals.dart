@@ -3,9 +3,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:html/parser.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_whattodayrice/models/meal.dart';
 
-Future<List<String>> fetchSejongMeal(int menuIndex) async {
-  // 인증서 검증 무시
+Future<List<String>> fetchMeal(int menuIndex) async {
   HttpClient httpClient = HttpClient()
     ..badCertificateCallback =
         (X509Certificate cert, String host, int port) => true;
@@ -25,6 +25,32 @@ Future<List<String>> fetchSejongMeal(int menuIndex) async {
 
     return mealTime;
   } else {
-    throw Exception('식단을 기다리고 있어요 조금만 기다려주세요😀 ');
+    throw Exception('식단을 기다리고 있어요 조금만 기다려주세요:grinning: ');
   }
+}
+
+Future<List<MealData?>> fetchSejongMeals() async {
+  List<MealData> menus = [];
+  DateTime currentDate = DateTime.now();
+  currentDate = currentDate.subtract(Duration(days: currentDate.weekday));
+  int breakfastIndex = 9;
+  int lunchIndex = 19;
+  int dinnerIndex = 27;
+  List<String> breakfastData = await fetchMeal(breakfastIndex);
+  breakfastData.removeAt(0);
+  List<String> lunchData = await fetchMeal(lunchIndex);
+  lunchData.removeLast();
+  List<String> dinnerData = await fetchMeal(dinnerIndex);
+  dinnerData.removeLast();
+  for (int dayIndex = 0; dayIndex < 7; dayIndex++) {
+    String formattedDate = currentDate.add(Duration(days: dayIndex)).toString();
+    MealData menu = MealData(
+        date: formattedDate,
+        breakfast: breakfastData[dayIndex],
+        takeout: '',
+        lunch: lunchData[dayIndex],
+        dinner: dinnerData[dayIndex]);
+    menus.add(menu);
+  }
+  return menus;
 }

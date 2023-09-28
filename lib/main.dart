@@ -35,16 +35,16 @@ class MyApp extends StatelessWidget {
         ),
       ),
       dark: ThemeData(
-        brightness: Brightness.light,
+        brightness: Brightness.dark,
         textTheme: TextTheme(
-          headlineMedium:
-              GoogleFonts.notoSans(fontSize: 18, fontWeight: FontWeight.bold),
-          titleMedium:
-              GoogleFonts.notoSans(fontSize: 20, fontWeight: FontWeight.w700),
-          titleSmall:
-              GoogleFonts.notoSans(fontSize: 16, fontWeight: FontWeight.w700),
+          headlineMedium: GoogleFonts.notoSans(
+              fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+          titleMedium: GoogleFonts.notoSans(
+              fontSize: 20, fontWeight: FontWeight.w700, color: Colors.white),
+          titleSmall: GoogleFonts.notoSans(
+              fontSize: 16, fontWeight: FontWeight.w700, color: Colors.white),
           bodyMedium: GoogleFonts.notoSans(
-              fontSize: 14, color: Colors.black, fontWeight: FontWeight.w500),
+              fontSize: 14, fontWeight: FontWeight.w500, color: Colors.white),
         ),
       ),
       initial: AdaptiveThemeMode.light,
