@@ -31,11 +31,13 @@ class CalenderRow extends StatefulWidget {
 class _CalenderRowState extends State<CalenderRow> {
   DateTime currentDate = DateTime.now();
 
-  DateTime monday =
-tp
-  DateTime.now().subtract(Duration(days: DateTime.now().weekday)).add(Duration(days: 1));
-  DateTime sunday =
-  DateTime.now().subtract(Duration(days: DateTime.now().weekday)).add(Duration(days: 1)).subtract(Duration(days: 1));
+  DateTime monday = DateTime.now()
+      .subtract(Duration(days: DateTime.now().weekday))
+      .add(const Duration(days: 1));
+  DateTime sunday = DateTime.now()
+      .subtract(Duration(days: DateTime.now().weekday))
+      .add(const Duration(days: 1))
+      .subtract(const Duration(days: 1));
 
   String getCurrentDate() {
     final DateFormat dateFormat = DateFormat('(E)', 'ko_KR');
@@ -43,7 +45,6 @@ tp
         "${widget.date.month}월 ${widget.date.day}일 ${dateFormat.format(widget.date)}";
     return formattedDate;
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -112,7 +113,7 @@ tp
                           ),
                           focusedDay: currentDate,
                           firstDay: sunday, //세종의 경우 sunday, 행복의 경우 monday
-                          lastDay: DateTime(2023,10,10),
+                          lastDay: DateTime(2023, 10, 10),
                           headerVisible: false,
                           calendarFormat: CalendarFormat.week,
                           locale: 'ko_KR',
