@@ -48,6 +48,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     });
   }
 
+
+  DateTime currentDate = DateTime.now().subtract(Duration(days: DateTime.now().weekday)); //일요일
+
+
+
+
   DateTime sunday = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day - (DateTime.now().weekday - 1)).subtract(Duration(days: 1));
 
   DateTime monday =DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day - (DateTime.now().weekday - 1));
@@ -59,9 +65,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       selectedDate = selectedDay;
     });
 
+    //selectedDay는 table_calendar에서 선택된 날짜를 의미함.
+
     //세종의 경우 sunday와의 차이를 구해야하고 , 행복의 경우 monday와의 차이를 구해야함.
-    int differenceInDays = selectedDay.difference(sunday).inDays;
+    int differenceInDays = selectedDay.difference(monday).inDays;
     print('차이:$differenceInDays');
+    print(DateTime.now().subtract(Duration(days: DateTime.now().weekday)));
 
 
     if (differenceInDays >= 0 && differenceInDays < weeklyMeals.length) {
@@ -138,11 +147,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     itemCount: weeklyMeals.length,
                     itemBuilder: (context, index) {
                       var meal = weeklyMeals[index];
-
                       DateTime date = selectedDormitory == DormitoryType.happiness
                           ? monday
                           : sunday;
-                      print('넘겨주는 date: $date');
                       print('넘겨주는 index : $index');
                       return buildMealPage(
                         meal,
@@ -179,21 +186,30 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   void moveToTodayMenu() {
+    DormitoryType selectedDormitory = ref.watch(dormitoryProvider);
     DateTime userAccessDate = DateTime.now();
     String formattedDate = DateFormat('yyyy-MM-dd').format(userAccessDate);
-
+    print('formattedDate $formattedDate');
+    print(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day - (DateTime.now().weekday - 1)).subtract(Duration(days: 1)));
     // weeklyMeals 리스트를 순회하며 userAccessDate와 일치하는 식단을 찾습니다.
     int todayMenuIndex = -1;
 
     for (int i = 0; i < weeklyMeals.length; i++) {
       MealData? meal = weeklyMeals[i];
+      print('i : $i');
       print(weeklyMeals[i]?.date.toString());
-      print('0번째날짜 :${weeklyMeals[0]?.date.toString()}' );
 
       if (meal?.date == formattedDate) {
           print('date가 같아요');
-          todayMenuIndex = i;
-          break;
+
+          if(selectedDormitory == DormitoryType.sejong) {
+            todayMenuIndex = i+1;
+            break;
+          }
+          else{
+            todayMenuIndex = i;
+            break;
+          }
         }
     }
 
@@ -201,6 +217,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       // PageView를 해당 인덱스로 이동시킵니다.
       print('여기로 이동해요 : $todayMenuIndex' );
       _pageController.animateToPage(
+
       todayMenuIndex,
     duration: const Duration(milliseconds: 300),
         curve: Curves.easeInOut,
@@ -264,8 +281,11 @@ Widget buildMealPage(
   VoidCallback onPressedForward,
   DormitoryType dormitoryType,
 ) {
-  DateTime currentDate = DateTime.now();
   DateTime modifiedDate = date.add(Duration(days: index));
+
+  print('넘어온 date:$date');
+  DateTime currentDate = DateTime.now(); //식당 시간 로직을 위한 날짜
+
 
   String formattedDate = DateFormat('yyyy-MM-dd').format(modifiedDate);
 

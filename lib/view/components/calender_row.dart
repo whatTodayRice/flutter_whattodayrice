@@ -32,15 +32,15 @@ class _CalenderRowState extends State<CalenderRow> {
   DateTime currentDate = DateTime.now();
 
   DateTime monday =
-  DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day - (DateTime.now().weekday - 1));
+tp
+  DateTime.now().subtract(Duration(days: DateTime.now().weekday)).add(Duration(days: 1));
   DateTime sunday =
-  DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day - (DateTime.now().weekday - 1)).subtract(Duration(days: 1));
+  DateTime.now().subtract(Duration(days: DateTime.now().weekday)).add(Duration(days: 1)).subtract(Duration(days: 1));
 
   String getCurrentDate() {
     final DateFormat dateFormat = DateFormat('(E)', 'ko_KR');
     String formattedDate =
         "${widget.date.month}월 ${widget.date.day}일 ${dateFormat.format(widget.date)}";
-    print('sunday : $sunday');
     return formattedDate;
   }
 
@@ -111,14 +111,14 @@ class _CalenderRowState extends State<CalenderRow> {
                             ), // Adjust the font size for the selected date
                           ),
                           focusedDay: currentDate,
-                          firstDay: sunday,
+                          firstDay: sunday, //세종의 경우 sunday, 행복의 경우 monday
                           lastDay: DateTime(2023,10,10),
                           headerVisible: false,
                           calendarFormat: CalendarFormat.week,
                           locale: 'ko_KR',
-                          onDaySelected: (selectedDate, focusDay) {
+                          onDaySelected: (selectedDay, focusDay) {
+                            widget.onDateSelected(selectedDay);
                             Navigator.pop(context);
-                            widget.onDateSelected(selectedDate);
                           },
                         ),
                       ),

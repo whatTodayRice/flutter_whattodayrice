@@ -30,6 +30,7 @@ Future<List<MealData?>> fetchSejongMeals() async {
   List<MealData> menus = [];
   DateTime currentDate = DateTime.now();
   currentDate = currentDate.subtract(Duration(days: currentDate.weekday));
+  print('currentDate : $currentDate');
 
   //각 식단별 인덱스 값
   int breakfastIndex = 9;
@@ -39,6 +40,7 @@ Future<List<MealData?>> fetchSejongMeals() async {
   //데이터 패치 & 가공
   List<String> breakfastData = await fetchMeal(breakfastIndex);
   breakfastData.removeAt(0);
+  print(breakfastData.toString());
   
   List<String> lunchData = await fetchMeal(lunchIndex);
   lunchData.removeLast();
@@ -50,8 +52,8 @@ Future<List<MealData?>> fetchSejongMeals() async {
   for (int dayIndex = 0; dayIndex < 7; dayIndex++) {
 
     DateTime userAccessDate = currentDate.add(Duration(days: dayIndex));
+    print('userAccess : $userAccessDate');
     String formattedDate = DateFormat('yyyy-MM-dd').format(userAccessDate);
-    print('formattedDate : $formattedDate');
     MealData menu = MealData(
         date: formattedDate,
         breakfast: breakfastData[dayIndex],
