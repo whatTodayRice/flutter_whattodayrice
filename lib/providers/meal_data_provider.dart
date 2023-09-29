@@ -5,12 +5,10 @@ import 'package:flutter_whattodayrice/services/fetch_meals_from_db.dart';
 
 final mealDataProvider = FutureProvider<List<MealData?>>(
   (ref) async {
-    final now = DateTime.now();
-
     final dormitoryType = ref.watch(dormitoryProvider);
 
     try {
-      final weeklyMeals = await fetchMealDataFromDB(now, dormitoryType);
+      final weeklyMeals = await fetchMealDataFromDB(dormitoryType);
       return weeklyMeals;
     } catch (error) {
       print('Error fetching meal data: $error');
