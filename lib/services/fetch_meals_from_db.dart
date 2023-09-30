@@ -4,7 +4,6 @@ import '../models/dormitory.dart';
 import '../models/meal.dart';
 
 Future<List<MealData?>> fetchMealDataFromDB(
-  DateTime now,
   DormitoryType dormitoryType,
 ) async {
   List<MealData?> weeklyMeals = [];

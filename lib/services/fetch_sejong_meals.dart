@@ -4,6 +4,8 @@ import 'package:html/parser.dart';
 import 'package:flutter_whattodayrice/models/meal.dart';
 import 'dart:async';
 
+import 'package:intl/intl.dart';
+
 Future<List<String>> fetchMeal(int menuIndex) async {
   HttpClient httpClient = HttpClient()
     ..badCertificateCallback =
@@ -29,7 +31,7 @@ Future<List<MealData?>> fetchSejongMeals() async {
   DateTime currentDate = DateTime.now();
   currentDate = currentDate.subtract(Duration(days: currentDate.weekday));
   print('currentDate : $currentDate');
-  
+
   //각 식단별 인덱스 값
   int breakfastIndex = 9;
   int lunchIndex = 19;
@@ -38,6 +40,7 @@ Future<List<MealData?>> fetchSejongMeals() async {
   //데이터 패치 & 가공
   List<String> breakfastData = await fetchMeal(breakfastIndex);
   breakfastData.removeAt(0);
+  print(breakfastData.toString());
   
   List<String> lunchData = await fetchMeal(lunchIndex);
   lunchData.removeLast();
@@ -47,7 +50,10 @@ Future<List<MealData?>> fetchSejongMeals() async {
   
   //mealData에 넣어주기
   for (int dayIndex = 0; dayIndex < 7; dayIndex++) {
-    String formattedDate = currentDate.add(Duration(days: dayIndex)).toString();
+
+    DateTime userAccessDate = currentDate.add(Duration(days: dayIndex));
+    print('userAccess : $userAccessDate');
+    String formattedDate = DateFormat('yyyy-MM-dd').format(userAccessDate);
     MealData menu = MealData(
         date: formattedDate,
         breakfast: breakfastData[dayIndex],

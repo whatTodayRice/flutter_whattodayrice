@@ -26,12 +26,11 @@ class HomeScreen extends ConsumerStatefulWidget {
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   final PageController _pageController = PageController(initialPage: 0);
 
-
   List<MealData?> weeklyMeals = [];
   DormitoryType dormitoryType = DormitoryType.happiness;
 
   void updateDormitoryMeal(DormitoryType dormitoryType) {
-    fetchMealDataFromDB(DateTime.now(), dormitoryType).then((newData) {
+    fetchMealDataFromDB(dormitoryType).then((newData) {
       if (mounted) {
         setState(() {
           weeklyMeals = newData;
@@ -48,30 +47,26 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     });
   }
 
+  DateTime currentDate =
+      DateTime.now().subtract(Duration(days: DateTime.now().weekday)); //일요일
 
+  DateTime sunday = DateTime(DateTime.now().year, DateTime.now().month,
+          DateTime.now().day - (DateTime.now().weekday - 1))
+      .subtract(const Duration(days: 1));
 
-  DateTime sunday = DateTime.now()
-      .add(Duration(days: DateTime.daysPerWeek - DateTime.now().weekday));
-
-
-
-
-  DateTime monday = DateTime.now()
-      .add(Duration(days: DateTime.daysPerWeek - DateTime.now().weekday)).subtract(Duration(days: DateTime.daysPerWeek - 1));
-
+  DateTime monday = DateTime(DateTime.now().year, DateTime.now().month,
+      DateTime.now().day - (DateTime.now().weekday - 1));
 
   DateTime selectedDate = DateTime.now();
 
   void onDaySelected(DateTime selectedDay) {
-    int selectedDayWeekday = selectedDay.weekday;
-    DateTime monday =
-        selectedDay.subtract(Duration(days: selectedDayWeekday - 1));
-
-
     setState(() {
       selectedDate = selectedDay;
     });
 
+    //selectedDay는 table_calendar에서 선택된 날짜를 의미함.
+
+    //세종의 경우 sunday와의 차이를 구해야하고 , 행복의 경우 monday와의 차이를 구해야함.
     int differenceInDays = selectedDay.difference(monday).inDays;
 
     if (differenceInDays >= 0 && differenceInDays < weeklyMeals.length) {
@@ -147,16 +142,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     itemCount: weeklyMeals.length,
                     itemBuilder: (context, index) {
                       var meal = weeklyMeals[index];
-                      print('weeklyMeals[0]?.date : ${weeklyMeals[0]?.date}');
-                      print('인덱스:$index');
-                      print('현재 페이지 index : $index');
-                      DateTime date = DateTime.now().subtract(Duration(days: DateTime.now().weekday)
-
-
-
-                      );
-                      print('home_screen date  : $date');
-
+                      DateTime date =
+                          selectedDormitory == DormitoryType.happiness
+                              ? monday
+                              : sunday;
                       return buildMealPage(
                         meal,
                         index,
@@ -192,28 +181,25 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   void moveToTodayMenu() {
+    DormitoryType selectedDormitory = ref.watch(dormitoryProvider);
     DateTime userAccessDate = DateTime.now();
     String formattedDate = DateFormat('yyyy-MM-dd').format(userAccessDate);
-    print('moveTodayMenu : $formattedDate');
-
     // weeklyMeals 리스트를 순회하며 userAccessDate와 일치하는 식단을 찾습니다.
     int todayMenuIndex = -1;
+
     for (int i = 0; i < weeklyMeals.length; i++) {
-
       MealData? meal = weeklyMeals[i];
-      if (meal!.date == formattedDate) {
-        print('today: $i');
 
-        if(dormitoryType == DormitoryType.sejong ) {
-          todayMenuIndex = i + 1; //세종의 경우 +1, 행복의 경우에는 그냥 i로 하면 됨.
+      if (meal?.date == formattedDate) {
+        if (selectedDormitory == DormitoryType.sejong) {
+          todayMenuIndex = i + 1;
+          break;
         } else {
           todayMenuIndex = i;
+          break;
         }
-        }
-      break;
-
+      }
     }
-
 
     if (todayMenuIndex != -1) {
       // PageView를 해당 인덱스로 이동시킵니다.
@@ -248,7 +234,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         duration: const Duration(milliseconds: 500),
         curve: Curves.ease,
       );
-      print('nextPage: $nextPage');
     }
   }
 
@@ -260,13 +245,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         previousPage.toInt(),
         duration: const Duration(milliseconds: 500),
         curve: Curves.ease,
-
       );
-print('previousPage : $previousPage');
-    }
     }
   }
-
+}
 
 Widget buildMealPage(
   MealData? meal,
@@ -280,11 +262,11 @@ Widget buildMealPage(
   VoidCallback onPressedForward,
   DormitoryType dormitoryType,
 ) {
-  DateTime currentDate = DateTime.now();
-  DateTime date = DateTime.now()
-      .add(Duration(days: DateTime.daysPerWeek - DateTime.now().weekday)).subtract(Duration(days: 7 - index));
-  print('buildMealPage, date : $date');
-  String formattedDate = DateFormat('yyyy-MM-dd').format(date);
+  DateTime modifiedDate = date.add(Duration(days: index));
+
+  DateTime currentDate = DateTime.now(); //식당 시간 로직을 위한 날짜
+
+  String formattedDate = DateFormat('yyyy-MM-dd').format(modifiedDate);
 
   if (meal != null) {
     return Column(
@@ -293,7 +275,7 @@ Widget buildMealPage(
           width: screenWidth,
           height: screenHeight,
           onDateSelected: onDaySelected,
-          date: date,
+          date: modifiedDate,
           onPressedBack: onPressedBack,
           onPressedForward: onPressedForward,
           onPressedToday: onPressedToday,
