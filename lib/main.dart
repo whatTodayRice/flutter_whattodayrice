@@ -1,14 +1,14 @@
 import 'package:adaptive_theme/adaptive_theme.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_whattodayrice/view/screens/home_screen.dart';
 import 'package:flutter_whattodayrice/view/screens/settings_screen.dart';
-import 'package:flutter_whattodayrice/services/fetch_sejong_meals.dart';
-import 'dart:io';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  final bindings = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: bindings);
 
   runApp(const ProviderScope(child: MyApp()));
 }
@@ -55,7 +55,7 @@ class MyApp extends StatelessWidget {
           SettingsScreen.routeName: (context) => const SettingsScreen(),
         },
         debugShowCheckedModeBanner: false,
-        home: const Scaffold(body: HomeScreen()),
+        home: const HomeScreen(),
       ),
     );
   }
