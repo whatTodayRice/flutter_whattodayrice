@@ -17,8 +17,10 @@ void showBottomSheet(BuildContext context, Widget content) {
     ),
     builder: (BuildContext context) {
       final screenHeight = MediaQuery.of(context).size.height;
+      final screenWidth = MediaQuery.of(context).size.width;
       return SizedBox(
         height: screenHeight * 0.3,
+        width: screenWidth,
         child: Padding(
           padding: const EdgeInsets.all(20.0),
           child: content,

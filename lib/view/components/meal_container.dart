@@ -15,7 +15,7 @@ class BuildContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(5),
+      padding: const EdgeInsets.all(8),
       height: height * 0.1433,
       width: width * 0.88,
       decoration: BoxDecoration(

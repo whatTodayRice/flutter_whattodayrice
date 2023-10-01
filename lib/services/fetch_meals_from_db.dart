@@ -17,6 +17,7 @@ Future<List<MealData?>> fetchMealDataFromDB(
     }
     return weeklyMeals;
   } catch (e) {
+    print(e);
     throw Exception("없음");
   }
 }
