@@ -8,7 +8,7 @@ class SplashLogo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Image.asset(
-      "assets/images/splash/android12splash.png",
+      "assets/images/splash/android12.png",
       width: animatedValue * 192, // animatedValue를 크기에 곱하여 크기 조절
       height: animatedValue * 192, // animatedValue를 크기에 곱하여 크기 조절
       color: const Color(0xffFF833D),
