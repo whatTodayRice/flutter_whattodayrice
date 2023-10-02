@@ -52,6 +52,7 @@ dependencies:
   flutter_riverpod: ^2.3.6
   flutter_hooks: ^0.20.1
   google_fonts: ^6.0.0
+  after_layout: ^1.2.0
   flutter_native_splash: ^2.3.2
 
 dev_dependencies:

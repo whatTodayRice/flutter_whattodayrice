@@ -61,5 +61,3 @@ Future<List<MealData?>> fetchSejongMeals() async {
   }
   return menus;
 }
-
-
