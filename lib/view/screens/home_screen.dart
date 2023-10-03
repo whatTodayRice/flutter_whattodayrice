@@ -24,6 +24,7 @@ class HomeScreen extends ConsumerStatefulWidget {
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
+  //TODO: 세종 기숙사와 행복기숙사 오늘 날짜에 해당하는 페이지인덱스를 전달해주어야함.
   final PageController _pageController = PageController(initialPage: 0);
 
   List<MealData?> weeklyMeals = [];
@@ -47,8 +48,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     });
   }
 
-  DateTime currentDate =
-      DateTime.now().subtract(Duration(days: DateTime.now().weekday)); //일요일
 
   DateTime sunday = DateTime(DateTime.now().year, DateTime.now().month,
           DateTime.now().day - (DateTime.now().weekday - 1))
@@ -57,17 +56,18 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   DateTime monday = DateTime(DateTime.now().year, DateTime.now().month,
       DateTime.now().day - (DateTime.now().weekday - 1));
 
-  DateTime selectedDate = DateTime.now();
+  DateTime selectedDate = DateTime.now(); //선택된 날짜 , 기본값은 현재 날짜
 
   void onDaySelected(DateTime selectedDay) {
+
     setState(() {
       selectedDate = selectedDay;
     });
 
     //selectedDay는 table_calendar에서 선택된 날짜를 의미함.
 
-    //세종의 경우 sunday와의 차이를 구해야하고 , 행복의 경우 monday와의 차이를 구해야함.
-    int differenceInDays = selectedDay.difference(monday).inDays;
+    //TODO : 세종의 경우 sunday와의 차이를 구해야하고 , 행복의 경우 monday와의 차이를 구해야함.
+    int differenceInDays = selectedDay.difference(sunday).inDays;
 
     if (differenceInDays >= 0 && differenceInDays < weeklyMeals.length) {
       if (selectedDate != DateTime.now()) {
@@ -100,6 +100,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     super.initState();
     initializeDateFormatting();
     updateDormitoryMeal(dormitoryType);
+
   }
 
   @override
@@ -142,10 +143,21 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     itemCount: weeklyMeals.length,
                     itemBuilder: (context, index) {
                       var meal = weeklyMeals[index];
+                      // for (var mealData in weeklyMeals) {
+                      //   print('Date: ${mealData?.date}');
+                      //   print('Breakfast: ${mealData?.breakfast}');
+                      //   print('Lunch: ${mealData?.lunch}');
+                      //   print('Dinner: ${mealData?.dinner}');
+                      //   print('Takeout: ${mealData?.takeout}');
+                      //   print('---'); // Separator between entries
+                      // }
+
                       DateTime date =
                           selectedDormitory == DormitoryType.happiness
                               ? monday
                               : sunday;
+
+                      print('weeklyMeals : ${weeklyMeals.first?.date}');
                       return buildMealPage(
                         meal,
                         index,
@@ -181,24 +193,28 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   void moveToTodayMenu() {
+    //fixme :세종의 경우 오늘 버튼 클릭 시 정상 작동X
     DormitoryType selectedDormitory = ref.watch(dormitoryProvider);
-    DateTime userAccessDate = DateTime.now();
+    DateTime userAccessDate = DateTime.now(); //버튼을 누른 오늘의 날짜
     String formattedDate = DateFormat('yyyy-MM-dd').format(userAccessDate);
+
     // weeklyMeals 리스트를 순회하며 userAccessDate와 일치하는 식단을 찾습니다.
     int todayMenuIndex = -1;
-
     for (int i = 0; i < weeklyMeals.length; i++) {
       MealData? meal = weeklyMeals[i];
+      print('weeklyMeals[0]?.date.toString() : ${weeklyMeals[0]?.date.toString()}');
 
       if (meal?.date == formattedDate) {
+        print('date : ${meal?.date.toString()}');
+        print('formattedDate :$formattedDate');
         if (selectedDormitory == DormitoryType.sejong) {
           todayMenuIndex = i + 1;
           break;
         } else {
           todayMenuIndex = i;
           break;
-        }
-      }
+        }}
+
     }
 
     if (todayMenuIndex != -1) {
@@ -263,10 +279,10 @@ Widget buildMealPage(
   DormitoryType dormitoryType,
 ) {
   DateTime modifiedDate = date.add(Duration(days: index));
-
+  print('modified: $modifiedDate');
   DateTime currentDate = DateTime.now(); //식당 시간 로직을 위한 날짜
-
   String formattedDate = DateFormat('yyyy-MM-dd').format(modifiedDate);
+
 
   if (meal != null) {
     return Column(
