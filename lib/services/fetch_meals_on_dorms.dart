@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import '../models/dormitory.dart';
 import '../models/meal.dart';
 
-Future<List<MealData>> fetchMealDataFromDB(
+Future<List<MealData>> fetchMealDataDependingOnDorms(
   DormitoryType dormitoryType,
 ) async {
   List<MealData> weeklyMeals = [];

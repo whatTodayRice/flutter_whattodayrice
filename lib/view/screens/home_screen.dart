@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:after_layout/after_layout.dart';
-import 'package:flutter_whattodayrice/services/fetch_meals_from_db.dart';
+import 'package:flutter_whattodayrice/services/fetch_meals_on_dorms.dart';
 import 'package:flutter_whattodayrice/view/components/calender_row.dart';
 import 'package:flutter_whattodayrice/view/components/constants.dart';
 import 'package:flutter_whattodayrice/view/components/meal_time_row.dart';
@@ -106,7 +106,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
   void initState() {
     super.initState();
     initializeDateFormatting();
-    futureMealData = fetchMealDataFromDB(dormitoryType);
+    futureMealData = fetchMealDataDependingOnDorms(dormitoryType);
     controller = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 1),
