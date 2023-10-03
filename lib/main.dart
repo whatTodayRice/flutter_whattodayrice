@@ -1,5 +1,6 @@
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:flutter_whattodayrice/view/components/constants.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -23,29 +24,11 @@ class MyApp extends StatelessWidget {
     return AdaptiveTheme(
       light: ThemeData(
         brightness: Brightness.light,
-        textTheme: TextTheme(
-          headlineMedium:
-              GoogleFonts.notoSans(fontSize: 18, fontWeight: FontWeight.bold),
-          titleMedium:
-              GoogleFonts.notoSans(fontSize: 20, fontWeight: FontWeight.w700),
-          titleSmall:
-              GoogleFonts.notoSans(fontSize: 16, fontWeight: FontWeight.w700),
-          bodyMedium: GoogleFonts.notoSans(
-              fontSize: 14, color: Colors.black, fontWeight: FontWeight.w500),
-        ),
+        textTheme: kDefaultTextTheme,
       ),
       dark: ThemeData(
         brightness: Brightness.dark,
-        textTheme: TextTheme(
-          headlineMedium: GoogleFonts.notoSans(
-              fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
-          titleMedium: GoogleFonts.notoSans(
-              fontSize: 20, fontWeight: FontWeight.w700, color: Colors.white),
-          titleSmall: GoogleFonts.notoSans(
-              fontSize: 16, fontWeight: FontWeight.w700, color: Colors.white),
-          bodyMedium: GoogleFonts.notoSans(
-              fontSize: 14, fontWeight: FontWeight.w500, color: Colors.white),
-        ),
+        textTheme: kDefaultTextTheme,
       ),
       initial: AdaptiveThemeMode.light,
       builder: (theme, darkTheme) => MaterialApp(

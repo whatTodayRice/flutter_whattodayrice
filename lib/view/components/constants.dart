@@ -1,6 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_whattodayrice/theme/text_styles.dart';
+import 'package:google_fonts/google_fonts.dart';
 
+final kDefaultTextTheme = TextTheme(
+  headlineMedium: GoogleFonts.notoSans(
+      fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+  titleMedium: GoogleFonts.notoSans(
+      fontSize: 20, fontWeight: FontWeight.w700, color: Colors.white),
+  titleSmall: GoogleFonts.notoSans(
+      fontSize: 16, fontWeight: FontWeight.w700, color: Colors.white),
+  bodyMedium: GoogleFonts.notoSans(
+      fontSize: 14, fontWeight: FontWeight.w500, color: Colors.white),
+);
 const kMainScreenTitleText = Text('세종기숙사');
 const kCompleteTitleText = Text(
   '모든 설정을 완료했습니다!',
