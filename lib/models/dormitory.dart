@@ -1,0 +1,1 @@
+enum DormitoryType { sejong, happiness }

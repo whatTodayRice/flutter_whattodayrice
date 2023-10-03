@@ -23,7 +23,11 @@ class MealTimeTextRow extends StatelessWidget {
         const SizedBox(
           width: 8,
         ),
-        kMealCategoryIcon(width: width, height: height),
+        kMealCategoryIcon(
+          width: width,
+          height: height,
+          mealType: mealType,
+        ),
         const SizedBox(
           width: 10,
         ),
