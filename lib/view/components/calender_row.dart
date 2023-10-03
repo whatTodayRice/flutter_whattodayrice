@@ -18,8 +18,7 @@ class CalenderRow extends StatefulWidget {
   final double width;
   final double height;
   final void Function(DateTime) onDateSelected;
-  final DateTime date;
-
+  final String date;
   final VoidCallback onPressedBack;
   final VoidCallback onPressedForward;
   final VoidCallback onPressedToday;
@@ -36,12 +35,12 @@ class _CalenderRowState extends State<CalenderRow> {
   DateTime sunday = DateTime.now()
       .add(Duration(days: DateTime.daysPerWeek - DateTime.now().weekday + 6));
 
-  String getCurrentDate() {
-    DateFormat dateFormat = DateFormat('(E)', 'ko_KR');
-    String formattedDate =
-        "${widget.date.month}월 ${widget.date.day}일 ${dateFormat.format(widget.date)}";
-    return formattedDate;
-  }
+  // String getCurrentDate() {
+  //   DateFormat dateFormat = DateFormat('(E)', 'ko_KR');
+  //   String formattedDate =
+  //       "${widget.date.month}월 ${widget.date.day}일 ${dateFormat.format(widget.date)}";
+  //   return formattedDate;
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -124,7 +123,7 @@ class _CalenderRowState extends State<CalenderRow> {
                   );
                 }(context),
                 child: Text(
-                  getCurrentDate(),
+                  widget.date,
                   style: Theme.of(context).textTheme.titleSmall!,
                   textAlign: TextAlign.center,
                 ),

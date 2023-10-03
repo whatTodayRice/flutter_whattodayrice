@@ -1,6 +1,7 @@
 import 'package:flutter_whattodayrice/models/meal.dart';
 import 'package:http/http.dart' as http;
 import 'package:html/parser.dart';
+import 'package:intl/intl.dart';
 
 Future<List<MealData>> fetchHappyMeals() async {
   final response = await http
@@ -23,7 +24,10 @@ Future<List<MealData>> fetchHappyMeals() async {
       // 정규식을 사용하여 날짜 부분을 추출하고 괄호 제거
       String rawDateString = weeklyDate[dateIndex].text;
       String formattedDate = rawDateString.replaceAll(RegExp(r'[()]'), '');
-      formattedDate = formattedDate.split(' ').last; // 날짜 부분 추출
+      formattedDate = formattedDate.split(' ').last;
+      DateTime dateTime = DateTime.parse(formattedDate);
+      String formattedDateString = DateFormat('MM-dd (E)', 'ko_KR')
+          .format(dateTime); // "10-02 (월)" 형식으로 포맷팅
 
       // 각 식단 항목을 쉼표와 공백으로 구분하여 저장
       String breakfast = menuElements[startIndex].text.splitMapJoin(
@@ -46,7 +50,7 @@ Future<List<MealData>> fetchHappyMeals() async {
           .trim();
 
       MealData menu = MealData(
-        date: formattedDate,
+        date: formattedDateString,
         breakfast: breakfast,
         takeout: takeout,
         lunch: lunch,

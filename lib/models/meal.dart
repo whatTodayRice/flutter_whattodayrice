@@ -1,15 +1,15 @@
 class MealData {
-  final String? date;
-  final String? breakfast;
+  final String date;
+  final String breakfast;
   final String? takeout;
-  final String? lunch;
-  final String? dinner;
+  final String lunch;
+  final String dinner;
 
   MealData({
-    this.date,
-    this.breakfast,
+    required this.date,
+    required this.breakfast,
     this.takeout,
-    this.lunch,
-    this.dinner,
+    required this.lunch,
+    required this.dinner,
   });
 }

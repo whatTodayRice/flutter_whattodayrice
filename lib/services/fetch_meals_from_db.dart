@@ -4,11 +4,10 @@ import 'package:intl/intl.dart';
 import '../models/dormitory.dart';
 import '../models/meal.dart';
 
-Future<List<MealData?>> fetchMealDataFromDB(
-  DateTime now,
+Future<List<MealData>> fetchMealDataFromDB(
   DormitoryType dormitoryType,
 ) async {
-  List<MealData?> weeklyMeals = [];
+  List<MealData> weeklyMeals = [];
 
   try {
     if (dormitoryType == DormitoryType.sejong) {

@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:after_layout/after_layout.dart';
@@ -13,11 +12,12 @@ import 'package:flutter_whattodayrice/view/screens/settings_screen.dart';
 import 'package:intl/intl.dart';
 import '../../models/dormitory.dart';
 import '../../models/meal.dart';
+import '../../services/fetch_happy_meals.dart';
+import '../../services/fetch_sejong_meals.dart';
 import '../components/meal_container.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:flutter_whattodayrice/providers/dormitory_provider.dart';
 import 'package:flutter_whattodayrice/providers/meal_data_provider.dart';
 
@@ -32,33 +32,30 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
     with SingleTickerProviderStateMixin, AfterLayoutMixin<HomeScreen> {
   final PageController _pageController = PageController(initialPage: 0);
   late AnimationController controller;
+  late Future<List<MealData>> futureMealData;
 
-  List<MealData?> weeklyMeals = [];
+  List<MealData> weeklyMeals = [];
   DormitoryType dormitoryType = DormitoryType.happiness;
 
-  void updateDormitoryMeal(DormitoryType dormitoryType) {
-    fetchMealDataFromDB(DateTime.now(), dormitoryType).then((newData) {
-      if (mounted) {
-        setState(() {
-          weeklyMeals = newData;
-        });
-      }
-    }).catchError((error) {
-      // 에러 처리
-      print('Error fetching meal data: $error');
-      if (mounted) {
-        setState(() {
-          weeklyMeals = [];
-        });
-      }
-    });
-  }
-
-  // @override
-  // FutureOr<void> afterFirstLayout(BuildContext context) async {
-  //   await Future.delayed(const Duration(seconds: 2));
-  //   FlutterNativeSplash.remove();
+  // List<MealData> updateDormitoryMeal(DormitoryType dormitoryType) {
+  //   fetchMealDataFromDB(dormitoryType).then((newData) {
+  //     if (mounted) {
+  //       return weeklyMeals = newData;
+  //     }
+  //   }).catchError((error) {
+  //     // 에러 처리
+  //     print('Error fetching meal data: $error');
+  //     if (mounted) {
+  //       weeklyMeals = [];
+  //     }
+  //   });
   // }
+
+  @override
+  void afterFirstLayout(BuildContext context) async {
+    await Future.delayed(const Duration(milliseconds: 500));
+    FlutterNativeSplash.remove();
+  }
 
   DateTime monday = DateTime.now()
       .subtract(Duration(days: DateTime.now().weekday - 1)); // 월요일부터로 조정
@@ -106,15 +103,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
   }
 
   @override
-  void afterFirstLayout(BuildContext context) async {
-    await Future.delayed(const Duration(milliseconds: 500));
-    FlutterNativeSplash.remove();
-  }
-
-  @override
   void initState() {
     super.initState();
     initializeDateFormatting();
+    futureMealData = fetchMealDataFromDB(dormitoryType);
     controller = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 1),
@@ -132,7 +124,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
     final selectedDormitory = ref.watch(dormitoryProvider);
-    final weeklyMealsAsynsValue = ref.watch(mealDataProvider);
+    final weeklyMealsAsyncValue = ref.watch(mealDataProvider);
+    final DateTime currentDate = DateTime.now();
 
     return Scaffold(
       appBar: AppBar(
@@ -156,41 +149,34 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
           ),
         ],
       ),
-      body: weeklyMealsAsynsValue.when(
+      body: weeklyMealsAsyncValue.when(
         data: (weeklyMeals) {
-          return weeklyMeals.isNotEmpty
-              ? SizedBox(
-                  height: 700,
-                  child: PageView.builder(
-                    controller: _pageController,
-                    scrollDirection: Axis.horizontal,
-                    itemCount: weeklyMeals.length,
-                    itemBuilder: (context, index) {
-                      var meal = weeklyMeals[index];
-                      DateTime date = DateTime.now().add(
-                        Duration(
-                          days: index,
-                        ),
-                      );
-                      return buildMealPage(
-                        meal,
-                        index,
-                        screenWidth,
-                        screenHeight,
-                        onDaySelected,
-                        date,
-                        moveToTodayMenu,
-                        moveToPreviousPage,
-                        moveToNextPage,
-                        selectedDormitory,
-                      );
-                    },
-                  ),
-                )
-              : const Center(
-                  child:
-                      CircularProgressIndicator(), // 데이터를 가져오는 동안 로딩 표시  //추후 삭제 할 것
+          return SizedBox(
+            height: 700,
+            child: PageView.builder(
+              controller: _pageController,
+              scrollDirection: Axis.horizontal,
+              itemCount: weeklyMeals.length,
+              itemBuilder: (context, index) {
+                final meal = weeklyMeals[index];
+                String date = meal.date;
+
+                return buildMealPage(
+                  meal,
+                  index,
+                  screenWidth,
+                  screenHeight,
+                  onDaySelected,
+                  date,
+                  moveToTodayMenu,
+                  moveToPreviousPage,
+                  moveToNextPage,
+                  selectedDormitory,
+                  currentDate,
                 );
+              },
+            ),
+          );
         },
         loading: () {
           Animation<double> animation =
@@ -217,41 +203,50 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
   }
 
   void moveToTodayMenu() {
+    AsyncValue<List<MealData>> weeklyMeals = ref.watch(mealDataProvider);
+
     DateTime userAccessDate = DateTime.now();
-    String formattedDate = DateFormat('yyyy-MM-dd').format(userAccessDate);
+    String formattedDate =
+        DateFormat('MM-dd (E)', 'ko_KR').format(userAccessDate);
 
-    // weeklyMeals 리스트를 순회하며 userAccessDate와 일치하는 식단을 찾습니다.
     int todayMenuIndex = -1;
-    for (int i = 0; i < weeklyMeals.length; i++) {
-      MealData? meal = weeklyMeals[i];
-      if (meal!.date == formattedDate) {
-        todayMenuIndex = i;
-        break;
-      }
-    }
 
-    if (todayMenuIndex != -1) {
-      // PageView를 해당 인덱스로 이동시킵니다.
-      _pageController.animateToPage(
-        todayMenuIndex,
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeInOut,
-      );
-    } else {
-      // userAccessDate와 일치하는 식단이 없는 경우에 대한 처리
-      showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: const Text('오늘의 식단이 없습니다.'),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text('확인'),
+    return weeklyMeals.when(
+        data: (weeklyMeals) {
+          // weeklyMeals 리스트를 순회하며 userAccessDate 와 일치하는 식단을 찾습니다.
+          for (int i = 0; i < weeklyMeals.length; i++) {
+            MealData meal = weeklyMeals[i];
+            if (meal.date == formattedDate) {
+              todayMenuIndex = i;
+              print(todayMenuIndex);
+              break;
+            }
+          }
+
+          if (todayMenuIndex != -1) {
+            // PageView를 해당 인덱스로 이동시킵니다.
+            _pageController.animateToPage(
+              todayMenuIndex,
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeInOut,
+            );
+          } else {
+            // userAccessDate와 일치하는 식단이 없는 경우에 대한 처리
+          }
+        },
+        error: (err, stack) => showDialog(
+              context: context,
+              builder: (context) => AlertDialog(
+                title: const Text('오늘 식단이 올라오지 않았어요.'),
+                actions: <Widget>[
+                  TextButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: const Text('확인'),
+                  ),
+                ],
+              ),
             ),
-          ],
-        ),
-      );
-    }
+        loading: () => const CircularProgressIndicator());
   }
 
   void moveToNextPage() {
@@ -285,16 +280,13 @@ Widget buildMealPage(
   double screenWidth,
   double screenHeight,
   void Function(DateTime selectedDay) onDaySelected,
-  DateTime date,
+  String date,
   VoidCallback onPressedToday,
   VoidCallback onPressedBack,
   VoidCallback onPressedForward,
   DormitoryType dormitoryType,
+  DateTime currentDate,
 ) {
-  DateTime currentDate = DateTime.now();
-  DateTime date = DateTime.now().add(Duration(days: index));
-  String formattedDate = DateFormat('yyyy-MM-dd').format(date);
-
   if (meal != null) {
     return Column(
       children: [
@@ -327,7 +319,7 @@ Widget buildMealPage(
         BuildContainer(
           content: (dormitoryType == DormitoryType.happiness)
               ? '일반 : ${meal.breakfast}\n\nTAKE - OUT : ${meal.takeout}'
-              : '${meal.breakfast}',
+              : meal.breakfast,
           height: screenHeight,
           width: screenWidth,
         ),
@@ -348,7 +340,7 @@ Widget buildMealPage(
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: BuildContainer(
-            content: '${meal.lunch}',
+            content: meal.lunch,
             height: screenHeight,
             width: screenWidth,
           ),
@@ -370,7 +362,7 @@ Widget buildMealPage(
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: BuildContainer(
-            content: '${meal.dinner}',
+            content: meal.dinner,
             height: screenHeight,
             width: screenWidth,
           ),
@@ -382,7 +374,7 @@ Widget buildMealPage(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Text(
-          'Date: $formattedDate\nNo meal data available.',
+          'Date: $currentDate\nNo meal data available.',
           style: GoogleFonts.notoSans(
             fontSize: 12,
             fontWeight: FontWeight.w600,
