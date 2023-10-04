@@ -36,7 +36,8 @@ class kMealAvailableTimeText extends StatelessWidget {
       style: Theme.of(context)
           .textTheme
           .bodyMedium!
-          .copyWith(color: const Color(0xFF5C5C5C)),
+          // .copyWith(color: const Color(0xFF5C5C5C)),
+      //todo 다른 텍스트와 같게 디폴트로 설정할 경우 다크모드로 변경해도 정상적으로 보여요 :> 유저입장에서 다른 컬러로 설정하는것이 시각적으로 더 좋은 효과가 있을까요?
     );
   }
 }

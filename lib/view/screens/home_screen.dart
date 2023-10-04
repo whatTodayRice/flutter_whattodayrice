@@ -62,6 +62,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
   DateTime selectedDate = DateTime.now(); //선택된 날짜 , 기본값은 현재 날짜
 
   void onDaySelected(DateTime selectedDay) {
+    final selectedDormitory = ref.watch(dormitoryProvider);
     setState(() {
       selectedDate = selectedDay;
     });
@@ -69,7 +70,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
     //selectedDay는 table_calendar에서 선택된 날짜를 의미함.
 
     //TODO : 세종의 경우 sunday와의 차이를 구해야하고 , 행복의 경우 monday와의 차이를 구해야함.
-    int differenceInDays = selectedDay.difference(sunday).inDays;
+    DateTime baseDate = selectedDormitory==DormitoryType.sejong ? sunday : monday;
+    int differenceInDays = selectedDay.difference(baseDate).inDays;
 
     if (differenceInDays >= 0 && differenceInDays < weeklyMeals.length) {
       if (selectedDate != DateTime.now()) {
@@ -108,6 +110,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
     super.initState();
     initializeDateFormatting();
     updateDormitoryMeal(dormitoryType);
+
+
     controller = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 1),
@@ -160,14 +164,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                     itemCount: weeklyMeals.length,
                     itemBuilder: (context, index) {
                       var meal = weeklyMeals[index];
-                      // for (var mealData in weeklyMeals) {
-                      //   print('Date: ${mealData?.date}');
-                      //   print('Breakfast: ${mealData?.breakfast}');
-                      //   print('Lunch: ${mealData?.lunch}');
-                      //   print('Dinner: ${mealData?.dinner}');
-                      //   print('Takeout: ${mealData?.takeout}');
-                      //   print('---'); // Separator between entries
-                      // }
+                      for (var mealData in weeklyMeals) {
+                        print('Date: ${mealData?.date}');
+                        print('Breakfast: ${mealData?.breakfast}');
+                        print('Lunch: ${mealData?.lunch}');
+                        print('Dinner: ${mealData?.dinner}');
+                        print('Takeout: ${mealData?.takeout}');
+                        print('---'); // Separator between entries
+                      }
 
                       DateTime date =
                           selectedDormitory == DormitoryType.happiness
@@ -220,7 +224,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
   }
 
   void moveToTodayMenu() {
-    //fixme :세종의 경우 오늘 버튼 클릭 시 정상 작동X
     DormitoryType selectedDormitory = ref.watch(dormitoryProvider);
     DateTime userAccessDate = DateTime.now(); //버튼을 누른 오늘의 날짜
     String formattedDate = DateFormat('yyyy-MM-dd').format(userAccessDate);
@@ -322,6 +325,8 @@ Widget buildMealPage(
           onPressedBack: onPressedBack,
           onPressedForward: onPressedForward,
           onPressedToday: onPressedToday,
+          dormitoryType: dormitoryType,
+
         ),
         SizedBox(
           height: screenHeight * 0.039,
