@@ -1,8 +1,13 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:after_layout/after_layout.dart';
 import 'package:flutter_whattodayrice/services/fetch_meals_from_db.dart';
 import 'package:flutter_whattodayrice/view/components/calender_row.dart';
 import 'package:flutter_whattodayrice/view/components/constants.dart';
 import 'package:flutter_whattodayrice/view/components/meal_time_row.dart';
+import 'package:flutter_whattodayrice/view/components/w_grow_transition.dart';
+import 'package:flutter_whattodayrice/view/components/w_splash_logo.dart';
 import 'package:flutter_whattodayrice/view/screens/settings_screen.dart';
 import 'package:intl/intl.dart';
 import '../../models/dormitory.dart';
@@ -10,11 +15,9 @@ import '../../models/meal.dart';
 import '../components/meal_container.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_whattodayrice/providers/dormitory_provider.dart';
 import 'package:flutter_whattodayrice/providers/meal_data_provider.dart';
-import 'package:flutter_whattodayrice/services/fetch_happy_meals.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -23,9 +26,10 @@ class HomeScreen extends ConsumerStatefulWidget {
   ConsumerState<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends ConsumerState<HomeScreen> {
-  //TODO: 세종 기숙사와 행복기숙사 오늘 날짜에 해당하는 페이지인덱스를 전달해주어야함.
+class _HomeScreenState extends ConsumerState<HomeScreen>
+    with SingleTickerProviderStateMixin, AfterLayoutMixin<HomeScreen> {
   final PageController _pageController = PageController(initialPage: 0);
+  late AnimationController controller;
 
   List<MealData?> weeklyMeals = [];
   DormitoryType dormitoryType = DormitoryType.happiness;
@@ -48,7 +52,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     });
   }
 
-
   DateTime sunday = DateTime(DateTime.now().year, DateTime.now().month,
           DateTime.now().day - (DateTime.now().weekday - 1))
       .subtract(const Duration(days: 1));
@@ -59,7 +62,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   DateTime selectedDate = DateTime.now(); //선택된 날짜 , 기본값은 현재 날짜
 
   void onDaySelected(DateTime selectedDay) {
-
     setState(() {
       selectedDate = selectedDay;
     });
@@ -96,11 +98,26 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   @override
+  void afterFirstLayout(BuildContext context) async {
+    await Future.delayed(const Duration(milliseconds: 500));
+    FlutterNativeSplash.remove();
+  }
+
+  @override
   void initState() {
     super.initState();
     initializeDateFormatting();
     updateDormitoryMeal(dormitoryType);
+    controller = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 1),
+    );
+  }
 
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
   }
 
   @override
@@ -108,7 +125,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
     final selectedDormitory = ref.watch(dormitoryProvider);
-    final weeklyMealsAsynsValue = ref.watch(mealDataProvider);
+    final weeklyMealsAsyncValue = ref.watch(mealDataProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -132,7 +149,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           ),
         ],
       ),
-      body: weeklyMealsAsynsValue.when(
+      body: weeklyMealsAsyncValue.when(
         data: (weeklyMeals) {
           return weeklyMeals.isNotEmpty
               ? SizedBox(
@@ -178,9 +195,19 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       CircularProgressIndicator(), // 데이터를 가져오는 동안 로딩 표시  //추후 삭제 할 것
                 );
         },
-        loading: () => const Center(
-          child: CircularProgressIndicator(),
-        ),
+        loading: () {
+          Animation<double> animation =
+              Tween<double>(begin: 0, end: 1).animate(controller);
+
+          controller.repeat();
+
+          return GrowTransition(
+            animation: animation,
+            child: const SplashLogo(
+              animatedValue: 1.0,
+            ),
+          );
+        },
         error: (error, stackTrace) {
           // 에러 처리
           print('Error fetching meal data: $error');
@@ -202,7 +229,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     int todayMenuIndex = -1;
     for (int i = 0; i < weeklyMeals.length; i++) {
       MealData? meal = weeklyMeals[i];
-      print('weeklyMeals[0]?.date.toString() : ${weeklyMeals[0]?.date.toString()}');
+      print(
+          'weeklyMeals[0]?.date.toString() : ${weeklyMeals[0]?.date.toString()}');
 
       if (meal?.date == formattedDate) {
         print('date : ${meal?.date.toString()}');
@@ -213,8 +241,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         } else {
           todayMenuIndex = i;
           break;
-        }}
-
+        }
+      }
     }
 
     if (todayMenuIndex != -1) {
@@ -282,7 +310,6 @@ Widget buildMealPage(
   print('modified: $modifiedDate');
   DateTime currentDate = DateTime.now(); //식당 시간 로직을 위한 날짜
   String formattedDate = DateFormat('yyyy-MM-dd').format(modifiedDate);
-
 
   if (meal != null) {
     return Column(

@@ -12,11 +12,11 @@ Future<List<MealData?>> fetchMealDataFromDB(
     if (dormitoryType == DormitoryType.sejong) {
       weeklyMeals = await fetchSejongMeals();
     } else {
-      // 기숙사 타입이 행복인 경우 행복기숙사 데이터를 가져옵니다.
       weeklyMeals = await fetchHappyMeals();
     }
     return weeklyMeals;
   } catch (e) {
+    print(e);
     throw Exception("없음");
   }
 }

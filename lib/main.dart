@@ -1,19 +1,14 @@
-import 'dart:io';
-
 import 'package:adaptive_theme/adaptive_theme.dart';
-import 'package:flutter_whattodayrice/view/screens/home_screen.dart';
-import 'package:flutter_whattodayrice/view/screens/settings_screen.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-// import 'package:flutter_whattodayrice/view/screens/home_screen.dart';
+import 'package:flutter_whattodayrice/view/screens/home_screen.dart';
+import 'package:flutter_whattodayrice/view/screens/settings_screen.dart';
 
-void main() {
-  HttpClient httpClinet = HttpClient();
-  httpClinet.badCertificateCallback =
-      (X509Certificate cert, String host, int port) => true;
-
-  WidgetsFlutterBinding.ensureInitialized();
+void main() async {
+  final bindings = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: bindings);
 
   runApp(const ProviderScope(child: MyApp()));
 }
@@ -40,16 +35,16 @@ class MyApp extends StatelessWidget {
         ),
       ),
       dark: ThemeData(
-        brightness: Brightness.light,
+        brightness: Brightness.dark,
         textTheme: TextTheme(
-          headlineMedium:
-              GoogleFonts.notoSans(fontSize: 18, fontWeight: FontWeight.bold),
-          titleMedium:
-              GoogleFonts.notoSans(fontSize: 20, fontWeight: FontWeight.w700),
-          titleSmall:
-              GoogleFonts.notoSans(fontSize: 16, fontWeight: FontWeight.w700),
+          headlineMedium: GoogleFonts.notoSans(
+              fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+          titleMedium: GoogleFonts.notoSans(
+              fontSize: 20, fontWeight: FontWeight.w700, color: Colors.white),
+          titleSmall: GoogleFonts.notoSans(
+              fontSize: 16, fontWeight: FontWeight.w700, color: Colors.white),
           bodyMedium: GoogleFonts.notoSans(
-              fontSize: 14, color: Colors.black, fontWeight: FontWeight.w500),
+              fontSize: 14, fontWeight: FontWeight.w500, color: Colors.white),
         ),
       ),
       initial: AdaptiveThemeMode.light,
@@ -60,7 +55,7 @@ class MyApp extends StatelessWidget {
           SettingsScreen.routeName: (context) => const SettingsScreen(),
         },
         debugShowCheckedModeBanner: false,
-        home: const Scaffold(body: HomeScreen()),
+        home: const HomeScreen(),
       ),
     );
   }
