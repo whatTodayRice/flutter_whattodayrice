@@ -81,7 +81,7 @@ class SelectThemeButton extends StatelessWidget {
       child: Text(
         buttonText,
         style: GoogleFonts.notoSans(
-            fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black),
+            fontSize: 18, fontWeight: FontWeight.bold,),
       ),
     );
   }
@@ -104,7 +104,7 @@ class SelectButton extends StatelessWidget {
       child: Text(
         buttonText,
         style: GoogleFonts.notoSans(
-            fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black),
+            fontSize: 18, fontWeight: FontWeight.bold,),
       ),
     );
   }

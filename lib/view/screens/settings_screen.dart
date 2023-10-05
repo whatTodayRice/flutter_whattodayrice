@@ -67,7 +67,6 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                             : '행복기숙사',
                         style: GoogleFonts.notoSans(
                             fontSize: 14,
-                            color: Colors.black,
                             fontWeight: FontWeight.w600),
                       )),
                   const Icon(arrowDropDown)
@@ -92,7 +91,6 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                           convertToThemeMode(AdaptiveTheme.of(context).mode)),
                       style: GoogleFonts.notoSans(
                           fontSize: 14,
-                          color: Colors.black,
                           fontWeight: FontWeight.w600),
                     ),
                   ),

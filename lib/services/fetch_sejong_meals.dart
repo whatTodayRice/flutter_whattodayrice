@@ -18,6 +18,7 @@ Future<List<String>> fetchMeal(int menuIndex) async {
     var targetElement = document.getElementsByClassName('board_box').first;
     String data = targetElement.text.replaceAll('\t', '');
     String data2 = data.replaceAll('\n', ',');
+
     List<String> mealTime = data2.split(',,').sublist(menuIndex, menuIndex + 8);
     return mealTime;
   } else {
@@ -34,23 +35,21 @@ Future<List<MealData?>> fetchSejongMeals() async {
   int breakfastIndex = 9;
   int lunchIndex = 19;
   int dinnerIndex = 27;
-  
+
   //데이터 패치 & 가공
   List<String> breakfastData = await fetchMeal(breakfastIndex);
   breakfastData.removeAt(0);
-  
+
   List<String> lunchData = await fetchMeal(lunchIndex);
   lunchData.removeLast();
-  
+
   List<String> dinnerData = await fetchMeal(dinnerIndex);
   dinnerData.removeLast();
-  
+
   //mealData에 넣어주기
   for (int dayIndex = 0; dayIndex < 7; dayIndex++) {
-
-    DateTime userAccessDate = currentDate.add(Duration(days: dayIndex));
-    print('userAccess : $userAccessDate');
-    String formattedDate = DateFormat('yyyy-MM-dd').format(userAccessDate);
+    DateTime dateAddFromToday = currentDate.add(Duration(days: dayIndex));
+    String formattedDate = DateFormat('yyyy-MM-dd').format(dateAddFromToday);
     MealData menu = MealData(
         date: formattedDate,
         breakfast: breakfastData[dayIndex],
@@ -59,5 +58,6 @@ Future<List<MealData?>> fetchSejongMeals() async {
         dinner: dinnerData[dayIndex]);
     menus.add(menu);
   }
+
   return menus;
 }
