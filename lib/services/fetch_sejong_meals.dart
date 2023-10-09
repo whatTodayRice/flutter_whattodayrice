@@ -97,8 +97,7 @@ void updateMeal(MealData sejongMeal) {
   var hour = DateTime.now().hour;
   var minute = DateTime.now().minute;
 
-  if ((sejongMeal.date == today && hour <= 18 && minute <= 30) ||
-      (sejongMeal.date == tomorrow)) {
+  if (sejongMeal.date == today && hour <= 18 && minute <= 30) {
     HomeWidget.saveWidgetData<bool>('is_sejong', true);
 
     HomeWidget.saveWidgetData("sejong_date", sejongMeal.date);

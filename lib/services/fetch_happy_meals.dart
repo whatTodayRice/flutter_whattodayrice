@@ -74,7 +74,6 @@ Future<List<MealData>> fetchHappyMeals() async {
 const String androidWidgetName = 'MealWidget';
 
 void updateMeal(MealData happyMeal) {
-
   final today = DateFormat('yyyy-MM-dd').format(DateTime.now());
   final tomorrow = DateFormat('yyyy-MM-dd')
       .format(DateTime.now().add(const Duration(days: 1)));
@@ -82,8 +81,7 @@ void updateMeal(MealData happyMeal) {
   var hour = DateTime.now().hour;
   var minute = DateTime.now().minute;
 
-  if ((happyMeal.date == today && hour <= 19) ||
-      (happyMeal.date == tomorrow)){
+  if (happyMeal.date == today && hour <= 19) {
     HomeWidget.saveWidgetData<bool>('is_sejong', false);
     HomeWidget.saveWidgetData("happy_date", happyMeal.date);
 
