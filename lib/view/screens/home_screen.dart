@@ -10,6 +10,7 @@ import 'package:flutter_whattodayrice/view/components/w_grow_transition.dart';
 import 'package:flutter_whattodayrice/view/components/w_splash_logo.dart';
 import 'package:flutter_whattodayrice/view/screens/settings_screen.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import '../../models/dormitory.dart';
 import '../../models/meal.dart';
 import '../components/meal_container.dart';
@@ -52,12 +53,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
     });
   }
 
-  DateTime sunday = DateTime(DateTime.now().year, DateTime.now().month,
-          DateTime.now().day - (DateTime.now().weekday - 1))
-      .subtract(const Duration(days: 1));
+  // DateTime sunday = DateTime(DateTime.now().year, DateTime.now().month,
+  //         DateTime.now().day - (DateTime.now().weekday - 1))
+  //     .subtract(const Duration(days: 1));
 
-  DateTime monday = DateTime(DateTime.now().year, DateTime.now().month,
-      DateTime.now().day - (DateTime.now().weekday - 1));
+  // DateTime sunday = DateTime.now().subtract(Duration(days: DateTime.now().weekday-7));
+  //
+  // DateTime monday = DateTime(DateTime.now().year, DateTime.now().month,
+  //     DateTime.now().day - (DateTime.now().weekday - 1));
 
   DateTime selectedDate = DateTime.now(); //선택된 날짜 , 기본값은 현재 날짜
 
@@ -67,42 +70,48 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
       selectedDate = selectedDay;
     });
 
-    //selectedDay는 table_calendar에서 선택된 날짜를 의미함.
+    AsyncValue<List<MealData?>> weeklyMeals = ref.watch(mealDataProvider);
+    return weeklyMeals.when(data: (weeklyMeals) {
+      String? dateString = weeklyMeals.first?.date;
+      DateTime? firstDate;
 
-    //TODO : 세종의 경우 sunday와의 차이를 구해야하고 , 행복의 경우 monday와의 차이를 구해야함.
-    DateTime baseDate = selectedDormitory==DormitoryType.sejong ? sunday : monday;
-    int differenceInDays = selectedDay.difference(baseDate).inDays;
-
-    if (differenceInDays >= 0 && differenceInDays < weeklyMeals.length) {
-      if (selectedDate != DateTime.now()) {
-        _pageController.animateToPage(
-          differenceInDays,
-          duration: const Duration(milliseconds: 500),
-          curve: Curves.easeInOut,
-        );
-      } else {
-        moveToTodayMenu();
+      if(dateString != null && dateString.isNotEmpty) {
+        firstDate = DateTime.parse(dateString);
       }
-    } else {
-      showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-                title: const Text(
-                  "그 날짜에 맞는 식단 데이터가 아직 올라오지 않았어요",
-                ),
-                actions: [
-                  TextButton(
-                      onPressed: () => Navigator.pop(context),
-                      child: const Text('확인'))
-                ],
-              ));
-    }
+
+      int differenceInDays = selectedDay.difference(firstDate!).inDays;
+
+      if (differenceInDays >= 0 && differenceInDays < weeklyMeals.length) {
+        if (selectedDate != DateTime.now()) {
+          _pageController.animateToPage(
+            differenceInDays,
+            duration: const Duration(milliseconds: 500),
+            curve: Curves.easeInOut,
+          );
+        } else {
+          moveToTodayMenu();
+        }
+    } },error: (err, stack) => showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text(
+            "그 날짜에 맞는 식단 데이터가 아직 올라오지 않았어요",
+          ),
+          actions: [
+            TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('확인'))
+          ],
+        )), loading: () => const CircularProgressIndicator());
+
+
   }
 
   @override
   void afterFirstLayout(BuildContext context) async {
     await Future.delayed(const Duration(milliseconds: 500));
     FlutterNativeSplash.remove();
+
   }
 
   @override
@@ -111,11 +120,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
     initializeDateFormatting();
     updateDormitoryMeal(dormitoryType);
 
-
     controller = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 1),
     );
+
+
   }
 
   @override
@@ -130,6 +140,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
     final double screenHeight = MediaQuery.of(context).size.height;
     final selectedDormitory = ref.watch(dormitoryProvider);
     final weeklyMealsAsyncValue = ref.watch(mealDataProvider);
+    var FirstDate = weeklyMeals.first?.date;
+
 
     return Scaffold(
       appBar: AppBar(
@@ -164,21 +176,26 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                     itemCount: weeklyMeals.length,
                     itemBuilder: (context, index) {
                       var meal = weeklyMeals[index];
-                      for (var mealData in weeklyMeals) {
-                        print('Date: ${mealData?.date}');
-                        print('Breakfast: ${mealData?.breakfast}');
-                        print('Lunch: ${mealData?.lunch}');
-                        print('Dinner: ${mealData?.dinner}');
-                        print('Takeout: ${mealData?.takeout}');
-                        print('---'); // Separator between entries
+
+                      // DateTime date =
+                      //     selectedDormitory == DormitoryType.happiness
+                      //         ? monday //monday가 2일이다.
+                      //         : sunday;
+
+                      String? dateString = weeklyMeals.first?.date;
+                      DateTime? firstDate;
+
+                      if(dateString != null && dateString.isNotEmpty) {
+                        firstDate = DateTime.parse(dateString);
                       }
 
-                      DateTime date =
-                          selectedDormitory == DormitoryType.happiness
-                              ? monday
-                              : sunday;
+                      DateTime? date = firstDate;
+                      // todo :String 타입의 날짜를 DateTime으로 변환 후에 넘겨줌.
+                      //  date값으로 weeilyMeals의 0번째 인덱스에 저장되어 있는 date 값을 넘겨줌.
 
-                      print('weeklyMeals : ${weeklyMeals.first?.date}');
+
+                      // print('monday : $monday');
+                      // print('sunday L $sunday');
                       return buildMealPage(
                         meal,
                         index,
@@ -224,54 +241,55 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
   }
 
   void moveToTodayMenu() {
-    DormitoryType selectedDormitory = ref.watch(dormitoryProvider);
-    DateTime userAccessDate = DateTime.now(); //버튼을 누른 오늘의 날짜
-    String formattedDate = DateFormat('yyyy-MM-dd').format(userAccessDate);
+    AsyncValue<List<MealData?>> weeklyMeals = ref.watch(mealDataProvider);
 
-    // weeklyMeals 리스트를 순회하며 userAccessDate와 일치하는 식단을 찾습니다.
+    DateTime userAccessDate = DateTime.now();
+    String formattedDate =
+    DateFormat('MM-dd (E)', 'ko_KR').format(userAccessDate);
+
     int todayMenuIndex = -1;
-    for (int i = 0; i < weeklyMeals.length; i++) {
-      MealData? meal = weeklyMeals[i];
-      print(
-          'weeklyMeals[0]?.date.toString() : ${weeklyMeals[0]?.date.toString()}');
 
-      if (meal?.date == formattedDate) {
-        print('date : ${meal?.date.toString()}');
-        print('formattedDate :$formattedDate');
-        if (selectedDormitory == DormitoryType.sejong) {
-          todayMenuIndex = i + 1;
-          break;
-        } else {
-          todayMenuIndex = i;
-          break;
-        }
-      }
-    }
+    return weeklyMeals.when(
+        data: (weeklyMeals) {
+          // weeklyMeals 리스트를 순회하며 userAccessDate 와 일치하는 식단을 찾습니다.
+          for (int i = 0; i < weeklyMeals.length; i++) {
+            MealData? meal = weeklyMeals[i];
+            var date = DateTime.parse(meal!.date);
+            var formatDate = DateFormat('MM-dd (E)', 'ko_KR').format(date);
 
-    if (todayMenuIndex != -1) {
-      // PageView를 해당 인덱스로 이동시킵니다.
-      _pageController.animateToPage(
-        todayMenuIndex,
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeInOut,
-      );
-    } else {
-      // userAccessDate와 일치하는 식단이 없는 경우에 대한 처리
-      showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: const Text('오늘의 식단이 없습니다.'),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text('확인'),
-            ),
-          ],
+            print(meal?.breakfast);
+            if (formatDate == formattedDate) {
+              todayMenuIndex = i;
+              print(todayMenuIndex);
+              break;
+            }
+          }
+
+          if (todayMenuIndex != -1) {
+            // PageView를 해당 인덱스로 이동시킵니다.
+            _pageController.animateToPage(
+              todayMenuIndex,
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeInOut,
+            );
+          } else {
+            // userAccessDate와 일치하는 식단이 없는 경우에 대한 처리
+          }
+        },
+        error: (err, stack) => showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: const Text('오늘 식단이 올라오지 않았어요.'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('확인'),
+              ),
+            ],
+          ),
         ),
-      );
-    }
+        loading: () => const CircularProgressIndicator());
   }
-
   void moveToNextPage() {
     var currentPage = _pageController.page ?? 0;
     final nextPage = currentPage + 1;
@@ -303,16 +321,17 @@ Widget buildMealPage(
   double screenWidth,
   double screenHeight,
   void Function(DateTime selectedDay) onDaySelected,
-  DateTime date,
+  DateTime? date,
   VoidCallback onPressedToday,
   VoidCallback onPressedBack,
   VoidCallback onPressedForward,
   DormitoryType dormitoryType,
 ) {
-  DateTime modifiedDate = date.add(Duration(days: index));
-  print('modified: $modifiedDate');
+  DateTime modifiedDate = date!.add(Duration(days: index));
+
   DateTime currentDate = DateTime.now(); //식당 시간 로직을 위한 날짜
   String formattedDate = DateFormat('yyyy-MM-dd').format(modifiedDate);
+
 
   if (meal != null) {
     return Column(
@@ -326,7 +345,6 @@ Widget buildMealPage(
           onPressedForward: onPressedForward,
           onPressedToday: onPressedToday,
           dormitoryType: dormitoryType,
-
         ),
         SizedBox(
           height: screenHeight * 0.039,

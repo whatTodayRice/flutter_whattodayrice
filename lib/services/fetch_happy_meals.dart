@@ -1,6 +1,10 @@
+import 'dart:developer';
+
 import 'package:flutter_whattodayrice/models/meal.dart';
 import 'package:http/http.dart' as http;
 import 'package:html/parser.dart';
+import 'package:home_widget/home_widget.dart';
+import 'package:intl/intl.dart';
 
 Future<List<MealData>> fetchHappyMeals() async {
   final response = await http
@@ -24,6 +28,7 @@ Future<List<MealData>> fetchHappyMeals() async {
       String rawDateString = weeklyDate[dateIndex].text;
       String formattedDate = rawDateString.replaceAll(RegExp(r'[()]'), '');
       formattedDate = formattedDate.split(' ').last; // 날짜 부분 추출
+      print('haappy : $formattedDate');
 
       // 각 식단 항목을 쉼표와 공백으로 구분하여 저장
       String breakfast = menuElements[startIndex].text.splitMapJoin(
@@ -54,8 +59,8 @@ Future<List<MealData>> fetchHappyMeals() async {
       );
 
       menus.add(menu);
+      updateMeal(menu);
     }
-
     return menus;
   } else if (response.statusCode == 404) {
     throw Exception('페이지를 찾을 수 없습니다.');
@@ -63,5 +68,30 @@ Future<List<MealData>> fetchHappyMeals() async {
     throw Exception('서버 오류가 발생했습니다.');
   } else {
     throw Exception('알 수 없는 오류가 발생했습니다.');
+  }
+}
+
+const String androidWidgetName = 'MealWidget';
+
+void updateMeal(MealData happyMeal) {
+
+  final today = DateFormat('yyyy-MM-dd').format(DateTime.now());
+  final tomorrow = DateFormat('yyyy-MM-dd')
+      .format(DateTime.now().add(const Duration(days: 1)));
+
+  var hour = DateTime.now().hour;
+  var minute = DateTime.now().minute;
+
+  if ((happyMeal.date == today && hour <= 19) ||
+      (happyMeal.date == tomorrow)){
+    HomeWidget.saveWidgetData<bool>('is_sejong', false);
+    HomeWidget.saveWidgetData("happy_date", happyMeal.date);
+
+    HomeWidget.saveWidgetData<String>('happy_breakfast', happyMeal.breakfast);
+    HomeWidget.saveWidgetData<String>('happy_takeout', happyMeal.takeout);
+    HomeWidget.saveWidgetData<String>('happy_lunch', happyMeal.lunch);
+    HomeWidget.saveWidgetData<String>('happy_dinner', happyMeal.dinner);
+
+    HomeWidget.updateWidget(androidName: androidWidgetName);
   }
 }

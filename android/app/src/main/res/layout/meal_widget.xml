@@ -2,18 +2,56 @@
     style="@style/Widget.Android.AppWidget.Container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginBottom="@dimen/widget_margin"
     android:theme="@style/Theme.Android.AppWidgetContainer">
 
     <TextView
-        android:id="@+id/appwidget_text"
-        style="@style/Widget.Android.AppWidget.InnerView"
+        android:id="@+id/date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
+        android:layout_alignParentTop="true"
         android:layout_margin="8dp"
-        android:contentDescription="@string/appwidget_text"
-        android:text="@string/appwidget_text"
-        android:textSize="24sp"
-        android:textStyle="bold|italic" />
+        android:text="날짜"
+        android:textSize="8sp" />
+    <TextView
+        android:id="@+id/breakfast"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/date"
+        android:layout_margin="8dp"
+
+        android:text="아침"
+        android:textSize="8sp" />
+
+    <TextView
+        android:id="@+id/takeout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/breakfast"
+        android:layout_margin="8dp"
+
+        android:text="테이크아웃"
+        android:textSize="8sp" />
+
+    <TextView
+        android:id="@+id/lunch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/takeout"
+        android:layout_margin="8dp"
+
+        android:textSize="8sp"
+        android:text="점심" />
+
+    <TextView
+        android:id="@+id/dinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lunch"
+        android:layout_margin="8dp"
+
+        android:textSize="8sp"
+        android:text="저녁" />
+
+
 </RelativeLayout>

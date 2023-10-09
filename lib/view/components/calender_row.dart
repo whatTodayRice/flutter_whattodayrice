@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_whattodayrice/models/dormitory.dart';
 import 'package:flutter_whattodayrice/providers/dormitory_provider.dart';
+import 'package:flutter_whattodayrice/providers/meal_data_provider.dart';
 import 'package:flutter_whattodayrice/view/components/button_template.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-class CalenderRow extends StatefulWidget {
+class CalenderRow extends ConsumerStatefulWidget {
   const CalenderRow({
     super.key,
     required this.width,
@@ -22,7 +24,7 @@ class CalenderRow extends StatefulWidget {
   final double width;
   final double height;
   final void Function(DateTime) onDateSelected;
-  final DateTime date;
+  final DateTime? date;
 
   final VoidCallback onPressedBack;
   final VoidCallback onPressedForward;
@@ -31,10 +33,10 @@ class CalenderRow extends StatefulWidget {
 
 
   @override
-  State<CalenderRow> createState() => _CalenderRowState();
+  ConsumerState<CalenderRow> createState() => _CalenderRowState();
 }
 
-class _CalenderRowState extends State<CalenderRow> {
+class _CalenderRowState extends ConsumerState<CalenderRow> {
 
   DateTime currentDate = DateTime.now();
 
@@ -42,23 +44,23 @@ class _CalenderRowState extends State<CalenderRow> {
   DateTime monday = DateTime.now()
       .subtract(Duration(days: DateTime.now().weekday))
       .add(const Duration(days: 1));
-  DateTime sunday = DateTime.now()
-      .subtract(Duration(days: DateTime.now().weekday))
-      .add(const Duration(days: 1))
-
-      .subtract(const Duration(days: 1));
 
 
+  DateTime sunday=
+  DateTime.now()
+      .subtract(Duration(days: DateTime.now().weekday-7));
 
   String getCurrentDate() {
     final DateFormat dateFormat = DateFormat('(E)', 'ko_KR');
     String formattedDate =
-        "${widget.date.month}월 ${widget.date.day}일 ${dateFormat.format(widget.date)}";
+        "${widget.date!.month}월 ${widget.date!.day}일 ${dateFormat.format(widget.date!)}";
     return formattedDate;
   }
 
   @override
   Widget build(BuildContext context) {
+    //todo : dormitoryType :  provider로 처리하기
+
     final baseDate = widget.dormitoryType==DormitoryType.sejong ? sunday : monday;
     final startingDayOfWeek = widget.dormitoryType ==DormitoryType.sejong ? StartingDayOfWeek.sunday : StartingDayOfWeek.monday;
     return Container(
@@ -121,16 +123,16 @@ class _CalenderRowState extends State<CalenderRow> {
                               fontSize: 10.0,
                             ),
                             selectedTextStyle: TextStyle(
-                              fontSize: 10.0,
+                              fontSize: 8.0,
                             ), // Adjust the font size for the selected date
                           ),
-                          focusedDay: currentDate,
+                          focusedDay: DateTime.now(),
                           firstDay: baseDate, //todo : 세종의 경우 sunday, 행복의 경우 monday
                           lastDay:baseDate.add(Duration(days: 6)),
                               //Date 값의 마지막 날짜만 넣어주기
                           headerVisible: false,
                           calendarFormat: CalendarFormat.week,
-                          startingDayOfWeek: startingDayOfWeek, //첫 시작을 월요일로 변경 가능하게함!
+                          startingDayOfWeek: startingDayOfWeek,
                           locale: 'ko_KR',
                           onDaySelected: (selectedDay, focusDay) {
                             widget.onDateSelected(selectedDay);

@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:home_widget/home_widget.dart';
 import 'package:html/parser.dart';
 import 'package:flutter_whattodayrice/models/meal.dart';
-import 'dart:async';
 import 'package:intl/intl.dart';
 
 Future<List<String>> fetchMeal(int menuIndex) async {
@@ -17,47 +17,96 @@ Future<List<String>> fetchMeal(int menuIndex) async {
     var document = parse(await response.transform(const Utf8Decoder()).join());
     var targetElement = document.getElementsByClassName('board_box').first;
     String data = targetElement.text.replaceAll('\t', '');
-    String data2 = data.replaceAll('\n', ',');
 
+    String data2 = data.replaceAll('\n', ',');
     List<String> mealTime = data2.split(',,').sublist(menuIndex, menuIndex + 8);
     return mealTime;
   } else {
-    throw Exception('식단을 기다리고 있어요 조금만 기다려주세요:활짝_웃는: ');
+    throw Exception('식단을 기다리고 있어요 조금만 기다려주세요:grinning: ');
   }
 }
 
-Future<List<MealData?>> fetchSejongMeals() async {
+Future<List<MealData>> fetchSejongMeals() async {
   List<MealData> menus = [];
-  DateTime currentDate = DateTime.now();
-  currentDate = currentDate.subtract(Duration(days: currentDate.weekday));
 
-  //각 식단별 인덱스 값
+  List<String> dateData = await fetchMeal(0);
+  List<String> dateValues = dateData[7].split(','); // 요일과 날짜를 쉼표로 분리
+  print(dateValues);
+
   int breakfastIndex = 9;
-  int lunchIndex = 19;
-  int dinnerIndex = 27;
-
-  //데이터 패치 & 가공
   List<String> breakfastData = await fetchMeal(breakfastIndex);
   breakfastData.removeAt(0);
 
+  int lunchIndex = 19;
   List<String> lunchData = await fetchMeal(lunchIndex);
   lunchData.removeLast();
 
+  int dinnerIndex = 27;
   List<String> dinnerData = await fetchMeal(dinnerIndex);
   dinnerData.removeLast();
 
-  //mealData에 넣어주기
   for (int dayIndex = 0; dayIndex < 7; dayIndex++) {
-    DateTime dateAddFromToday = currentDate.add(Duration(days: dayIndex));
-    String formattedDate = DateFormat('yyyy-MM-dd').format(dateAddFromToday);
+    String fetchedDate = dateValues[dayIndex + 2].trim();
+    DateTime convertedFetchedDate = parseDateString(fetchedDate);
+    print(convertedFetchedDate);
+    String formattedString =
+        DateFormat('yyyy-MM-dd', 'ko_KR').format(convertedFetchedDate);
+
+    // 일 ~ 토까지의 날짜 값을 사용
     MealData menu = MealData(
-        date: formattedDate,
+        date: formattedString,
         breakfast: breakfastData[dayIndex],
         takeout: '',
         lunch: lunchData[dayIndex],
         dinner: dinnerData[dayIndex]);
     menus.add(menu);
+    updateMeal(menu);
   }
-
   return menus;
+}
+
+DateTime parseDateString(String formattedDate) {
+  // 정규 표현식을 사용하여 월과 일 추출
+  final RegExp regex = RegExp(r'(\d{1,2})/(\d{1,2})');
+  final Match match = regex.firstMatch(formattedDate)!;
+
+  // 정규 표현식에서 그룹 1은 월, 그룹 2는 일을 나타냅니다.
+  final int month = int.parse(match.group(1)!);
+  final int day = int.parse(match.group(2)!);
+
+  // 현재 연도 가져오기
+  int currentYear = DateTime.now().year;
+
+  // DateTime 객체 생성
+  DateTime dateTime = DateTime(currentYear, month, day);
+  print(dateTime);
+
+  return dateTime;
+}
+
+const String androidWidgetName = 'MealWidget';
+
+void updateMeal(MealData sejongMeal) {
+  final today = DateFormat('yyyy-MM-dd').format(DateTime.now());
+  final tomorrow = DateFormat('yyyy-MM-dd')
+      .format(DateTime.now().add(const Duration(days: 1)));
+
+  //현재 시간 받기
+  //String sejongDinnerTime = '17:00 ~ 18:30';
+
+  var hour = DateTime.now().hour;
+  var minute = DateTime.now().minute;
+
+  if ((sejongMeal.date == today && hour <= 18 && minute <= 30) ||
+      (sejongMeal.date == tomorrow)) {
+    HomeWidget.saveWidgetData<bool>('is_sejong', true);
+
+    HomeWidget.saveWidgetData("sejong_date", sejongMeal.date);
+
+    HomeWidget.saveWidgetData<String>('sejong_breakfast', sejongMeal.breakfast);
+    HomeWidget.saveWidgetData<String>('sejong_lunch', sejongMeal.lunch);
+    HomeWidget.saveWidgetData<String>('sejong_dinner', sejongMeal.dinner);
+
+    HomeWidget.updateWidget(androidName: androidWidgetName);
+  }
 }

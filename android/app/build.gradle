@@ -64,6 +64,10 @@ android {
             signingConfig signingConfigs.debug
         }
     }
+    buildFeatures {
+        viewBinding true
+    }
+    namespace 'com.example.flutter_whattodayrice'
 }
 
 flutter {
