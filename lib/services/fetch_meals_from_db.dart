@@ -9,7 +9,8 @@ Future<List<MealData?>> fetchMealDataFromDB(
   List<MealData?> weeklyMeals = [];
 
   try {
-    if (dormitoryType == DormitoryType.sejong) {
+    if (dormitoryType == DormitoryType.sejong1 ||
+        dormitoryType == DormitoryType.sejong2) {
       weeklyMeals = await fetchSejongMeals();
     } else {
       weeklyMeals = await fetchHappyMeals();
