@@ -97,15 +97,21 @@ void updateMeal(MealData sejongMeal) {
   var hour = DateTime.now().hour;
   var minute = DateTime.now().minute;
 
-  if (sejongMeal.date == today && hour <= 18 && minute <= 30) {
-    HomeWidget.saveWidgetData<bool>('is_sejong', true);
-
-    HomeWidget.saveWidgetData("sejong_date", sejongMeal.date);
-
-    HomeWidget.saveWidgetData<String>('sejong_breakfast', sejongMeal.breakfast);
-    HomeWidget.saveWidgetData<String>('sejong_lunch', sejongMeal.lunch);
-    HomeWidget.saveWidgetData<String>('sejong_dinner', sejongMeal.dinner);
-
-    HomeWidget.updateWidget(androidName: androidWidgetName);
+  String targetDate = today;
+  if (hour >= 18 && minute >= 30){
+    targetDate = tomorrow;
   }
+  if (sejongMeal.date==targetDate){
+    saveSejongWidgetDate(sejongMeal);
+  }
+
+  HomeWidget.updateWidget(androidName: androidWidgetName);
+}
+
+void saveSejongWidgetDate(MealData sejongMeal) {
+  HomeWidget.saveWidgetData<bool>('is_sejong', true);
+  HomeWidget.saveWidgetData("sejong_date", sejongMeal.date);
+  HomeWidget.saveWidgetData<String>('sejong_breakfast', sejongMeal.breakfast);
+  HomeWidget.saveWidgetData<String>('sejong_lunch', sejongMeal.lunch);
+  HomeWidget.saveWidgetData<String>('sejong_dinner', sejongMeal.dinner);
 }

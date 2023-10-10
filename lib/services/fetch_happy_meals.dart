@@ -79,17 +79,25 @@ void updateMeal(MealData happyMeal) {
       .format(DateTime.now().add(const Duration(days: 1)));
 
   var hour = DateTime.now().hour;
-  var minute = DateTime.now().minute;
 
-  if (happyMeal.date == today && hour <= 19) {
-    HomeWidget.saveWidgetData<bool>('is_sejong', false);
-    HomeWidget.saveWidgetData("happy_date", happyMeal.date);
 
-    HomeWidget.saveWidgetData<String>('happy_breakfast', happyMeal.breakfast);
-    HomeWidget.saveWidgetData<String>('happy_takeout', happyMeal.takeout);
-    HomeWidget.saveWidgetData<String>('happy_lunch', happyMeal.lunch);
-    HomeWidget.saveWidgetData<String>('happy_dinner', happyMeal.dinner);
-
-    HomeWidget.updateWidget(androidName: androidWidgetName);
+  String targetDate = today;
+  if (hour >= 19){
+    targetDate = tomorrow;
   }
+  if (happyMeal.date==targetDate){
+    saveHappyWidgetData(happyMeal);
+  }
+
+   HomeWidget.updateWidget(androidName: androidWidgetName);
+}
+
+void saveHappyWidgetData(MealData happyMeal) {
+  HomeWidget.saveWidgetData<bool>('is_sejong', false);
+  HomeWidget.saveWidgetData("happy_date", happyMeal.date);
+
+  HomeWidget.saveWidgetData<String>('happy_breakfast', happyMeal.breakfast);
+  HomeWidget.saveWidgetData<String>('happy_takeout', happyMeal.takeout);
+  HomeWidget.saveWidgetData<String>('happy_lunch', happyMeal.lunch);
+  HomeWidget.saveWidgetData<String>('happy_dinner', happyMeal.dinner);
 }
