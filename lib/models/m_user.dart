@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class User {
   final String? name;
-  final DormitoryType dormitoryType;
+  final String dormitoryType;
 
   User({this.name, required this.dormitoryType});
 

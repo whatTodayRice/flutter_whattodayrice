@@ -1,6 +1,6 @@
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:flutter_whattodayrice/view/screens/select_dormitory_screen.dart';
+import 'package:flutter_whattodayrice/view/screens/s_select_dormitory.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

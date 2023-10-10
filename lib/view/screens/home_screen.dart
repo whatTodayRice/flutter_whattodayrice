@@ -32,7 +32,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
   late AnimationController controller;
 
   List<MealData?> weeklyMeals = [];
-  DormitoryType dormitoryType = DormitoryType.happiness;
 
   void updateDormitoryMeal(DormitoryType dormitoryType) {
     fetchMealDataFromDB(dormitoryType).then((newData) {
@@ -110,7 +109,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
   void initState() {
     super.initState();
     initializeDateFormatting();
-    updateDormitoryMeal(dormitoryType);
+    // updateDormitoryMeal(dormitoryType);
 
     controller = AnimationController(
       vsync: this,
@@ -133,9 +132,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
 
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: const Color(0xFFFF833D),
         title: Text(
-            selectedDormitory == DormitoryType.sejong1 ? "세종기숙사" : "행복기숙사",
+            (selectedDormitory == DormitoryType.sejong1 ||
+                    selectedDormitory == DormitoryType.sejong2)
+                ? "세종기숙사"
+                : "행복기숙사",
             style: Theme.of(context)
                 .textTheme
                 .headlineMedium!
@@ -164,21 +167,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                     itemCount: weeklyMeals.length,
                     itemBuilder: (context, index) {
                       var meal = weeklyMeals[index];
-                      for (var mealData in weeklyMeals) {
-                        print('Date: ${mealData?.date}');
-                        print('Breakfast: ${mealData?.breakfast}');
-                        print('Lunch: ${mealData?.lunch}');
-                        print('Dinner: ${mealData?.dinner}');
-                        print('Takeout: ${mealData?.takeout}');
-                        print('---'); // Separator between entries
-                      }
 
                       DateTime date =
                           selectedDormitory == DormitoryType.happiness
                               ? monday
                               : sunday;
 
-                      print('weeklyMeals : ${weeklyMeals.first?.date}');
                       return buildMealPage(
                         meal,
                         index,

@@ -56,6 +56,7 @@ dependencies:
   flutter_native_splash: ^2.3.2
   firebase_core: ^2.17.0
   cloud_firestore: ^4.9.3
+  flutter_animate: ^4.2.0+1
 
 dev_dependencies:
   flutter_test:
@@ -82,6 +83,7 @@ flutter:
   assets:
     - assets/db/
     - assets/images/splash/
+    - assets/images/
 
   # fonts:
   #   - family: NotoSansKR

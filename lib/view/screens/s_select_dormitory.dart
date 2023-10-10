@@ -6,8 +6,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_whattodayrice/models/dormitory.dart';
 import 'package:flutter_whattodayrice/providers/dormitory_provider.dart';
 import 'package:flutter_whattodayrice/view/components/w_selected_dorms_button.dart';
-
+import 'package:flutter_animate/flutter_animate.dart';
 import '../components/w_save_user_info_button.dart';
+import 'package:image/image.dart' as img;
 
 class SelectDormitoryScreen extends ConsumerStatefulWidget {
   const SelectDormitoryScreen({super.key});
@@ -18,7 +19,9 @@ class SelectDormitoryScreen extends ConsumerStatefulWidget {
 }
 
 class _SelectDormitoryScreenState extends ConsumerState<SelectDormitoryScreen>
-    with AfterLayoutMixin<SelectDormitoryScreen> {
+    with
+        SingleTickerProviderStateMixin,
+        AfterLayoutMixin<SelectDormitoryScreen> {
   bool sejong1Selected = false;
   bool sejong2Selected = false;
   bool happySelected = false;
@@ -27,20 +30,15 @@ class _SelectDormitoryScreenState extends ConsumerState<SelectDormitoryScreen>
     setState(() {
       // 선택한 버튼의 상태를 토글합니다.
       if (dormitoryType == DormitoryType.sejong1) {
-        ref.watch(dormitoryProvider.notifier).state = DormitoryType.sejong1;
-
         sejong1Selected = !sejong1Selected;
         // 나머지 버튼 선택 해제
         sejong2Selected = false;
         happySelected = false;
       } else if (dormitoryType == DormitoryType.sejong2) {
-        ref.watch(dormitoryProvider.notifier).state = DormitoryType.sejong2;
-
         sejong2Selected = !sejong2Selected;
         sejong1Selected = false;
         happySelected = false;
       } else if (dormitoryType == DormitoryType.happiness) {
-        ref.watch(dormitoryProvider.notifier).state = DormitoryType.happiness;
         happySelected = !happySelected;
         sejong1Selected = false;
         sejong2Selected = false;
@@ -59,15 +57,10 @@ class _SelectDormitoryScreenState extends ConsumerState<SelectDormitoryScreen>
     return SafeArea(
       child: Scaffold(
         body: Padding(
-          padding: EdgeInsets.all(20.0),
+          padding: const EdgeInsets.all(20.0),
           child: Column(
             children: [
-              Flexible(
-                flex: 20,
-                child: Container(
-                  color: Colors.white,
-                ),
-              ),
+              Flexible(flex: 20, child: Container()),
               Flexible(
                 flex: 13,
                 child: Row(children: [
@@ -89,6 +82,8 @@ class _SelectDormitoryScreenState extends ConsumerState<SelectDormitoryScreen>
                   child: SelectedDormitoryButton(
                       onPressed: () {
                         setState(() {
+                          ref.watch(dormitoryProvider.notifier).state =
+                              DormitoryType.sejong1;
                           handleDormitorySelection(DormitoryType.sejong1);
                         });
                       },
@@ -108,6 +103,8 @@ class _SelectDormitoryScreenState extends ConsumerState<SelectDormitoryScreen>
                   child: SelectedDormitoryButton(
                       onPressed: () {
                         setState(() {
+                          ref.watch(dormitoryProvider.notifier).state =
+                              DormitoryType.sejong2;
                           handleDormitorySelection(DormitoryType.sejong2);
                         });
                       },
@@ -124,6 +121,8 @@ class _SelectDormitoryScreenState extends ConsumerState<SelectDormitoryScreen>
                   child: SelectedDormitoryButton(
                     onPressed: () {
                       setState(() {
+                        ref.watch(dormitoryProvider.notifier).state =
+                            DormitoryType.happiness;
                         handleDormitorySelection(DormitoryType.happiness);
                       });
                     },
@@ -138,9 +137,7 @@ class _SelectDormitoryScreenState extends ConsumerState<SelectDormitoryScreen>
               ),
               Flexible(
                 flex: 8,
-                child: SaveUserInfoButton(
-                  dormitoryType: ref.watch(dormitoryProvider),
-                ),
+                child: SaveUserInfoButton(),
               ),
               Flexible(
                 flex: 12,

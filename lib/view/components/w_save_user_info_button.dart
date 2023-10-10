@@ -2,20 +2,28 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_whattodayrice/models/dormitory.dart';
-import 'package:flutter_whattodayrice/providers/dormitory_provider.dart';
+import 'package:flutter_whattodayrice/providers/dto_user_info.dart';
+import 'package:flutter_whattodayrice/providers/meal_data_provider.dart';
 import 'package:flutter_whattodayrice/view/components/vo_random_generated_user_name.dart';
-import '../screens/home_screen.dart';
+import '../../models/m_user.dart';
+import '../../providers/dormitory_provider.dart';
+import '../../providers/dto_user_id.dart';
+import '../screens/s_completed.dart';
 
 FirebaseFirestore db = FirebaseFirestore.instance;
 
-class SaveUserInfoButton extends StatelessWidget {
-  SaveUserInfoButton({super.key, required this.dormitoryType});
+class SaveUserInfoButton extends ConsumerStatefulWidget {
+  const SaveUserInfoButton({super.key});
 
-  DormitoryType dormitoryType;
+  @override
+  ConsumerState<SaveUserInfoButton> createState() => _SaveUserInfoButtonState();
+}
 
+class _SaveUserInfoButtonState extends ConsumerState<SaveUserInfoButton> {
   @override
   Widget build(BuildContext context) {
     final String randomGeneratedUserName = generateRandomNickname();
+    final dormitoryType = ref.watch(dormitoryProvider);
 
     return Container(
       decoration: BoxDecoration(
@@ -28,19 +36,30 @@ class SaveUserInfoButton extends StatelessWidget {
         style: ButtonStyle(
           elevation: MaterialStateProperty.all<double>(2),
         ),
-        onPressed: () {
-          final newUser = <String, dynamic>{
-            "name": randomGeneratedUserName,
-            "dormitoryType": dormitoryType.toString(),
-          };
+        onPressed: () async {
+          ref.watch(userNickNameProvider.notifier).state =
+              randomGeneratedUserName;
 
-          db.collection("users").add(newUser).then((DocumentReference doc) =>
-              print('DocumentSnapshot added with ID: ${doc.id}'));
+          final newUser = User(
+              name: randomGeneratedUserName,
+              dormitoryType: dormitoryType.toString());
+
+          db
+              .collection("users")
+              .withConverter(
+                  fromFirestore: User.fromFirestore,
+                  toFirestore: (User user, options) => user.toFirestore())
+              .add(newUser)
+              .then((DocumentReference doc) {
+            final newUserId = doc.id;
+            ref.read(userIdProvider.notifier).state = newUserId;
+            print('DocumentSnapshot added with ID: ${doc.id}');
+          });
 
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => const HomeScreen(),
+              builder: (context) => const CompletedScreen(),
             ),
           );
         },

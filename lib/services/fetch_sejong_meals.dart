@@ -39,15 +39,12 @@ Future<List<MealData?>> fetchSejongMeals() async {
   //데이터 패치 & 가공
   List<String> breakfastData = await fetchMeal(breakfastIndex);
   breakfastData.removeAt(0);
-  print(breakfastData[2]);
 
   List<String> lunchData = await fetchMeal(lunchIndex);
   lunchData.removeLast();
-  print(lunchData[2]);
 
   List<String> dinnerData = await fetchMeal(dinnerIndex);
   dinnerData.removeLast();
-  print(dinnerData[2]);
 
   //mealData에 넣어주기
   for (int dayIndex = 0; dayIndex < 7; dayIndex++) {
