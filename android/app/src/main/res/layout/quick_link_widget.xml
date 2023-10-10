@@ -3,32 +3,37 @@
     style="@style/Widget.Android.AppWidget.Container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/widget_margin"
+    android:layout_margin="@dimen/widget_margin"
     android:theme="@style/Theme.Android.AppWidgetContainer">
 
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="40dp"
+        android:layout_height="35dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="2dp"
         android:src="@drawable/logo" />
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:layout_below="@+id/imageView"
-        android:textSize="30sp"
-
-        android:text="오늘 밥 뭐야?" />
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="2dp"
+        android:text="오늘 밥 뭐야?"
+        android:textSize="7sp" />
 
     <TextView
         android:id="@+id/textView2"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textView"
-        android:textSize="20sp"
-        android:text="눌러서 확인하기" />
+        android:gravity="center"
+        android:text="눌러서 확인하기"
+        android:textSize="5sp" />
 
 
 </RelativeLayout>
