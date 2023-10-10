@@ -53,11 +53,9 @@ class _CalenderRowState extends State<CalenderRow> {
 
   @override
   Widget build(BuildContext context) {
-    final baseDate =
-        widget.dormitoryType == DormitoryType.sejong1 ? sunday : monday;
-    final startingDayOfWeek = widget.dormitoryType == DormitoryType.sejong1
-        ? StartingDayOfWeek.sunday
-        : StartingDayOfWeek.monday;
+    final baseDate = widget.dormitoryType==DormitoryType.sejong ? sunday : monday;
+    final startingDayOfWeek = widget.dormitoryType ==DormitoryType.sejong ? StartingDayOfWeek.sunday : StartingDayOfWeek.monday;
+
     return Container(
       width: widget.width,
       height: widget.height * 0.06,
