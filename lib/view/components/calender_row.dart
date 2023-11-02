@@ -29,15 +29,12 @@ class CalenderRow extends StatefulWidget {
   final VoidCallback onPressedToday;
   final DormitoryType dormitoryType;
 
-
   @override
   State<CalenderRow> createState() => _CalenderRowState();
 }
 
 class _CalenderRowState extends State<CalenderRow> {
-
   DateTime currentDate = DateTime.now();
-
 
   DateTime monday = DateTime.now()
       .subtract(Duration(days: DateTime.now().weekday))
@@ -45,10 +42,7 @@ class _CalenderRowState extends State<CalenderRow> {
   DateTime sunday = DateTime.now()
       .subtract(Duration(days: DateTime.now().weekday))
       .add(const Duration(days: 1))
-
       .subtract(const Duration(days: 1));
-
-
 
   String getCurrentDate() {
     final DateFormat dateFormat = DateFormat('(E)', 'ko_KR');
@@ -61,6 +55,7 @@ class _CalenderRowState extends State<CalenderRow> {
   Widget build(BuildContext context) {
     final baseDate = widget.dormitoryType==DormitoryType.sejong ? sunday : monday;
     final startingDayOfWeek = widget.dormitoryType ==DormitoryType.sejong ? StartingDayOfWeek.sunday : StartingDayOfWeek.monday;
+
     return Container(
       width: widget.width,
       height: widget.height * 0.06,
@@ -125,19 +120,19 @@ class _CalenderRowState extends State<CalenderRow> {
                             ), // Adjust the font size for the selected date
                           ),
                           focusedDay: currentDate,
-                          firstDay: baseDate, //todo : 세종의 경우 sunday, 행복의 경우 monday
-                          lastDay:baseDate.add(Duration(days: 6)),
-                              //Date 값의 마지막 날짜만 넣어주기
+                          firstDay:
+                              baseDate, //todo : 세종의 경우 sunday, 행복의 경우 monday
+                          lastDay: baseDate.add(Duration(days: 6)),
+                          //Date 값의 마지막 날짜만 넣어주기
                           headerVisible: false,
                           calendarFormat: CalendarFormat.week,
-                          startingDayOfWeek: startingDayOfWeek, //첫 시작을 월요일로 변경 가능하게함!
+                          startingDayOfWeek:
+                              startingDayOfWeek, //첫 시작을 월요일로 변경 가능하게함!
                           locale: 'ko_KR',
                           onDaySelected: (selectedDay, focusDay) {
                             widget.onDateSelected(selectedDay);
                             Navigator.pop(context);
-
                           },
-
                         ),
                       ),
                     ),

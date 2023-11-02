@@ -27,12 +27,11 @@ class HomeScreen extends ConsumerStatefulWidget {
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen>
-    with SingleTickerProviderStateMixin, AfterLayoutMixin<HomeScreen> {
+    with SingleTickerProviderStateMixin {
   final PageController _pageController = PageController(initialPage: 0);
   late AnimationController controller;
 
   List<MealData?> weeklyMeals = [];
-  DormitoryType dormitoryType = DormitoryType.happiness;
 
   void updateDormitoryMeal(DormitoryType dormitoryType) {
     fetchMealDataFromDB(dormitoryType).then((newData) {
@@ -70,7 +69,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
     //selectedDay는 table_calendar에서 선택된 날짜를 의미함.
 
     //TODO : 세종의 경우 sunday와의 차이를 구해야하고 , 행복의 경우 monday와의 차이를 구해야함.
-    DateTime baseDate = selectedDormitory==DormitoryType.sejong ? sunday : monday;
+    DateTime baseDate =
+        selectedDormitory == DormitoryType.sejong1 ? sunday : monday;
     int differenceInDays = selectedDay.difference(baseDate).inDays;
 
     if (differenceInDays >= 0 && differenceInDays < weeklyMeals.length) {
@@ -99,18 +99,17 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
     }
   }
 
-  @override
-  void afterFirstLayout(BuildContext context) async {
-    await Future.delayed(const Duration(milliseconds: 500));
-    FlutterNativeSplash.remove();
-  }
+  // @override
+  // void afterFirstLayout(BuildContext context) async {
+  //   await Future.delayed(const Duration(milliseconds: 500));
+  //   FlutterNativeSplash.remove();
+  // }
 
   @override
   void initState() {
     super.initState();
     initializeDateFormatting();
-    updateDormitoryMeal(dormitoryType);
-
+    // updateDormitoryMeal(dormitoryType);
 
     controller = AnimationController(
       vsync: this,
@@ -133,9 +132,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
 
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: const Color(0xFFFF833D),
         title: Text(
-            selectedDormitory == DormitoryType.sejong ? "세종기숙사" : "행복기숙사",
+            (selectedDormitory == DormitoryType.sejong1 ||
+                    selectedDormitory == DormitoryType.sejong2)
+                ? "세종기숙사"
+                : "행복기숙사",
             style: Theme.of(context)
                 .textTheme
                 .headlineMedium!
@@ -164,21 +167,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                     itemCount: weeklyMeals.length,
                     itemBuilder: (context, index) {
                       var meal = weeklyMeals[index];
-                      for (var mealData in weeklyMeals) {
-                        print('Date: ${mealData?.date}');
-                        print('Breakfast: ${mealData?.breakfast}');
-                        print('Lunch: ${mealData?.lunch}');
-                        print('Dinner: ${mealData?.dinner}');
-                        print('Takeout: ${mealData?.takeout}');
-                        print('---'); // Separator between entries
-                      }
 
                       DateTime date =
                           selectedDormitory == DormitoryType.happiness
                               ? monday
                               : sunday;
 
-                      print('weeklyMeals : ${weeklyMeals.first?.date}');
                       return buildMealPage(
                         meal,
                         index,
@@ -238,7 +232,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
       if (meal?.date == formattedDate) {
         print('date : ${meal?.date.toString()}');
         print('formattedDate :$formattedDate');
-        if (selectedDormitory == DormitoryType.sejong) {
+        if (selectedDormitory == DormitoryType.sejong1) {
           todayMenuIndex = i + 1;
           break;
         } else {
@@ -326,7 +320,6 @@ Widget buildMealPage(
           onPressedForward: onPressedForward,
           onPressedToday: onPressedToday,
           dormitoryType: dormitoryType,
-
         ),
         SizedBox(
           height: screenHeight * 0.039,
@@ -415,7 +408,7 @@ Widget buildMealPage(
 }
 
 String getBreakfastTimeText(DormitoryType dormitoryType, DateTime currentDate) {
-  if (dormitoryType == DormitoryType.sejong) {
+  if (dormitoryType == DormitoryType.sejong1) {
     if (currentDate.isAfter(DateTime(2023, 6, 27)) &&
         currentDate.isBefore(DateTime(2023, 8, 31))) {
       return sejongVacationBreakfastTime;
@@ -432,7 +425,7 @@ String getBreakfastTimeText(DormitoryType dormitoryType, DateTime currentDate) {
 }
 
 String getLunchTimeText(DormitoryType dormitoryType, DateTime currentDate) {
-  if (dormitoryType == DormitoryType.sejong) {
+  if (dormitoryType == DormitoryType.sejong1) {
     if (currentDate.isAfter(DateTime(2023, 6, 27)) &&
         currentDate.isBefore(DateTime(2023, 8, 31))) {
       return sejongVacationLunchTime;
@@ -449,7 +442,7 @@ String getLunchTimeText(DormitoryType dormitoryType, DateTime currentDate) {
 }
 
 String getDinnerTimeText(DormitoryType dormitoryType, DateTime currentDate) {
-  if (dormitoryType == DormitoryType.sejong) {
+  if (dormitoryType == DormitoryType.sejong1) {
     if (currentDate.isAfter(DateTime(2023, 6, 27)) &&
         currentDate.isBefore(DateTime(2023, 8, 31))) {
       return sejongVacaitonDinnerTime;
