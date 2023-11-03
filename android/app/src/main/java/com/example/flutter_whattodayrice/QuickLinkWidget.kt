@@ -1,10 +1,12 @@
 package com.example.flutter_whattodayrice
 
+import android.annotation.TargetApi
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.widget.RemoteViews
 
 /**
@@ -36,10 +38,7 @@ internal fun updateAppWidget(
     appWidgetManager: AppWidgetManager,
     appWidgetId: Int
 ) {
-    val widgetText = context.getString(R.string.appwidget_text)
-    // Construct the RemoteViews object
     val views = RemoteViews(context.packageName, R.layout.quick_link_widget)
-    //views.setTextViewText(R.id.appwidget_text, widgetText)
 
     val intent = Intent(context,MainActivity::class.java)
     val pendingIntent = PendingIntent.getActivity(context, 0,intent, PendingIntent.FLAG_IMMUTABLE)
