@@ -8,7 +8,7 @@ import android.widget.RemoteViews
 /**
  * Implementation of App Widget functionality.
  */
-class MealWidget : AppWidgetProvider() {
+class FullMealsWidget : AppWidgetProvider() {
     override fun onUpdate(
         context: Context,
         appWidgetManager: AppWidgetManager,
@@ -36,7 +36,7 @@ internal fun updateAppWidget(
 ) {
     val widgetText = context.getString(R.string.appwidget_text)
     // Construct the RemoteViews object
-    val views = RemoteViews(context.packageName, R.layout.meal_widget)
+    val views = RemoteViews(context.packageName, R.layout.full_meals_widget)
     views.setTextViewText(R.id.appwidget_text, widgetText)
 
     // Instruct the widget manager to update the widget
