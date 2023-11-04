@@ -28,12 +28,11 @@ class HomeScreen extends ConsumerStatefulWidget {
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen>
-    with SingleTickerProviderStateMixin, AfterLayoutMixin<HomeScreen> {
+    with SingleTickerProviderStateMixin {
   final PageController _pageController = PageController(initialPage: 0);
   late AnimationController controller;
 
   List<MealData?> weeklyMeals = [];
-  DormitoryType dormitoryType = DormitoryType.happiness;
 
   void updateDormitoryMeal(DormitoryType dormitoryType) {
     fetchMealDataFromDB(dormitoryType).then((newData) {
@@ -71,47 +70,48 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
     });
 
     AsyncValue<List<MealData?>> weeklyMeals = ref.watch(mealDataProvider);
-    return weeklyMeals.when(data: (weeklyMeals) {
-      String? dateString = weeklyMeals.first?.date;
-      DateTime? firstDate;
+    return weeklyMeals.when(
+        data: (weeklyMeals) {
+          String? dateString = weeklyMeals.first?.date;
+          DateTime? firstDate;
 
-      if(dateString != null && dateString.isNotEmpty) {
-        firstDate = DateTime.parse(dateString);
-      }
+          if (dateString != null && dateString.isNotEmpty) {
+            firstDate = DateTime.parse(dateString);
+          }
 
-      int differenceInDays = selectedDay.difference(firstDate!).inDays;
+          int differenceInDays = selectedDay.difference(firstDate!).inDays;
 
-      if (differenceInDays >= 0 && differenceInDays < weeklyMeals.length) {
-        if (selectedDate != DateTime.now()) {
-          _pageController.animateToPage(
-            differenceInDays,
-            duration: const Duration(milliseconds: 500),
-            curve: Curves.easeInOut,
-          );
-        } else {
-          moveToTodayMenu();
-        }
-    } },error: (err, stack) => showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: const Text(
-            "그 날짜에 맞는 식단 데이터가 아직 올라오지 않았어요",
-          ),
-          actions: [
-            TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: const Text('확인'))
-          ],
-        )), loading: () => const CircularProgressIndicator());
-
-
+          if (differenceInDays >= 0 && differenceInDays < weeklyMeals.length) {
+            if (selectedDate != DateTime.now()) {
+              _pageController.animateToPage(
+                differenceInDays,
+                duration: const Duration(milliseconds: 500),
+                curve: Curves.easeInOut,
+              );
+            } else {
+              moveToTodayMenu();
+            }
+          }
+        },
+        error: (err, stack) => showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+                  title: const Text(
+                    "그 날짜에 맞는 식단 데이터가 아직 올라오지 않았어요",
+                  ),
+                  actions: [
+                    TextButton(
+                        onPressed: () => Navigator.pop(context),
+                        child: const Text('확인'))
+                  ],
+                )),
+        loading: () => const CircularProgressIndicator());
   }
 
   @override
   void afterFirstLayout(BuildContext context) async {
     await Future.delayed(const Duration(milliseconds: 500));
     FlutterNativeSplash.remove();
-
   }
 
   @override
@@ -124,8 +124,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
       vsync: this,
       duration: const Duration(seconds: 1),
     );
-
-
   }
 
   @override
@@ -142,12 +140,15 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
     final weeklyMealsAsyncValue = ref.watch(mealDataProvider);
     var FirstDate = weeklyMeals.first?.date;
 
-
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: const Color(0xFFFF833D),
         title: Text(
-            selectedDormitory == DormitoryType.sejong ? "세종기숙사" : "행복기숙사",
+            (selectedDormitory == DormitoryType.sejong1 ||
+                    selectedDormitory == DormitoryType.sejong2)
+                ? "세종기숙사"
+                : "행복기숙사",
             style: Theme.of(context)
                 .textTheme
                 .headlineMedium!
@@ -185,14 +186,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                       String? dateString = weeklyMeals.first?.date;
                       DateTime? firstDate;
 
-                      if(dateString != null && dateString.isNotEmpty) {
+                      if (dateString != null && dateString.isNotEmpty) {
                         firstDate = DateTime.parse(dateString);
                       }
 
                       DateTime? date = firstDate;
                       // todo :String 타입의 날짜를 DateTime으로 변환 후에 넘겨줌.
                       //  date값으로 weeilyMeals의 0번째 인덱스에 저장되어 있는 date 값을 넘겨줌.
-
 
                       // print('monday : $monday');
                       // print('sunday L $sunday');
@@ -245,7 +245,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
 
     DateTime userAccessDate = DateTime.now();
     String formattedDate =
-    DateFormat('MM-dd (E)', 'ko_KR').format(userAccessDate);
+        DateFormat('MM-dd (E)', 'ko_KR').format(userAccessDate);
 
     int todayMenuIndex = -1;
 
@@ -257,7 +257,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
             var date = DateTime.parse(meal!.date);
             var formatDate = DateFormat('MM-dd (E)', 'ko_KR').format(date);
 
-            print(meal?.breakfast);
+            print(meal.breakfast);
             if (formatDate == formattedDate) {
               todayMenuIndex = i;
               print(todayMenuIndex);
@@ -277,19 +277,20 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
           }
         },
         error: (err, stack) => showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: const Text('오늘 식단이 올라오지 않았어요.'),
-            actions: <Widget>[
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: const Text('확인'),
+              context: context,
+              builder: (context) => AlertDialog(
+                title: const Text('오늘 식단이 올라오지 않았어요.'),
+                actions: <Widget>[
+                  TextButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: const Text('확인'),
+                  ),
+                ],
               ),
-            ],
-          ),
-        ),
+            ),
         loading: () => const CircularProgressIndicator());
   }
+
   void moveToNextPage() {
     var currentPage = _pageController.page ?? 0;
     final nextPage = currentPage + 1;
@@ -331,7 +332,6 @@ Widget buildMealPage(
 
   DateTime currentDate = DateTime.now(); //식당 시간 로직을 위한 날짜
   String formattedDate = DateFormat('yyyy-MM-dd').format(modifiedDate);
-
 
   if (meal != null) {
     return Column(
@@ -433,7 +433,7 @@ Widget buildMealPage(
 }
 
 String getBreakfastTimeText(DormitoryType dormitoryType, DateTime currentDate) {
-  if (dormitoryType == DormitoryType.sejong) {
+  if (dormitoryType == DormitoryType.sejong1) {
     if (currentDate.isAfter(DateTime(2023, 6, 27)) &&
         currentDate.isBefore(DateTime(2023, 8, 31))) {
       return sejongVacationBreakfastTime;
@@ -450,7 +450,7 @@ String getBreakfastTimeText(DormitoryType dormitoryType, DateTime currentDate) {
 }
 
 String getLunchTimeText(DormitoryType dormitoryType, DateTime currentDate) {
-  if (dormitoryType == DormitoryType.sejong) {
+  if (dormitoryType == DormitoryType.sejong1) {
     if (currentDate.isAfter(DateTime(2023, 6, 27)) &&
         currentDate.isBefore(DateTime(2023, 8, 31))) {
       return sejongVacationLunchTime;
@@ -467,7 +467,7 @@ String getLunchTimeText(DormitoryType dormitoryType, DateTime currentDate) {
 }
 
 String getDinnerTimeText(DormitoryType dormitoryType, DateTime currentDate) {
-  if (dormitoryType == DormitoryType.sejong) {
+  if (dormitoryType == DormitoryType.sejong1) {
     if (currentDate.isAfter(DateTime(2023, 6, 27)) &&
         currentDate.isBefore(DateTime(2023, 8, 31))) {
       return sejongVacaitonDinnerTime;

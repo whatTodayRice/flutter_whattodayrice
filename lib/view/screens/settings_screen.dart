@@ -83,12 +83,11 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                         buildDormitoryBottomSheet(context, ref);
                       },
                       child: Text(
-                        (selectedDormitory == DormitoryType.sejong)
+                        (selectedDormitory == DormitoryType.sejong1)
                             ? '세종기숙사'
                             : '행복기숙사',
                         style: GoogleFonts.notoSans(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600),
+                            fontSize: 14, fontWeight: FontWeight.w600),
                       )),
                   const Icon(arrowDropDown)
                 ],
@@ -111,8 +110,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                       buildThemeText(
                           convertToThemeMode(AdaptiveTheme.of(context).mode)),
                       style: GoogleFonts.notoSans(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600),
+                          fontSize: 14, fontWeight: FontWeight.w600),
                     ),
                   ),
                   const Icon(arrowDropDown)
