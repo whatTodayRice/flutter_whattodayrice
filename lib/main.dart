@@ -2,6 +2,7 @@ import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_whattodayrice/providers/dto_user_id.dart';
 import 'package:flutter_whattodayrice/providers/dto_user_info.dart';
+import 'package:flutter_whattodayrice/view/screens/home_screen.dart';
 import 'package:flutter_whattodayrice/view/screens/s_completed.dart';
 import 'package:flutter_whattodayrice/view/screens/s_select_dormitory.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -22,20 +23,23 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
+  final storedUserID = await getStoredUserId();
+  final isIDInFirestore = await isIDInFireStore(storedUserID);
 
 
-  runApp( ProviderScope(child: MyApp()));
+
+  runApp( ProviderScope(child: MyApp(isIDInFirestore: isIDInFirestore,)));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp( {
-    super.key,
-  });
+  final bool isIDInFirestore;
+  const MyApp( {Key? key, required this.isIDInFirestore}) : super(key: key);
+
 
 
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context)  {
     return AdaptiveTheme(
       light: ThemeData(
         brightness: Brightness.light,
@@ -71,7 +75,7 @@ class MyApp extends StatelessWidget {
           SettingsScreen.routeName: (context) => const SettingsScreen(),
         },
         debugShowCheckedModeBanner: false,
-        home:  SelectDormitoryScreen() ,
+        home:isIDInFirestore ? HomeScreen() : SelectDormitoryScreen(),
       ),
     );
   }

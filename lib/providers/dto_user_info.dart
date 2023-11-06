@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -12,7 +13,7 @@ final userProvider = StreamProvider<User>((ref) {
   final userId = ref.watch(userIdProvider);
   if (userId.isNotEmpty) {
     return db.collection("users").doc(userId).snapshots().map((snapshot) {
-      saveUserIdToSharedPreferences(userId);
+      readSharedPreferencesData();
       return User.fromFirestore(snapshot, null);
 
     });
@@ -36,5 +37,36 @@ void saveUserIdToSharedPreferences(String userId) async {
 Future<String?> readSharedPreferencesData() async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   final String? userId = prefs.getString('userId');
+  print("sp에 저장된 userId 읽기  : $userId");
   return userId;
 }
+
+Future<List<String>> getDocumentIds() async {
+  CollectionReference userCollection = FirebaseFirestore.instance.collection('users');
+
+  List<String> documentIds = [];
+  QuerySnapshot querySnapshot = await userCollection.get();
+  for(QueryDocumentSnapshot document in querySnapshot.docs) {
+    documentIds.add(document.id);
+  }
+  print("documentIds.toString() : ${documentIds.toString()}");
+  return documentIds;
+}
+
+
+Future<String?> getStoredUserId() async {
+  final SharedPreferences prefs= await SharedPreferences.getInstance();
+  return prefs.getString('userId');
+}
+
+Future<bool> isIDInFireStore(userId) async {
+  final storedUserID = userId;
+  if(storedUserID == null) {
+    return false;
+  }
+  final firestoreUserIds = await getDocumentIds();
+  print("포함여부 :${firestoreUserIds.contains(storedUserID)}");
+  return firestoreUserIds.contains(storedUserID);
+}
+
+
