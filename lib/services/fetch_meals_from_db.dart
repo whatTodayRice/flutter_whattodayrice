@@ -30,7 +30,6 @@ Future<List<MealData?>> fetchMealDataFromDB(DormitoryType dormitoryType) async {
     // }
     return weeklyMeals;
   } catch (e) {
-    print(e);
     throw Exception("없음");
   }
 }

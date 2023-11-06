@@ -31,7 +31,6 @@ Future<List<MealData>> fetchSejongMeals() async {
 
   List<String> dateData = await fetchMeal(0);
   List<String> dateValues = dateData[7].split(','); // 요일과 날짜를 쉼표로 분리
-  print(dateValues);
 
   int breakfastIndex = 9;
   List<String> breakfastData = await fetchMeal(breakfastIndex);
@@ -51,7 +50,6 @@ Future<List<MealData>> fetchSejongMeals() async {
     String formattedString =
         DateFormat('yyyy-MM-dd', 'ko_KR').format(convertedFetchedDate);
 
-    // 일 ~ 토까지의 날짜 값을 사용
     MealData menu = MealData(
         date: formattedString,
         breakfast: breakfastData[dayIndex],
@@ -95,10 +93,9 @@ void updateFullMeal(MealData sejongMeal) {
 
   String targetDate = today;
 
-  if (hour > 18 || (hour==18 && minute >= 30) ){
+  if ((hour > 18 || (hour==18 && minute >= 30) )|| (hour<7 || hour==7 && minute<=30)){
     targetDate = tomorrow;
   }
-  print('targetDate : $targetDate');
   if (sejongMeal.date==targetDate){
     updateSejongFullWidgetDate(sejongMeal);
   }
@@ -108,49 +105,8 @@ void updateFullMeal(MealData sejongMeal) {
 }
 
 void updateSejongFullWidgetDate(MealData sejongMeal) {
-
   HomeWidget.saveWidgetData("sejong_date", sejongMeal.date);
   HomeWidget.saveWidgetData<String>('sejong_breakfast', sejongMeal.breakfast);
   HomeWidget.saveWidgetData<String>('sejong_lunch', sejongMeal.lunch);
   HomeWidget.saveWidgetData<String>('sejong_dinner', sejongMeal.dinner);
-
 }
-//
-// void updateMeal(MealData sejongMeal) {
-//   final today = DateFormat('yyyy-MM-dd').format(DateTime.now());
-//   final tomorrow = DateFormat('yyyy-MM-dd')
-//       .format(DateTime.now().add(const Duration(days: 1)));
-//
-//   var hour = DateTime.now().hour;
-//   var minute = DateTime.now().minute;
-//
-//   String targetDate = today;
-//   if (hour<9 ) {
-//     HomeWidget.saveWidgetData<bool>('is_sejong', true);
-//     HomeWidget.saveWidgetData("sejong_date", sejongMeal.date);
-//     HomeWidget.saveWidgetData<String>('sejong_breakfast', sejongMeal.breakfast);
-//   }
-//   else if (hour< 13 || hour==3 && minute<=30) {
-//     HomeWidget.saveWidgetData<bool>('is_sejong', true);
-//     HomeWidget.saveWidgetData("sejong_date", sejongMeal.date);
-//     HomeWidget.saveWidgetData<String>('sejong_lunch', sejongMeal.lunch);
-//
-//   }
-//   else if (hour<18 || hour==18 && minute <=30) {
-//     HomeWidget.saveWidgetData<bool>('is_sejong', true);
-//     HomeWidget.saveWidgetData("sejong_date", sejongMeal.date);
-//     HomeWidget.saveWidgetData<String>('sejong_dinner', sejongMeal.dinner);
-//   }
-//
-//   else {
-//     targetDate = tomorrow;
-//     updateBreakfast(sejongMeal);
-//
-//   }
-//   HomeWidget.updateWidget(androidName: androidWidgetName);
-// }
-// void updateBreakfast(MealData sejongMeal) {
-//   HomeWidget.saveWidgetData<bool>('is_sejong', true);
-//   HomeWidget.saveWidgetData("sejong_date", sejongMeal.date);
-//   HomeWidget.saveWidgetData<String>('sejong_breakfast', sejongMeal.breakfast);
-// }

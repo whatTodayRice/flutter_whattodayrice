@@ -54,6 +54,7 @@ class _SelectDormitoryScreenState extends ConsumerState<SelectDormitoryScreen>
 
   @override
   Widget build(BuildContext context) {
+
     return SafeArea(
       child: Scaffold(
         body: Padding(
@@ -107,6 +108,9 @@ class _SelectDormitoryScreenState extends ConsumerState<SelectDormitoryScreen>
                               DormitoryType.sejong2;
                           handleDormitorySelection(DormitoryType.sejong2);
                         });
+
+                        //id값을 SharedPreferences에 저장하기
+
                       },
                       selected: sejong2Selected,
                       buttonText: "세종 2관"),
@@ -124,6 +128,7 @@ class _SelectDormitoryScreenState extends ConsumerState<SelectDormitoryScreen>
                         ref.watch(dormitoryProvider.notifier).state =
                             DormitoryType.happiness;
                         handleDormitorySelection(DormitoryType.happiness);
+                          //id값을 SharedPreferences에 저장하기
                       });
                     },
                     selected: happySelected,

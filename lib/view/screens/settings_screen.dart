@@ -21,8 +21,6 @@ class SettingsScreen extends ConsumerStatefulWidget {
   ConsumerState<SettingsScreen> createState() => _SettingsScreenState();
 }
 
-
-
 class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   bool isDarkMood = false;
   bool isSwitched = false;
@@ -39,23 +37,20 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
         });
   }
 
-
-
   @override
   Widget build(BuildContext context) {
-
     const String androidWidgetName = 'MealWidget';
 
     final selectedDormitory = ref.watch(dormitoryProvider);
-    if(selectedDormitory==DormitoryType.sejong) {
+
+    if (selectedDormitory == DormitoryType.sejong1 ||
+        selectedDormitory == DormitoryType.sejong2) {
       HomeWidget.saveWidgetData<bool>('is_sejong', true);
-    }
-    else {
+    } else {
       HomeWidget.saveWidgetData<bool>('is_sejong', false);
     }
 
     HomeWidget.updateWidget(androidName: androidWidgetName);
-
 
     return SafeArea(
       child: Scaffold(
@@ -83,9 +78,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                         buildDormitoryBottomSheet(context, ref);
                       },
                       child: Text(
-                        (selectedDormitory == DormitoryType.sejong1)
-                            ? '세종기숙사'
-                            : '행복기숙사',
+                        (selectedDormitory == DormitoryType.sejong1 ||
+                            selectedDormitory == DormitoryType.sejong2) ? "세종기숙사" : "행복기숙사",
                         style: GoogleFonts.notoSans(
                             fontSize: 14, fontWeight: FontWeight.w600),
                       )),
