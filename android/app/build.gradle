@@ -28,7 +28,7 @@ apply plugin: 'com.google.gms.google-services'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
-    compileSdkVersion 33
+    compileSdkVersion 34
     ndkVersion flutter.ndkVersion
 
     compileOptions {
@@ -65,6 +65,7 @@ android {
             signingConfig signingConfigs.debug
         }
     }
+
     namespace 'com.example.flutter_whattodayrice'
 }
 
@@ -76,4 +77,5 @@ dependencies {
     implementation "com.android.support:multidex:1.0.3"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "com.google.firebase:firebase-bom:32.3.1"
+    implementation 'com.google.android.material:material:1.10.0'
 }

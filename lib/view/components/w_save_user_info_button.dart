@@ -50,9 +50,10 @@ class _SaveUserInfoButtonState extends ConsumerState<SaveUserInfoButton> {
                   fromFirestore: User.fromFirestore,
                   toFirestore: (User user, options) => user.toFirestore())
               .add(newUser)
-              .then((DocumentReference doc) {
+              .then((DocumentReference doc) async {
             final newUserId = doc.id;
             ref.read(userIdProvider.notifier).state = newUserId;
+            saveUserIdToSharedPreferences(newUserId);
             print('DocumentSnapshot added with ID: ${doc.id}');
           });
 

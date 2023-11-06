@@ -2,38 +2,55 @@
     style="@style/Widget.Android.AppWidget.Container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:layout_marginBottom="@dimen/widget_margin"
+    android:orientation="vertical"
     android:theme="@style/Theme.Android.AppWidgetContainer">
 
+
     <TextView
-        android:id="@+id/title"
+        android:id="@+id/date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_margin="8dp"
+        android:text="날짜"
         android:textSize="8sp" />
-
-
-
     <TextView
-        android:id="@+id/meal"
+        android:id="@+id/breakfast"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/date"
         android:layout_margin="8dp"
-        android:text="해당하는 식단"
+        android:text="아침"
         android:textSize="8sp" />
 
     <TextView
         android:id="@+id/takeout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/date"
+        android:layout_below="@+id/breakfast"
+        android:visibility="gone"
         android:layout_margin="8dp"
         android:textSize="8sp" />
 
+    <TextView
+        android:id="@+id/lunch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/takeout"
+        android:layout_margin="8dp"
+        android:textSize="8sp"
+        android:text="점심" />
 
+    <TextView
+        android:id="@+id/dinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lunch"
+        android:layout_margin="8dp"
+
+        android:textSize="8sp"
+        android:text="저녁" />
 
 
 </LinearLayout>

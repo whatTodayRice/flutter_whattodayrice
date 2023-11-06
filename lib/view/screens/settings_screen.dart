@@ -8,6 +8,10 @@ import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_whattodayrice/providers/dormitory_provider.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:home_widget/home_widget.dart';
+import 'package:provider/provider.dart';
+
+const String androidWidgetName = 'FullMealsWidget';
 
 class SettingsScreen extends ConsumerStatefulWidget {
   const SettingsScreen({super.key});
@@ -35,7 +39,19 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    const String androidWidgetName = 'MealWidget';
+
     final selectedDormitory = ref.watch(dormitoryProvider);
+
+    if (selectedDormitory == DormitoryType.sejong1 ||
+        selectedDormitory == DormitoryType.sejong2) {
+      HomeWidget.saveWidgetData<bool>('is_sejong', true);
+    } else {
+      HomeWidget.saveWidgetData<bool>('is_sejong', false);
+    }
+
+    HomeWidget.updateWidget(androidName: androidWidgetName);
+
     return SafeArea(
       child: Scaffold(
         body: Column(
@@ -62,9 +78,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                         buildDormitoryBottomSheet(context, ref);
                       },
                       child: Text(
-                        (selectedDormitory == DormitoryType.sejong1)
-                            ? '세종기숙사'
-                            : '행복기숙사',
+                        (selectedDormitory == DormitoryType.sejong1 ||
+                            selectedDormitory == DormitoryType.sejong2) ? "세종기숙사" : "행복기숙사",
                         style: GoogleFonts.notoSans(
                             fontSize: 14, fontWeight: FontWeight.w600),
                       )),
