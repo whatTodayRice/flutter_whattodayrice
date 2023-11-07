@@ -30,14 +30,12 @@ final userNickNameProvider = StateProvider<String>((ref) => "");
 void saveUserIdToSharedPreferences(String userId) async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   await prefs.setString('userId', userId);
-  print("  저장된 값 확인 :${prefs.getString('userId')}");
 }
 
 // SharedPreferences에서 데이터를 읽어서 출력하는 예제
 Future<String?> readSharedPreferencesData() async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   final String? userId = prefs.getString('userId');
-  print("sp에 저장된 userId 읽기  : $userId");
   return userId;
 }
 
