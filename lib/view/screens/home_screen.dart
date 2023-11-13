@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:after_layout/after_layout.dart';
+import 'package:flutter_whattodayrice/providers/dto_user_info.dart';
 import 'package:flutter_whattodayrice/services/fetch_meals_from_db.dart';
 import 'package:flutter_whattodayrice/view/components/calender_row.dart';
 import 'package:flutter_whattodayrice/view/components/constants.dart';
@@ -33,25 +34,24 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
   late final AnimationController controller;
 
   List<MealData?> weeklyMeals = [];
-  DormitoryType dormitoryType = DormitoryType.happiness;
 
-  void updateDormitoryMeal(DormitoryType dormitoryType) {
-    fetchMealDataFromDB(dormitoryType).then((newData) {
-      if (mounted) {
-        setState(() {
-          weeklyMeals = newData;
-        });
-      }
-    }).catchError((error) {
-      // 에러 처리
-      print('Error fetching meal data: $error');
-      if (mounted) {
-        setState(() {
-          weeklyMeals = [];
-        });
-      }
-    });
-  }
+  // Future<void> updateDormitoryMeal(DormitoryType dormitoryType) async{
+  //   fetchMealDataFromDB(dormitoryType).then((newData) {
+  //     if (mounted) {
+  //       setState(() {
+  //         weeklyMeals = newData;
+  //       });
+  //     }
+  //   }).catchError((error) {
+  //     // 에러 처리
+  //     print('Error fetching meal data: $error');
+  //     if (mounted) {
+  //       setState(() {
+  //         weeklyMeals = [];
+  //       });
+  //     }
+  //   });
+  // }
 
   DateTime selectedDate = DateTime.now();
 
@@ -120,10 +120,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
   }
 
   @override
-  void initState() {
+  void initState()  {
     super.initState();
     initializeDateFormatting();
-    updateDormitoryMeal(dormitoryType);
+
+    // updateDormitoryMeal(dormitoryType!);
 
     controller = AnimationController(
       vsync: this,

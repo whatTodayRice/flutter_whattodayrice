@@ -16,19 +16,29 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 
 
-void main() async {
+Future<void> main() async {
   final bindings = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: bindings);
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  final storedUserID = await getStoredUserId();
+  // SharedPreferences prefs = await SharedPreferences.getInstance();
+  // prefs.remove('dormitory');
+  // prefs.remove('userId');
+
+  final storedUserID = await readUserIdSharedPreferencesData();
   final isIDInFirestore = await isIDInFireStore(storedUserID);
 
 
 
-  runApp( ProviderScope(child: MyApp(isIDInFirestore: isIDInFirestore,)));
+  final sharedPreferences = await SharedPreferences.getInstance();
+
+  runApp( ProviderScope(
+    overrides: [
+      sharedPreferencesProvider.overrideWithValue(sharedPreferences),
+    ],
+      child: MyApp(isIDInFirestore: isIDInFirestore,)));
 }
 
 class MyApp extends StatelessWidget {

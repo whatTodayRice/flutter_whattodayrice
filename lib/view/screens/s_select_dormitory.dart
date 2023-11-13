@@ -5,6 +5,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_whattodayrice/models/dormitory.dart';
 import 'package:flutter_whattodayrice/providers/dormitory_provider.dart';
+import 'package:flutter_whattodayrice/providers/dto_user_info.dart';
 import 'package:flutter_whattodayrice/view/components/w_selected_dorms_button.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../components/w_save_user_info_button.dart';
@@ -86,6 +87,8 @@ class _SelectDormitoryScreenState extends ConsumerState<SelectDormitoryScreen>
                           ref.watch(dormitoryProvider.notifier).state =
                               DormitoryType.sejong1;
                           handleDormitorySelection(DormitoryType.sejong1);
+                          //saveDormitorySharedPreferences(DormitoryType.sejong1.toString());
+
                         });
                       },
                       selected: sejong1Selected,
@@ -107,6 +110,9 @@ class _SelectDormitoryScreenState extends ConsumerState<SelectDormitoryScreen>
                           ref.watch(dormitoryProvider.notifier).state =
                               DormitoryType.sejong2;
                           handleDormitorySelection(DormitoryType.sejong2);
+                          //saveDormitorySharedPreferences(DormitoryType.sejong2.toString());
+
+
                         });
 
                         //id값을 SharedPreferences에 저장하기
@@ -128,7 +134,8 @@ class _SelectDormitoryScreenState extends ConsumerState<SelectDormitoryScreen>
                         ref.watch(dormitoryProvider.notifier).state =
                             DormitoryType.happiness;
                         handleDormitorySelection(DormitoryType.happiness);
-                          //id값을 SharedPreferences에 저장하기
+                       // saveDormitorySharedPreferences(DormitoryType.happiness.toString());
+
                       });
                     },
                     selected: happySelected,

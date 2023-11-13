@@ -1,6 +1,4 @@
 import 'dart:async';
-import 'dart:math';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_whattodayrice/models/dormitory.dart';
@@ -13,7 +11,8 @@ final userProvider = StreamProvider<User>((ref) {
   final userId = ref.watch(userIdProvider);
   if (userId.isNotEmpty) {
     return db.collection("users").doc(userId).snapshots().map((snapshot) {
-      readSharedPreferencesData();
+
+      readDormitorySharedPreferencesData();
       return User.fromFirestore(snapshot, null);
 
     });
@@ -32,14 +31,28 @@ void saveUserIdToSharedPreferences(String userId) async {
   await prefs.setString('userId', userId);
 }
 
-// SharedPreferences에서 데이터를 읽어서 출력하는 예제
-Future<String?> readSharedPreferencesData() async {
+
+Future<String?> readUserIdSharedPreferencesData() async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   final String? userId = prefs.getString('userId');
   return userId;
 }
 
-Future<List<String>> getDocumentIds() async {
+Future<DormitoryType> readDormitorySharedPreferencesData() async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  final String? dormitory = prefs.getString('dormitory');
+  if (dormitory == "sejong1") {
+    return DormitoryType.sejong1;
+  }
+  if(dormitory == "sejong2") {
+    return DormitoryType.sejong2;
+  }
+  else {
+    return DormitoryType.happiness;
+  }
+}
+
+Future<List<String>> getUserIdStoredInFireStore() async {
   CollectionReference userCollection = FirebaseFirestore.instance.collection('users');
 
   List<String> documentIds = [];
@@ -52,19 +65,17 @@ Future<List<String>> getDocumentIds() async {
 }
 
 
-Future<String?> getStoredUserId() async {
-  final SharedPreferences prefs= await SharedPreferences.getInstance();
-  return prefs.getString('userId');
-}
-
 Future<bool> isIDInFireStore(userId) async {
   final storedUserID = userId;
   if(storedUserID == null) {
     return false;
   }
-  final firestoreUserIds = await getDocumentIds();
-  print("포함여부 :${firestoreUserIds.contains(storedUserID)}");
+  final firestoreUserIds = await getUserIdStoredInFireStore();
   return firestoreUserIds.contains(storedUserID);
 }
 
+
+final sharedPreferencesProvider = Provider<SharedPreferences>((ref) {
+  throw UnimplementedError();
+});
 

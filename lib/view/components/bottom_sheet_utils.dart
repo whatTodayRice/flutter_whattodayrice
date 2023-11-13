@@ -79,7 +79,7 @@ void buildDormitoryBottomSheet(
         buttonText: '행복기숙사',
         onPressed: () {
           ref.read(dormitoryProvider.notifier).state = DormitoryType.happiness;
-
+          saveDormitory(DormitoryType.happiness);
           Navigator.pop(context);
         },
       ),
@@ -87,8 +87,9 @@ void buildDormitoryBottomSheet(
       SelectButton(
         buttonText: '세종기숙사',
         onPressed: () {
+          //todo : 기숙사 세종 1과 세종2로 나눠야함.
           ref.read(dormitoryProvider.notifier).state = DormitoryType.sejong1;
-
+          saveDormitory(DormitoryType.sejong1);
           Navigator.pop(context);
         },
       ),
