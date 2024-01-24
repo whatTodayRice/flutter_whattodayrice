@@ -33,7 +33,11 @@ class kMealAvailableTimeText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       mealTime,
-      style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
+      style: Theme.of(context)
+          .textTheme
+          .bodyMedium!
+          // .copyWith(color: const Color(0xFF5C5C5C)),
+      //todo 다른 텍스트와 같게 디폴트로 설정할 경우 다크모드로 변경해도 정상적으로 보여요 :> 유저입장에서 다른 컬러로 설정하는것이 시각적으로 더 좋은 효과가 있을까요?
     );
   }
 }
@@ -59,18 +63,28 @@ class kMealCategoryIcon extends StatelessWidget {
     super.key,
     required this.width,
     required this.height,
+    required this.mealType,
   });
 
   final double width;
   final double height;
+  final String mealType;
+
+  static const Map<String, IconData> mealIcons = {
+    "조식": Icons.wb_twilight_rounded,
+    "중식": Icons.sunny,
+    "석식": Icons.mode_night_rounded,
+    // 추가적인 식사 시간 타입 및 아이콘을 여기에 추가할 수 있습니다.
+  };
 
   @override
   Widget build(BuildContext context) {
+    final selectedIcon = mealIcons[mealType] ?? Icons.sunny;
     return SizedBox(
       width: width * 0.04615,
       height: height * 0.02132,
-      child: const Icon(
-        Icons.sunny, //시간에 따라 아이콘 변경하기
+      child: Icon(
+        selectedIcon, //시간에 따라 아이콘 변경하기
         size: 18,
       ),
     );
@@ -135,3 +149,13 @@ List<String> daysOfWeek = ['월', '화', '수', '목', '금', '토', '일'];
 
 const notyExplainText =
     '매일 저녁 19시에 다음 날 식단이 업데이트 되었다는 소식을\n아래와 같이 팝업을 통해 알려줍니다.';
+
+class MyFlutterApp {
+  MyFlutterApp._();
+
+  static const _kFontFam = 'MyFlutterApp';
+  static const String? _kFontPkg = null;
+
+  static const IconData sunrise =
+      IconData(0xe800, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+}

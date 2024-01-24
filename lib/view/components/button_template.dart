@@ -1,6 +1,11 @@
-import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_whattodayrice/models/dormitory.dart';
+import 'package:flutter_whattodayrice/providers/dormitory_provider.dart';
 import 'package:flutter_whattodayrice/theme/colors.dart';
+import 'package:adaptive_theme/adaptive_theme.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class ReusableButton extends StatelessWidget {
   final String buttonText;
@@ -79,7 +84,10 @@ class SelectThemeButton extends StatelessWidget {
       onPressed: onPressed,
       child: Text(
         buttonText,
-        style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+        style: GoogleFonts.notoSans(
+          fontSize: 18,
+          fontWeight: FontWeight.bold,
+        ),
       ),
     );
   }
@@ -101,7 +109,10 @@ class SelectButton extends StatelessWidget {
       onPressed: onPressed,
       child: Text(
         buttonText,
-        style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+        style: GoogleFonts.notoSans(
+          fontSize: 18,
+          fontWeight: FontWeight.bold,
+        ),
       ),
     );
   }

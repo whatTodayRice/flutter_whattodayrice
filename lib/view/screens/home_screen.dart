@@ -1,215 +1,289 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_whattodayrice/providers/dormitory_provider.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:after_layout/after_layout.dart';
 import 'package:flutter_whattodayrice/services/fetch_meals_from_db.dart';
 import 'package:flutter_whattodayrice/view/components/calender_row.dart';
 import 'package:flutter_whattodayrice/view/components/constants.dart';
 import 'package:flutter_whattodayrice/view/components/meal_time_row.dart';
+import 'package:flutter_whattodayrice/view/components/w_grow_transition.dart';
+import 'package:flutter_whattodayrice/view/components/w_splash_logo.dart';
 import 'package:flutter_whattodayrice/view/screens/settings_screen.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import '../../models/dormitory.dart';
 import '../../models/meal.dart';
 import '../components/meal_container.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'dart:developer';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_whattodayrice/providers/dormitory_provider.dart';
+import 'package:flutter_whattodayrice/providers/meal_data_provider.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends ConsumerState<HomeScreen>
+    with SingleTickerProviderStateMixin, AfterLayoutMixin<HomeScreen> {
   final PageController _pageController = PageController(initialPage: 0);
-  List<MealData?> weeklyMeals = [];
-  DormitoryType dormitoryType = DormitoryType.sejong;
+  late AnimationController controller;
 
-  Future<void> fetchMealData() async {
-    DateTime now = DateTime.now();
-    if (dormitoryType == DormitoryType.sejong) {
-      weeklyMeals = await fetchMealDataFromDB(now, DormitoryType.sejong);
-    } else {
-      weeklyMeals = await fetchMealDataFromDB(now, DormitoryType.happiness);
-    }
-    setState(() {});
+  List<MealData?> weeklyMeals = [];
+  DormitoryType dormitoryType = DormitoryType.happiness;
+
+  void updateDormitoryMeal(DormitoryType dormitoryType) {
+    fetchMealDataFromDB(dormitoryType).then((newData) {
+      if (mounted) {
+        setState(() {
+          weeklyMeals = newData;
+        });
+      }
+    }).catchError((error) {
+      // 에러 처리
+      print('Error fetching meal data: $error');
+      if (mounted) {
+        setState(() {
+          weeklyMeals = [];
+        });
+      }
+    });
+  }
+
+  DateTime selectedDate = DateTime.now();
+
+  void onDaySelected(DateTime selectedDay) {
+    setState(() {
+      selectedDate = selectedDay;
+    });
+
+    AsyncValue<List<MealData?>> weeklyMeals = ref.watch(mealDataProvider);
+    return weeklyMeals.when(data: (weeklyMeals) {
+      String? dateString = weeklyMeals.first?.date;
+      DateTime? firstDate;
+
+      if(dateString != null && dateString.isNotEmpty) {
+        firstDate = DateTime.parse(dateString);
+      }
+
+      int differenceInDays = selectedDay.difference(firstDate!).inDays;
+
+      if (differenceInDays >= 0 && differenceInDays < weeklyMeals.length) {
+        if (selectedDate != DateTime.now()) {
+          _pageController.animateToPage(
+            differenceInDays,
+            duration: const Duration(milliseconds: 500),
+            curve: Curves.easeInOut,
+          );
+        } else {
+          moveToTodayMenu();
+        }
+      } },error: (err, stack) => showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text(
+            "그 날짜에 맞는 식단 데이터가 아직 올라오지 않았어요",
+          ),
+          actions: [
+            TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('확인'))
+          ],
+        )), loading: () => const CircularProgressIndicator());
+
+
+  }
+
+  @override
+  void afterFirstLayout(BuildContext context) async {
+    await Future.delayed(const Duration(milliseconds: 500));
+    FlutterNativeSplash.remove();
+
   }
 
   @override
   void initState() {
     super.initState();
     initializeDateFormatting();
-    fetchMealData();
+    updateDormitoryMeal(dormitoryType);
+
+    controller = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 1),
+    );
+
+
   }
 
-  DateTime monday = DateTime.now()
-      .subtract(Duration(days: DateTime.now().weekday - 1)); // 월요일부터로 조정
-
-  DateTime sunday = DateTime.now()
-      .add(Duration(days: DateTime.daysPerWeek - DateTime.now().weekday));
-
-  DateTime selectedDate = DateTime.now();
-
-  void onDaySelected(DateTime selectedDay) {
-    int selectedDayWeekday = selectedDay.weekday;
-    DateTime monday =
-        selectedDay.subtract(Duration(days: selectedDayWeekday - 1));
-
-    setState(() {
-      selectedDate = selectedDay;
-    });
-
-    int differenceInDays = selectedDay.difference(monday).inDays;
-
-    if (differenceInDays >= 0 && differenceInDays < weeklyMeals.length) {
-      if (selectedDate != DateTime.now()) {
-        _pageController.animateToPage(
-          differenceInDays,
-          duration: const Duration(milliseconds: 500),
-          curve: Curves.easeInOut,
-        );
-      } else {
-        moveToTodayMenu();
-      }
-    } else {
-      showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-                title: const Text(
-                  "그 날짜에 맞는 식단 데이터가 아직 올라오지 않았어요",
-                ),
-                actions: [
-                  TextButton(
-                      onPressed: () => Navigator.pop(context),
-                      child: const Text('확인'))
-                ],
-              ));
-    }
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
-    // var selectedDormitory = ref.watch(selectedDormitoryProvider);
-    //DormitoryType dormitoryType = DormitoryType.happiness;
+    final selectedDormitory = ref.watch(dormitoryProvider);
+    final weeklyMealsAsyncValue = ref.watch(mealDataProvider);
 
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.orange,
-        title: DropdownButton<String>(
-          value: dormitoryType == DormitoryType.sejong ? "세종기숙사" : "행복기숙사",
-          items: const [
-            DropdownMenuItem(
-              value: "세종기숙사",
-              child: Text("세종기숙사"),
-            ),
-            DropdownMenuItem(
-              value: "행복기숙사",
-              child: Text("행복기숙사"),
-            ),
-          ],
-          onChanged: (value) {
-            setState(() {
-              // 사용자가 기숙사 타입을 선택하면 해당 데이터를 다시 가져옵니다.
-              if (value == "세종기숙사") {
-                dormitoryType = DormitoryType.sejong;
-              } else {
-                dormitoryType = DormitoryType.happiness;
-              }
-              fetchMealData();
-            });
-          },
-        ),
-
-        // Text(selectedDormitory == DormitoryType.sejong ? "세종기숙사" : "행복기숙사"),
+        automaticallyImplyLeading: false,
+        backgroundColor: const Color(0xFFFF833D),
+        title: Text(
+            (selectedDormitory == DormitoryType.sejong1 ||
+                selectedDormitory == DormitoryType.sejong2) ? "세종기숙사" : "행복기숙사",
+            style: Theme.of(context)
+                .textTheme
+                .headlineMedium!
+                .copyWith(color: Colors.white)),
+        centerTitle: true,
         actions: <Widget>[
           IconButton(
-            icon: const Icon(Icons.settings),
+            icon: const Icon(
+              Icons.settings,
+              color: Colors.white,
+            ),
             onPressed: () {
               Navigator.pushNamed(context, SettingsScreen.routeName);
-              fetchMealData();
             },
           ),
         ],
-      ), // 기숙사에 따라 Text 내용 수정하기
-      body: weeklyMeals.isNotEmpty
-          ? SizedBox(
-              height: 700,
-              child: PageView.builder(
-                controller: _pageController,
-                scrollDirection: Axis.horizontal,
-                itemCount: weeklyMeals.length,
-                itemBuilder: (context, index) {
-                  var meal = weeklyMeals[index];
-                  DateTime date = DateTime.now().add(
-                    Duration(
-                      days: index,
-                    ),
-                  );
-                  return buildMealPage(
-                    meal,
-                    index,
-                    screenWidth,
-                    screenHeight,
-                    moveToTodayMenu,
-                    onDaySelected,
-                    date,
-                    moveToTodayMenu,
-                    moveToPreviousPage,
-                    moveToNextPage,
-                    dormitoryType,
-                  );
-                },
-              ),
-            )
-          : const Center(
-              child: CircularProgressIndicator(), // 데이터를 가져오는 동안 로딩 표시
+      ),
+      body: weeklyMealsAsyncValue.when(
+        data: (weeklyMeals) {
+          return weeklyMeals.isNotEmpty
+              ? SizedBox(
+            height: 700,
+            child: PageView.builder(
+              controller: _pageController,
+              scrollDirection: Axis.horizontal,
+              itemCount: weeklyMeals.length,
+              itemBuilder: (context, index) {
+                var meal = weeklyMeals[index];
+                String? dateString = weeklyMeals.first?.date;
+                DateTime? firstDate;
+
+                if(dateString != null && dateString.isNotEmpty) {
+                  firstDate = DateTime.parse(dateString);
+                }
+
+                DateTime? date = firstDate;
+
+                return buildMealPage(
+                  meal,
+                  index,
+                  screenWidth,
+                  screenHeight,
+                  onDaySelected,
+                  date,
+                  moveToTodayMenu,
+                  moveToPreviousPage,
+                  moveToNextPage,
+                  selectedDormitory,
+                );
+              },
             ),
+          )
+              : const Center(
+            child:
+            CircularProgressIndicator(),
+          );
+        },
+        loading: () {
+          Animation<double> animation =
+          Tween<double>(begin: 0, end: 1).animate(controller);
+
+          controller.repeat();
+
+          return GrowTransition(
+            animation: animation,
+            child: const SplashLogo(
+              animatedValue: 1.0,
+            ),
+          );
+        },
+        error: (error, stackTrace) {
+          // 에러 처리
+          print('Error fetching meal data: $error');
+          return Center(
+            child: Text('Error: $error'),
+          );
+        },
+      ),
     );
   }
 
   void moveToTodayMenu() {
+    AsyncValue<List<MealData?>> weeklyMeals = ref.watch(mealDataProvider);
+
     DateTime userAccessDate = DateTime.now();
-    String formattedDate = DateFormat('yyyy-MM-dd').format(userAccessDate);
+    String formattedDate =
+    DateFormat('MM-dd (E)', 'ko_KR').format(userAccessDate);
 
-    // weeklyMeals 리스트를 순회하며 userAccessDate와 일치하는 식단을 찾습니다.
     int todayMenuIndex = -1;
-    for (int i = 0; i < weeklyMeals.length; i++) {
-      MealData? meal = weeklyMeals[i];
-      if (meal?.date == formattedDate) {
-        todayMenuIndex = i;
-        break;
-      }
-    }
 
-    if (todayMenuIndex != -1) {
-      // PageView를 해당 인덱스로 이동시킵니다.
-      _pageController.animateToPage(
-        todayMenuIndex,
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeInOut,
-      );
-    } else {
-      // userAccessDate와 일치하는 식단이 없는 경우에 대한 처리
-      showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: const Text('오늘의 식단이 없습니다.'),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text('확인'),
-            ),
-          ],
+    return weeklyMeals.when(
+        data: (weeklyMeals) {
+          // weeklyMeals 리스트를 순회하며 userAccessDate 와 일치하는 식단을 찾습니다.
+          for (int i = 0; i < weeklyMeals.length; i++) {
+            MealData? meal = weeklyMeals[i];
+            var date = DateTime.parse(meal!.date);
+            var formatDate = DateFormat('MM-dd (E)', 'ko_KR').format(date);
+            if (formatDate == formattedDate) {
+              todayMenuIndex = i;
+              break;
+            }
+          }
+
+          if (todayMenuIndex != -1) {
+            // PageView를 해당 인덱스로 이동시킵니다.
+            _pageController.animateToPage(
+              todayMenuIndex,
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeInOut,
+            );
+          } else {
+            showDialog(
+              context: context,
+              builder: (context) =>
+                  AlertDialog(
+                    title: const Text('오늘 식단이 올라오지 않았어요.'),
+                    actions: <Widget>[
+                      TextButton(
+                        onPressed: () => Navigator.pop(context),
+                        child: const Text('확인'),
+                      ),
+                    ],
+                  ),
+            );
+
+          // userAccessDate와 일치하는 식단이 없는 경우에 대한 처리
+        }
+
+        },
+        error: (err, stack) => showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: const Text('오늘 식단이 올라오지 않았어요.'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('확인'),
+              ),
+            ],
+          ),
         ),
-      );
-    }
+        loading: () => const CircularProgressIndicator());
   }
-
   void moveToNextPage() {
-    final currentPage = _pageController.page ?? 0;
+    var currentPage = _pageController.page ?? 0;
     final nextPage = currentPage + 1;
     if (nextPage < weeklyMeals.length) {
       _pageController.animateToPage(
@@ -221,9 +295,9 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void moveToPreviousPage() {
-    final currentPage = _pageController.page ?? 0;
+    var currentPage = _pageController.page ?? 0;
     final previousPage = currentPage - 1;
-    if (previousPage >= 0) {
+    if (previousPage >= -1) {
       _pageController.animateToPage(
         previousPage.toInt(),
         duration: const Duration(milliseconds: 500),
@@ -234,21 +308,22 @@ class _HomeScreenState extends State<HomeScreen> {
 }
 
 Widget buildMealPage(
-  MealData? meal,
-  int index,
-  double screenWidth,
-  double screenHeight,
-  void Function() moveToTodayMenu,
-  void Function(DateTime selectedDay) onDaySelected,
-  DateTime date,
-  VoidCallback onPressedToday,
-  VoidCallback onPressedBack,
-  VoidCallback onPressedForward,
-  DormitoryType dormitoryType,
-) {
-  DateTime currentDate = DateTime.now();
-  DateTime date = DateTime.now().add(Duration(days: index));
-  String formattedDate = DateFormat('yyyy-MM-dd').format(date);
+    MealData? meal,
+    int index,
+    double screenWidth,
+    double screenHeight,
+    void Function(DateTime selectedDay) onDaySelected,
+    DateTime? date,
+    VoidCallback onPressedToday,
+    VoidCallback onPressedBack,
+    VoidCallback onPressedForward,
+    DormitoryType dormitoryType,
+    ) {
+  DateTime modifiedDate = date!.add(Duration(days: index));
+
+  DateTime currentDate = DateTime.now(); //식당 시간 로직을 위한 날짜
+  String formattedDate = DateFormat('yyyy-MM-dd').format(modifiedDate);
+
 
   if (meal != null) {
     return Column(
@@ -257,10 +332,11 @@ Widget buildMealPage(
           width: screenWidth,
           height: screenHeight,
           onDateSelected: onDaySelected,
-          date: date,
+          date: modifiedDate,
           onPressedBack: onPressedBack,
           onPressedForward: onPressedForward,
           onPressedToday: onPressedToday,
+          dormitoryType: dormitoryType,
         ),
         SizedBox(
           height: screenHeight * 0.039,
@@ -279,13 +355,12 @@ Widget buildMealPage(
         SizedBox(
           height: screenHeight * 0.01,
         ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: BuildContainer(
-            content: '아침: ${meal.breakfast}',
-            height: screenHeight,
-            width: screenWidth,
-          ),
+        BuildContainer(
+          content: (dormitoryType == DormitoryType.happiness)
+              ? '일반 : ${meal.breakfast}\n\nTAKE - OUT : ${meal.takeout}'
+              : '${meal.breakfast}',
+          height: screenHeight,
+          width: screenWidth,
         ),
         SizedBox(
           height: screenHeight * 0.03,
@@ -293,10 +368,7 @@ Widget buildMealPage(
         Padding(
           padding: const EdgeInsets.only(left: 20.0),
           child: MealTimeTextRow(
-              mealTime: getLunchTimeText(
-                dormitoryType,
-                currentDate,
-              ),
+              mealTime: getLunchTimeText(dormitoryType, currentDate),
               mealType: lunch,
               width: screenWidth,
               height: screenHeight),
@@ -307,7 +379,7 @@ Widget buildMealPage(
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: BuildContainer(
-            content: '점심: ${meal.lunch}',
+            content: '${meal.lunch}',
             height: screenHeight,
             width: screenWidth,
           ),
@@ -318,10 +390,7 @@ Widget buildMealPage(
         Padding(
           padding: const EdgeInsets.only(left: 20.0),
           child: MealTimeTextRow(
-              mealTime: getDinnerTimeText(
-                dormitoryType,
-                currentDate,
-              ),
+              mealTime: getDinnerTimeText(dormitoryType, currentDate),
               mealType: dinner,
               width: screenWidth,
               height: screenHeight),
@@ -332,7 +401,7 @@ Widget buildMealPage(
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: BuildContainer(
-            content: '저녁: ${meal.dinner}',
+            content: '${meal.dinner}',
             height: screenHeight,
             width: screenWidth,
           ),
@@ -345,7 +414,10 @@ Widget buildMealPage(
         padding: const EdgeInsets.all(8.0),
         child: Text(
           'Date: $formattedDate\nNo meal data available.',
-          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          style: GoogleFonts.notoSans(
+            fontSize: 12,
+            fontWeight: FontWeight.w600,
+          ),
         ),
       ),
     );
@@ -353,63 +425,51 @@ Widget buildMealPage(
 }
 
 String getBreakfastTimeText(DormitoryType dormitoryType, DateTime currentDate) {
-  if (dormitoryType == DormitoryType.sejong) {
+  if (dormitoryType == DormitoryType.sejong1 && dormitoryType ==DormitoryType.sejong2) {
     if (currentDate.isAfter(DateTime(2023, 6, 27)) &&
         currentDate.isBefore(DateTime(2023, 8, 31))) {
-      log(sejongVacationBreakfastTime);
       return sejongVacationBreakfastTime;
     } else {
-      log(sejongBreakfastTime);
       return sejongBreakfastTime;
     }
   } else {
     if (isWeekday(currentDate)) {
-      log(happyBreakfastWeekTime);
       return happyBreakfastWeekTime;
     } else {
-      log(happyBreakfastTime);
       return happyBreakfastTime;
     }
   }
 }
 
 String getLunchTimeText(DormitoryType dormitoryType, DateTime currentDate) {
-  if (dormitoryType == DormitoryType.sejong) {
+  if (dormitoryType == DormitoryType.sejong1 && dormitoryType ==DormitoryType.sejong2)  {
     if (currentDate.isAfter(DateTime(2023, 6, 27)) &&
         currentDate.isBefore(DateTime(2023, 8, 31))) {
-      log(sejongVacationLunchTime);
       return sejongVacationLunchTime;
     } else {
-      log(sejongLunchTime);
       return sejongLunchTime;
     }
   } else {
     if (isWeekday(currentDate)) {
-      log(happyLunchWeekTime);
       return happyLunchWeekTime;
     } else {
-      log(happyLunchTime);
       return happyLunchTime;
     }
   }
 }
 
 String getDinnerTimeText(DormitoryType dormitoryType, DateTime currentDate) {
-  if (dormitoryType == DormitoryType.sejong) {
+  if (dormitoryType == DormitoryType.sejong1 && dormitoryType ==DormitoryType.sejong2)  {
     if (currentDate.isAfter(DateTime(2023, 6, 27)) &&
         currentDate.isBefore(DateTime(2023, 8, 31))) {
-      log(sejongVacaitonDinnerTime);
       return sejongVacaitonDinnerTime;
     } else {
-      log(sejongDinnerTime);
       return sejongDinnerTime;
     }
   } else {
     if (isWeekday(currentDate)) {
-      log(happyDinnerWeekTime);
       return happyDinnerWeekTime;
     } else {
-      log(happyDinnerTime);
       return happyDinnerTime;
     }
   }

@@ -7,6 +7,11 @@ import 'package:flutter_whattodayrice/view/components/notification_switch.dart';
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_whattodayrice/providers/dormitory_provider.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:home_widget/home_widget.dart';
+import 'package:provider/provider.dart';
+
+const String androidWidgetName = 'FullMealsWidget';
 
 class SettingsScreen extends ConsumerStatefulWidget {
   const SettingsScreen({super.key});
@@ -17,15 +22,12 @@ class SettingsScreen extends ConsumerStatefulWidget {
 }
 
 class _SettingsScreenState extends ConsumerState<SettingsScreen> {
-  //기본값은 세종으로
-  // 추후 기숙사 선택 화면에서 선택된 기숙사로 기본값 변경하기
-
-  bool isDarkMood = false; //초기는 라이트모드로 설정
+  bool isDarkMood = false;
   bool isSwitched = false;
   static const IconData arrowDropDown =
       IconData(0xe098, fontFamily: 'MaterialIcons');
 
-  Widget buildNotificationSwitch() {
+  Widget buildNotificationSwitch(BuildContext context) {
     return NotificationSwitch(
         isSwitched: isSwitched,
         onChanged: (value) {
@@ -37,101 +39,79 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final selectedDormitory = ref.watch(selectedDormitoryProvider);
+    const String androidWidgetName = 'MealWidget';
+
+    final selectedDormitory = ref.watch(dormitoryProvider);
+
+    if (selectedDormitory == DormitoryType.sejong1 ||
+        selectedDormitory == DormitoryType.sejong2) {
+      HomeWidget.saveWidgetData<bool>('is_sejong', true);
+    } else {
+      HomeWidget.saveWidgetData<bool>('is_sejong', false);
+    }
+
+    HomeWidget.updateWidget(androidName: androidWidgetName);
+
     return SafeArea(
       child: Scaffold(
-        body: Padding(
-          padding: const EdgeInsets.fromLTRB(10.0, 30.0, 15.0, 10.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Stack(alignment: Alignment.topLeft, children: [
-                const BackIconButton(),
-                Align(
-                  alignment: Alignment.center,
-                  child: buildSectionTitle('설정'),
-                )
-              ]),
-              const SizedBox(
-                height: 10,
-              ),
-              buildSectionTitle('알림'),
-              const SizedBox(
-                height: 20,
-              ),
-              buildSectionSubtitle('식단 알림 수신'),
-              const SizedBox(
-                height: 15,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 10.0),
-                child: Text(
-                  '매일 저녁 19시에 다음 날 식단이 업데이트 되었다는 소식을\n아래와 같이 팝업을 통해 알려줍니다.',
-                  style: TextStyle(color: Colors.grey[500], fontSize: 8),
-                ),
-              ),
-
-              const SizedBox(
-                height: 20,
-              ),
-              buildNotificationSwitch(),
-              //구분선 삽입
-              const SizedBox(
-                height: 20,
-              ),
-              Divider(
-                thickness: 2,
-                color: Colors.grey[300],
-              ),
-
-              const SizedBox(height: 20),
-              Row(
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Stack(alignment: Alignment.topLeft, children: [
+              const BackIconButton(),
+              Align(
+                alignment: Alignment.center,
+                child: buildSectionTitle('설정'),
+              )
+            ]),
+            const SizedBox(
+              height: 10,
+            ),
+            Container(
+              margin: const EdgeInsets.symmetric(horizontal: 15.0),
+              child: Row(
                 children: [
                   buildBoldText('기숙사 변경'),
                   const Spacer(),
-                  Row(
-                    children: [
-                      TextButton(
-                          onPressed: () {
-                            buildDormitoryBottomSheet(context, ref);
-                          },
-                          child: Text(
-                            selectedDormitory == DormitoryType.sejong
-                                ? '세종기숙사'
-                                : '행복기숙사',
-                            style: const TextStyle(fontSize: 12),
-                          )),
-                      const Icon(arrowDropDown)
-                    ],
-                  )
+                  TextButton(
+                      onPressed: () {
+                        buildDormitoryBottomSheet(context, ref);
+                      },
+                      child: Text(
+                        (selectedDormitory == DormitoryType.sejong1 ||
+                            selectedDormitory == DormitoryType.sejong2) ? "세종기숙사" : "행복기숙사",
+                        style: GoogleFonts.notoSans(
+                            fontSize: 14, fontWeight: FontWeight.w600),
+                      )),
+                  const Icon(arrowDropDown)
                 ],
               ),
-              const SizedBox(height: 30),
-              Row(
+            ),
+            const SizedBox(height: 15),
+            Container(
+              margin: const EdgeInsets.symmetric(horizontal: 15.0),
+              child: Row(
                 children: [
                   buildBoldText('테마 변경'),
                   const Spacer(),
-                  Row(
-                    children: [
-                      TextButton(
-                        onPressed: () {
-                          buildThemeBottomSheet(
-                            context,
-                          );
-                        },
-                        child: Text(
-                          buildThemeText(convertToThemeMode(
-                              AdaptiveTheme.of(context).mode)),
-                          style: const TextStyle(fontSize: 12),
-                        ),
-                      ),
-                      const Icon(arrowDropDown)
-                    ],
-                  )
+                  TextButton(
+                    onPressed: () {
+                      buildThemeBottomSheet(
+                        context,
+                      );
+                    },
+                    child: Text(
+                      buildThemeText(
+                          convertToThemeMode(AdaptiveTheme.of(context).mode)),
+                      style: GoogleFonts.notoSans(
+                          fontSize: 14, fontWeight: FontWeight.w600),
+                    ),
+                  ),
+                  const Icon(arrowDropDown)
                 ],
-              )
-            ],
-          ),
+              ),
+            )
+          ],
         ),
       ),
     );
