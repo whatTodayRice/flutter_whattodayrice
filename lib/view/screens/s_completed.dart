@@ -20,7 +20,6 @@ class _CompletedScreenState extends ConsumerState<CompletedScreen> {
     final media = MediaQuery.of(context).size;
     final defaultTextStyle = Theme.of(context).textTheme.titleMedium!;
     final userNickName = ref.watch(userNickNameProvider);
-    readSharedPreferencesData();
 
     return SafeArea(
       child: Scaffold(

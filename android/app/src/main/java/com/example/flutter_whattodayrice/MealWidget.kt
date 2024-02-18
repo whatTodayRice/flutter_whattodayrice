@@ -31,12 +31,13 @@ class MealWidget : AppWidgetProvider() {
 
                 if(is_sejong) {
                     val sejongDate = widgetData.getString("sejong_date", null)
+                    setTextViewText(R.id.takeout,null)
 
-
-                    if (hour < 7 || hour == 7 && minute <= 30) {
+                    if (hour < 9 || hour == 9 && minute <= 30) {
                         setTextViewText(R.id.title, "오늘의 조식" )
                         val sejongBreakfast = widgetData.getString("sejong_breakfast", null)
                         setTextViewText(R.id.meal, sejongBreakfast ?: "No title set")
+
                     }
                     if (hour >= 9) {
                         setTextViewText(R.id.title, "오늘의 중식" )
@@ -57,6 +58,11 @@ class MealWidget : AppWidgetProvider() {
                     }
                 }
                 else {
+                    val happy_weekend_lunch_hour= 13
+                    val happy_lunch_minute=30
+                    val happy_weekend_dinner_hour=18
+                    val happy_weekend_dinner_minute=45
+
                     val date = widgetData.getString("happy_date", null)
 
                     if(hour<9 || hour==9 && minute<=30) {
@@ -68,21 +74,22 @@ class MealWidget : AppWidgetProvider() {
                         setTextViewText(R.id.takeout, takeout ?: "식단이 준비되는대로 알려드릴게요")
 
                     }
-                    if(hour<14) {
+                    if(hour==9 && minute>=30) {
                         setTextViewText(R.id.title, "오늘의 중식" )
 
                         val lunch = widgetData.getString("happy_lunch", null)
                         setTextViewText(R.id.meal, lunch ?: "No title set")
                     }
 
-
-                    if (hour<19) {
+                    //todo : 평일인지 주말인지에 따라 hour 다르게
+                    if (hour>=14) {
                         setTextViewText(R.id.title, "오늘의 석식")
 
                         val dinner = widgetData.getString("happy_dinner", null)
                         setTextViewText(R.id.meal, dinner ?: "No title set")
                     }
 
+                    //todo :평일, 주말, 공휴일  여부에 따라 다르게
                     if(hour>=19) {
                         setTextViewText(R.id.title, "내일의 조식")
                         val breakfast = widgetData.getString("happy_breakfast", null)

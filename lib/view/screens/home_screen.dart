@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:after_layout/after_layout.dart';
+import 'package:flutter_whattodayrice/providers/dto_user_info.dart';
 import 'package:flutter_whattodayrice/services/fetch_meals_from_db.dart';
 import 'package:flutter_whattodayrice/view/components/calender_row.dart';
 import 'package:flutter_whattodayrice/view/components/constants.dart';
@@ -29,29 +30,28 @@ class HomeScreen extends ConsumerStatefulWidget {
 
 class _HomeScreenState extends ConsumerState<HomeScreen>
     with SingleTickerProviderStateMixin, AfterLayoutMixin<HomeScreen> {
-  final PageController _pageController = PageController(initialPage: 0);
-  late AnimationController controller;
+  late PageController _pageController;
+  late final AnimationController controller;
 
   List<MealData?> weeklyMeals = [];
-  DormitoryType dormitoryType = DormitoryType.happiness;
 
-  void updateDormitoryMeal(DormitoryType dormitoryType) {
-    fetchMealDataFromDB(dormitoryType).then((newData) {
-      if (mounted) {
-        setState(() {
-          weeklyMeals = newData;
-        });
-      }
-    }).catchError((error) {
-      // 에러 처리
-      print('Error fetching meal data: $error');
-      if (mounted) {
-        setState(() {
-          weeklyMeals = [];
-        });
-      }
-    });
-  }
+  // Future<void> updateDormitoryMeal(DormitoryType dormitoryType) async{
+  //   fetchMealDataFromDB(dormitoryType).then((newData) {
+  //     if (mounted) {
+  //       setState(() {
+  //         weeklyMeals = newData;
+  //       });
+  //     }
+  //   }).catchError((error) {
+  //     // 에러 처리
+  //     print('Error fetching meal data: $error');
+  //     if (mounted) {
+  //       setState(() {
+  //         weeklyMeals = [];
+  //       });
+  //     }
+  //   });
+  // }
 
   DateTime selectedDate = DateTime.now();
 
@@ -97,6 +97,21 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
 
   }
 
+  DateTime userAccessDate = DateTime.now();
+  int getUserAccessDatePageIndex(
+      DateTime dateTime, DormitoryType dormitoryType) {
+    int userAccessWeekday = dateTime.weekday;
+
+    if (dormitoryType == DormitoryType.happiness) {
+      userAccessWeekday = userAccessWeekday - 1;
+    } else {
+      if (userAccessWeekday == 7) {
+        userAccessWeekday = userAccessWeekday - 7;
+      }
+    }
+    return userAccessWeekday;
+  }
+
   @override
   void afterFirstLayout(BuildContext context) async {
     await Future.delayed(const Duration(milliseconds: 500));
@@ -105,10 +120,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
   }
 
   @override
-  void initState() {
+  void initState()  {
     super.initState();
     initializeDateFormatting();
-    updateDormitoryMeal(dormitoryType);
+
+    // updateDormitoryMeal(dormitoryType!);
 
     controller = AnimationController(
       vsync: this,
@@ -130,6 +146,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
     final double screenHeight = MediaQuery.of(context).size.height;
     final selectedDormitory = ref.watch(dormitoryProvider);
     final weeklyMealsAsyncValue = ref.watch(mealDataProvider);
+    _pageController = PageController(
+        initialPage:
+        getUserAccessDatePageIndex(userAccessDate, selectedDormitory));
 
 
     return Scaffold(
@@ -321,8 +340,60 @@ Widget buildMealPage(
     ) {
   DateTime modifiedDate = date!.add(Duration(days: index));
 
-  DateTime currentDate = DateTime.now(); //식당 시간 로직을 위한 날짜
   String formattedDate = DateFormat('yyyy-MM-dd').format(modifiedDate);
+
+  String getBreakfastTimeText(DormitoryType dormitoryType) {
+    if (dormitoryType == DormitoryType.sejong1 || dormitoryType ==DormitoryType.sejong2) {
+      if (modifiedDate.isAfter(DateTime(2023, 6, 27)) &&
+          modifiedDate.isBefore(DateTime(2023, 8, 31))) {
+        return sejongVacationBreakfastTime;
+      } else {
+        return sejongBreakfastTime;
+      }
+    } else {
+      if (isWeekday(modifiedDate)) {
+        return happyBreakfastWeekTime;
+      } else {
+        return happyBreakfastTime;
+      }
+    }
+  }
+
+  String getLunchTimeText(DormitoryType dormitoryType) {
+    if (dormitoryType == DormitoryType.sejong1 || dormitoryType ==DormitoryType.sejong2) {
+      if (modifiedDate.isAfter(DateTime(2023, 6, 27)) &&
+          modifiedDate.isBefore(DateTime(2023, 8, 31))) {
+        return sejongVacationLunchTime;
+      } else {
+        return sejongLunchTime;
+      }
+    } else {
+      if (isWeekday(modifiedDate)) {
+        return happyLunchWeekTime;
+      } else {
+        return happyLunchTime;
+      }
+    }
+  }
+
+  String getDinnerTimeText(DormitoryType dormitoryType) {
+
+    if (dormitoryType == DormitoryType.sejong1 || dormitoryType ==DormitoryType.sejong2)  {
+      if (modifiedDate.isAfter(DateTime(2023, 6, 27)) &&
+          modifiedDate.isBefore(DateTime(2023, 8, 31))) {
+        return sejongVacaitonDinnerTime;
+      } else {
+        return sejongDinnerTime;
+      }
+    } else {
+      if (isWeekday(modifiedDate)) {
+        return happyDinnerWeekTime;
+      } else {
+        return happyDinnerTime;
+      }
+    }
+  }
+
 
 
   if (meal != null) {
@@ -346,7 +417,6 @@ Widget buildMealPage(
           child: MealTimeTextRow(
               mealTime: getBreakfastTimeText(
                 dormitoryType,
-                currentDate,
               ),
               mealType: breakfast,
               width: screenWidth,
@@ -368,7 +438,7 @@ Widget buildMealPage(
         Padding(
           padding: const EdgeInsets.only(left: 20.0),
           child: MealTimeTextRow(
-              mealTime: getLunchTimeText(dormitoryType, currentDate),
+              mealTime: getLunchTimeText(dormitoryType),
               mealType: lunch,
               width: screenWidth,
               height: screenHeight),
@@ -390,7 +460,7 @@ Widget buildMealPage(
         Padding(
           padding: const EdgeInsets.only(left: 20.0),
           child: MealTimeTextRow(
-              mealTime: getDinnerTimeText(dormitoryType, currentDate),
+              mealTime: getDinnerTimeText(dormitoryType),
               mealType: dinner,
               width: screenWidth,
               height: screenHeight),
@@ -424,57 +494,9 @@ Widget buildMealPage(
   }
 }
 
-String getBreakfastTimeText(DormitoryType dormitoryType, DateTime currentDate) {
-  if (dormitoryType == DormitoryType.sejong1 && dormitoryType ==DormitoryType.sejong2) {
-    if (currentDate.isAfter(DateTime(2023, 6, 27)) &&
-        currentDate.isBefore(DateTime(2023, 8, 31))) {
-      return sejongVacationBreakfastTime;
-    } else {
-      return sejongBreakfastTime;
-    }
-  } else {
-    if (isWeekday(currentDate)) {
-      return happyBreakfastWeekTime;
-    } else {
-      return happyBreakfastTime;
-    }
-  }
-}
 
-String getLunchTimeText(DormitoryType dormitoryType, DateTime currentDate) {
-  if (dormitoryType == DormitoryType.sejong1 && dormitoryType ==DormitoryType.sejong2)  {
-    if (currentDate.isAfter(DateTime(2023, 6, 27)) &&
-        currentDate.isBefore(DateTime(2023, 8, 31))) {
-      return sejongVacationLunchTime;
-    } else {
-      return sejongLunchTime;
-    }
-  } else {
-    if (isWeekday(currentDate)) {
-      return happyLunchWeekTime;
-    } else {
-      return happyLunchTime;
-    }
-  }
-}
-
-String getDinnerTimeText(DormitoryType dormitoryType, DateTime currentDate) {
-  if (dormitoryType == DormitoryType.sejong1 && dormitoryType ==DormitoryType.sejong2)  {
-    if (currentDate.isAfter(DateTime(2023, 6, 27)) &&
-        currentDate.isBefore(DateTime(2023, 8, 31))) {
-      return sejongVacaitonDinnerTime;
-    } else {
-      return sejongDinnerTime;
-    }
-  } else {
-    if (isWeekday(currentDate)) {
-      return happyDinnerWeekTime;
-    } else {
-      return happyDinnerTime;
-    }
-  }
-}
-
-bool isWeekday(DateTime date) {
-  return date.weekday >= DateTime.monday && date.weekday <= DateTime.friday;
+bool isWeekday(DateTime modifiedDate) {
+  print("월요일 : ${DateTime.monday}");
+  print("금요일 : ${DateTime.friday}");
+  return modifiedDate.weekday >= DateTime.monday && modifiedDate.weekday <= DateTime.friday;
 }
