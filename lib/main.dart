@@ -1,9 +1,7 @@
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:flutter_whattodayrice/providers/dto_user_id.dart';
 import 'package:flutter_whattodayrice/providers/dto_user_info.dart';
 import 'package:flutter_whattodayrice/view/screens/home_screen.dart';
-import 'package:flutter_whattodayrice/view/screens/s_completed.dart';
 import 'package:flutter_whattodayrice/view/screens/s_select_dormitory.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
@@ -13,8 +11,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
-
-
 
 Future<void> main() async {
   final bindings = WidgetsFlutterBinding.ensureInitialized();
@@ -30,26 +26,23 @@ Future<void> main() async {
   final storedUserID = await readUserIdSharedPreferencesData();
   final isIDInFirestore = await isIDInFireStore(storedUserID);
 
-
-
   final sharedPreferences = await SharedPreferences.getInstance();
 
-  runApp( ProviderScope(
-    overrides: [
-      sharedPreferencesProvider.overrideWithValue(sharedPreferences),
-    ],
-      child: MyApp(isIDInFirestore: isIDInFirestore,)));
+  runApp(ProviderScope(
+      overrides: [
+        sharedPreferencesProvider.overrideWithValue(sharedPreferences),
+      ],
+      child: MyApp(
+        isIDInFirestore: isIDInFirestore,
+      )));
 }
 
 class MyApp extends StatelessWidget {
   final bool isIDInFirestore;
-  const MyApp( {Key? key, required this.isIDInFirestore}) : super(key: key);
-
-
-
+  const MyApp({Key? key, required this.isIDInFirestore}) : super(key: key);
 
   @override
-  Widget build(BuildContext context)  {
+  Widget build(BuildContext context) {
     return AdaptiveTheme(
       light: ThemeData(
         brightness: Brightness.light,
@@ -85,7 +78,9 @@ class MyApp extends StatelessWidget {
           SettingsScreen.routeName: (context) => const SettingsScreen(),
         },
         debugShowCheckedModeBanner: false,
-        home:isIDInFirestore ? HomeScreen() : SelectDormitoryScreen(),
+        home: isIDInFirestore
+            ? const HomeScreen()
+            : const SelectDormitoryScreen(),
       ),
     );
   }

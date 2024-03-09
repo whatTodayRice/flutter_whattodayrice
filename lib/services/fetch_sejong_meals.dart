@@ -79,7 +79,6 @@ DateTime parseDateString(String formattedDate) {
   return dateTime;
 }
 
-
 const String androidFullMealsWidgetName = 'FullMealsWidget';
 const String androidMealWidgetName = 'MealWidget';
 
@@ -93,10 +92,11 @@ void updateFullMeal(MealData sejongMeal) {
 
   String targetDate = today;
 
-  if ((hour > 18 || (hour==18 && minute >= 30) )|| (hour<7 || hour==7 && minute<=30)){
+  if ((hour > 18 || (hour == 18 && minute >= 30)) ||
+      (hour < 7 || hour == 7 && minute <= 30)) {
     targetDate = tomorrow;
   }
-  if (sejongMeal.date==targetDate){
+  if (sejongMeal.date == targetDate) {
     updateSejongFullWidgetDate(sejongMeal);
   }
 

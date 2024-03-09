@@ -2,8 +2,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:after_layout/after_layout.dart';
-import 'package:flutter_whattodayrice/providers/dto_user_info.dart';
-import 'package:flutter_whattodayrice/services/fetch_meals_from_db.dart';
 import 'package:flutter_whattodayrice/view/components/calender_row.dart';
 import 'package:flutter_whattodayrice/view/components/constants.dart';
 import 'package:flutter_whattodayrice/view/components/meal_time_row.dart';
@@ -11,7 +9,6 @@ import 'package:flutter_whattodayrice/view/components/w_grow_transition.dart';
 import 'package:flutter_whattodayrice/view/components/w_splash_logo.dart';
 import 'package:flutter_whattodayrice/view/screens/settings_screen.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
 import '../../models/dormitory.dart';
 import '../../models/meal.dart';
 import '../components/meal_container.dart';
@@ -61,40 +58,42 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
     });
 
     AsyncValue<List<MealData?>> weeklyMeals = ref.watch(mealDataProvider);
-    return weeklyMeals.when(data: (weeklyMeals) {
-      String? dateString = weeklyMeals.first?.date;
-      DateTime? firstDate;
+    return weeklyMeals.when(
+        data: (weeklyMeals) {
+          String? dateString = weeklyMeals.first?.date;
+          DateTime? firstDate;
 
-      if(dateString != null && dateString.isNotEmpty) {
-        firstDate = DateTime.parse(dateString);
-      }
+          if (dateString != null && dateString.isNotEmpty) {
+            firstDate = DateTime.parse(dateString);
+          }
 
-      int differenceInDays = selectedDay.difference(firstDate!).inDays;
+          int differenceInDays = selectedDay.difference(firstDate!).inDays;
 
-      if (differenceInDays >= 0 && differenceInDays < weeklyMeals.length) {
-        if (selectedDate != DateTime.now()) {
-          _pageController.animateToPage(
-            differenceInDays,
-            duration: const Duration(milliseconds: 500),
-            curve: Curves.easeInOut,
-          );
-        } else {
-          moveToTodayMenu();
-        }
-      } },error: (err, stack) => showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: const Text(
-            "그 날짜에 맞는 식단 데이터가 아직 올라오지 않았어요",
-          ),
-          actions: [
-            TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: const Text('확인'))
-          ],
-        )), loading: () => const CircularProgressIndicator());
-
-
+          if (differenceInDays >= 0 && differenceInDays < weeklyMeals.length) {
+            if (selectedDate != DateTime.now()) {
+              _pageController.animateToPage(
+                differenceInDays,
+                duration: const Duration(milliseconds: 500),
+                curve: Curves.easeInOut,
+              );
+            } else {
+              moveToTodayMenu();
+            }
+          }
+        },
+        error: (err, stack) => showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+                  title: const Text(
+                    "그 날짜에 맞는 식단 데이터가 아직 올라오지 않았어요",
+                  ),
+                  actions: [
+                    TextButton(
+                        onPressed: () => Navigator.pop(context),
+                        child: const Text('확인'))
+                  ],
+                )),
+        loading: () => const CircularProgressIndicator());
   }
 
   DateTime userAccessDate = DateTime.now();
@@ -116,11 +115,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
   void afterFirstLayout(BuildContext context) async {
     await Future.delayed(const Duration(milliseconds: 500));
     FlutterNativeSplash.remove();
-
   }
 
   @override
-  void initState()  {
+  void initState() {
     super.initState();
     initializeDateFormatting();
 
@@ -130,8 +128,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
       vsync: this,
       duration: const Duration(seconds: 1),
     );
-
-
   }
 
   @override
@@ -148,8 +144,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
     final weeklyMealsAsyncValue = ref.watch(mealDataProvider);
     _pageController = PageController(
         initialPage:
-        getUserAccessDatePageIndex(userAccessDate, selectedDormitory));
-
+            getUserAccessDatePageIndex(userAccessDate, selectedDormitory));
 
     return Scaffold(
       appBar: AppBar(
@@ -157,7 +152,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
         backgroundColor: const Color(0xFFFF833D),
         title: Text(
             (selectedDormitory == DormitoryType.sejong1 ||
-                selectedDormitory == DormitoryType.sejong2) ? "세종기숙사" : "행복기숙사",
+                    selectedDormitory == DormitoryType.sejong2)
+                ? "세종기숙사"
+                : "행복기숙사",
             style: Theme.of(context)
                 .textTheme
                 .headlineMedium!
@@ -179,45 +176,44 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
         data: (weeklyMeals) {
           return weeklyMeals.isNotEmpty
               ? SizedBox(
-            height: 700,
-            child: PageView.builder(
-              controller: _pageController,
-              scrollDirection: Axis.horizontal,
-              itemCount: weeklyMeals.length,
-              itemBuilder: (context, index) {
-                var meal = weeklyMeals[index];
-                String? dateString = weeklyMeals.first?.date;
-                DateTime? firstDate;
+                  height: 700,
+                  child: PageView.builder(
+                    controller: _pageController,
+                    scrollDirection: Axis.horizontal,
+                    itemCount: weeklyMeals.length,
+                    itemBuilder: (context, index) {
+                      var meal = weeklyMeals[index];
+                      String? dateString = weeklyMeals.first?.date;
+                      DateTime? firstDate;
 
-                if(dateString != null && dateString.isNotEmpty) {
-                  firstDate = DateTime.parse(dateString);
-                }
+                      if (dateString != null && dateString.isNotEmpty) {
+                        firstDate = DateTime.parse(dateString);
+                      }
 
-                DateTime? date = firstDate;
+                      DateTime? date = firstDate;
 
-                return buildMealPage(
-                  meal,
-                  index,
-                  screenWidth,
-                  screenHeight,
-                  onDaySelected,
-                  date,
-                  moveToTodayMenu,
-                  moveToPreviousPage,
-                  moveToNextPage,
-                  selectedDormitory,
-                );
-              },
-            ),
-          )
+                      return buildMealPage(
+                        meal,
+                        index,
+                        screenWidth,
+                        screenHeight,
+                        onDaySelected,
+                        date,
+                        moveToTodayMenu,
+                        moveToPreviousPage,
+                        moveToNextPage,
+                        selectedDormitory,
+                      );
+                    },
+                  ),
+                )
               : const Center(
-            child:
-            CircularProgressIndicator(),
-          );
+                  child: CircularProgressIndicator(),
+                );
         },
         loading: () {
           Animation<double> animation =
-          Tween<double>(begin: 0, end: 1).animate(controller);
+              Tween<double>(begin: 0, end: 1).animate(controller);
 
           controller.repeat();
 
@@ -230,7 +226,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
         },
         error: (error, stackTrace) {
           // 에러 처리
-          print('Error fetching meal data: $error');
           return Center(
             child: Text('Error: $error'),
           );
@@ -244,7 +239,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
 
     DateTime userAccessDate = DateTime.now();
     String formattedDate =
-    DateFormat('MM-dd (E)', 'ko_KR').format(userAccessDate);
+        DateFormat('MM-dd (E)', 'ko_KR').format(userAccessDate);
 
     int todayMenuIndex = -1;
 
@@ -271,40 +266,40 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
           } else {
             showDialog(
               context: context,
-              builder: (context) =>
-                  AlertDialog(
-                    title: const Text('오늘 식단이 올라오지 않았어요.'),
-                    actions: <Widget>[
-                      TextButton(
-                        onPressed: () => Navigator.pop(context),
-                        child: const Text('확인'),
-                      ),
-                    ],
+              builder: (context) => AlertDialog(
+                title: const Text('오늘 식단이 올라오지 않았어요.'),
+                actions: <Widget>[
+                  TextButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: const Text('확인'),
                   ),
+                ],
+              ),
             );
 
-          // userAccessDate와 일치하는 식단이 없는 경우에 대한 처리
-        }
-
+            // userAccessDate와 일치하는 식단이 없는 경우에 대한 처리
+          }
         },
         error: (err, stack) => showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: const Text('오늘 식단이 올라오지 않았어요.'),
-            actions: <Widget>[
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: const Text('확인'),
+              context: context,
+              builder: (context) => AlertDialog(
+                title: const Text('오늘 식단이 올라오지 않았어요.'),
+                actions: <Widget>[
+                  TextButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: const Text('확인'),
+                  ),
+                ],
               ),
-            ],
-          ),
-        ),
+            ),
         loading: () => const CircularProgressIndicator());
   }
+
   void moveToNextPage() {
     var currentPage = _pageController.page ?? 0;
     final nextPage = currentPage + 1;
-    if (nextPage < weeklyMeals.length) {
+
+    if (nextPage <= 7) {
       _pageController.animateToPage(
         nextPage.toInt(),
         duration: const Duration(milliseconds: 500),
@@ -327,23 +322,24 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
 }
 
 Widget buildMealPage(
-    MealData? meal,
-    int index,
-    double screenWidth,
-    double screenHeight,
-    void Function(DateTime selectedDay) onDaySelected,
-    DateTime? date,
-    VoidCallback onPressedToday,
-    VoidCallback onPressedBack,
-    VoidCallback onPressedForward,
-    DormitoryType dormitoryType,
-    ) {
+  MealData? meal,
+  int index,
+  double screenWidth,
+  double screenHeight,
+  void Function(DateTime selectedDay) onDaySelected,
+  DateTime? date,
+  VoidCallback onPressedToday,
+  VoidCallback onPressedBack,
+  VoidCallback onPressedForward,
+  DormitoryType dormitoryType,
+) {
   DateTime modifiedDate = date!.add(Duration(days: index));
 
   String formattedDate = DateFormat('yyyy-MM-dd').format(modifiedDate);
 
   String getBreakfastTimeText(DormitoryType dormitoryType) {
-    if (dormitoryType == DormitoryType.sejong1 || dormitoryType ==DormitoryType.sejong2) {
+    if (dormitoryType == DormitoryType.sejong1 ||
+        dormitoryType == DormitoryType.sejong2) {
       if (modifiedDate.isAfter(DateTime(2023, 6, 27)) &&
           modifiedDate.isBefore(DateTime(2023, 8, 31))) {
         return sejongVacationBreakfastTime;
@@ -360,7 +356,8 @@ Widget buildMealPage(
   }
 
   String getLunchTimeText(DormitoryType dormitoryType) {
-    if (dormitoryType == DormitoryType.sejong1 || dormitoryType ==DormitoryType.sejong2) {
+    if (dormitoryType == DormitoryType.sejong1 ||
+        dormitoryType == DormitoryType.sejong2) {
       if (modifiedDate.isAfter(DateTime(2023, 6, 27)) &&
           modifiedDate.isBefore(DateTime(2023, 8, 31))) {
         return sejongVacationLunchTime;
@@ -377,8 +374,8 @@ Widget buildMealPage(
   }
 
   String getDinnerTimeText(DormitoryType dormitoryType) {
-
-    if (dormitoryType == DormitoryType.sejong1 || dormitoryType ==DormitoryType.sejong2)  {
+    if (dormitoryType == DormitoryType.sejong1 ||
+        dormitoryType == DormitoryType.sejong2) {
       if (modifiedDate.isAfter(DateTime(2023, 6, 27)) &&
           modifiedDate.isBefore(DateTime(2023, 8, 31))) {
         return sejongVacaitonDinnerTime;
@@ -393,8 +390,6 @@ Widget buildMealPage(
       }
     }
   }
-
-
 
   if (meal != null) {
     return Column(
@@ -494,9 +489,7 @@ Widget buildMealPage(
   }
 }
 
-
 bool isWeekday(DateTime modifiedDate) {
-  print("월요일 : ${DateTime.monday}");
-  print("금요일 : ${DateTime.friday}");
-  return modifiedDate.weekday >= DateTime.monday && modifiedDate.weekday <= DateTime.friday;
+  return modifiedDate.weekday >= DateTime.monday &&
+      modifiedDate.weekday <= DateTime.friday;
 }

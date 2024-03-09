@@ -15,9 +15,7 @@ class _CalendarContainerState extends State<CalendarContainer> {
     return ListView.builder(
         itemCount: 7,
         itemBuilder: (BuildContext context, int index) {
-          return Container(
-            child: Text(daysOfWeek[index]),
-          );
+          return Text(daysOfWeek[index]);
         });
   }
 }

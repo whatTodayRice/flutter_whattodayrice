@@ -26,19 +26,15 @@ const kStartText = Text(
   ),
 );
 
-class kMealAvailableTimeText extends StatelessWidget {
-  const kMealAvailableTimeText({super.key, required this.mealTime});
+class MealAvailableTimeText extends StatelessWidget {
+  const MealAvailableTimeText({super.key, required this.mealTime});
   final String mealTime;
   @override
   Widget build(BuildContext context) {
-    return Text(
-      mealTime,
-      style: Theme.of(context)
-          .textTheme
-          .bodyMedium!
-          // .copyWith(color: const Color(0xFF5C5C5C)),
-      //todo 다른 텍스트와 같게 디폴트로 설정할 경우 다크모드로 변경해도 정상적으로 보여요 :> 유저입장에서 다른 컬러로 설정하는것이 시각적으로 더 좋은 효과가 있을까요?
-    );
+    return Text(mealTime, style: Theme.of(context).textTheme.bodyMedium!
+        // .copyWith(color: const Color(0xFF5C5C5C)),
+        //todo 다른 텍스트와 같게 디폴트로 설정할 경우 다크모드로 변경해도 정상적으로 보여요 :> 유저입장에서 다른 컬러로 설정하는것이 시각적으로 더 좋은 효과가 있을까요?
+        );
   }
 }
 
@@ -58,8 +54,8 @@ String happyBreakfastTime = '08:00 ~ 09:30';
 String happyLunchTime = '11:30 ~ 13:30';
 String happyDinnerTime = '17:30 ~ 18:45';
 
-class kMealCategoryIcon extends StatelessWidget {
-  const kMealCategoryIcon({
+class MealCategoryIcon extends StatelessWidget {
+  const MealCategoryIcon({
     super.key,
     required this.width,
     required this.height,
@@ -92,8 +88,8 @@ class kMealCategoryIcon extends StatelessWidget {
 }
 //아침 ,점심, 저녁 아이콘 변경하기
 
-class kMealCategoryText extends StatelessWidget {
-  const kMealCategoryText({
+class MealCategoryText extends StatelessWidget {
+  const MealCategoryText({
     super.key,
     required this.mealType,
     required this.width,

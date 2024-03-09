@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter_whattodayrice/models/meal.dart';
 import 'package:http/http.dart' as http;
 import 'package:html/parser.dart';
@@ -28,6 +26,7 @@ Future<List<MealData>> fetchHappyMeals() async {
       String rawDateString = weeklyDate[dateIndex].text;
       String formattedDate = rawDateString.replaceAll(RegExp(r'[()]'), '');
       formattedDate = formattedDate.split(' ').last; // 날짜 부분 추출
+      // ignore: avoid_print
       print('haappy : $formattedDate');
 
       // 각 식단 항목을 쉼표와 공백으로 구분하여 저장
@@ -71,10 +70,7 @@ Future<List<MealData>> fetchHappyMeals() async {
   }
 }
 
-
 void updateMeal(MealData happyMeal) {
-
-
   const String androidFullMealsWidgetName = 'FullMealsWidget';
   const String androidMealWidgetName = 'MealWidget';
 
@@ -85,18 +81,15 @@ void updateMeal(MealData happyMeal) {
   var hour = DateTime.now().hour;
   String targetDate = today;
 
-  if (hour >= 19){
+  if (hour >= 19) {
     targetDate = tomorrow;
   }
 
-  if (happyMeal.date==targetDate){
+  if (happyMeal.date == targetDate) {
     saveHappyWidgetData(happyMeal);
-
   }
   HomeWidget.updateWidget(androidName: androidFullMealsWidgetName);
   HomeWidget.updateWidget(androidName: androidMealWidgetName);
-
-
 }
 
 void saveHappyWidgetData(MealData happyMeal) {
@@ -105,6 +98,4 @@ void saveHappyWidgetData(MealData happyMeal) {
   HomeWidget.saveWidgetData<String>('happy_takeout', happyMeal.takeout);
   HomeWidget.saveWidgetData<String>('happy_lunch', happyMeal.lunch);
   HomeWidget.saveWidgetData<String>('happy_dinner', happyMeal.dinner);
-
-
 }
