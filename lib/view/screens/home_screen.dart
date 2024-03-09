@@ -6,12 +6,12 @@ import 'package:flutter_whattodayrice/view/components/calender_row.dart';
 import 'package:flutter_whattodayrice/theme/constants.dart';
 import 'package:flutter_whattodayrice/view/components/meal_time_row.dart';
 import 'package:flutter_whattodayrice/view/components/w_grow_transition.dart';
+import 'package:flutter_whattodayrice/view/components/w_meal_container.dart';
 import 'package:flutter_whattodayrice/view/components/w_splash_logo.dart';
 import 'package:flutter_whattodayrice/view/screens/settings_screen.dart';
 import 'package:intl/intl.dart';
 import '../../models/dormitory.dart';
 import '../../models/meal.dart';
-import '../components/meal_container.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -420,7 +420,7 @@ Widget buildMealPage(
         SizedBox(
           height: screenHeight * 0.01,
         ),
-        BuildContainer(
+        MealContainer(
           content: (dormitoryType == DormitoryType.happiness)
               ? '일반 : ${meal.breakfast}\n\nTAKE - OUT : ${meal.takeout}'
               : '${meal.breakfast}',
@@ -443,7 +443,7 @@ Widget buildMealPage(
         ),
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: BuildContainer(
+          child: MealContainer(
             content: '${meal.lunch}',
             height: screenHeight,
             width: screenWidth,
@@ -465,7 +465,7 @@ Widget buildMealPage(
         ),
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: BuildContainer(
+          child: MealContainer(
             content: '${meal.dinner}',
             height: screenHeight,
             width: screenWidth,
