@@ -24,10 +24,7 @@ Future<Object?> showCalendarDialog(BuildContext context) {
                   calendarFormat: CalendarFormat.week,
                   locale: 'ko_KR',
                   onDaySelected: (selectedDay, focusedDay) {
-                    DateTime date = selectedDay;
-                    int weekdayIndex = date.weekday + 1;
                     Navigator.of(context).pop();
-                    print('Selected date: $weekdayIndex');
 
                     // 해당 인덱스를 전달해줘야함
                   },

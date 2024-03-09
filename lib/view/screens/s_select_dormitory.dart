@@ -5,11 +5,8 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_whattodayrice/models/dormitory.dart';
 import 'package:flutter_whattodayrice/providers/dormitory_provider.dart';
-import 'package:flutter_whattodayrice/providers/dto_user_info.dart';
 import 'package:flutter_whattodayrice/view/components/w_selected_dorms_button.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import '../components/w_save_user_info_button.dart';
-import 'package:image/image.dart' as img;
 
 class SelectDormitoryScreen extends ConsumerStatefulWidget {
   const SelectDormitoryScreen({super.key});
@@ -55,7 +52,6 @@ class _SelectDormitoryScreenState extends ConsumerState<SelectDormitoryScreen>
 
   @override
   Widget build(BuildContext context) {
-
     return SafeArea(
       child: Scaffold(
         body: Padding(
@@ -88,7 +84,6 @@ class _SelectDormitoryScreenState extends ConsumerState<SelectDormitoryScreen>
                               DormitoryType.sejong1;
                           handleDormitorySelection(DormitoryType.sejong1);
                           //saveDormitorySharedPreferences(DormitoryType.sejong1.toString());
-
                         });
                       },
                       selected: sejong1Selected,
@@ -111,12 +106,9 @@ class _SelectDormitoryScreenState extends ConsumerState<SelectDormitoryScreen>
                               DormitoryType.sejong2;
                           handleDormitorySelection(DormitoryType.sejong2);
                           //saveDormitorySharedPreferences(DormitoryType.sejong2.toString());
-
-
                         });
 
                         //id값을 SharedPreferences에 저장하기
-
                       },
                       selected: sejong2Selected,
                       buttonText: "세종 2관"),
@@ -134,8 +126,7 @@ class _SelectDormitoryScreenState extends ConsumerState<SelectDormitoryScreen>
                         ref.watch(dormitoryProvider.notifier).state =
                             DormitoryType.happiness;
                         handleDormitorySelection(DormitoryType.happiness);
-                       // saveDormitorySharedPreferences(DormitoryType.happiness.toString());
-
+                        // saveDormitorySharedPreferences(DormitoryType.happiness.toString());
                       });
                     },
                     selected: happySelected,
@@ -147,7 +138,7 @@ class _SelectDormitoryScreenState extends ConsumerState<SelectDormitoryScreen>
                 flex: 11,
                 child: Container(),
               ),
-              Flexible(
+              const Flexible(
                 flex: 8,
                 child: SaveUserInfoButton(),
               ),

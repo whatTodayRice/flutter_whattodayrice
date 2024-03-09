@@ -1,4 +1,3 @@
-import 'package:flutter_whattodayrice/models/dormitory.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class User {
@@ -21,7 +20,7 @@ class User {
   Map<String, dynamic> toFirestore() {
     return {
       if (name != null) "name": name,
-      if (dormitoryType != null) "dormitory": dormitoryType,
+      "dormitory": dormitoryType,
     };
   }
 }

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_whattodayrice/models/dormitory.dart';
-import 'package:flutter_whattodayrice/providers/dormitory_provider.dart';
 import 'package:flutter_whattodayrice/view/components/button_template.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class CalenderRow extends StatefulWidget {
@@ -125,7 +123,7 @@ class _CalenderRowState extends State<CalenderRow> {
                           focusedDay: currentDate,
                           firstDay:
                               baseDate, //todo : 세종의 경우 sunday, 행복의 경우 monday
-                          lastDay: baseDate.add(Duration(days: 6)),
+                          lastDay: baseDate.add(const Duration(days: 6)),
                           //Date 값의 마지막 날짜만 넣어주기
                           headerVisible: false,
                           calendarFormat: CalendarFormat.week,

@@ -1,9 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_whattodayrice/models/dormitory.dart';
 import 'package:flutter_whattodayrice/providers/dto_user_info.dart';
-import 'package:flutter_whattodayrice/providers/meal_data_provider.dart';
 import 'package:flutter_whattodayrice/view/components/vo_random_generated_user_name.dart';
 import '../../models/m_user.dart';
 import '../../providers/dormitory_provider.dart';
@@ -55,7 +53,6 @@ class _SaveUserInfoButtonState extends ConsumerState<SaveUserInfoButton> {
             ref.read(userIdProvider.notifier).state = newUserId;
             saveUserIdToSharedPreferences(newUserId);
             readUserIdSharedPreferencesData();
-            print('DocumentSnapshot added with ID: ${doc.id}');
           });
 
           Navigator.push(

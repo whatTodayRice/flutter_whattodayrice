@@ -26,8 +26,8 @@ const kStartText = Text(
   ),
 );
 
-class kMealAvailableTimeText extends StatelessWidget {
-  const kMealAvailableTimeText({super.key, required this.mealTime});
+class MealAvailableTimeText extends StatelessWidget {
+  const MealAvailableTimeText({super.key, required this.mealTime});
   final String mealTime;
   @override
   Widget build(BuildContext context) {
@@ -54,8 +54,8 @@ String happyBreakfastTime = '08:00 ~ 09:30';
 String happyLunchTime = '11:30 ~ 13:30';
 String happyDinnerTime = '17:30 ~ 18:45';
 
-class kMealCategoryIcon extends StatelessWidget {
-  const kMealCategoryIcon({
+class MealCategoryIcon extends StatelessWidget {
+  const MealCategoryIcon({
     super.key,
     required this.width,
     required this.height,
@@ -88,8 +88,8 @@ class kMealCategoryIcon extends StatelessWidget {
 }
 //아침 ,점심, 저녁 아이콘 변경하기
 
-class kMealCategoryText extends StatelessWidget {
-  const kMealCategoryText({
+class MealCategoryText extends StatelessWidget {
+  const MealCategoryText({
     super.key,
     required this.mealType,
     required this.width,
@@ -107,18 +107,18 @@ class kMealCategoryText extends StatelessWidget {
 }
 
 var kTextStyleGuide = ThemeData(
-  textTheme: TextTheme(
-    bodySmall: const TextStyle(
+  textTheme: const TextTheme(
+    bodySmall: TextStyle(
       fontSize: 12.0,
       fontWeight: FontWeight.w500,
       height: 18 / 12,
     ),
-    displayMedium: const TextStyle(
+    displayMedium: TextStyle(
       fontSize: 18.0,
       fontWeight: FontWeight.bold,
     ),
-    titleSmall: const TextStyle(fontSize: 16.0, fontWeight: FontWeight.w600),
-    titleMedium: const TextStyle(fontSize: 20.0, fontWeight: FontWeight.w600),
+    titleSmall: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w600),
+    titleMedium: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w600),
   ),
 );
 

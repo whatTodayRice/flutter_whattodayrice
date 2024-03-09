@@ -1,3 +1,5 @@
+// ignore_for_file: unused_local_variable
+
 import 'package:sqflite/sqflite.dart';
 
 //SQLite 데이터 베이스 연결하기
@@ -12,9 +14,7 @@ Future<void> fetchDatFromDatabase() async {
   final db = await openDatabase(path);
   final results = await db.query('sejong_menu');
 
-  for (var row in results) {
-    print(row[0]);
-  }
+  for (var row in results) {}
 
   await db.close();
 }
