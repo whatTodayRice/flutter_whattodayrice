@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "816854486784",
+    "project_id": "what-today-rice",
+    "storage_bucket": "what-today-rice.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:816854486784:android:2556c61ae232243ddaade5",
+        "android_client_info": {
+          "package_name": "com.example.flutter_whattodayrice"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBXCwiZCNIe5GnsUT7Rq4gCh_rgFGjsmEg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

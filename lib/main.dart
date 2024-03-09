@@ -1,31 +1,87 @@
-//import 'package:flutter_whattodayrice/view/screens/selectdormitory.dart';
-//import 'package:flutter_whattodayrice/screens/selectdormitory.dart';
-//import 'package:flutter_whattodayrice/view/screens/table_calendar_practice.dart';
-import 'package:flutter/material.dart';
+import 'package:adaptive_theme/adaptive_theme.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:flutter_whattodayrice/providers/dto_user_info.dart';
 import 'package:flutter_whattodayrice/view/screens/home_screen.dart';
+import 'package:flutter_whattodayrice/view/screens/s_select_dormitory.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_whattodayrice/view/screens/settings_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
-void main() async {
-  // HttpClient httpClinet = HttpClient();
-  // httpClinet.badCertificateCallback =
-  //     (X509Certificate cert, String host, int port) => true;
+import 'package:shared_preferences/shared_preferences.dart';
 
-  runApp(const MyApp());
+Future<void> main() async {
+  final bindings = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: bindings);
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  // SharedPreferences prefs = await SharedPreferences.getInstance();
+  // prefs.remove('dormitory');
+  // prefs.remove('userId');
+
+  final storedUserID = await readUserIdSharedPreferencesData();
+  final isIDInFirestore = await isIDInFireStore(storedUserID);
+
+  final sharedPreferences = await SharedPreferences.getInstance();
+
+  runApp(ProviderScope(
+      overrides: [
+        sharedPreferencesProvider.overrideWithValue(sharedPreferences),
+      ],
+      child: MyApp(
+        isIDInFirestore: isIDInFirestore,
+      )));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final bool isIDInFirestore;
+  const MyApp({Key? key, required this.isIDInFirestore}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData().copyWith(useMaterial3: true),
-      routes: {
-        SettingsScreen.routeName: (context) => const SettingsScreen(),
-      },
-      // theme: kTextStyleGuide,
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(body: HomeScreen()),
+    return AdaptiveTheme(
+      light: ThemeData(
+        brightness: Brightness.light,
+        textTheme: TextTheme(
+          headlineMedium:
+              GoogleFonts.notoSans(fontSize: 18, fontWeight: FontWeight.bold),
+          titleMedium:
+              GoogleFonts.notoSans(fontSize: 20, fontWeight: FontWeight.w700),
+          titleSmall:
+              GoogleFonts.notoSans(fontSize: 16, fontWeight: FontWeight.w700),
+          bodyMedium: GoogleFonts.notoSans(
+              fontSize: 14, color: Colors.black, fontWeight: FontWeight.w500),
+        ),
+      ),
+      dark: ThemeData(
+        brightness: Brightness.dark,
+        textTheme: TextTheme(
+          headlineMedium: GoogleFonts.notoSans(
+              fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+          titleMedium: GoogleFonts.notoSans(
+              fontSize: 20, fontWeight: FontWeight.w700, color: Colors.white),
+          titleSmall: GoogleFonts.notoSans(
+              fontSize: 16, fontWeight: FontWeight.w700, color: Colors.white),
+          bodyMedium: GoogleFonts.notoSans(
+              fontSize: 14, fontWeight: FontWeight.w500, color: Colors.white),
+        ),
+      ),
+      initial: AdaptiveThemeMode.light,
+      builder: (theme, darkTheme) => MaterialApp(
+        theme: theme,
+        darkTheme: darkTheme,
+        routes: {
+          SettingsScreen.routeName: (context) => const SettingsScreen(),
+        },
+        debugShowCheckedModeBanner: false,
+        home: isIDInFirestore
+            ? const HomeScreen()
+            : const SelectDormitoryScreen(),
+      ),
     );
   }
 }
