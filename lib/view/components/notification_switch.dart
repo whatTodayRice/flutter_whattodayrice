@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_whattodayrice/theme/text_template.dart';
+import 'package:flutter_whattodayrice/view/components/text_template.dart';
 
 class NotificationSwitch extends StatelessWidget {
   final bool isSwitched;

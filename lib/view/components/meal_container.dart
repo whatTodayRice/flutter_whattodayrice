@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class MealContainer extends StatelessWidget {
+class BuildContainer extends StatelessWidget {
   final double height;
   final double width;
   final String content;
 
-  const MealContainer({
+  const BuildContainer({
     super.key,
     required this.content,
     required this.height,
