@@ -1,6 +1,10 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_whattodayrice/models/dormitory.dart';
+import 'package:flutter_whattodayrice/models/meal.dart';
+import 'package:flutter_whattodayrice/services/fetch_sejong_meals.dart';
 import 'package:flutter_whattodayrice/theme/colors.dart';
 import 'package:flutter_whattodayrice/view/components/button_template.dart';
 import 'package:intl/intl.dart';
@@ -36,13 +40,16 @@ class CalenderRow extends StatefulWidget {
 class _CalenderRowState extends State<CalenderRow> {
   DateTime currentDate = DateTime.now();
 
-  DateTime monday = DateTime.now()
-      .subtract(Duration(days: DateTime.now().weekday))
-      .add(const Duration(days: 1));
+
+
+  DateTime monday = DateTime(DateTime.now().year,DateTime.now().month,DateTime.now().day - (DateTime.now().weekday-1));
+
   DateTime sunday = DateTime.now()
-      .subtract(Duration(days: DateTime.now().weekday))
-      .add(const Duration(days: 1))
-      .subtract(const Duration(days: 1));
+      .subtract(Duration(days: DateTime.now().weekday));
+
+
+  Future<List<MealData>> sejongMeals = fetchSejongMeals();
+
 
   String getCurrentDate() {
     final DateFormat dateFormat = DateFormat('(E)', 'ko_KR');
@@ -53,11 +60,13 @@ class _CalenderRowState extends State<CalenderRow> {
 
   @override
   Widget build(BuildContext context) {
-    final baseDate =
-        widget.dormitoryType == DormitoryType.sejong1 ? sunday : monday;
-    final startingDayOfWeek = widget.dormitoryType == DormitoryType.sejong1
+    var baseDate =
+        widget.dormitoryType != DormitoryType.happiness ? sunday : monday;
+
+    var startingDayOfWeek = widget.dormitoryType != DormitoryType.happiness
         ? StartingDayOfWeek.sunday
         : StartingDayOfWeek.monday;
+
 
     return Container(
       width: widget.width,
@@ -105,8 +114,8 @@ class _CalenderRowState extends State<CalenderRow> {
                         width: MediaQuery.of(context).size.width,
                         child: TableCalendar(
                           daysOfWeekStyle: DaysOfWeekStyle(
-                            weekdayStyle: TextStyle(fontSize: 12.sp),
-                            weekendStyle: TextStyle(fontSize: 12.sp),
+                            weekdayStyle: TextStyle(fontSize: 9.sp),
+                            weekendStyle: TextStyle(fontSize: 9.sp),
                           ),
                           calendarStyle: CalendarStyle(
                             todayDecoration: const BoxDecoration(
@@ -161,3 +170,4 @@ class _CalenderRowState extends State<CalenderRow> {
     );
   }
 }
+

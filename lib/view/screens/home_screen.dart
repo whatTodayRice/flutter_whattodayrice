@@ -32,24 +32,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
 
   List<MealData?> weeklyMeals = [];
 
-  // Future<void> updateDormitoryMeal(DormitoryType dormitoryType) async{
-  //   fetchMealDataFromDB(dormitoryType).then((newData) {
-  //     if (mounted) {
-  //       setState(() {
-  //         weeklyMeals = newData;
-  //       });
-  //     }
-  //   }).catchError((error) {
-  //     // 에러 처리
-  //     print('Error fetching meal data: $error');
-  //     if (mounted) {
-  //       setState(() {
-  //         weeklyMeals = [];
-  //       });
-  //     }
-  //   });
-  // }
-
   DateTime selectedDate = DateTime.now();
 
   void onDaySelected(DateTime selectedDay) {
@@ -108,6 +90,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
         userAccessWeekday = userAccessWeekday - 7;
       }
     }
+    print(userAccessDate);
+
+    print(userAccessWeekday);
     return userAccessWeekday;
   }
 
@@ -121,8 +106,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
   void initState() {
     super.initState();
     initializeDateFormatting();
-
-    // updateDormitoryMeal(dormitoryType!);
 
     controller = AnimationController(
       vsync: this,
@@ -340,8 +323,8 @@ Widget buildMealPage(
   String getBreakfastTimeText(DormitoryType dormitoryType) {
     if (dormitoryType == DormitoryType.sejong1 ||
         dormitoryType == DormitoryType.sejong2) {
-      if (modifiedDate.isAfter(DateTime(2023, 6, 27)) &&
-          modifiedDate.isBefore(DateTime(2023, 8, 31))) {
+      if (modifiedDate.isAfter(DateTime(2024, 6, 28)) &&
+          modifiedDate.isBefore(DateTime(2024, 8, 31))) {
         return sejongVacationBreakfastTime;
       } else {
         return sejongBreakfastTime;
@@ -358,7 +341,7 @@ Widget buildMealPage(
   String getLunchTimeText(DormitoryType dormitoryType) {
     if (dormitoryType == DormitoryType.sejong1 ||
         dormitoryType == DormitoryType.sejong2) {
-      if (modifiedDate.isAfter(DateTime(2023, 6, 27)) &&
+      if (modifiedDate.isAfter(DateTime(2024, 6, 28)) &&
           modifiedDate.isBefore(DateTime(2023, 8, 31))) {
         return sejongVacationLunchTime;
       } else {
@@ -376,8 +359,8 @@ Widget buildMealPage(
   String getDinnerTimeText(DormitoryType dormitoryType) {
     if (dormitoryType == DormitoryType.sejong1 ||
         dormitoryType == DormitoryType.sejong2) {
-      if (modifiedDate.isAfter(DateTime(2023, 6, 27)) &&
-          modifiedDate.isBefore(DateTime(2023, 8, 31))) {
+      if (modifiedDate.isAfter(DateTime(2024, 6, 28)) &&
+          modifiedDate.isBefore(DateTime(2024, 8, 31))) {
         return sejongVacaitonDinnerTime;
       } else {
         return sejongDinnerTime;

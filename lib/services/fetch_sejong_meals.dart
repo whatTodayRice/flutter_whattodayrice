@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ffi';
 import 'dart:io';
 import 'package:home_widget/home_widget.dart';
 import 'package:html/parser.dart';
@@ -22,7 +23,7 @@ Future<List<String>> fetchMeal(int menuIndex) async {
     List<String> mealTime = data2.split(',,').sublist(menuIndex, menuIndex + 8);
     return mealTime;
   } else {
-    throw Exception('식단을 기다리고 있어요 조금만 기다려주세요:grinning: ');
+    throw Exception('식단을 기다리고 있어요 \n조금만 기다려주세요:grinning: ');
   }
 }
 
@@ -59,8 +60,14 @@ Future<List<MealData>> fetchSejongMeals() async {
     menus.add(menu);
     updateFullMeal(menu);
   }
+
   return menus;
 }
+
+
+
+
+
 
 DateTime parseDateString(String formattedDate) {
   // 정규 표현식을 사용하여 월과 일 추출
@@ -83,21 +90,30 @@ const String androidFullMealsWidgetName = 'FullMealsWidget';
 const String androidMealWidgetName = 'MealWidget';
 
 void updateFullMeal(MealData sejongMeal) {
+
   final today = DateFormat('yyyy-MM-dd').format(DateTime.now());
   final tomorrow = DateFormat('yyyy-MM-dd')
       .format(DateTime.now().add(const Duration(days: 1)));
+
 
   var hour = DateTime.now().hour;
   var minute = DateTime.now().minute;
 
   String targetDate = today;
 
-  if ((hour > 18 || (hour == 18 && minute >= 30)) ||
-      (hour < 7 || hour == 7 && minute <= 30)) {
+  if (hour > 18 || (hour == 18 && minute >= 30)){
     targetDate = tomorrow;
   }
   if (sejongMeal.date == targetDate) {
     updateSejongFullWidgetDate(sejongMeal);
+  }
+
+
+  else {
+    HomeWidget.saveWidgetData("sejong_date", sejongMeal.date);
+    HomeWidget.saveWidgetData<String>('sejong_breakfast', " 😭홈페이지에 식단이 업로드 되지 않았어요 \n\n 🍙조금만 기다려주시면 식단을 알려드릴게요");
+    HomeWidget.saveWidgetData<String>('sejong_lunch', "");
+    HomeWidget.saveWidgetData<String>('sejong_dinner', "");
   }
 
   HomeWidget.updateWidget(androidName: androidFullMealsWidgetName);
