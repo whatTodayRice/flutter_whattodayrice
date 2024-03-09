@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_whattodayrice/models/dormitory.dart';
+import 'package:flutter_whattodayrice/theme/colors.dart';
 import 'package:flutter_whattodayrice/view/components/button_template.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -82,8 +84,7 @@ class _CalenderRowState extends State<CalenderRow> {
               child: Text(
                 '오늘',
                 style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: const Color(0xFFFF833D)),
+                    fontWeight: FontWeight.bold, color: ColorConstants.primary),
               ),
             ),
           ),
@@ -103,21 +104,24 @@ class _CalenderRowState extends State<CalenderRow> {
                         height: 70,
                         width: MediaQuery.of(context).size.width,
                         child: TableCalendar(
-                          daysOfWeekStyle: const DaysOfWeekStyle(
-                            weekdayStyle: TextStyle(fontSize: 12.0),
-                            weekendStyle: TextStyle(fontSize: 12.0),
+                          daysOfWeekStyle: DaysOfWeekStyle(
+                            weekdayStyle: TextStyle(fontSize: 12.sp),
+                            weekendStyle: TextStyle(fontSize: 12.sp),
                           ),
-                          calendarStyle: const CalendarStyle(
+                          calendarStyle: CalendarStyle(
+                            todayDecoration: const BoxDecoration(
+                                color: ColorConstants.primary,
+                                shape: BoxShape.circle),
                             outsideDaysVisible: true,
-                            weekendTextStyle: TextStyle(fontSize: 12.0),
+                            weekendTextStyle: TextStyle(fontSize: 12.sp),
                             defaultTextStyle: TextStyle(
-                              fontSize: 10.0,
+                              fontSize: 10.sp,
                             ),
                             todayTextStyle: TextStyle(
-                              fontSize: 10.0,
+                              fontSize: 10.sp,
                             ),
                             selectedTextStyle: TextStyle(
-                              fontSize: 10.0,
+                              fontSize: 10.sp,
                             ), // Adjust the font size for the selected date
                           ),
                           focusedDay: currentDate,

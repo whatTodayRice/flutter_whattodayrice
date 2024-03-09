@@ -23,21 +23,23 @@ class PushAlarmContainer extends StatelessWidget {
         border: Border.all(color: Colors.grey, width: 0.5),
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text(title,
-                style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                    color: ColorConstants.pushAlarmTitle, fontSize: 13.0)),
-            Text(
-              subtitle,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodySmall!
-                  .copyWith(color: ColorConstants.pushAlarmSubTitle),
-              textAlign: TextAlign.start,
-            ),
-          ]),
+          Expanded(
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Text(title,
+                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                      color: ColorConstants.pushAlarmTitle, fontSize: 13.0)),
+              Text(
+                subtitle,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodySmall!
+                    .copyWith(color: ColorConstants.pushAlarmSubTitle),
+                textAlign: TextAlign.start,
+              ),
+            ]),
+          ),
           Switch(
               value: isSwitched,
               activeColor: ColorConstants.primary,
