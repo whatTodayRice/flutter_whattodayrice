@@ -1,16 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 Widget buildBoldText(String text) {
-  return Row(
-    children: [
-      const SizedBox(
-        width: 5,
-      ),
-      Text(
-        text,
-        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
-      ),
-    ],
+  return Text(
+    text,
+    style: GoogleFonts.notoSans(fontSize: 16, fontWeight: FontWeight.bold),
   );
 }
 
@@ -22,7 +16,7 @@ Widget buildText(String text) {
       ),
       Text(
         text,
-        style: const TextStyle(fontSize: 14),
+        style: GoogleFonts.notoSans(fontSize: 14, fontWeight: FontWeight.w500),
       ),
     ],
   );
@@ -33,7 +27,7 @@ Widget buildSectionTitle(String title) {
     padding: const EdgeInsets.all(10.0),
     child: Text(
       title,
-      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+      style: GoogleFonts.notoSans(fontSize: 18, fontWeight: FontWeight.w700),
     ),
   );
 }
