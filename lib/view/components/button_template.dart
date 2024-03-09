@@ -83,6 +83,7 @@ class SelectThemeButton extends StatelessWidget {
         style: GoogleFonts.notoSans(
           fontSize: 18,
           fontWeight: FontWeight.bold,
+          color: ColorConstants.primary,
         ),
       ),
     );
@@ -108,6 +109,7 @@ class SelectButton extends StatelessWidget {
         style: GoogleFonts.notoSans(
           fontSize: 18,
           fontWeight: FontWeight.bold,
+          color: ColorConstants.primary,
         ),
       ),
     );
