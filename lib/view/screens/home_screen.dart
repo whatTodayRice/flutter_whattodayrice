@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:after_layout/after_layout.dart';
 import 'package:flutter_whattodayrice/view/components/calender_row.dart';
-import 'package:flutter_whattodayrice/view/components/constants.dart';
+import 'package:flutter_whattodayrice/theme/constants.dart';
 import 'package:flutter_whattodayrice/view/components/meal_time_row.dart';
 import 'package:flutter_whattodayrice/view/components/w_grow_transition.dart';
 import 'package:flutter_whattodayrice/view/components/w_splash_logo.dart';

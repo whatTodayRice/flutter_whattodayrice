@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_whattodayrice/models/dormitory.dart';
-import 'package:flutter_whattodayrice/view/components/button_template.dart';
+import 'package:flutter_whattodayrice/theme/colors.dart';
 import 'package:flutter_whattodayrice/view/components/text_template.dart';
 import 'package:flutter_whattodayrice/view/components/bottom_sheet_utils.dart';
 import 'package:flutter_whattodayrice/view/components/notification_switch.dart';
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_whattodayrice/providers/dormitory_provider.dart';
+import 'package:flutter_whattodayrice/view/components/w_push_alarm_container.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:home_widget/home_widget.dart';
 
@@ -26,7 +27,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   static const IconData arrowDropDown =
       IconData(0xe098, fontFamily: 'MaterialIcons');
 
-  Widget buildNotificationSwitch(BuildContext context) {
+  Widget buildNotificationSwitch() {
     return NotificationSwitch(
         isSwitched: isSwitched,
         onChanged: (value) {
@@ -53,22 +54,16 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
 
     return SafeArea(
       child: Scaffold(
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Stack(alignment: Alignment.topLeft, children: [
-              const BackIconButton(),
-              Align(
-                alignment: Alignment.center,
-                child: buildSectionTitle('설정'),
-              )
-            ]),
-            const SizedBox(
-              height: 10,
-            ),
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 15.0),
-              child: Row(
+        appBar: AppBar(
+          centerTitle: true,
+          title: buildSectionTitle('설정'),
+        ),
+        body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
                 children: [
                   buildBoldText('기숙사 변경'),
                   const Spacer(),
@@ -82,16 +77,15 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                             ? "세종기숙사"
                             : "행복기숙사",
                         style: GoogleFonts.notoSans(
-                            fontSize: 14, fontWeight: FontWeight.w600),
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            color: ColorConstants.primary),
                       )),
                   const Icon(arrowDropDown)
                 ],
               ),
-            ),
-            const SizedBox(height: 15),
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 15.0),
-              child: Row(
+              const SizedBox(height: 15),
+              Row(
                 children: [
                   buildBoldText('테마 변경'),
                   const Spacer(),
@@ -105,14 +99,30 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                       buildThemeText(
                           convertToThemeMode(AdaptiveTheme.of(context).mode)),
                       style: GoogleFonts.notoSans(
-                          fontSize: 14, fontWeight: FontWeight.w600),
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: ColorConstants.primary),
                     ),
                   ),
                   const Icon(arrowDropDown)
                 ],
               ),
-            )
-          ],
+              const SizedBox(height: 15),
+              Text('이런 기능이 추가될거예요. 🍚',
+                  style: Theme.of(context).textTheme.titleSmall),
+              const SizedBox(height: 15),
+              PushAlarmContainer(
+                isSwitched: isSwitched,
+                title: '이번 달 간식 신청일을 알려드려요. 🍚',
+                subtitle: '지금 눌러서 확인하기',
+              ),
+              PushAlarmContainer(
+                isSwitched: isSwitched,
+                title: '이번 달 간식 수령일을 알려드려요. 🍚',
+                subtitle: '지금 눌러서 확인하기',
+              ),
+            ],
+          ),
         ),
       ),
     );
