@@ -55,6 +55,8 @@ class MyApp extends StatelessWidget {
               GoogleFonts.notoSans(fontSize: 16, fontWeight: FontWeight.w700),
           bodyMedium: GoogleFonts.notoSans(
               fontSize: 14, color: Colors.black, fontWeight: FontWeight.w500),
+          bodySmall: GoogleFonts.notoSans(
+              fontSize: 12, color: Colors.black, fontWeight: FontWeight.w400),
         ),
       ),
       dark: ThemeData(
@@ -68,6 +70,8 @@ class MyApp extends StatelessWidget {
               fontSize: 16, fontWeight: FontWeight.w700, color: Colors.white),
           bodyMedium: GoogleFonts.notoSans(
               fontSize: 14, fontWeight: FontWeight.w500, color: Colors.white),
+          bodySmall: GoogleFonts.notoSans(
+              fontSize: 12, color: Colors.black, fontWeight: FontWeight.w400),
         ),
       ),
       initial: AdaptiveThemeMode.light,
