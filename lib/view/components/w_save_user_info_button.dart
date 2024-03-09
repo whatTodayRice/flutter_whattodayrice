@@ -54,6 +54,7 @@ class _SaveUserInfoButtonState extends ConsumerState<SaveUserInfoButton> {
             final newUserId = doc.id;
             ref.read(userIdProvider.notifier).state = newUserId;
             saveUserIdToSharedPreferences(newUserId);
+            readUserIdSharedPreferencesData();
             print('DocumentSnapshot added with ID: ${doc.id}');
           });
 
