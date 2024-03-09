@@ -6,12 +6,12 @@ import 'package:flutter_whattodayrice/view/components/calender_row.dart';
 import 'package:flutter_whattodayrice/theme/constants.dart';
 import 'package:flutter_whattodayrice/view/components/meal_time_row.dart';
 import 'package:flutter_whattodayrice/view/components/w_grow_transition.dart';
+import 'package:flutter_whattodayrice/view/components/w_meal_container.dart';
 import 'package:flutter_whattodayrice/view/components/w_splash_logo.dart';
 import 'package:flutter_whattodayrice/view/screens/settings_screen.dart';
 import 'package:intl/intl.dart';
 import '../../models/dormitory.dart';
 import '../../models/meal.dart';
-import '../components/meal_container.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -31,24 +31,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
   late final AnimationController controller;
 
   List<MealData?> weeklyMeals = [];
-
-  // Future<void> updateDormitoryMeal(DormitoryType dormitoryType) async{
-  //   fetchMealDataFromDB(dormitoryType).then((newData) {
-  //     if (mounted) {
-  //       setState(() {
-  //         weeklyMeals = newData;
-  //       });
-  //     }
-  //   }).catchError((error) {
-  //     // 에러 처리
-  //     print('Error fetching meal data: $error');
-  //     if (mounted) {
-  //       setState(() {
-  //         weeklyMeals = [];
-  //       });
-  //     }
-  //   });
-  // }
 
   DateTime selectedDate = DateTime.now();
 
@@ -108,6 +90,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
         userAccessWeekday = userAccessWeekday - 7;
       }
     }
+    print(userAccessDate);
+
+    print(userAccessWeekday);
     return userAccessWeekday;
   }
 
@@ -121,8 +106,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
   void initState() {
     super.initState();
     initializeDateFormatting();
-
-    // updateDormitoryMeal(dormitoryType!);
 
     controller = AnimationController(
       vsync: this,
@@ -340,8 +323,8 @@ Widget buildMealPage(
   String getBreakfastTimeText(DormitoryType dormitoryType) {
     if (dormitoryType == DormitoryType.sejong1 ||
         dormitoryType == DormitoryType.sejong2) {
-      if (modifiedDate.isAfter(DateTime(2023, 6, 27)) &&
-          modifiedDate.isBefore(DateTime(2023, 8, 31))) {
+      if (modifiedDate.isAfter(DateTime(2024, 6, 28)) &&
+          modifiedDate.isBefore(DateTime(2024, 8, 31))) {
         return sejongVacationBreakfastTime;
       } else {
         return sejongBreakfastTime;
@@ -358,7 +341,7 @@ Widget buildMealPage(
   String getLunchTimeText(DormitoryType dormitoryType) {
     if (dormitoryType == DormitoryType.sejong1 ||
         dormitoryType == DormitoryType.sejong2) {
-      if (modifiedDate.isAfter(DateTime(2023, 6, 27)) &&
+      if (modifiedDate.isAfter(DateTime(2024, 6, 28)) &&
           modifiedDate.isBefore(DateTime(2023, 8, 31))) {
         return sejongVacationLunchTime;
       } else {
@@ -376,8 +359,8 @@ Widget buildMealPage(
   String getDinnerTimeText(DormitoryType dormitoryType) {
     if (dormitoryType == DormitoryType.sejong1 ||
         dormitoryType == DormitoryType.sejong2) {
-      if (modifiedDate.isAfter(DateTime(2023, 6, 27)) &&
-          modifiedDate.isBefore(DateTime(2023, 8, 31))) {
+      if (modifiedDate.isAfter(DateTime(2024, 6, 28)) &&
+          modifiedDate.isBefore(DateTime(2024, 8, 31))) {
         return sejongVacaitonDinnerTime;
       } else {
         return sejongDinnerTime;
@@ -420,7 +403,7 @@ Widget buildMealPage(
         SizedBox(
           height: screenHeight * 0.01,
         ),
-        BuildContainer(
+        MealContainer(
           content: (dormitoryType == DormitoryType.happiness)
               ? '일반 : ${meal.breakfast}\n\nTAKE - OUT : ${meal.takeout}'
               : '${meal.breakfast}',
@@ -443,7 +426,7 @@ Widget buildMealPage(
         ),
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: BuildContainer(
+          child: MealContainer(
             content: '${meal.lunch}',
             height: screenHeight,
             width: screenWidth,
@@ -465,7 +448,7 @@ Widget buildMealPage(
         ),
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: BuildContainer(
+          child: MealContainer(
             content: '${meal.dinner}',
             height: screenHeight,
             width: screenWidth,

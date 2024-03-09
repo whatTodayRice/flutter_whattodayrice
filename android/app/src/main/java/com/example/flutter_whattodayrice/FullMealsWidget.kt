@@ -35,8 +35,10 @@ class FullMealsWidget : AppWidgetProvider() {
                 if (is_sejong) {
                     var sejongDate = widgetData.getString("sejong_date", null)
                     if(hour>18 || hour==18 && minute>=30) {
+
                         setTextViewText(R.id.date, "내일의 식단" )
                     }
+
                     else {
                         setTextViewText(R.id.date, "오늘의 식단")
 

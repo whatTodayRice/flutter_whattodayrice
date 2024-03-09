@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_whattodayrice/view/components/button_template.dart';
 import 'package:flutter_whattodayrice/theme/constants.dart';
 import '../components/notification_container.dart';
-import '../components/text_template.dart';
+import '../../theme/text_template.dart';
 import '../components/asset_path.dart';
 
 class NotificationScreen extends StatefulWidget {
