@@ -1,9 +1,9 @@
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_whattodayrice/providers/dto_user_info.dart';
+import 'package:flutter_whattodayrice/theme/text_theme.dart';
 import 'package:flutter_whattodayrice/view/screens/home_screen.dart';
 import 'package:flutter_whattodayrice/view/screens/s_select_dormitory.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_whattodayrice/view/screens/settings_screen.dart';
@@ -55,51 +55,11 @@ class MyApp extends StatelessWidget {
         return AdaptiveTheme(
           light: ThemeData(
             brightness: Brightness.light,
-            textTheme: TextTheme(
-              headlineLarge: GoogleFonts.notoSans(
-                  fontSize: 20.sp, fontWeight: FontWeight.bold),
-              headlineMedium: GoogleFonts.notoSans(
-                  fontSize: 18.sp, fontWeight: FontWeight.bold),
-              titleMedium: GoogleFonts.notoSans(
-                  fontSize: 20.sp, fontWeight: FontWeight.w700),
-              titleSmall: GoogleFonts.notoSans(
-                  fontSize: 16.sp, fontWeight: FontWeight.w700),
-              bodyMedium: GoogleFonts.notoSans(
-                  fontSize: 14.sp,
-                  color: Colors.black,
-                  fontWeight: FontWeight.w500),
-              bodySmall: GoogleFonts.notoSans(
-                  fontSize: 12.sp,
-                  color: Colors.black,
-                  fontWeight: FontWeight.w400),
-            ),
+            textTheme: Themes.lightTextTheme,
           ),
           dark: ThemeData(
             brightness: Brightness.dark,
-            textTheme: TextTheme(
-              headlineLarge: GoogleFonts.notoSans(
-                  fontSize: 20.sp, fontWeight: FontWeight.bold),
-              headlineMedium: GoogleFonts.notoSans(
-                  fontSize: 18.sp,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white),
-              titleMedium: GoogleFonts.notoSans(
-                  fontSize: 20.sp,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.white),
-              titleSmall: GoogleFonts.notoSans(
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.white),
-              bodyMedium: GoogleFonts.notoSans(
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.white),
-              bodySmall: GoogleFonts.notoSans(
-                  fontSize: 12.sp,
-                  color: Colors.black,
-                  fontWeight: FontWeight.w400),
-            ),
+            textTheme: Themes.darkTextTheme,
           ),
           initial: AdaptiveThemeMode.light,
           builder: (theme, darkTheme) => MaterialApp(

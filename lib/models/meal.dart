@@ -13,3 +13,5 @@ class MealData {
     this.dinner,
   });
 }
+
+enum MealType { breakfast, lunch, dinner }

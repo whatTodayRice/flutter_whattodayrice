@@ -22,7 +22,7 @@ Future<List<String>> fetchMeal(int menuIndex) async {
     List<String> mealTime = data2.split(',,').sublist(menuIndex, menuIndex + 8);
     return mealTime;
   } else {
-    throw Exception('식단을 기다리고 있어요 조금만 기다려주세요:grinning: ');
+    throw Exception('식단을 기다리고 있어요. 조금만 기다려주세요:grinning: ');
   }
 }
 
