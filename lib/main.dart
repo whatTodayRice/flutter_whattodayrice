@@ -1,5 +1,6 @@
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_whattodayrice/providers/dto_user_info.dart';
 import 'package:flutter_whattodayrice/theme/text_theme.dart';
 import 'package:flutter_whattodayrice/view/screens/home_screen.dart';
@@ -9,7 +10,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_whattodayrice/view/screens/settings_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> main() async {
@@ -25,9 +25,8 @@ Future<void> main() async {
 
   final storedUserID = await readUserIdSharedPreferencesData();
   final isIDInFirestore = await isIDInFireStore(storedUserID);
-  final sharedPreferences = await SharedPreferences.getInstance();
 
-  await ScreenUtil.ensureScreenSize();
+  final sharedPreferences = await SharedPreferences.getInstance();
 
   runApp(ProviderScope(
       overrides: [
