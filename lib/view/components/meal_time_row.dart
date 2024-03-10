@@ -1,17 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_whattodayrice/models/meal.dart';
 import 'package:flutter_whattodayrice/theme/constants.dart';
 
 class MealTimeTextRow extends StatelessWidget {
   const MealTimeTextRow(
-      {super.key,
-      required this.width,
-      required this.height,
-      required this.mealType,
-      required this.mealTime});
+      {super.key, required this.mealType, required this.mealTime});
 
-  final String mealType;
-  final double width;
-  final double height;
+  final MealType mealType;
   final String mealTime;
 
   @override
@@ -19,17 +15,18 @@ class MealTimeTextRow extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        MealCategoryText(mealType: mealType, width: width),
-        const SizedBox(
-          width: 8,
+        Text(
+          mealTypes[mealType],
+          style: Theme.of(context).textTheme.headlineMedium,
+        ),
+        SizedBox(
+          width: 8.w,
         ),
         MealCategoryIcon(
-          width: width,
-          height: height,
           mealType: mealType,
         ),
-        const SizedBox(
-          width: 10,
+        SizedBox(
+          width: 10.w,
         ),
         MealAvailableTimeText(
           mealTime: mealTime,

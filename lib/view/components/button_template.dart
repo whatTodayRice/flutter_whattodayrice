@@ -116,27 +116,11 @@ class SelectButton extends StatelessWidget {
   }
 }
 
-class MainScreenBackIconButton extends StatelessWidget {
+class CalendarRowIconButton extends StatelessWidget {
   final IconData iconShape;
   final VoidCallback onPressed;
 
-  const MainScreenBackIconButton(
-      {super.key, required this.iconShape, required this.onPressed});
-
-  @override
-  Widget build(BuildContext context) {
-    return IconButton(
-      icon: Icon(iconShape),
-      onPressed: onPressed,
-    );
-  }
-}
-
-class MainScreenForwardIconButton extends StatelessWidget {
-  final IconData iconShape;
-  final VoidCallback onPressed;
-
-  const MainScreenForwardIconButton(
+  const CalendarRowIconButton(
       {super.key, required this.iconShape, required this.onPressed});
 
   @override

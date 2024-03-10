@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_whattodayrice/models/dormitory.dart';
 import 'package:flutter_whattodayrice/theme/colors.dart';
-import 'package:flutter_whattodayrice/view/components/text_template.dart';
+import 'package:flutter_whattodayrice/theme/text_template.dart';
 import 'package:flutter_whattodayrice/view/components/bottom_sheet_utils.dart';
 import 'package:flutter_whattodayrice/view/components/notification_switch.dart';
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_whattodayrice/providers/dormitory_provider.dart';
 import 'package:flutter_whattodayrice/view/components/w_push_alarm_container.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 import 'package:home_widget/home_widget.dart';
 
