@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_whattodayrice/models/dormitory.dart';
 import 'package:flutter_whattodayrice/theme/colors.dart';
 import 'package:flutter_whattodayrice/theme/text_template.dart';
@@ -8,6 +9,7 @@ import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_whattodayrice/providers/dormitory_provider.dart';
 import 'package:flutter_whattodayrice/view/components/w_push_alarm_container.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 import 'package:home_widget/home_widget.dart';
 
@@ -84,7 +86,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                   const Icon(arrowDropDown)
                 ],
               ),
-              const SizedBox(height: 15),
+              SizedBox(height: 15.h),
               Row(
                 children: [
                   buildBoldText('테마 변경'),
@@ -107,19 +109,48 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                   const Icon(arrowDropDown)
                 ],
               ),
-              const SizedBox(height: 15),
-              Text('이런 기능이 추가될거예요. 🍚',
+              SizedBox(height: 15.h),
+              Text('🍚 이런 기능이 추가될거예요.',
                   style: Theme.of(context).textTheme.titleSmall),
-              const SizedBox(height: 15),
-              PushAlarmContainer(
-                isSwitched: isSwitched,
-                title: '이번 달 간식 신청일을 알려드려요. 🍚',
-                subtitle: '지금 눌러서 확인하기',
+              SizedBox(height: 15.h),
+              Visibility(
+                visible: selectedDormitory == DormitoryType.happiness,
+                child: Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        PushAlarmContainer(
+                          isSwitched: isSwitched,
+                          title: '🍚 이번 달 간식 신청일을 알려드려요.',
+                          subtitle: '지금 눌러서 확인하기',
+                        ),
+                        PushAlarmContainer(
+                          isSwitched: isSwitched,
+                          title: '🍚 이번 달 간식 수령일을 알려드려요.',
+                          subtitle: '지금 눌러서 확인하기',
+                        ),
+                        PushAlarmContainer(
+                          isSwitched: isSwitched,
+                          title: '😿 일품이 품절되었어요.',
+                          subtitle: '지금 눌러서 확인하기',
+                        ),
+                        PushAlarmContainer(
+                          isSwitched: isSwitched,
+                          title: '😿 테이크아웃이 품절되었어요.',
+                          subtitle: '지금 눌러서 확인하기',
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ),
-              PushAlarmContainer(
-                isSwitched: isSwitched,
-                title: '이번 달 간식 수령일을 알려드려요. 🍚',
-                subtitle: '지금 눌러서 확인하기',
+              Visibility(
+                visible: selectedDormitory != DormitoryType.happiness,
+                child: PushAlarmContainer(
+                  isSwitched: isSwitched,
+                  title: '2번 세탁기 세탁이 완료되었어요!',
+                  subtitle: '세탁물을 찾으러 와주세요.',
+                ),
               ),
             ],
           ),

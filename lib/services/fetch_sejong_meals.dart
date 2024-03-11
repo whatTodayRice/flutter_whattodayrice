@@ -49,7 +49,7 @@ Future<List<MealData>> fetchSejongMeals() async {
     String fetchedDate = dateValues[dayIndex + 2].trim();
     DateTime convertedFetchedDate = parseDateString(fetchedDate);
     String formattedString =
-        DateFormat('yyyy-MM-dd', 'ko_KR').format(convertedFetchedDate);
+    DateFormat('yyyy-MM-dd', 'ko_KR').format(convertedFetchedDate);
 
     MealData menu = MealData(
         date: formattedString,
@@ -104,16 +104,19 @@ void updateFullMeal(MealData sejongMeal) {
   if (hour > 18 || (hour == 18 && minute >= 30)){
     targetDate = tomorrow;
   }
-  if (sejongMeal.date == targetDate) {
-    updateSejongFullWidgetDate(sejongMeal);
-  }
 
 
-  else {
+
+  if(DateTime.now().weekday == DateTime.sunday) {
     HomeWidget.saveWidgetData("sejong_date", sejongMeal.date);
     HomeWidget.saveWidgetData<String>('sejong_breakfast', " 😭홈페이지에 식단이 업로드 되지 않았어요 \n\n 🍙조금만 기다려주시면 식단을 알려드릴게요");
     HomeWidget.saveWidgetData<String>('sejong_lunch', "");
     HomeWidget.saveWidgetData<String>('sejong_dinner', "");
+  }
+  else {
+    if (sejongMeal.date == targetDate) {
+      updateSejongFullWidgetDate(sejongMeal);
+    }
   }
 
   HomeWidget.updateWidget(androidName: androidFullMealsWidgetName);

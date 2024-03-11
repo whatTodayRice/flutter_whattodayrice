@@ -26,8 +26,6 @@ Future<List<MealData>> fetchHappyMeals() async {
       String rawDateString = weeklyDate[dateIndex].text;
       String formattedDate = rawDateString.replaceAll(RegExp(r'[()]'), '');
       formattedDate = formattedDate.split(' ').last; // 날짜 부분 추출
-      // ignore: avoid_print
-      print('haappy : $formattedDate');
 
       // 각 식단 항목을 쉼표와 공백으로 구분하여 저장
       String breakfast = menuElements[startIndex].text.splitMapJoin(
