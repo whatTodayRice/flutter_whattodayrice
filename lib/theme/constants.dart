@@ -48,7 +48,7 @@ String sejongVacationBreakfastTime = '7:30 ~ 9:00';
 String sejongVacationLunchTime = '12:00 ~ 13:30';
 String sejongVacaitonDinnerTime = '17:00 ~ 18:30';
 
-String happyBreakfastWeekTime = '7:30 ~ 9 30';
+String happyBreakfastWeekTime = '7:30 ~ 9:30';
 String happyLunchWeekTime = '11:30 ~ 14:00';
 String happyDinnerWeekTime = '16:50 ~ 19:00';
 

@@ -1,4 +1,4 @@
-package com.example.obm_flutter
+package com.whatTodayRice
 
 import io.flutter.embedding.android.FlutterActivity
 

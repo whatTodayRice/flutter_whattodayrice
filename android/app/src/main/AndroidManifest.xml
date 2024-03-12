@@ -12,7 +12,7 @@
     <application
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
-        android:label="flutter_whattodayrice">
+        android:label="오늘 밥 뭐야?">
         <receiver
             android:name=".MealWidget"
             android:exported="false">

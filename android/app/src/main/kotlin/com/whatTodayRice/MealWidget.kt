@@ -1,4 +1,4 @@
-package com.example.flutter_whattodayrice
+package com.whatTodayRice
 
 import android.annotation.TargetApi
 import android.appwidget.AppWidgetManager
