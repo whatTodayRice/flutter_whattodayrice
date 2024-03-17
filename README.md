@@ -1,8 +1,8 @@
 <h1 align="center">오늘 밥 뭐야? 기숙사 식단 알림 서비스</h1>
 
-![오밥뭐 Image 합병본](https://github.com/changhwan77/flutter_whattodayrice/assets/110464205/e01b5334-257a-4e63-8060-7040e0de5570)
+![오밥뭐 Image 합병본](https://github.com/whatTodayRice/flutter_whattodayrice/assets/110464205/9f827dce-cfac-4aa6-8461-d9dae140f596)
 
-*오늘 밥 뭐야?*는 부경대 기숙사생들을 대상으로 기숙사 홈페이지 또는 에브리타임으로 식단을 확인하는 번거로움을 해소하고 식당의 메뉴 수량을 알려주는 서비스를 제공하고자 합니다.<br>
+**오늘 밥 뭐야?**는 부경대 기숙사생들을 대상으로 기숙사 홈페이지 또는 에브리타임으로 식단을 확인하는 번거로움을 해소하고 식당의 메뉴 수량을 알려주는 서비스를 제공하고자 합니다.<br>
 현재는 홈위젯을 통해 앱에 들어가지 않고도 식단을 확인할 수 있으며 추후 식당 메뉴 수량, 간식 신청일, 수령일 등을 알려주는 알림 기능을 개발 중에 있습니다.<br>
 플레이스토어에서 내부 테스트 중이며 IOS는 출시 준비 중에 있습니다.<br> 
 
@@ -27,11 +27,11 @@
 
 | 온보딩(기숙사 설정) | 온보딩(설정 완료) | 온보딩 (식단 진입) |
 |-------|-------|-------|
-|![image](https://github.com/changhwan77/flutter_whattodayrice/assets/110464205/e5f0d9a1-ea36-4842-b658-f80f84827da4)|![image](https://github.com/changhwan77/flutter_whattodayrice/assets/110464205/62c1debc-bfd9-44d5-a1b1-4d79ea3e2574)|![image](https://github.com/changhwan77/flutter_whattodayrice/assets/110464205/7ac32c04-7a5b-4154-9309-5db90c8e3846)| 
+|![image](https://github.com/whatTodayRice/flutter_whattodayrice/assets/110464205/b4304d97-6c47-460f-b78c-e140a762d653)|![image](https://github.com/whatTodayRice/flutter_whattodayrice/assets/110464205/e166a4cb-165a-4396-88ab-f650cb8e9c2d)|![image](https://github.com/whatTodayRice/flutter_whattodayrice/assets/110464205/7bd5f853-9b51-4f0a-b7f2-c486c3e66d46)| 
 | 식단 화면 | 설정 화면(세종) | 설정 화면(행복) |
-|![image](https://github.com/changhwan77/flutter_whattodayrice/assets/110464205/c5e0a951-ad98-4bb7-bc93-2776b50f5c99)|![image](https://github.com/changhwan77/flutter_whattodayrice/assets/110464205/40dda28a-4400-409b-94c4-4bf6a404e6fb)|![image](https://github.com/changhwan77/flutter_whattodayrice/assets/110464205/36211e34-141c-415f-8993-181e7be4f1fb)|
+|![(h)행복_금](https://github.com/whatTodayRice/flutter_whattodayrice/assets/110464205/f5f648af-205b-4a07-a117-e86ffb5e0112)|![image](https://github.com/whatTodayRice/flutter_whattodayrice/assets/110464205/87369cdc-6ec4-4b68-bcee-5b2f3ba42e07)|![image](https://github.com/whatTodayRice/flutter_whattodayrice/assets/110464205/671a9583-54f0-4ca0-bf4e-5ee04ae067e8)|
 | 위젯 설정 | 위젯 설정 완료 | 테마(다크 모드) |
-|![image](https://github.com/changhwan77/flutter_whattodayrice/assets/110464205/6e3c7a2d-6cac-48dc-bc4f-682cebc0a597)|![홈 스크린 위젯 02](https://github.com/changhwan77/flutter_whattodayrice/assets/110464205/7d34af02-480d-42c8-b5d1-71421a6361db)|![D_기숙사 선택_행복](https://github.com/changhwan77/flutter_whattodayrice/assets/110464205/cc5a877f-731f-4f90-805c-4de93c451d79)|
+|![image](https://github.com/whatTodayRice/flutter_whattodayrice/assets/110464205/22d13bc0-6d49-4a0e-900e-ef672b90089d)|![홈 스크린 위젯](https://github.com/whatTodayRice/flutter_whattodayrice/assets/110464205/efb77eb5-48e4-41cb-8e30-a417457c9dad)|![D_기숙사 선택_행복](https://github.com/whatTodayRice/flutter_whattodayrice/assets/110464205/5a7179c1-6cdf-4acc-bfb3-277b130a88b0)|
 
 # 폴더 구조
 
