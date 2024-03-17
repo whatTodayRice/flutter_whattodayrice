@@ -122,22 +122,27 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                         PushAlarmContainer(
                           isSwitched: isSwitched,
                           title: '🍚 이번 달 간식 신청일을 알려드려요.',
-                          subtitle: '지금 눌러서 확인하기',
+                          subtitle: '지금 눌러서 확인하기.',
                         ),
                         PushAlarmContainer(
                           isSwitched: isSwitched,
                           title: '🍚 이번 달 간식 수령일을 알려드려요.',
-                          subtitle: '지금 눌러서 확인하기',
+                          subtitle: '지금 눌러서 확인하기.',
                         ),
                         PushAlarmContainer(
                           isSwitched: isSwitched,
                           title: '😿 일품이 품절되었어요.',
-                          subtitle: '지금 눌러서 확인하기',
+                          subtitle: '지금 눌러서 확인하기.',
                         ),
                         PushAlarmContainer(
                           isSwitched: isSwitched,
                           title: '😿 테이크아웃이 품절되었어요.',
-                          subtitle: '지금 눌러서 확인하기',
+                          subtitle: '지금 눌러서 확인하기.',
+                        ),
+                        PushAlarmContainer(
+                          isSwitched: isSwitched,
+                          title: '😿 조식 30분 전이에요!',
+                          subtitle: '지금 눌러서 식단 확인하기.',
                         ),
                       ],
                     ),
