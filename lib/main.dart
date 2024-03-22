@@ -1,12 +1,14 @@
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:flutter_whattodayrice/providers/dto_user_info.dart';
-import 'package:flutter_whattodayrice/theme/text_theme.dart';
-import 'package:flutter_whattodayrice/view/screens/home_screen.dart';
-import 'package:flutter_whattodayrice/view/screens/s_select_dormitory.dart';
+import 'package:flutter_whattodayrice/data/models/dormitory.dart';
+import 'package:flutter_whattodayrice/presentation/providers/dormitory_provider.dart';
+import 'package:flutter_whattodayrice/presentation/providers/dto_user_info.dart';
+import 'package:flutter_whattodayrice/common/theme/text_theme.dart';
+import 'package:flutter_whattodayrice/presentation/view/screens/home_screen.dart';
+import 'package:flutter_whattodayrice/presentation/view/screens/s_select_dormitory.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_whattodayrice/view/screens/settings_screen.dart';
+import 'package:flutter_whattodayrice/presentation/view/screens/settings_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -37,14 +39,15 @@ Future<void> main() async {
       )));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   final bool isIDInFirestore;
-  const MyApp({Key? key, required this.isIDInFirestore}) : super(key: key);
+  const MyApp({super.key, required this.isIDInFirestore});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeighth = MediaQuery.of(context).size.height;
+    DormitoryType userDormitoryType = ref.read(dormitoryProvider);
 
     return ScreenUtilInit(
       designSize: Size(screenWidth, screenHeighth),
@@ -71,8 +74,9 @@ class MyApp extends StatelessWidget {
               home: child),
         );
       },
-      child:
-          isIDInFirestore ? const HomeScreen() : const SelectDormitoryScreen(),
+      child: isIDInFirestore
+          ? HomeScreen(dormitoryType: userDormitoryType)
+          : const SelectDormitoryScreen(),
     );
   }
 }
