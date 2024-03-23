@@ -7,6 +7,7 @@ import 'package:flutter_whattodayrice/data/repository/meal_repo.dart';
 import 'package:flutter_whattodayrice/data/services/happy_meal_service.dart';
 import 'package:flutter_whattodayrice/data/services/sejong_meal_service.dart';
 import 'package:flutter_whattodayrice/presentation/providers/dormitory_provider.dart';
+import 'package:flutter_whattodayrice/presentation/providers/user_provider.dart';
 
 class DormitoryMealViewModel {
   final DormitoryMealRepository _dormitoryMealRepository;
@@ -27,7 +28,8 @@ class DormitoryMealViewModel {
 
 final mealDataProvider = FutureProvider<List<MealData>>(
   (ref) async {
-    DormitoryType userDormitoryType = ref.watch(dormitoryProvider);
+    DormitoryType userDormitoryType =
+        ref.watch(userProivder).userUiState.dormitoryType!;
     List<MealData> dormitoryMealViewModel = await DormitoryMealViewModel(
       DormitoryMealRepository(
         HappyDormsMealRemoteDataSource(

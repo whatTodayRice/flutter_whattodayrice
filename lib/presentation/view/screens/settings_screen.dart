@@ -3,11 +3,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_whattodayrice/data/models/dormitory.dart';
 import 'package:flutter_whattodayrice/common/theme/colors.dart';
 import 'package:flutter_whattodayrice/common/theme/text_template.dart';
-import 'package:flutter_whattodayrice/presentation/view/components/bottom_sheet_utils.dart';
+import 'package:flutter_whattodayrice/presentation/providers/user_provider.dart';
+import 'package:flutter_whattodayrice/presentation/ui_state/user_ui_state.dart';
+import 'package:flutter_whattodayrice/common/utils/bottom_sheet_utils.dart';
 import 'package:flutter_whattodayrice/presentation/view/components/notification_switch.dart';
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_whattodayrice/presentation/providers/dormitory_provider.dart';
 import 'package:flutter_whattodayrice/presentation/view/components/w_push_alarm_container.dart';
 
 import 'package:google_fonts/google_fonts.dart';
@@ -43,10 +44,10 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   Widget build(BuildContext context) {
     const String androidWidgetName = 'MealWidget';
 
-    final selectedDormitory = ref.watch(dormitoryProvider);
+    final UserUiState userUiState = ref.watch(userProivder).userUiState;
 
-    if (selectedDormitory == DormitoryType.sejong1 ||
-        selectedDormitory == DormitoryType.sejong2) {
+    if (userUiState.dormitoryType == DormitoryType.sejong1 ||
+        userUiState.dormitoryType == DormitoryType.sejong2) {
       HomeWidget.saveWidgetData<bool>('is_sejong', true);
     } else {
       HomeWidget.saveWidgetData<bool>('is_sejong', false);
@@ -74,8 +75,9 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                         buildDormitoryBottomSheet(context, ref);
                       },
                       child: Text(
-                        (selectedDormitory == DormitoryType.sejong1 ||
-                                selectedDormitory == DormitoryType.sejong2)
+                        (userUiState.dormitoryType == DormitoryType.sejong1 ||
+                                userUiState.dormitoryType ==
+                                    DormitoryType.sejong2)
                             ? "세종기숙사"
                             : "행복기숙사",
                         style: GoogleFonts.notoSans(
@@ -114,7 +116,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                   style: Theme.of(context).textTheme.titleSmall),
               SizedBox(height: 15.h),
               Visibility(
-                visible: selectedDormitory == DormitoryType.happiness,
+                visible: userUiState.dormitoryType == DormitoryType.happiness,
                 child: Expanded(
                   child: SingleChildScrollView(
                     child: Column(
@@ -150,7 +152,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                 ),
               ),
               Visibility(
-                visible: selectedDormitory != DormitoryType.happiness,
+                visible: userUiState.dormitoryType != DormitoryType.happiness,
                 child: PushAlarmContainer(
                   isSwitched: isSwitched,
                   title: '2번 세탁기 세탁이 완료되었어요!',

@@ -52,13 +52,14 @@ class _CompletedScreenState extends ConsumerState<CompletedScreen> {
                 height: media.height * 0.05,
               ),
               Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    color: const Color(0xFFFF833D),
-                  ),
-                  width: double.infinity,
-                  height: media.height * 0.1,
-                  child: const MoveToHomeScreenButton()),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  color: const Color(0xFFFF833D),
+                ),
+                width: double.infinity,
+                height: media.height * 0.1,
+                child: const MoveToHomeScreenButton(),
+              ),
             ],
           ),
         ),

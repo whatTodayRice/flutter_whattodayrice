@@ -4,9 +4,10 @@ import 'package:flutter_whattodayrice/common/utils/calendar_row_text.dart';
 import 'package:flutter_whattodayrice/data/models/dormitory.dart';
 import 'package:flutter_whattodayrice/data/models/meal.dart';
 import 'package:flutter_whattodayrice/presentation/m_page_controller.dart';
-import 'package:flutter_whattodayrice/presentation/providers/dormitory_provider.dart';
 import 'package:flutter_whattodayrice/common/theme/colors.dart';
 import 'package:flutter_whattodayrice/presentation/providers/meal/meal_data_provider.dart';
+import 'package:flutter_whattodayrice/presentation/providers/user_provider.dart';
+import 'package:flutter_whattodayrice/presentation/ui_state/user_ui_state.dart';
 import 'package:flutter_whattodayrice/presentation/view/components/button_template.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -33,7 +34,7 @@ class _CalenderRowState extends ConsumerState<CalenderRow> {
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
-    final userDormitoryType = ref.watch(dormitoryProvider);
+    final UserUiState userUiState = ref.watch(userProivder).userUiState;
     final List<MealData> weeklyMeals = ref.watch(mealDataProvider).value!;
 
     _focusedDay = DateTime.parse(widget.mealDate);
@@ -128,10 +129,10 @@ class _CalenderRowState extends ConsumerState<CalenderRow> {
                           lastDay: DateTime.parse(weeklyMeals.last.date),
                           headerVisible: false,
                           calendarFormat: CalendarFormat.week,
-                          startingDayOfWeek:
-                              userDormitoryType == DormitoryType.happiness
-                                  ? StartingDayOfWeek.monday
-                                  : StartingDayOfWeek.sunday,
+                          startingDayOfWeek: userUiState.dormitoryType ==
+                                  DormitoryType.happiness
+                              ? StartingDayOfWeek.monday
+                              : StartingDayOfWeek.sunday,
                           locale: 'ko_KR',
                           selectedDayPredicate: (day) {
                             return isSameDay(_selectedDay, day);

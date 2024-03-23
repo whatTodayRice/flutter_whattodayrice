@@ -1,7 +1,9 @@
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_whattodayrice/data/models/dormitory.dart';
+import 'package:flutter_whattodayrice/presentation/providers/user_provider.dart';
 import 'package:flutter_whattodayrice/presentation/view/components/button_template.dart';
 import 'package:flutter_whattodayrice/presentation/providers/dormitory_provider.dart';
 
@@ -78,18 +80,28 @@ void buildDormitoryBottomSheet(
       SelectButton(
         buttonText: '행복기숙사',
         onPressed: () {
-          ref.read(dormitoryProvider.notifier).state = DormitoryType.happiness;
+          ref.read(userProivder).changeUserDormitory(DormitoryType.happiness);
           saveDormitory(DormitoryType.happiness);
           Navigator.pop(context);
         },
       ),
-      const SizedBox(height: 10),
+      SizedBox(height: 10.h),
       SelectButton(
-        buttonText: '세종기숙사',
+        buttonText: '세종 1관',
         onPressed: () {
           //todo : 기숙사 세종 1과 세종2로 나눠야함.
-          ref.read(dormitoryProvider.notifier).state = DormitoryType.sejong1;
+          ref.read(userProivder).changeUserDormitory(DormitoryType.sejong1);
           saveDormitory(DormitoryType.sejong1);
+          Navigator.pop(context);
+        },
+      ),
+      SizedBox(height: 10.h),
+      SelectButton(
+        buttonText: '세종 2관',
+        onPressed: () {
+          //todo : 기숙사 세종 1과 세종2로 나눠야함.
+          ref.read(userProivder).changeUserDormitory(DormitoryType.sejong2);
+          saveDormitory(DormitoryType.sejong2);
           Navigator.pop(context);
         },
       ),

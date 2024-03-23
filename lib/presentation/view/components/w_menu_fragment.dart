@@ -4,8 +4,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_whattodayrice/common/utils/restaurant_time.dart';
 import 'package:flutter_whattodayrice/data/models/dormitory.dart';
 import 'package:flutter_whattodayrice/data/models/meal.dart';
-import 'package:flutter_whattodayrice/presentation/providers/dormitory_provider.dart';
 import 'package:flutter_whattodayrice/presentation/providers/meal/meal_data_provider.dart';
+import 'package:flutter_whattodayrice/presentation/providers/user_provider.dart';
+import 'package:flutter_whattodayrice/presentation/ui_state/user_ui_state.dart';
 import 'package:flutter_whattodayrice/presentation/view/components/calender_row.dart';
 import 'package:flutter_whattodayrice/presentation/view/components/meal_time_row.dart';
 import 'package:flutter_whattodayrice/presentation/view/components/w_meal_container.dart';
@@ -21,7 +22,8 @@ class MenuFragment extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final double screenHeight = MediaQuery.of(context).size.height;
-    final dormitoryType = ref.watch(dormitoryProvider);
+    final UserUiState userUiState = ref.watch(userProivder).userUiState;
+    print('유저 기숙사 값: ${userUiState.dormitoryType}');
     final List<MealData> weeklyMeals = ref.watch(mealDataProvider).value!;
     final DateTime weeklyFirstDate = DateTime.parse(weeklyMeals.first.date);
 
@@ -39,7 +41,7 @@ class MenuFragment extends ConsumerWidget {
             flex: 1,
             child: MealTimeTextRow(
               mealTime: getAvailableTimeText(
-                  dormitoryType: dormitoryType,
+                  dormitoryType: userUiState.dormitoryType!,
                   mealType: MealType.breakfast,
                   date: weeklyFirstDate,
                   index: index),
@@ -53,7 +55,7 @@ class MenuFragment extends ConsumerWidget {
             flex: 4,
             fit: FlexFit.tight,
             child: MealContainer(
-              content: (dormitoryType == DormitoryType.happiness)
+              content: (userUiState.dormitoryType! == DormitoryType.happiness)
                   ? '일반 : ${weeklyMeals[index].breakfast}\n\nTAKE - OUT : ${weeklyMeals[index].takeout}'
                   : weeklyMeals[index].breakfast,
             ),
@@ -65,7 +67,7 @@ class MenuFragment extends ConsumerWidget {
             flex: 1,
             child: MealTimeTextRow(
               mealTime: getAvailableTimeText(
-                  dormitoryType: dormitoryType,
+                  dormitoryType: userUiState.dormitoryType!,
                   mealType: MealType.lunch,
                   date: weeklyFirstDate,
                   index: index),
@@ -89,7 +91,7 @@ class MenuFragment extends ConsumerWidget {
             flex: 1,
             child: MealTimeTextRow(
               mealTime: getAvailableTimeText(
-                  dormitoryType: dormitoryType,
+                  dormitoryType: userUiState.dormitoryType!,
                   mealType: MealType.dinner,
                   date: weeklyFirstDate,
                   index: index),

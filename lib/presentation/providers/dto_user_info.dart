@@ -6,17 +6,18 @@ import '../../data/models/m_user.dart';
 import 'dto_user_id.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-final userProvider = StreamProvider<User>((ref) {
+final usersProvider = StreamProvider<User>((ref) {
   FirebaseFirestore db = FirebaseFirestore.instance;
   final userId = ref.watch(userIdProvider);
+  final userNickName = ref.watch(userNickNameProvider);
   if (userId.isNotEmpty) {
     return db.collection("users").doc(userId).snapshots().map((snapshot) {
       readDormitorySharedPreferencesData();
       return User.fromFirestore(snapshot, null);
     });
   } else {
-    return Stream.value(
-        User(dormitoryType: DormitoryType.happiness.toString()));
+    return Stream.value(User(
+        name: userNickName, dormitoryType: DormitoryType.happiness.toString()));
   }
 });
 

@@ -52,7 +52,6 @@ class _SaveUserInfoButtonState extends ConsumerState<SaveUserInfoButton> {
             final newUserId = doc.id;
             ref.read(userIdProvider.notifier).state = newUserId;
             saveUserIdToSharedPreferences(newUserId);
-            readUserIdSharedPreferencesData();
           });
 
           Navigator.push(

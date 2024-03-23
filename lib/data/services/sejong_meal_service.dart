@@ -20,6 +20,7 @@ class SejongDormMealService {
       String data2 = data.replaceAll('\n', ',');
       List<String> sejongMealPageData =
           data2.split(',,').sublist(menuIndex, menuIndex + 8);
+      print("sejongMealPageData: $sejongMealPageData");
       return sejongMealPageData;
     } else {
       throw Exception('식단을 기다리고 있어요 \n조금만 기다려주세요:grinning: ');

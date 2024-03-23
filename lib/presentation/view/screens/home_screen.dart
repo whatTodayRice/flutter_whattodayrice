@@ -6,6 +6,8 @@ import 'package:flutter_whattodayrice/data/models/meal.dart';
 import 'package:flutter_whattodayrice/presentation/m_page_controller.dart';
 import 'package:flutter_whattodayrice/common/theme/colors.dart';
 import 'package:flutter_whattodayrice/presentation/providers/meal/meal_data_provider.dart';
+import 'package:flutter_whattodayrice/presentation/providers/user_provider.dart';
+import 'package:flutter_whattodayrice/presentation/ui_state/user_ui_state.dart';
 import 'package:flutter_whattodayrice/presentation/view/components/w_grow_transition.dart';
 import 'package:flutter_whattodayrice/presentation/view/components/w_menu_fragment.dart';
 import 'package:flutter_whattodayrice/presentation/view/components/w_splash_logo.dart';
@@ -13,7 +15,6 @@ import 'package:flutter_whattodayrice/presentation/view/screens/settings_screen.
 import '../../../data/models/dormitory.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_whattodayrice/presentation/providers/dormitory_provider.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   final DormitoryType dormitoryType;
@@ -26,6 +27,7 @@ class HomeScreen extends ConsumerStatefulWidget {
 class _HomeScreenState extends ConsumerState<HomeScreen>
     with SingleTickerProviderStateMixin, AfterLayoutMixin<HomeScreen> {
   late final AnimationController controller;
+  late final UserViewModel _userViewModel;
 
   @override
   void afterFirstLayout(BuildContext context) async {
@@ -42,6 +44,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
       vsync: this,
       duration: const Duration(seconds: 1),
     );
+
+    _userViewModel = ref.read(userProivder);
+    _userViewModel.readUserInfo();
   }
 
   @override
@@ -52,9 +57,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
 
   @override
   Widget build(BuildContext context) {
-    final selectedDormitory = ref.watch(dormitoryProvider);
     final pageNavigationState = ref.watch(pageNavigationStateProvider);
     final AsyncValue<List<MealData>> weeklyMeals = ref.watch(mealDataProvider);
+    final UserUiState userUiState = ref.watch(userProivder).userUiState;
+    print("홈화면 uiState: ${userUiState.dormitoryType}");
 
     return Scaffold(
       appBar: AppBar(
@@ -62,8 +68,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
         backgroundColor: ColorConstants.primary,
         centerTitle: true,
         title: Text(
-          (selectedDormitory == DormitoryType.sejong1 ||
-                  selectedDormitory == DormitoryType.sejong2)
+          (userUiState.dormitoryType == DormitoryType.sejong1 ||
+                  userUiState.dormitoryType == DormitoryType.sejong2)
               ? "세종기숙사"
               : "행복기숙사",
           style: Theme.of(context)

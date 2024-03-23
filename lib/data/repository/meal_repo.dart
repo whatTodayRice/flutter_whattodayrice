@@ -1,3 +1,4 @@
+import 'package:flutter_whattodayrice/common/utils/converter/remove_meal_comma.dart';
 import 'package:flutter_whattodayrice/common/utils/home_widget/happy_widget.dart';
 import 'package:flutter_whattodayrice/common/utils/home_widget/sejong_widget.dart';
 import 'package:flutter_whattodayrice/common/utils/sejong_parse_date_string.dart';
@@ -68,7 +69,6 @@ class DormitoryMealRepository {
   }
 
   Future<List<MealData>> fetchSejongMeals() async {
-    print("레포지토리에서 식단 fetch 호출");
     List<MealData> menus = [];
 
     List<String> dateData =
@@ -79,16 +79,21 @@ class DormitoryMealRepository {
     List<String> breakfastData =
         await _sejongMealRemoteDataSource.fetchSejongMeals(breakfastIndex);
     breakfastData.removeAt(0);
+    List<String> removedCommabreakfastData =
+        removeCommaEachMeal(meals: breakfastData);
 
     int lunchIndex = 19;
     List<String> lunchData =
         await _sejongMealRemoteDataSource.fetchSejongMeals(lunchIndex);
     lunchData.removeLast();
+    List<String> removedCommaLunchData = removeCommaEachMeal(meals: lunchData);
 
     int dinnerIndex = 27;
     List<String> dinnerData =
         await _sejongMealRemoteDataSource.fetchSejongMeals(dinnerIndex);
-    dinnerData.removeLast();
+    dinnerData.removeAt(0);
+    List<String> removedCommaDinnerData =
+        removeCommaEachMeal(meals: dinnerData);
 
     for (int dayIndex = 0; dayIndex < 7; dayIndex++) {
       String fetchedDate = dateValues[dayIndex + 2].trim();
@@ -98,10 +103,10 @@ class DormitoryMealRepository {
 
       MealData menu = MealData(
           date: formattedString,
-          breakfast: breakfastData[dayIndex],
+          breakfast: removedCommabreakfastData[dayIndex],
           takeout: '',
-          lunch: lunchData[dayIndex],
-          dinner: dinnerData[dayIndex]);
+          lunch: removedCommaLunchData[dayIndex],
+          dinner: removedCommaDinnerData[dayIndex]);
       menus.add(menu);
       updateFullMeal(menu);
     }
