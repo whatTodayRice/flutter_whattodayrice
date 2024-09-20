@@ -26,6 +26,25 @@
     },
     {
       "client_info": {
+        "mobilesdk_app_id": "1:816854486784:android:f7b18de5c0778747daade5",
+        "android_client_info": {
+          "package_name": "com.example.whatTodayRice"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBXCwiZCNIe5GnsUT7Rq4gCh_rgFGjsmEg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:816854486784:android:bad6cc95d66997b0daade5",
         "android_client_info": {
           "package_name": "com.whatTodayRice"

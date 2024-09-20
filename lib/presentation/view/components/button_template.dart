@@ -25,8 +25,7 @@ class ReusableButton extends StatelessWidget {
       child: Column(
         children: [
           Padding(
-            padding:
-                EdgeInsets.only(left: width * 0.0694, right: width * 0.0694),
+            padding: EdgeInsets.only(left: width * 0.0694, right: width * 0.0694),
             child: Container(
               height: height,
               width: width,
@@ -36,9 +35,7 @@ class ReusableButton extends StatelessWidget {
                 color: gray01,
                 borderRadius: BorderRadius.circular(20),
               ),
-              child: Center(
-                  child:
-                      Text(buttonText, style: const TextStyle(color: white))),
+              child: Center(child: Text(buttonText, style: const TextStyle(color: white))),
             ),
           )
         ],
@@ -83,7 +80,7 @@ class SelectThemeButton extends StatelessWidget {
         style: GoogleFonts.notoSans(
           fontSize: 18,
           fontWeight: FontWeight.bold,
-          color: ColorConstants.primary,
+          color: ColorConstant.primary,
         ),
       ),
     );
@@ -109,7 +106,7 @@ class SelectButton extends StatelessWidget {
         style: GoogleFonts.notoSans(
           fontSize: 18,
           fontWeight: FontWeight.bold,
-          color: ColorConstants.primary,
+          color: ColorConstant.primary,
         ),
       ),
     );
@@ -120,8 +117,7 @@ class CalendarRowIconButton extends StatelessWidget {
   final IconData iconShape;
   final VoidCallback onPressed;
 
-  const CalendarRowIconButton(
-      {super.key, required this.iconShape, required this.onPressed});
+  const CalendarRowIconButton({super.key, required this.iconShape, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {

@@ -1,18 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_whattodayrice/data/models/dormitory.dart';
-import 'package:flutter_whattodayrice/presentation/providers/dormitory_provider.dart';
 import 'package:flutter_whattodayrice/presentation/view/components/button_template.dart';
 
 class DormitoryBottomSheet {
   static void show(
     BuildContext context,
-    WidgetRef ref,
   ) {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
-        return _DormitoryBottomSheetContent(context, ref);
+        return _DormitoryBottomSheetContent(context);
       },
     );
   }
@@ -20,9 +16,8 @@ class DormitoryBottomSheet {
 
 class _DormitoryBottomSheetContent extends StatelessWidget {
   final BuildContext context;
-  final WidgetRef ref;
 
-  const _DormitoryBottomSheetContent(this.context, this.ref);
+  const _DormitoryBottomSheetContent(this.context);
 
   @override
   Widget build(BuildContext context) {
@@ -31,9 +26,6 @@ class _DormitoryBottomSheetContent extends StatelessWidget {
         SelectButton(
           buttonText: '행복기숙사',
           onPressed: () {
-            ref.read(dormitoryProvider.notifier).state =
-                DormitoryType.happiness;
-
             Navigator.pop(context);
           },
         ),
@@ -41,7 +33,6 @@ class _DormitoryBottomSheetContent extends StatelessWidget {
         SelectButton(
           buttonText: '세종기숙사',
           onPressed: () {
-            ref.read(dormitoryProvider.notifier).state = DormitoryType.sejong1;
             Navigator.pop(context);
           },
         ),

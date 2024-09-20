@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
 class PigAnimationWidget extends StatelessWidget {
-  const PigAnimationWidget({Key? key}) : super(key: key);
+  const PigAnimationWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
