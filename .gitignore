@@ -44,6 +44,7 @@ app.*.map.json
 /android/app/release
 /android/app/key.jks
 /android/key.properties
+upload-keystore.jks
 
 # GCP user key
 what-today-rice-59c5ef0ce9af.json

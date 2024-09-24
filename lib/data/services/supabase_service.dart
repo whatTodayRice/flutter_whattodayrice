@@ -13,17 +13,26 @@ class SupabaseService {
 
   Future<ApiResponse<bool>> signInWithKakao() async {
     try {
-      final bool response = await _supabase.auth.signInWithOAuth(OAuthProvider.kakao);
+      final bool response = await _supabase.auth.signInWithOAuth(
+        OAuthProvider.kakao,
+        authScreenLaunchMode: LaunchMode.externalApplication,
+      );
 
       return SucceedResponse(response);
-    } on AuthException catch (error) {
+    } on AuthException catch (error, stackTrace) {
       debugPrint("-------signInWithKako Error-------");
       debugPrint(error.toString());
 
+      debugPrint("-------signInWithKako stackTrace-------");
+      debugPrint(stackTrace.toString());
+
       return FailureResponse(error.toString());
-    } catch (error) {
+    } catch (error, stackTrace) {
       debugPrint("-------signInWithKako Error-------");
       debugPrint(error.toString());
+
+      debugPrint("-------signInWithKako stackTrace-------");
+      debugPrint(stackTrace.toString());
 
       return FailureResponse(error.toString());
     }
