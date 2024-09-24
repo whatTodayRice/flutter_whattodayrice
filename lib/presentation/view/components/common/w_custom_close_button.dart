@@ -1,24 +1,20 @@
 import 'package:flutter/material.dart';
 
-class CustomCloseButton extends StatelessWidget {
-  const CustomCloseButton({
+class CustomTextFieldSuffixIcon extends StatelessWidget {
+  const CustomTextFieldSuffixIcon({
     super.key,
     this.onPressed,
+    required this.icon,
   });
 
   final void Function()? onPressed;
+  final Icon icon;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onPressed,
-      child: Container(
-        decoration: BoxDecoration(),
-        child: const Icon(
-          Icons.close,
-          color: Colors.white,
-        ),
-      ),
+      child: icon,
     );
   }
 }

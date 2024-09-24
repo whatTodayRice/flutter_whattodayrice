@@ -12,11 +12,14 @@ const black = Color.fromRGBO(0, 0, 0, 1);
 
 //다크 모드
 
-class ColorConstant {
+class AppColor {
   static const Color primary = Color(0xFFFF833D);
   static const Color pushAlarmContainerBackground = Color(0xFFFFFAF6);
   static const Color pushAlarmTitle = Color(0xff5C5C5C);
   static const Color pushAlarmSubTitle = Color(0xff969696);
 
   static const yellow = Color(0xfffee500);
+  static const gray = Color(0xffD9D9D9);
+  static const gray2 = Color(0xffE2E2E2);
+  static const gray3 = Color(0xffC1C1C1);
 }

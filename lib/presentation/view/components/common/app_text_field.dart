@@ -12,6 +12,9 @@ class AppTextField extends StatelessWidget {
     this.inputBorder,
     required this.textStyle,
     required this.hintTextStyle,
+    this.borderColor,
+    this.isRequiredFocusedBorder,
+    this.isRequiredEnabledBorder,
   });
 
   final TextEditingController controller;
@@ -22,13 +25,19 @@ class AppTextField extends StatelessWidget {
   final bool isObscure;
   final TextStyle textStyle;
   final TextStyle hintTextStyle;
+  final Color? borderColor;
+  final bool? isRequiredFocusedBorder;
+  final bool? isRequiredEnabledBorder;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: ColorConstant.primary, width: 1.2),
+        border: Border.all(
+          color: borderColor ?? AppColor.primary,
+          width: 1.2,
+        ),
       ),
       child: TextFormField(
         controller: controller,
@@ -36,13 +45,22 @@ class AppTextField extends StatelessWidget {
         style: textStyle,
         obscureText: isObscure,
         decoration: InputDecoration(
-          contentPadding: const EdgeInsets.all(16),
           hintText: hintText,
           hintStyle: hintTextStyle,
-          border: inputBorder ?? InputBorder.none,
           suffixIcon: suffixIcon,
+          border: inputBorder,
+          enabledBorder: isRequiredEnabledBorder != null
+              ? const UnderlineInputBorder(
+                  borderSide: BorderSide(color: AppColor.gray3, width: 1.2),
+                )
+              : InputBorder.none,
+          focusedBorder: isRequiredFocusedBorder != null
+              ? const UnderlineInputBorder(
+                  borderSide: BorderSide(color: AppColor.primary, width: 1.2),
+                )
+              : InputBorder.none,
         ),
-        cursorColor: ColorConstant.primary,
+        cursorColor: AppColor.primary,
       ),
     );
   }
