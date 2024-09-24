@@ -6,8 +6,7 @@ import 'package:flutter_whattodayrice/common/theme/text_styles.dart';
 const kMainScreenTitleText = Text('세종기숙사');
 const kCompleteTitleText = Text(
   '모든 설정을 완료했습니다!',
-  style: TextStyle(
-      fontWeight: FontWeight.bold, fontSize: 25.0, color: Colors.black),
+  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25.0, color: Colors.black),
 );
 const kCompletedSubTitleText = Text(
   '정해진 시간에 알림을 보내드릴게요!',
@@ -39,22 +38,6 @@ class MealAvailableTimeText extends StatelessWidget {
         );
   }
 }
-
-String sejongBreakfastTime = '7:30 ~ 9:00';
-String sejongLunchTime = '11:30 ~ 13:30';
-String sejongDinnerTime = '17:00 ~ 18:30';
-
-String sejongVacationBreakfastTime = '7:30 ~ 9:00';
-String sejongVacationLunchTime = '12:00 ~ 13:30';
-String sejongVacaitonDinnerTime = '17:00 ~ 18:30';
-
-String happyBreakfastWeekTime = '7:30 ~ 9:30';
-String happyLunchWeekTime = '11:30 ~ 14:00';
-String happyDinnerWeekTime = '16:50 ~ 19:00';
-
-String happyBreakfastTime = '08:00 ~ 09:30';
-String happyLunchTime = '11:30 ~ 13:30';
-String happyDinnerTime = '17:30 ~ 18:45';
 
 class MealCategoryIcon extends StatelessWidget {
   const MealCategoryIcon({
@@ -114,11 +97,7 @@ var kTextStyleGuide = ThemeData(
   ),
 );
 
-const Map<dynamic, dynamic> mealTypes = {
-  MealType.breakfast: '조식',
-  MealType.lunch: '중식',
-  MealType.dinner: '석식'
-};
+const Map<dynamic, dynamic> mealTypes = {MealType.breakfast: '조식', MealType.lunch: '중식', MealType.dinner: '석식'};
 
 const notiTitleText = Text(
   '식단 업로드 알림을 받아보세요!',
@@ -137,5 +116,4 @@ const jumpToMainText = Text('다음에 설정할래요!', style: TextStyles.body
 
 List<String> daysOfWeek = ['월', '화', '수', '목', '금', '토', '일'];
 
-const notyExplainText =
-    '매일 저녁 19시에 다음 날 식단이 업데이트 되었다는 소식을\n아래와 같이 팝업을 통해 알려줍니다.';
+const notyExplainText = '매일 저녁 19시에 다음 날 식단이 업데이트 되었다는 소식을\n아래와 같이 팝업을 통해 알려줍니다.';

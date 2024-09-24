@@ -1,4 +1,4 @@
-package com.whatTodayRice
+package com.example.whatTodayRice
 
 import android.annotation.TargetApi
 import android.app.PendingIntent

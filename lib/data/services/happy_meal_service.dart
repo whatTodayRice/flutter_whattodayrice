@@ -3,9 +3,16 @@ import 'package:http/http.dart' as http;
 import 'package:html/parser.dart';
 
 class HappyMealService {
+  HappyMealService._internal();
+
+  static HappyMealService? _instance;
+
+  factory HappyMealService() => HappyMealService._internal();
+
+  HappyMealService getInstance() => _instance!;
+
   Future<Document> fetchHappyMeals() async {
-    final response = await http.get(
-        Uri.parse('https://happydorm.or.kr/busan/ko/0606/cafeteria/menu/'));
+    final response = await http.get(Uri.parse('https://happydorm.or.kr/busan/ko/0606/cafeteria/menu/'));
 
     if (response.statusCode == 200) {
       var document = parse(response.body);
