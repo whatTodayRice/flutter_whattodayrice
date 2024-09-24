@@ -11,11 +11,11 @@ class SuPaBaseEnv {
 
   SuPaBaseEnv._internal();
 
-  String getProjURL() => _projURL;
+  String get projectURL => _projURL;
 
-  String getProjApiKey() => _projApiKey;
+  String get projectApiKey => _projApiKey;
 
-  String getKAKAOClientId() => _KAKAO_CLIENT_ID;
+  String get kaKaoClientId => _KAKAO_CLIENT_ID;
 
-  String getKAKAOJsClientId() => _KAKAO_JS_CLIENT_ID;
+  String get kaKaoJsClientId => _KAKAO_JS_CLIENT_ID;
 }
