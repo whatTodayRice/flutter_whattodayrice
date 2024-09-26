@@ -14,12 +14,20 @@ const black = Color.fromRGBO(0, 0, 0, 1);
 
 class AppColor {
   static const Color primary = Color(0xFFFF833D);
+  static const Color secondary = Color(0xFFFFE2D1);
+  static const Color orange3 = Color(0xFFFFEBDF);
+  static const Color orange4 = Color(0xFFFF9559);
   static const Color pushAlarmContainerBackground = Color(0xFFFFFAF6);
-  static const Color pushAlarmTitle = Color(0xff5C5C5C);
+  static const Color gray8 = Color(0xff5C5C5C);
   static const Color pushAlarmSubTitle = Color(0xff969696);
+  static const Color homeOptionBackgroundColor = Color(0xffFFFAF8);
 
   static const yellow = Color(0xfffee500);
   static const gray = Color(0xffD9D9D9);
   static const gray2 = Color(0xffE2E2E2);
   static const gray3 = Color(0xffC1C1C1);
+  static const gray4 = Color(0xFFF5F5F5);
+  static const gray5 = Color(0xFF8C8C8C);
+  static const gray6 = Color(0xFF4E4E4E);
+  static const gray7 = Color(0xFF929292);
 }

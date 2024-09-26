@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_whattodayrice/business-logic/bloc/dormitory/dormitory_bloc.dart';
-import 'package:flutter_whattodayrice/data/models/meal.dart';
+import 'package:flutter_whattodayrice/modules/home/bloc/dormitory_bloc.dart';
 import 'package:flutter_whattodayrice/common/theme/colors.dart';
 import 'package:flutter_whattodayrice/modules/board/w_board_option.dart';
 import 'package:flutter_whattodayrice/modules/home/widget/home_option.dart';
 import 'package:flutter_whattodayrice/modules/my_profile/w_my_option.dart';
-import 'package:flutter_whattodayrice/presentation/view/components/w_menu_fragment.dart';
 import 'package:flutter_whattodayrice/router/app_router_state.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -20,7 +18,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateMixin {
-  late final DormitoryBloc _dormitoryBloc;
+  late final DormitoryMealBloc _dormitoryBloc;
   late final List<Widget> widgetOptions;
 
   int _selectedIndex = 0;
@@ -30,7 +28,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     super.initState();
     initializeDateFormatting();
 
-    _dormitoryBloc = context.read<DormitoryBloc>();
+    _dormitoryBloc = context.read<DormitoryMealBloc>();
     _dormitoryBloc.add(const DormitoryMealLoadRequested());
 
     widgetOptions = [
@@ -51,9 +49,12 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: AppColor.primary,
-        centerTitle: true,
-        title: Text("행복기숙사", style: Theme.of(context).textTheme.headlineMedium!.copyWith(color: Colors.white)),
+        backgroundColor: AppColor.homeOptionBackgroundColor,
+        centerTitle: false,
+        title: Padding(
+          padding: const EdgeInsets.only(left: 8.0),
+          child: Text("오늘의 메뉴", style: Theme.of(context).textTheme.titleMedium!),
+        ),
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.settings, color: Colors.white),
@@ -62,6 +63,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
         ],
       ),
       body: widgetOptions.elementAt(_selectedIndex),
+      backgroundColor: AppColor.homeOptionBackgroundColor,
       bottomNavigationBar: BottomNavigationBar(
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(

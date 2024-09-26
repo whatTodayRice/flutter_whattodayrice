@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_whattodayrice/business-logic/bloc/dormitory/dormitory_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_whattodayrice/data/models/enum/enum_meal_type.dart';
+import 'package:flutter_whattodayrice/modules/home/bloc/dormitory_bloc.dart';
 import 'package:flutter_whattodayrice/data/models/meal.dart';
-import 'package:flutter_whattodayrice/presentation/view/components/w_menu_fragment.dart';
+import 'package:flutter_whattodayrice/modules/home/widget/date/date_selector.dart';
+import 'package:flutter_whattodayrice/modules/home/widget/menu_card/menu_card.dart';
 
 class HomeOption extends StatefulWidget {
   const HomeOption({
@@ -10,29 +13,13 @@ class HomeOption extends StatefulWidget {
     required this.dormitoryBloc,
   });
 
-  final DormitoryBloc dormitoryBloc;
+  final DormitoryMealBloc dormitoryBloc;
 
   @override
   State<HomeOption> createState() => _HomeOptionState();
 }
 
 class _HomeOptionState extends State<HomeOption> {
-  late final PageController pageController;
-
-  @override
-  void initState() {
-    super.initState();
-
-    final loggedInDayIndex = DateTime.now().toUtc().add(const Duration(hours: 9)).weekday;
-    pageController = PageController(initialPage: loggedInDayIndex);
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    pageController.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder(
@@ -43,16 +30,50 @@ class _HomeOptionState extends State<HomeOption> {
         }
 
         final List<MealData> mealDataList = state.mealDataList;
+        final int selectedDayIndex = state.selectedDayIndex;
+        final MealType availableMealType = state.availableMealType;
+        final List<String> dateList = mealDataList.map((mealData) => mealData.date).toList();
 
-        return PageView.builder(
-          controller: pageController,
-          scrollDirection: Axis.horizontal,
-          itemCount: mealDataList.length,
-          itemBuilder: (context, index) {
-            final MealData mealData = mealDataList[index];
+        final bool isWeekend = selectedDayIndex == 5 || selectedDayIndex == 6;
 
-            return MenuFragment(mealData: mealData);
-          },
+        return Column(
+          children: [
+            DateSelector(dateList: dateList),
+            SizedBox(height: 12.h),
+            Expanded(
+                child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  MenuCard(
+                    mealType: MealType.breakfast,
+                    normalMenu: mealDataList[selectedDayIndex].breakfast,
+                    takeOut: mealDataList[selectedDayIndex].takeout,
+                    isActive: availableMealType == MealType.breakfast,
+                    isWeekend: isWeekend,
+                    availableMealTime: "7:30 ~ 9:30",
+                  ),
+                  SizedBox(height: 20.h),
+                  MenuCard(
+                    mealType: MealType.lunch,
+                    normalMenu: mealDataList[selectedDayIndex].lunchNormal,
+                    premiumMenu: mealDataList[selectedDayIndex].lunchPremium,
+                    isActive: availableMealType == MealType.lunch,
+                    isWeekend: isWeekend,
+                    availableMealTime: "11:30 ~ 14:00",
+                  ),
+                  SizedBox(height: 20.h),
+                  MenuCard(
+                    mealType: MealType.dinner,
+                    normalMenu: mealDataList[selectedDayIndex].dinnerNormal,
+                    premiumMenu: mealDataList[selectedDayIndex].dinnerPremium,
+                    isWeekend: isWeekend,
+                    isActive: availableMealType == MealType.dinner,
+                    availableMealTime: "16:50 ~ 19:00",
+                  ),
+                ],
+              ),
+            )),
+          ],
         );
       },
     );
