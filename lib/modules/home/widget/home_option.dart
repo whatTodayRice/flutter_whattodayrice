@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_whattodayrice/data/models/enum/enum_meal_type.dart';
-import 'package:flutter_whattodayrice/modules/home/bloc/dormitory_bloc.dart';
+import 'package:flutter_whattodayrice/modules/home/bloc/dormitory_meal_bloc.dart';
 import 'package:flutter_whattodayrice/data/models/meal.dart';
 import 'package:flutter_whattodayrice/modules/home/widget/date/date_selector.dart';
 import 'package:flutter_whattodayrice/modules/home/widget/menu_card/menu_card.dart';

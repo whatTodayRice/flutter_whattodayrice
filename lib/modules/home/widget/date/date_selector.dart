@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_whattodayrice/modules/home/bloc/dormitory_bloc.dart';
+import 'package:flutter_whattodayrice/modules/home/bloc/dormitory_meal_bloc.dart';
 import 'package:flutter_whattodayrice/modules/home/helper/dorm_meal_helper.dart';
 import 'package:flutter_whattodayrice/modules/home/widget/menu_card/date_cell.dart';
 

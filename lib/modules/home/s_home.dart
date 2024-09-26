@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_whattodayrice/modules/home/bloc/dormitory_bloc.dart';
+import 'package:flutter_whattodayrice/modules/home/bloc/dormitory_meal_bloc.dart';
 import 'package:flutter_whattodayrice/common/theme/colors.dart';
 import 'package:flutter_whattodayrice/modules/board/w_board_option.dart';
 import 'package:flutter_whattodayrice/modules/home/widget/home_option.dart';
@@ -40,6 +40,10 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
 
   void _onItemTapped(int index) {
     setState(() {
+      if (index == 0) {
+        context.read<DormitoryMealBloc>().add(const DormitoryMealAvailableTimeUpdateRequested());
+      }
+
       _selectedIndex = index;
     });
   }
@@ -83,7 +87,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.amber[800],
+        selectedItemColor: AppColor.primary,
         onTap: _onItemTapped,
       ),
     );
