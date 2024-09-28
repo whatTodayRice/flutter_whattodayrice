@@ -13,7 +13,7 @@ import 'package:flutter_whattodayrice/data/services/happy_meal_service.dart';
 import 'package:flutter_whattodayrice/data/services/supabase_service.dart';
 import 'package:flutter_whattodayrice/presentation/view/screens/s_register_email.dart';
 import 'package:flutter_whattodayrice/presentation/view/screens/s_login_info.dart';
-import 'package:flutter_whattodayrice/presentation/view/screens/s_home.dart';
+import 'package:flutter_whattodayrice/modules/home/s_home.dart';
 import 'package:flutter_whattodayrice/presentation/view/screens/s_setting.dart';
 import 'package:flutter_whattodayrice/presentation/view/screens/s_sign_in_by_email.dart';
 import 'package:flutter_whattodayrice/presentation/view/screens/s_splash.dart';
