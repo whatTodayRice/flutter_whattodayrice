@@ -2,16 +2,18 @@ class MealData {
   final String date;
   final String breakfast;
   final String? takeout;
-  final String lunch;
-  final String dinner;
+  final String lunchNormal;
+  final String? lunchPremium;
+  final String dinnerNormal;
+  final String? dinnerPremium;
 
   MealData({
     required this.date,
     required this.breakfast,
     this.takeout,
-    required this.lunch,
-    required this.dinner,
+    required this.lunchNormal,
+    this.lunchPremium,
+    required this.dinnerNormal,
+    this.dinnerPremium,
   });
 }
-
-enum MealType { breakfast, lunch, dinner }

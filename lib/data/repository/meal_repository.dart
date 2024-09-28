@@ -1,4 +1,3 @@
-import 'package:flutter_whattodayrice/common/utils/home_widget/happy_widget.dart';
 import 'package:flutter_whattodayrice/data/models/meal.dart';
 import '../data_source/happy_meal_data_source.dart';
 
@@ -28,6 +27,10 @@ class DormitoryMealRepository {
   Future<List<MealData>> fetchHappyMeals() async {
     final happyMealResponse = await _happyDormsMealRemoteDataSource.fetchHappyMeals();
 
+    if (happyMealResponse == null) {
+      return <MealData>[];
+    }
+
     var dateElements = happyMealResponse.querySelectorAll('th[colspan="3"]');
     var menuElements = happyMealResponse.querySelectorAll('.meal__PC');
     var weeklyDate = dateElements.sublist(0, 73);
@@ -44,31 +47,64 @@ class DormitoryMealRepository {
       String formattedDate = rawDateString.replaceAll(RegExp(r'[()]'), '');
       formattedDate = formattedDate.split(' ').last; // 날짜 부분 추출
 
+      /// BreakFast Parsing
       // 각 식단 항목을 쉼표와 공백으로 구분하여 저장
       String breakfast = menuElements[startIndex]
           .text
-          .splitMapJoin(RegExp(r'\s+'), onMatch: (match) => ' ', onNonMatch: (nonMatch) => nonMatch);
+          .splitMapJoin(RegExp(r'\s+'), onMatch: (match) => ' ', onNonMatch: (nonMatch) => nonMatch)
+          .trim();
       String takeout = menuElements[startIndex + 2]
           .text
-          .splitMapJoin(RegExp(r'\s+'), onMatch: (match) => ' ', onNonMatch: (nonMatch) => nonMatch);
+          .splitMapJoin(RegExp(r'\s+'), onMatch: (match) => ' ', onNonMatch: (nonMatch) => nonMatch)
+          .trim();
 
-      // lunch와 dinner 변수에 들어가는 데이터에서 "일품" 앞에 들여쓰기 추가
-      String lunch =
-          menuElements[startIndex + 5].text.replaceAllMapped(RegExp(r'(일품 : .+)'), (match) => '\n\n${match[1]}').trim();
-      String dinner =
-          menuElements[endIndex].text.replaceAllMapped(RegExp(r'(일품 : .+)'), (match) => '\n\n${match[1]}').trim();
+      /// Lunch Parsing
+      String lunchText = menuElements[startIndex + 5].text.trim();
+
+      String lunchNormal = '';
+      String lunchPremium = '';
+
+      if (lunchText.contains('정식 :') || lunchText.contains('일품 :')) {
+        List<String> lunchParts = lunchText.split(RegExp(r'일품 :'));
+
+        lunchNormal = lunchParts.isNotEmpty ? lunchParts[0].replaceFirst('정식 : ', '').trim() : '';
+
+        lunchPremium = lunchParts.length > 1 ? lunchParts[1].trim() : '';
+      } else {
+        lunchNormal = lunchText;
+      }
+
+      /// Dinner Parsing
+      String dinnerText = menuElements[endIndex].text.trim();
+
+      String dinnerNormal = '';
+      String dinnerPremium = '';
+
+      if (dinnerText.contains('정식 :') || dinnerText.contains('일품 :')) {
+        List<String> dinnerParts = dinnerText.split(RegExp(r'일품 :'));
+
+        dinnerNormal = dinnerParts.isNotEmpty ? dinnerParts[0].replaceFirst('정식 : ', '').trim() : '';
+
+        dinnerPremium = dinnerParts.length > 1 ? dinnerParts[1].trim() : '';
+      } else {
+        dinnerNormal = dinnerText;
+      }
 
       MealData menu = MealData(
         date: formattedDate,
         breakfast: breakfast,
         takeout: takeout,
-        lunch: lunch,
-        dinner: dinner,
+        lunchNormal: lunchNormal,
+        lunchPremium: lunchPremium,
+        dinnerNormal: dinnerNormal,
+        dinnerPremium: dinnerPremium,
       );
 
       menus.add(menu);
-      updateMeal(menu);
+
+      // TODO: 홈위젯 구현 필요
     }
+
     return menus;
   }
 }

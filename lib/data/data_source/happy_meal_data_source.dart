@@ -24,5 +24,5 @@ class HappyDormsMealRemoteDataSource {
     return _instance!;
   }
 
-  Future<Document> fetchHappyMeals() => _happyMealService.fetchHappyMeals();
+  Future<Document?> fetchHappyMeals() => _happyMealService.fetchHappyMeals();
 }
