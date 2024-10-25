@@ -7,8 +7,7 @@ void updateMeal(MealData happyMeal) {
   const String androidMealWidgetName = 'MealWidget';
 
   final today = DateFormat('yyyy-MM-dd').format(DateTime.now());
-  final tomorrow = DateFormat('yyyy-MM-dd')
-      .format(DateTime.now().add(const Duration(days: 1)));
+  final tomorrow = DateFormat('yyyy-MM-dd').format(DateTime.now().add(const Duration(days: 1)));
 
   var hour = DateTime.now().hour;
   String targetDate = today;
@@ -28,6 +27,6 @@ void saveHappyWidgetData(MealData happyMeal) {
   HomeWidget.saveWidgetData("happy_date", happyMeal.date);
   HomeWidget.saveWidgetData<String>('happy_breakfast', happyMeal.breakfast);
   HomeWidget.saveWidgetData<String>('happy_takeout', happyMeal.takeout);
-  HomeWidget.saveWidgetData<String>('happy_lunch', happyMeal.lunch);
-  HomeWidget.saveWidgetData<String>('happy_dinner', happyMeal.dinner);
+  // HomeWidget.saveWidgetData<String>('happy_lunch', happyMeal.lunch);
+  // HomeWidget.saveWidgetData<String>('happy_dinner', happyMeal.dinner);
 }

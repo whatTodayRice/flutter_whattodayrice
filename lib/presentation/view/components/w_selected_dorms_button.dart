@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class SelectedDormitoryButton extends ConsumerStatefulWidget {
+class SelectedDormitoryButton extends StatefulWidget {
   final bool selected;
   final VoidCallback? onPressed;
   final String buttonText;
@@ -15,19 +14,16 @@ class SelectedDormitoryButton extends ConsumerStatefulWidget {
   });
 
   @override
-  ConsumerState<SelectedDormitoryButton> createState() =>
-      _SelectedDormitoryButtonState();
+  State<SelectedDormitoryButton> createState() => _SelectedDormitoryButtonState();
 }
 
-class _SelectedDormitoryButtonState
-    extends ConsumerState<SelectedDormitoryButton> {
+class _SelectedDormitoryButtonState extends State<SelectedDormitoryButton> {
   late final MaterialStatesController statesController;
 
   @override
   void initState() {
     super.initState();
-    statesController = MaterialStatesController(
-        <MaterialState>{if (widget.selected) MaterialState.selected});
+    statesController = MaterialStatesController(<MaterialState>{if (widget.selected) MaterialState.selected});
   }
 
   @override
@@ -44,8 +40,7 @@ class _SelectedDormitoryButtonState
         style: ButtonStyle(
           elevation: MaterialStateProperty.all<double>(2),
           shadowColor: MaterialStateProperty.all<Color>(Colors.grey),
-          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-              RoundedRectangleBorder(
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8),
           )),
           foregroundColor: MaterialStateProperty.resolveWith<Color?>(
@@ -69,8 +64,7 @@ class _SelectedDormitoryButtonState
         onPressed: widget.onPressed,
         child: Text(
           widget.buttonText,
-          style:
-              GoogleFonts.notoSans(fontSize: 16, fontWeight: FontWeight.w500),
+          style: GoogleFonts.notoSans(fontSize: 16, fontWeight: FontWeight.w500),
         ));
   }
 }
