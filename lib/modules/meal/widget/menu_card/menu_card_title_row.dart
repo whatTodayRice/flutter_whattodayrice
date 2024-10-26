@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_whattodayrice/data/models/enum/enum_meal_type.dart';
-import 'package:flutter_whattodayrice/modules/home/widget/meal_available_time_container.dart';
-import 'package:flutter_whattodayrice/modules/home/widget/meal_type_icon.dart';
+import 'package:flutter_whattodayrice/modules/meal/widget/meal_available_time_container.dart';
+import 'package:flutter_whattodayrice/modules/meal/widget/meal_type_icon.dart';
 
 class MenuCardTitleRow extends StatelessWidget {
   const MenuCardTitleRow({

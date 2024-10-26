@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_whattodayrice/common/theme/colors.dart';
+import 'package:flutter_whattodayrice/config/themes/app_color.dart';
 import 'package:flutter_whattodayrice/data/models/enum/enum_meal_type.dart';
 import 'package:flutter_whattodayrice/data/models/enum/enum_menu_type.dart';
-import 'package:flutter_whattodayrice/modules/home/widget/menu_card/menu_card_menu_row.dart';
-import 'package:flutter_whattodayrice/modules/home/widget/menu_card/menu_card_title_row.dart';
+import 'package:flutter_whattodayrice/modules/meal/widget/menu_card/menu_card_menu_row.dart';
+import 'package:flutter_whattodayrice/modules/meal/widget/menu_card/menu_card_title_row.dart';
 
 class MenuCard extends StatelessWidget {
   final MealType mealType;

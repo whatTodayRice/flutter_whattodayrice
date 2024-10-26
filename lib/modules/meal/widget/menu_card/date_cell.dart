@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_whattodayrice/common/theme/colors.dart';
+import 'package:flutter_whattodayrice/config/themes/app_color.dart';
 import 'package:intl/intl.dart';
 
 class DateCell extends StatelessWidget {

@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_whattodayrice/data/models/enum/enum_meal_type.dart';
 import 'package:flutter_whattodayrice/data/models/meal.dart';
 import 'package:flutter_whattodayrice/data/repository/meal_repository.dart';
-import 'package:flutter_whattodayrice/modules/home/helper/dorm_meal_helper.dart';
+import 'package:flutter_whattodayrice/modules/meal/helper/dorm_meal_helper.dart';
 
 part 'dormitory_meal_event.dart';
 part 'dormitory_meal_state.dart';
@@ -93,10 +93,10 @@ class DormitoryMealBloc extends Bloc<DormitoryMealEvent, DormitoryMealState> {
     final breakfastEnd = DateTime(now.year, now.month, now.day, 9, 30);
 
     final lunchStart = DateTime(now.year, now.month, now.day, 11, 30);
-    final lunchEnd = DateTime(now.year, now.month, now.day, 14, 00);
+    final lunchEnd = DateTime(now.year, now.month, now.day, 14);
 
     final dinnerStart = DateTime(now.year, now.month, now.day, 16, 50);
-    final dinnerEnd = DateTime(now.year, now.month, now.day, 19, 00);
+    final dinnerEnd = DateTime(now.year, now.month, now.day, 19);
 
     // 현재 시간에 맞는 타이머 설정
     if (now.isAfter(dinnerEnd) && now.isBefore(breakfastStart)) {

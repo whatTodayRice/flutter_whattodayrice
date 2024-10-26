@@ -2,15 +2,11 @@ import 'package:flutter/foundation.dart';
 import 'package:html/dom.dart';
 import 'package:html/parser.dart';
 import 'package:http/http.dart' as http;
+import 'package:injectable/injectable.dart';
 
+@LazySingleton()
 class HappyMealService {
-  HappyMealService._internal();
-
-  static HappyMealService? _instance;
-
-  factory HappyMealService() => HappyMealService._internal();
-
-  HappyMealService getInstance() => _instance!;
+  const HappyMealService();
 
   Future<Document?> fetchHappyMeals() async {
     try {
