@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_whattodayrice/common/theme/colors.dart';
+import 'package:flutter_whattodayrice/config/themes/app_color.dart';
 
 class AppTextField extends StatelessWidget {
   const AppTextField({

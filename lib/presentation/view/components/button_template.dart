@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_whattodayrice/common/theme/colors.dart';
+import 'package:flutter_whattodayrice/config/themes/app_color.dart';
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -80,7 +80,7 @@ class SelectThemeButton extends StatelessWidget {
         style: GoogleFonts.notoSans(
           fontSize: 18,
           fontWeight: FontWeight.bold,
-          color: ColorConstant.primary,
+          color: AppColor.primary,
         ),
       ),
     );
@@ -106,7 +106,7 @@ class SelectButton extends StatelessWidget {
         style: GoogleFonts.notoSans(
           fontSize: 18,
           fontWeight: FontWeight.bold,
-          color: ColorConstant.primary,
+          color: AppColor.primary,
         ),
       ),
     );

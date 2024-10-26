@@ -1,27 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_whattodayrice/common/theme/colors.dart';
+import 'package:flutter_whattodayrice/business-logic/bloc/setting/setting_bloc.dart';
+import 'package:flutter_whattodayrice/config/router/route_config.dart';
+import 'package:flutter_whattodayrice/config/themes/app_color.dart';
 import 'package:flutter_whattodayrice/common/theme/text_template.dart';
 import 'package:flutter_whattodayrice/common/utils/bottom_sheet_utils.dart';
+import 'package:flutter_whattodayrice/presentation/view/components/common/app_elevated_button.dart';
 import 'package:flutter_whattodayrice/presentation/view/components/notification_switch.dart';
 import 'package:adaptive_theme/adaptive_theme.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_whattodayrice/presentation/view/components/w_push_alarm_container.dart';
+import 'package:go_router/go_router.dart';
 
 import 'package:google_fonts/google_fonts.dart';
-import 'package:home_widget/home_widget.dart';
 
 const String androidWidgetName = 'FullMealsWidget';
 
-class SettingsScreen extends ConsumerStatefulWidget {
+class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
-  static const routeName = '/settings_screen';
 
   @override
-  ConsumerState<SettingsScreen> createState() => _SettingsScreenState();
+  State<SettingsScreen> createState() => _SettingsScreenState();
 }
 
-class _SettingsScreenState extends ConsumerState<SettingsScreen> {
+class _SettingsScreenState extends State<SettingsScreen> {
   bool isDarkMood = false;
   bool isSwitched = false;
   static const IconData arrowDropDown = IconData(0xe098, fontFamily: 'MaterialIcons');
@@ -38,35 +40,51 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    const String androidWidgetName = 'MealWidget';
+    // const String androidWidgetName = 'MealWidget';
+    //
+    // HomeWidget.saveWidgetData<bool>('is_sejong', false);
+    //
+    // HomeWidget.updateWidget(androidName: androidWidgetName);
 
-    HomeWidget.saveWidgetData<bool>('is_sejong', false);
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: buildSectionTitle('설정'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+        child: BlocListener<SettingBloc, SettingState>(
+          listener: (context, state) {
+            if (state is SettingLoaded && state.isLogOut == true) {
+              context.goNamed(AppRouteState.loginInfo.name);
 
-    HomeWidget.updateWidget(androidName: androidWidgetName);
-
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: buildSectionTitle('설정'),
-        ),
-        body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              return;
+            }
+          },
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              AppElevatedButton(
+                title: '로그아웃',
+                onPressed: () => context.read<SettingBloc>().add(const SettingLogOutRequested()),
+                textStyle: Theme.of(context).textTheme.bodyMedium!,
+                buttonBorderColor: AppColor.primary,
+                backgroundColor: AppColor.primary,
+                foregroundColor: Colors.black,
+                borderRadiusValue: 12,
+                elevation: 0,
+                disabledForegroundColor: AppColor.primary,
+                disabledBackgroundColor: Colors.black,
+              ),
               Row(
                 children: [
                   buildBoldText('기숙사 변경'),
                   const Spacer(),
                   TextButton(
-                      onPressed: () {
-                        buildDormitoryBottomSheet(context, ref);
-                      },
+                      onPressed: () {},
                       child: Text(
                         "행복기숙사",
-                        style: GoogleFonts.notoSans(
-                            fontSize: 14, fontWeight: FontWeight.w600, color: ColorConstant.primary),
+                        style: GoogleFonts.notoSans(fontSize: 14, fontWeight: FontWeight.w600, color: AppColor.primary),
                       )),
                   const Icon(arrowDropDown)
                 ],
@@ -84,8 +102,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                     },
                     child: Text(
                       buildThemeText(convertToThemeMode(AdaptiveTheme.of(context).mode)),
-                      style:
-                          GoogleFonts.notoSans(fontSize: 14, fontWeight: FontWeight.w600, color: ColorConstant.primary),
+                      style: GoogleFonts.notoSans(fontSize: 14, fontWeight: FontWeight.w600, color: AppColor.primary),
                     ),
                   ),
                   const Icon(arrowDropDown)

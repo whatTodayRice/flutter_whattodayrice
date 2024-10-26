@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_whattodayrice/data/models/meal.dart';
+import 'package:flutter_whattodayrice/data/models/enum/enum_meal_type.dart';
 import 'package:flutter_whattodayrice/common/theme/text_styles.dart';
 
 const kMainScreenTitleText = Text('세종기숙사');
@@ -39,30 +38,6 @@ class MealAvailableTimeText extends StatelessWidget {
   }
 }
 
-class MealCategoryIcon extends StatelessWidget {
-  const MealCategoryIcon({
-    super.key,
-    required this.mealType,
-  });
-
-  final MealType mealType;
-
-  static const Map<dynamic, IconData> mealIcons = {
-    MealType.breakfast: Icons.wb_twilight_rounded,
-    MealType.lunch: Icons.sunny,
-    MealType.dinner: Icons.mode_night_rounded,
-    // 추가적인 식사 시간 타입 및 아이콘을 여기에 추가할 수 있습니다.
-  };
-
-  @override
-  Widget build(BuildContext context) {
-    final selectedIcon = mealIcons[mealType] ?? Icons.sunny;
-    return Icon(
-      selectedIcon, //시간에 따라 아이콘 변경하기
-      size: 18.w,
-    );
-  }
-}
 //아침 ,점심, 저녁 아이콘 변경하기
 
 class MealCategoryText extends StatelessWidget {
