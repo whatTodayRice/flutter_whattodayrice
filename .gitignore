@@ -48,3 +48,6 @@ upload-keystore.jks
 
 # GCP user key
 what-today-rice-59c5ef0ce9af.json
+
+# Supabase Env
+/lib/config/supa_base_env.dart
