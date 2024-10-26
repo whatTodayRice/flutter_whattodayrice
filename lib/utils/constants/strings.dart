@@ -1,0 +1,4 @@
+const defaultApiKey =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhnZmVleXR4ZGZ0ZW9pemlrenV0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjYyMDY3NTMsImV4cCI6MjA0MTc4Mjc1M30.a_bwLBwoQfjeUe5TS9Tu4Z7ZcqyelWG0kboR1W1wN50";
+
+const baseUrl = "https://hgfeeytxdfteoizikzut.supabase.co/";

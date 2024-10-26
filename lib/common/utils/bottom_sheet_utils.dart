@@ -1,6 +1,5 @@
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_whattodayrice/presentation/view/components/button_template.dart';
 
@@ -70,7 +69,6 @@ void buildThemeBottomSheet(
 //dormitory에 대한 bottom sheet 내용 구성
 void buildDormitoryBottomSheet(
   BuildContext context,
-  WidgetRef ref,
 ) {
   final content = Column(
     children: [
