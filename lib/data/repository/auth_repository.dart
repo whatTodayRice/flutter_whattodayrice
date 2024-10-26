@@ -1,4 +1,5 @@
-import 'package:flutter_whattodayrice/data/data_source/core/api_response.dart';
+import 'package:flutter_whattodayrice/data/data_sources/remote/core/api_response.dart';
+import 'package:flutter_whattodayrice/data/models/profile.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 abstract interface class AuthRepository {
@@ -12,5 +13,7 @@ abstract interface class AuthRepository {
 
   Future<ApiResponse<Session>> getInitialSession();
 
-  Future<ApiResponse<User>> getUserProfile();
+  Future<ApiResponse<Profile>> getUserProfile();
+
+  Profile? get userProfile;
 }

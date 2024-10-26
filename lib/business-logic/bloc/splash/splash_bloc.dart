@@ -1,11 +1,10 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_whattodayrice/config/router/route_config.dart';
 import 'package:flutter_whattodayrice/data/repository/auth_repository.dart';
 
 part 'splash_event.dart';
 part 'splash_state.dart';
-
-enum AppRouteState { signIn, home, register }
 
 class SplashBloc extends Bloc<SplashEvent, SplashState> {
   final AuthRepository authRepository;
@@ -24,7 +23,7 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
     final response = await authRepository.getInitialSession();
 
     if (response.succeedData == null) {
-      emit(SplashLoaded(routeName: AppRouteState.signIn.name));
+      emit(SplashLoaded(routeName: AppRouteState.loginInfo.name));
 
       return;
     }
@@ -41,11 +40,11 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
     final response = await authRepository.getUserProfile();
 
     if (response.succeedData == null) {
-      emit(SplashLoaded(routeName: AppRouteState.signIn.name));
+      emit(SplashLoaded(routeName: AppRouteState.loginInfo.name));
 
       return;
     }
 
-    emit(SplashLoaded(routeName: AppRouteState.home.name));
+    emit(SplashLoaded(routeName: AppRouteState.meal.name));
   }
 }

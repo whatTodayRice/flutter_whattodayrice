@@ -1,43 +1,29 @@
 import 'dart:async';
 
-import 'package:flutter_whattodayrice/data/data_source/auth_remote_data_source.dart';
-import 'package:flutter_whattodayrice/data/data_source/core/api_response.dart';
+import 'package:flutter_whattodayrice/data/data_sources/remote/core/api_response.dart';
+import 'package:flutter_whattodayrice/data/data_sources/remote/auth_remote_data_source.dart';
+import 'package:flutter_whattodayrice/data/models/profile.dart';
 import 'package:flutter_whattodayrice/data/repository/auth_repository.dart';
+import 'package:injectable/injectable.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+@LazySingleton(as: AuthRepository)
 class AuthRepositoryImpl implements AuthRepository {
-  /* 초기화 부분 */
-  late final AuthRemoteDataSource _authRemoteDataSource;
+  final AuthRemoteDataSource authRemoteDataSource;
 
-  AuthRepositoryImpl._internal(AuthRemoteDataSource authRemoteDataSource) {
-    _authRemoteDataSource = authRemoteDataSource;
-  }
+  AuthRepositoryImpl({required this.authRemoteDataSource});
 
-  static AuthRepositoryImpl? _instance;
-
-  factory AuthRepositoryImpl({required AuthRemoteDataSource authRemoteDataSource}) {
-    _instance ??= AuthRepositoryImpl._internal(authRemoteDataSource);
-
-    return _instance!;
-  }
-
-  AuthRepositoryImpl getInstance() {
-    if (_instance == null) {
-      throw Exception("AuthRepositoryImpl instance를 먼저 초기화해주세요");
-    }
-
-    return _instance!;
-  }
+  Profile? _userProfile;
 
   @override
-  Future<ApiResponse<bool>> signInWithKakao() => _authRemoteDataSource.signInWithKakao();
+  Future<ApiResponse<bool>> signInWithKakao() => authRemoteDataSource.signInWithKakao();
 
   @override
   Future<ApiResponse<AuthResponse>> signInByEmail({
     required String email,
     required String password,
   }) =>
-      _authRemoteDataSource.signInByEmail(
+      authRemoteDataSource.signInByEmail(
         email: email,
         password: password,
       );
@@ -47,20 +33,27 @@ class AuthRepositoryImpl implements AuthRepository {
     required String email,
     required String password,
   }) =>
-      _authRemoteDataSource.signUpNewUserByEmail(
+      authRemoteDataSource.signUpNewUserByEmail(
         email: email,
         password: password,
       );
 
   @override
-  Future<ApiResponse<void>> signOut() => _authRemoteDataSource.signOut();
+  Future<ApiResponse<void>> signOut() => authRemoteDataSource.signOut();
 
   @override
-  Future<ApiResponse<Session>> getInitialSession() => _authRemoteDataSource.getInitialSession();
+  Future<ApiResponse<Session>> getInitialSession() => authRemoteDataSource.getInitialSession();
 
   // TODO: 추후 cache 구현 필요
   @override
-  Future<ApiResponse<User>> getUserProfile() async {
-    return await _authRemoteDataSource.getUserProfile();
+  Future<ApiResponse<Profile>> getUserProfile() async {
+    final response = await authRemoteDataSource.getUserProfile();
+
+    _userProfile = response.succeedData;
+
+    return response;
   }
+
+  @override
+  Profile? get userProfile => _userProfile;
 }

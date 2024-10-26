@@ -2,16 +2,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_whattodayrice/business-logic/bloc/sign_in_by_email/sign_in_by_email_bloc.dart';
-import 'package:flutter_whattodayrice/business-logic/bloc/splash/splash_bloc.dart';
-import 'package:flutter_whattodayrice/common/theme/colors.dart';
+import 'package:flutter_whattodayrice/config/router/route_config.dart';
+import 'package:flutter_whattodayrice/config/themes/app_color.dart';
 import 'package:flutter_whattodayrice/presentation/view/components/common/app_elevated_button.dart';
 import 'package:flutter_whattodayrice/presentation/view/components/common/app_text_field.dart';
 import 'package:flutter_whattodayrice/presentation/view/components/common/w_custom_close_button.dart';
+import 'package:go_router/go_router.dart';
 
 class SignInByEmailScreen extends StatefulWidget {
   const SignInByEmailScreen({super.key});
-
-  static final routeName = '/${AppRouteState.signIn.name}';
 
   @override
   State<SignInByEmailScreen> createState() => _SignInByEmailScreenState();
@@ -70,7 +69,7 @@ class _SignInByEmailScreenState extends State<SignInByEmailScreen> {
     return BlocListener<SignInByEmailBloc, SignInByEmailState>(
       listener: (context, state) {
         if (state is SignInByEmailSucceed) {
-          Navigator.of(context).popAndPushNamed("/${AppRouteState.home.name}");
+          context.go("/${AppRouteState.home.name}");
         }
       },
       child: Scaffold(
@@ -89,7 +88,8 @@ class _SignInByEmailScreenState extends State<SignInByEmailScreen> {
                 controller: _emailController,
                 focusNode: _emailFocusNode,
                 hintText: "이메일",
-                suffixIcon: CustomCloseButton(
+                suffixIcon: CustomTextFieldSuffixIcon(
+                  icon: const Icon(Icons.cancel, size: 24, color: AppColor.gray2),
                   onPressed: () {
                     _emailController.clear();
                     _emailFocusNode.requestFocus();
@@ -139,7 +139,7 @@ class _SignInByEmailScreenState extends State<SignInByEmailScreen> {
                     child: AppElevatedButton(
                       title: "로그인",
                       textStyle: Theme.of(context).textTheme.titleSmall!,
-                      backgroundColor: ColorConstant.primary,
+                      backgroundColor: AppColor.primary,
                       foregroundColor: Colors.white,
                       disabledBackgroundColor: Colors.white,
                       disabledForegroundColor: Colors.grey,
