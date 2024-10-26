@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_whattodayrice/data/models/enum/enum_post_type.dart';
+import 'package:flutter_whattodayrice/data/models/enum/enum_trade_type.dart';
 import 'package:flutter_whattodayrice/data/models/post.dart';
 import 'package:flutter_whattodayrice/data/repository/auth_repository.dart';
 import 'package:flutter_whattodayrice/data/repository/post_repository.dart';
