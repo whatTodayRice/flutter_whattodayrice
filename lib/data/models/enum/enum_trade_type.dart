@@ -1,0 +1,1 @@
+enum TradeType { sell, shared }
