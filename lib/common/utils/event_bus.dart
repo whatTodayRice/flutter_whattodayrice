@@ -4,7 +4,7 @@ import 'package:flutter_whattodayrice/data/models/post.dart';
 import 'package:injectable/injectable.dart';
 
 // test 2
-
+// test 3
 @LazySingleton()
 class EventBus {
   static final EventBus _instance = EventBus._internal();
