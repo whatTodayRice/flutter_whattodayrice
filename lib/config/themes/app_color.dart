@@ -23,6 +23,8 @@ abstract class AppColor {
   static const Color homeOptionBackgroundColor = Color(0xffFFFAF8);
   static const Color black2 = Color(0xff121212);
 
+  static const black000000 = Color(0xFF000000);
+
   static const yellow = Color(0xfffee500);
   static const grayD9D9D9 = Color(0xffD9D9D9);
   static const grayE2E2E2 = Color(0xffE2E2E2);
@@ -41,6 +43,7 @@ abstract class AppColor {
   static const gray727272 = Color(0xFF727272);
   static const grayA4A4A4 = Color(0xFFA4A4A4);
   static const grayA0A0A0 = Color(0xFFA0A0A0);
+  static const grayCBCBCB = Color(0xFFCBCBCB);
   static const borderGray = Color(0xFFEFEFEF);
 
   static const white1 = Color(0xFFF8F8F8);
