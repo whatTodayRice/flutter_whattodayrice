@@ -7,7 +7,7 @@ part 'profile.g.dart';
 class Profile with _$Profile {
   @JsonSerializable()
   const factory Profile({
-    required String id,
+    required int id,
     required String nickname,
   }) = _Profile;
   factory Profile.fromJson(Map<String, dynamic> json) => _$ProfileFromJson(json);

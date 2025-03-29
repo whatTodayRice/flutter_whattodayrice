@@ -27,10 +27,7 @@ class DefaultFirebaseOptions {
       case TargetPlatform.macOS:
         return macos;
       case TargetPlatform.windows:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for windows - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return windows;
       case TargetPlatform.linux:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for linux - '
@@ -49,33 +46,44 @@ class DefaultFirebaseOptions {
     messagingSenderId: '816854486784',
     projectId: 'what-today-rice',
     authDomain: 'what-today-rice.firebaseapp.com',
-    storageBucket: 'what-today-rice.appspot.com',
+    storageBucket: 'what-today-rice.firebasestorage.app',
     measurementId: 'G-FV6W1NRCM4',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyBXCwiZCNIe5GnsUT7Rq4gCh_rgFGjsmEg',
-    appId: '1:816854486784:android:2556c61ae232243ddaade5',
+    appId: '1:816854486784:android:f7b18de5c0778747daade5',
     messagingSenderId: '816854486784',
     projectId: 'what-today-rice',
-    storageBucket: 'what-today-rice.appspot.com',
+    storageBucket: 'what-today-rice.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyAj39hFlIZp-DH9f3KMpwdBIyhMZ59IRj4',
-    appId: '1:816854486784:ios:99f26afcbecd865edaade5',
+    appId: '1:816854486784:ios:6f16d451ab12eedfdaade5',
     messagingSenderId: '816854486784',
     projectId: 'what-today-rice',
-    storageBucket: 'what-today-rice.appspot.com',
-    iosBundleId: 'com.example.flutterWhattodayrice',
+    storageBucket: 'what-today-rice.firebasestorage.app',
+    iosBundleId: 'com.example.whatTodayRice',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
     apiKey: 'AIzaSyAj39hFlIZp-DH9f3KMpwdBIyhMZ59IRj4',
-    appId: '1:816854486784:ios:55cad69ca56b318cdaade5',
+    appId: '1:816854486784:ios:99f26afcbecd865edaade5',
     messagingSenderId: '816854486784',
     projectId: 'what-today-rice',
-    storageBucket: 'what-today-rice.appspot.com',
-    iosBundleId: 'com.example.flutterWhattodayrice.RunnerTests',
+    storageBucket: 'what-today-rice.firebasestorage.app',
+    iosBundleId: 'com.example.flutterWhattodayrice',
   );
+
+  static const FirebaseOptions windows = FirebaseOptions(
+    apiKey: 'AIzaSyAZS3u0kgTdz0BLoGXHlST5HN-mZG_Ronw',
+    appId: '1:816854486784:web:98ba3642567ac428daade5',
+    messagingSenderId: '816854486784',
+    projectId: 'what-today-rice',
+    authDomain: 'what-today-rice.firebaseapp.com',
+    storageBucket: 'what-today-rice.firebasestorage.app',
+    measurementId: 'G-J5VT5WR58D',
+  );
+
 }

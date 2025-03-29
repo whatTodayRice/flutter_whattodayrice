@@ -2,14 +2,16 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_whattodayrice/config/router/route_config.dart';
 import 'package:flutter_whattodayrice/data/repository/auth_repository.dart';
+import 'package:flutter_whattodayrice/data/repository/user_repository.dart';
 
 part 'splash_event.dart';
 part 'splash_state.dart';
 
 class SplashBloc extends Bloc<SplashEvent, SplashState> {
   final AuthRepository authRepository;
+  final UserRepository userRepository;
 
-  SplashBloc({required this.authRepository}) : super(const SplashInitial()) {
+  SplashBloc({required this.authRepository, required this.userRepository}) : super(const SplashInitial()) {
     on<SplashSessionRequested>(_onSplashSessionRequested);
     on<SplashUserRequested>(_onSplashUserRequested);
   }
@@ -20,10 +22,10 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
   ) async {
     emit(const SplashLoading());
 
-    final response = await authRepository.getInitialSession();
+    final accessToken = await authRepository.getAccessTokenFromCache();
 
-    if (response.succeedData == null) {
-      emit(SplashLoaded(routeName: AppRouteState.loginInfo.name));
+    if (accessToken == null) {
+      emit(SplashLoaded(routeName: AppRouteState.signIn.name));
 
       return;
     }
@@ -37,10 +39,10 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
   ) async {
     emit(const SplashLoading());
 
-    final response = await authRepository.getUserProfile();
+    final response = await userRepository.getUserProfile();
 
     if (response.succeedData == null) {
-      emit(SplashLoaded(routeName: AppRouteState.loginInfo.name));
+      emit(SplashLoaded(routeName: AppRouteState.signIn.name));
 
       return;
     }

@@ -2,7 +2,6 @@ import 'package:flutter_whattodayrice/data/data_sources/remote/core/api_response
 import 'package:flutter_whattodayrice/data/data_sources/remote/post_remote_data_source.dart';
 import 'package:flutter_whattodayrice/data/models/comment.dart';
 import 'package:flutter_whattodayrice/data/models/post.dart';
-import 'package:flutter_whattodayrice/data/models/requests/supabase_request.dart';
 import 'package:flutter_whattodayrice/data/repository/post_repository.dart';
 import 'package:injectable/injectable.dart';
 
@@ -16,73 +15,46 @@ class PostRepositoryImpl implements PostRepository {
 
   final int pageSize = 20;
 
-  /// 게시글
   @override
-  Future<ApiResponse<List<Post>>> getPosts({required int page, required String postType}) =>
-      postRemoteDataSource.getPosts(
-        postType: postType,
-        page: page,
-      );
-
-  @override
-  Future<ApiResponse<Post>> getPost({required String postId}) async {
-    final SupabaseRequest request = SupabaseRequest(
-      table: "posts",
-      columnValue: [postId],
-    );
-
-    return await postRemoteDataSource.getPost(request: request);
+  Future<ApiResponse<Comment>> addComment({required String userId, required String postId, required String content}) {
+    // TODO: implement addComment
+    throw UnimplementedError();
   }
 
   @override
-  Future<ApiResponse<Post>> addPost({
-    required String postType,
-    required String title,
-    required String content,
-    required String userId,
-  }) =>
-      postRemoteDataSource.addPost(
-        postType: postType,
-        title: title,
-        content: content,
-        userId: userId,
-      );
-
-  @override
-  Future<ApiResponse> deletePost({required String postId}) async {
-    final SupabaseRequest request = SupabaseRequest(table: "posts", columnValue: [postId]);
-
-    return await postRemoteDataSource.deletePost(request: request);
+  Future<ApiResponse<Post>> addPost(
+      {required String userId, required String postType, required String title, required String content}) {
+    // TODO: implement addPost
+    throw UnimplementedError();
   }
 
-  /// 댓글
   @override
-  Future<ApiResponse<List<Comment>>> getComments({
-    required int page,
-    required String postId,
-  }) =>
-      postRemoteDataSource.getComments(postId: postId, page: page);
+  Future<ApiResponse> deleteComment({required String commentId}) {
+    // TODO: implement deleteComment
+    throw UnimplementedError();
+  }
 
   @override
-  Future<ApiResponse<Comment>> addComment({
-    required String userId,
-    required String postId,
-    required String content,
-  }) =>
-      postRemoteDataSource.addComment(
-        userId: userId,
-        postId: postId,
-        content: content,
-      );
+  Future<ApiResponse> deletePost({required String postId}) {
+    // TODO: implement deletePost
+    throw UnimplementedError();
+  }
 
   @override
-  Future<ApiResponse> deleteComment({required String commentId}) async {
-    final SupabaseRequest request = SupabaseRequest(
-      table: "comments",
-      columns: ["id"],
-      columnValue: [commentId],
-    );
+  Future<ApiResponse<List<Comment>>> getComments({required int page, required String postId}) {
+    // TODO: implement getComments
+    throw UnimplementedError();
+  }
 
-    return await postRemoteDataSource.deleteComment(request: request);
+  @override
+  Future<ApiResponse<Post>> getPost({required String postId}) {
+    // TODO: implement getPost
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<ApiResponse<List<Post>>> getPosts({required int page, required String postType}) {
+    // TODO: implement getPosts
+    throw UnimplementedError();
   }
 }

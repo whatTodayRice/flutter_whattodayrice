@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_whattodayrice/business-logic/bloc/setting/setting_bloc.dart';
+import 'package:flutter_whattodayrice/modules/setting/bloc/setting_bloc.dart';
 import 'package:flutter_whattodayrice/config/router/route_config.dart';
 import 'package:flutter_whattodayrice/config/themes/app_color.dart';
 import 'package:flutter_whattodayrice/common/theme/text_template.dart';
@@ -55,7 +55,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         child: BlocListener<SettingBloc, SettingState>(
           listener: (context, state) {
             if (state is SettingLoaded && state.isLogOut == true) {
-              context.goNamed(AppRouteState.loginInfo.name);
+              context.goNamed(AppRouteState.signIn.name);
 
               return;
             }

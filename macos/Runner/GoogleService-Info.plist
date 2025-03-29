@@ -9,11 +9,11 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.example.flutterWhattodayrice.RunnerTests</string>
+	<string>com.example.flutterWhattodayrice</string>
 	<key>PROJECT_ID</key>
 	<string>what-today-rice</string>
 	<key>STORAGE_BUCKET</key>
-	<string>what-today-rice.appspot.com</string>
+	<string>what-today-rice.firebasestorage.app</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -25,6 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:816854486784:ios:55cad69ca56b318cdaade5</string>
+	<string>1:816854486784:ios:99f26afcbecd865edaade5</string>
 </dict>
 </plist>

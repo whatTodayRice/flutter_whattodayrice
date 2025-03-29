@@ -6,7 +6,8 @@ part of 'trade_details.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$TradeDetailsImpl _$$TradeDetailsImplFromJson(Map<String, dynamic> json) => _$TradeDetailsImpl(
+_$TradeDetailsImpl _$$TradeDetailsImplFromJson(Map<String, dynamic> json) =>
+    _$TradeDetailsImpl(
       id: json['id'] as String,
       postId: json['post_id'] as String,
       price: (json['price'] as num).toInt(),
@@ -16,7 +17,8 @@ _$TradeDetailsImpl _$$TradeDetailsImplFromJson(Map<String, dynamic> json) => _$T
       imageUrl: json['image_url'] as String,
     );
 
-Map<String, dynamic> _$$TradeDetailsImplToJson(_$TradeDetailsImpl instance) => <String, dynamic>{
+Map<String, dynamic> _$$TradeDetailsImplToJson(_$TradeDetailsImpl instance) =>
+    <String, dynamic>{
       'id': instance.id,
       'post_id': instance.postId,
       'price': instance.price,

@@ -75,7 +75,8 @@ class CommentBloc extends Bloc<CommentEvent, CommentState> {
     Emitter<CommentState> emit,
   ) async {
     final response = await postRepository.addComment(
-      userId: authRepository.userProfile!.id,
+      // TODO
+      userId: "",
       postId: postId,
       content: content,
     );

@@ -21,7 +21,7 @@ class KakaoButton extends StatelessWidget {
             const Spacer(),
             Text(
               "카카오 로그인",
-              style: Theme.of(context).textTheme.titleSmall!.copyWith(color: Colors.black.withOpacity(0.85)),
+              style: Theme.of(context).textTheme.titleSmall!.copyWith(color: Colors.black.withValues(alpha: 0.85)),
             ),
             const Spacer(),
           ],
