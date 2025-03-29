@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_whattodayrice/common/theme/colors.dart';
 import 'package:flutter_whattodayrice/common/theme/text_template.dart';
+import 'package:flutter_whattodayrice/config/themes/app_color.dart';
 
 class NotiContainer extends StatelessWidget {
   final double width;

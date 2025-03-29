@@ -12,14 +12,14 @@ class SecondHandRepositoryImpl implements SecondHandRepository {
   const SecondHandRepositoryImpl({required this.secondHandRemoteDataSource});
 
   @override
-  Future<ApiResponse<TradeDetails>> getTradeDetails({required SupabaseRequest request}) =>
-      secondHandRemoteDataSource.getTradeDetails(
-        request: request,
-      );
+  Future<ApiResponse<TradeDetails>> getTradeDetails({required SupabaseRequest request}) {
+    // TODO: implement getTradeDetails
+    throw UnimplementedError();
+  }
 
   @override
-  Future<ApiResponse<List<TradeDetails>>> getTradeDetailsList({required SupabaseRequest request}) =>
-      secondHandRemoteDataSource.getTradeDetailsList(
-        request: request,
-      );
+  Future<ApiResponse<List<TradeDetails>>> getTradeDetailsList({required SupabaseRequest request}) {
+    // TODO: implement getTradeDetailsList
+    throw UnimplementedError();
+  }
 }

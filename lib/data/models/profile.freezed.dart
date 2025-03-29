@@ -20,7 +20,7 @@ Profile _$ProfileFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Profile {
-  String get id => throw _privateConstructorUsedError;
+  int get id => throw _privateConstructorUsedError;
   String get nickname => throw _privateConstructorUsedError;
 
   /// Serializes this Profile to a JSON map.
@@ -35,9 +35,9 @@ mixin _$Profile {
 /// @nodoc
 abstract class $ProfileCopyWith<$Res> {
   factory $ProfileCopyWith(Profile value, $Res Function(Profile) then) =
-  _$ProfileCopyWithImpl<$Res, Profile>;
+      _$ProfileCopyWithImpl<$Res, Profile>;
   @useResult
-  $Res call({String id, String nickname});
+  $Res call({int id, String nickname});
 }
 
 /// @nodoc
@@ -62,11 +62,11 @@ class _$ProfileCopyWithImpl<$Res, $Val extends Profile>
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-      as String,
+              as int,
       nickname: null == nickname
           ? _value.nickname
           : nickname // ignore: cast_nullable_to_non_nullable
-      as String,
+              as String,
     ) as $Val);
   }
 }
@@ -74,11 +74,11 @@ class _$ProfileCopyWithImpl<$Res, $Val extends Profile>
 /// @nodoc
 abstract class _$$ProfileImplCopyWith<$Res> implements $ProfileCopyWith<$Res> {
   factory _$$ProfileImplCopyWith(
-      _$ProfileImpl value, $Res Function(_$ProfileImpl) then) =
-  __$$ProfileImplCopyWithImpl<$Res>;
+          _$ProfileImpl value, $Res Function(_$ProfileImpl) then) =
+      __$$ProfileImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String id, String nickname});
+  $Res call({int id, String nickname});
 }
 
 /// @nodoc
@@ -101,11 +101,11 @@ class __$$ProfileImplCopyWithImpl<$Res>
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-      as String,
+              as int,
       nickname: null == nickname
           ? _value.nickname
           : nickname // ignore: cast_nullable_to_non_nullable
-      as String,
+              as String,
     ));
   }
 }
@@ -120,7 +120,7 @@ class _$ProfileImpl implements _Profile {
       _$$ProfileImplFromJson(json);
 
   @override
-  final String id;
+  final int id;
   @override
   final String nickname;
 
@@ -161,13 +161,12 @@ class _$ProfileImpl implements _Profile {
 
 abstract class _Profile implements Profile {
   const factory _Profile(
-      {required final String id,
-        required final String nickname}) = _$ProfileImpl;
+      {required final int id, required final String nickname}) = _$ProfileImpl;
 
   factory _Profile.fromJson(Map<String, dynamic> json) = _$ProfileImpl.fromJson;
 
   @override
-  String get id;
+  int get id;
   @override
   String get nickname;
 

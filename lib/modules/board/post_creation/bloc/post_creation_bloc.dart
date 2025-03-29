@@ -106,7 +106,8 @@ class PostCreationBloc extends Bloc<PostCreationEvent, PostCreationState> {
   ) async {
     final response = await postRepository.addPost(
       postType: postType.name,
-      userId: authRepository.userProfile!.id.toString(),
+      // TODO
+      userId: "",
       title: title,
       content: content,
     );

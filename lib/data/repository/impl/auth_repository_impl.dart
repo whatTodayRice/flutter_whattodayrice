@@ -1,59 +1,45 @@
 import 'dart:async';
 
+import 'package:flutter_whattodayrice/data/data_sources/local/auth_local_data_source.dart';
 import 'package:flutter_whattodayrice/data/data_sources/remote/core/api_response.dart';
 import 'package:flutter_whattodayrice/data/data_sources/remote/auth_remote_data_source.dart';
-import 'package:flutter_whattodayrice/data/models/profile.dart';
 import 'package:flutter_whattodayrice/data/repository/auth_repository.dart';
 import 'package:injectable/injectable.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 
 @LazySingleton(as: AuthRepository)
 class AuthRepositoryImpl implements AuthRepository {
+  final AuthLocalDataSource authLocalDataSource;
   final AuthRemoteDataSource authRemoteDataSource;
 
-  AuthRepositoryImpl({required this.authRemoteDataSource});
-
-  Profile? _userProfile;
+  AuthRepositoryImpl({required this.authRemoteDataSource, required this.authLocalDataSource});
 
   @override
-  Future<ApiResponse<bool>> signInWithKakao() => authRemoteDataSource.signInWithKakao();
+  Future<ApiResponse<OAuthToken?>> signInWithKakaoTalk() => authRemoteDataSource.signInWithKakaoTalk().then(
+        (value) async {
+          if (value.succeedData != null) {
+            updateAccessToken(value.succeedData!.accessToken);
+          }
 
-  @override
-  Future<ApiResponse<AuthResponse>> signInByEmail({
-    required String email,
-    required String password,
-  }) =>
-      authRemoteDataSource.signInByEmail(
-        email: email,
-        password: password,
+          return value;
+        },
       );
 
   @override
-  Future<ApiResponse<AuthResponse>> signUpNewUserByEmail({
-    required String email,
-    required String password,
-  }) =>
-      authRemoteDataSource.signUpNewUserByEmail(
-        email: email,
-        password: password,
+  Future<ApiResponse<bool?>> signOut() => authRemoteDataSource.logoutKakao().then(
+        (value) async {
+          await clearAccessToken();
+
+          return value;
+        },
       );
 
   @override
-  Future<ApiResponse<void>> signOut() => authRemoteDataSource.signOut();
+  FutureOr<String?> getAccessTokenFromCache() => authLocalDataSource.getAccessToken();
 
   @override
-  Future<ApiResponse<Session>> getInitialSession() => authRemoteDataSource.getInitialSession();
-
-  // TODO: 추후 cache 구현 필요
-  @override
-  Future<ApiResponse<Profile>> getUserProfile() async {
-    final response = await authRemoteDataSource.getUserProfile();
-
-    _userProfile = response.succeedData;
-
-    return response;
-  }
+  Future<void> updateAccessToken(String oauthToken) => authLocalDataSource.setAccessToken(oauthToken);
 
   @override
-  Profile? get userProfile => _userProfile;
+  Future<void> clearAccessToken() => authLocalDataSource.clearAccessToken();
 }

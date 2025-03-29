@@ -1,14 +1,13 @@
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_whattodayrice/config/di/di.dart';
-import 'package:flutter_whattodayrice/config/supa_base_env.dart';
+import 'package:flutter_whattodayrice/config/kakao_config.dart';
 import 'package:flutter_whattodayrice/config/themes/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_whattodayrice/config/router/route_config.dart';
 import 'package:flutter_whattodayrice/utils/log/app_bloc_observer.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import 'firebase_options.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -19,16 +18,17 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  final supabaseEnv = SuPaBaseEnv.instance;
-
-  await Supabase.initialize(
-    url: supabaseEnv.projectURL,
-    anonKey: supabaseEnv.projectApiKey,
-  );
+  // TODO: 추후 제거 필요
+  // final supabaseEnv = SuPaBaseEnv.instance;
+  //
+  // await Supabase.initialize(
+  //   url: supabaseEnv.projectURL,
+  //   anonKey: supabaseEnv.projectApiKey,
+  // );
 
   KakaoSdk.init(
-    nativeAppKey: supabaseEnv.kaKaoClientId,
-    javaScriptAppKey: supabaseEnv.kaKaoJsClientId,
+    nativeAppKey: KakaoConfig.nativeAppKey,
+    javaScriptAppKey: KakaoConfig.javascriptAppKey,
   );
 
   Bloc.observer = AppBlocObserver();

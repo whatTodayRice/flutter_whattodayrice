@@ -1,19 +1,16 @@
+import 'dart:async';
+
 import 'package:flutter_whattodayrice/data/data_sources/remote/core/api_response.dart';
-import 'package:flutter_whattodayrice/data/models/profile.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 
 abstract interface class AuthRepository {
-  Future<ApiResponse<bool>> signInWithKakao();
+  FutureOr<String?> getAccessTokenFromCache();
 
-  Future<ApiResponse<AuthResponse>> signUpNewUserByEmail({required String email, required String password});
+  Future<ApiResponse<OAuthToken?>> signInWithKakaoTalk();
 
-  Future<ApiResponse<AuthResponse>> signInByEmail({required String email, required String password});
+  Future<ApiResponse<bool?>> signOut();
 
-  Future<ApiResponse<void>> signOut();
+  Future<void> updateAccessToken(String oauthToken);
 
-  Future<ApiResponse<Session>> getInitialSession();
-
-  Future<ApiResponse<Profile>> getUserProfile();
-
-  Profile? get userProfile;
+  Future<void> clearAccessToken();
 }

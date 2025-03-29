@@ -26,8 +26,11 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
+	    <!-- 카카오톡으로 로그인 -->
 		<string>kakaokompassauth</string>
+		<!-- 카카오톡으로 공유 -->
 		<string>kakaolink</string>
+		<!-- 카카오톡 채널 -->
 		<string>kakaoplus</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>
@@ -60,7 +63,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.example.whatTodayRice</string>
+				<string>kakaofae09a789296ff73d9a6d96fd04cc2b3</string>
 			</array>
 		</dict>
 	</array>

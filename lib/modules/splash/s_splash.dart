@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_whattodayrice/business-logic/bloc/splash/splash_bloc.dart';
+import 'package:flutter_whattodayrice/modules/splash/bloc/splash_bloc.dart';
 import 'package:flutter_whattodayrice/config/router/route_config.dart';
 import 'package:flutter_whattodayrice/config/themes/app_color.dart';
 import 'package:go_router/go_router.dart';
@@ -24,7 +24,7 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return BlocListener<SplashBloc, SplashState>(
       listener: (context, state) {
-        if (state is SplashLoaded && state.routeName == AppRouteState.loginInfo.name) {
+        if (state is SplashLoaded && state.routeName == AppRouteState.signIn.name) {
           context.goNamed(state.routeName);
 
           return;

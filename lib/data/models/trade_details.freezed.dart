@@ -39,12 +39,14 @@ mixin _$TradeDetails {
   /// Create a copy of TradeDetails
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $TradeDetailsCopyWith<TradeDetails> get copyWith => throw _privateConstructorUsedError;
+  $TradeDetailsCopyWith<TradeDetails> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $TradeDetailsCopyWith<$Res> {
-  factory $TradeDetailsCopyWith(TradeDetails value, $Res Function(TradeDetails) then) =
+  factory $TradeDetailsCopyWith(
+          TradeDetails value, $Res Function(TradeDetails) then) =
       _$TradeDetailsCopyWithImpl<$Res, TradeDetails>;
   @useResult
   $Res call(
@@ -53,12 +55,14 @@ abstract class $TradeDetailsCopyWith<$Res> {
       int price,
       @JsonKey(name: "is_share") bool isShared,
       @JsonKey(name: "location") String tradeLocation,
-      @JsonKey(name: "status", fromJson: TradeStatus.fromString) TradeStatus tradeStatus,
+      @JsonKey(name: "status", fromJson: TradeStatus.fromString)
+      TradeStatus tradeStatus,
       @JsonKey(name: "image_url") String imageUrl});
 }
 
 /// @nodoc
-class _$TradeDetailsCopyWithImpl<$Res, $Val extends TradeDetails> implements $TradeDetailsCopyWith<$Res> {
+class _$TradeDetailsCopyWithImpl<$Res, $Val extends TradeDetails>
+    implements $TradeDetailsCopyWith<$Res> {
   _$TradeDetailsCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
@@ -113,8 +117,10 @@ class _$TradeDetailsCopyWithImpl<$Res, $Val extends TradeDetails> implements $Tr
 }
 
 /// @nodoc
-abstract class _$$TradeDetailsImplCopyWith<$Res> implements $TradeDetailsCopyWith<$Res> {
-  factory _$$TradeDetailsImplCopyWith(_$TradeDetailsImpl value, $Res Function(_$TradeDetailsImpl) then) =
+abstract class _$$TradeDetailsImplCopyWith<$Res>
+    implements $TradeDetailsCopyWith<$Res> {
+  factory _$$TradeDetailsImplCopyWith(
+          _$TradeDetailsImpl value, $Res Function(_$TradeDetailsImpl) then) =
       __$$TradeDetailsImplCopyWithImpl<$Res>;
   @override
   @useResult
@@ -124,14 +130,17 @@ abstract class _$$TradeDetailsImplCopyWith<$Res> implements $TradeDetailsCopyWit
       int price,
       @JsonKey(name: "is_share") bool isShared,
       @JsonKey(name: "location") String tradeLocation,
-      @JsonKey(name: "status", fromJson: TradeStatus.fromString) TradeStatus tradeStatus,
+      @JsonKey(name: "status", fromJson: TradeStatus.fromString)
+      TradeStatus tradeStatus,
       @JsonKey(name: "image_url") String imageUrl});
 }
 
 /// @nodoc
-class __$$TradeDetailsImplCopyWithImpl<$Res> extends _$TradeDetailsCopyWithImpl<$Res, _$TradeDetailsImpl>
+class __$$TradeDetailsImplCopyWithImpl<$Res>
+    extends _$TradeDetailsCopyWithImpl<$Res, _$TradeDetailsImpl>
     implements _$$TradeDetailsImplCopyWith<$Res> {
-  __$$TradeDetailsImplCopyWithImpl(_$TradeDetailsImpl _value, $Res Function(_$TradeDetailsImpl) _then)
+  __$$TradeDetailsImplCopyWithImpl(
+      _$TradeDetailsImpl _value, $Res Function(_$TradeDetailsImpl) _then)
       : super(_value, _then);
 
   /// Create a copy of TradeDetails
@@ -189,10 +198,12 @@ class _$TradeDetailsImpl implements _TradeDetails {
       required this.price,
       @JsonKey(name: "is_share") required this.isShared,
       @JsonKey(name: "location") required this.tradeLocation,
-      @JsonKey(name: "status", fromJson: TradeStatus.fromString) required this.tradeStatus,
+      @JsonKey(name: "status", fromJson: TradeStatus.fromString)
+      required this.tradeStatus,
       @JsonKey(name: "image_url") required this.imageUrl});
 
-  factory _$TradeDetailsImpl.fromJson(Map<String, dynamic> json) => _$$TradeDetailsImplFromJson(json);
+  factory _$TradeDetailsImpl.fromJson(Map<String, dynamic> json) =>
+      _$$TradeDetailsImplFromJson(json);
 
   @override
   final String id;
@@ -227,15 +238,20 @@ class _$TradeDetailsImpl implements _TradeDetails {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.postId, postId) || other.postId == postId) &&
             (identical(other.price, price) || other.price == price) &&
-            (identical(other.isShared, isShared) || other.isShared == isShared) &&
-            (identical(other.tradeLocation, tradeLocation) || other.tradeLocation == tradeLocation) &&
-            (identical(other.tradeStatus, tradeStatus) || other.tradeStatus == tradeStatus) &&
-            (identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl));
+            (identical(other.isShared, isShared) ||
+                other.isShared == isShared) &&
+            (identical(other.tradeLocation, tradeLocation) ||
+                other.tradeLocation == tradeLocation) &&
+            (identical(other.tradeStatus, tradeStatus) ||
+                other.tradeStatus == tradeStatus) &&
+            (identical(other.imageUrl, imageUrl) ||
+                other.imageUrl == imageUrl));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, postId, price, isShared, tradeLocation, tradeStatus, imageUrl);
+  int get hashCode => Object.hash(runtimeType, id, postId, price, isShared,
+      tradeLocation, tradeStatus, imageUrl);
 
   /// Create a copy of TradeDetails
   /// with the given fields replaced by the non-null parameter values.
@@ -255,15 +271,18 @@ class _$TradeDetailsImpl implements _TradeDetails {
 
 abstract class _TradeDetails implements TradeDetails {
   const factory _TradeDetails(
-      {required final String id,
-      @JsonKey(name: "post_id") required final String postId,
-      required final int price,
-      @JsonKey(name: "is_share") required final bool isShared,
-      @JsonKey(name: "location") required final String tradeLocation,
-      @JsonKey(name: "status", fromJson: TradeStatus.fromString) required final TradeStatus tradeStatus,
-      @JsonKey(name: "image_url") required final String imageUrl}) = _$TradeDetailsImpl;
+          {required final String id,
+          @JsonKey(name: "post_id") required final String postId,
+          required final int price,
+          @JsonKey(name: "is_share") required final bool isShared,
+          @JsonKey(name: "location") required final String tradeLocation,
+          @JsonKey(name: "status", fromJson: TradeStatus.fromString)
+          required final TradeStatus tradeStatus,
+          @JsonKey(name: "image_url") required final String imageUrl}) =
+      _$TradeDetailsImpl;
 
-  factory _TradeDetails.fromJson(Map<String, dynamic> json) = _$TradeDetailsImpl.fromJson;
+  factory _TradeDetails.fromJson(Map<String, dynamic> json) =
+      _$TradeDetailsImpl.fromJson;
 
   @override
   String get id;
@@ -289,5 +308,6 @@ abstract class _TradeDetails implements TradeDetails {
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$TradeDetailsImplCopyWith<_$TradeDetailsImpl> get copyWith => throw _privateConstructorUsedError;
+  _$$TradeDetailsImplCopyWith<_$TradeDetailsImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }

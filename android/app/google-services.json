@@ -2,7 +2,7 @@
   "project_info": {
     "project_number": "816854486784",
     "project_id": "what-today-rice",
-    "storage_bucket": "what-today-rice.appspot.com"
+    "storage_bucket": "what-today-rice.firebasestorage.app"
   },
   "client": [
     {
