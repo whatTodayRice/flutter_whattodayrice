@@ -49,9 +49,9 @@ class _CommentInputState extends State<CommentInput> {
         decoration: InputDecoration(
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(4), borderSide: BorderSide.none),
           filled: true,
-          fillColor: AppColor.gray15,
+          fillColor: AppColor.grayF6F6F6,
           hintText: "댓글을 입력해주세요.",
-          hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(color: AppColor.gray14, height: 22 / 14),
+          hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(color: AppColor.grayADADAD, height: 22 / 14),
           contentPadding: const EdgeInsets.symmetric(vertical: 9, horizontal: 10),
           isDense: true,
           suffixIcon: BlocBuilder<CommentBloc, CommentState>(

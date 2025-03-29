@@ -73,7 +73,7 @@ class _CommentItemState extends State<CommentItem> {
                           widget.comment.createdAt,
                           style: Theme.of(context).textTheme.bodySmall!.copyWith(
                                 fontSize: 11.sp,
-                                color: AppColor.gray13,
+                                color: AppColor.grayB0B7C0,
                               ),
                         ),
                       ],

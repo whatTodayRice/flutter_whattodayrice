@@ -158,10 +158,10 @@ class TitleTextField extends StatelessWidget {
       decoration: InputDecoration(
         contentPadding: EdgeInsets.all(13.w),
         hintText: '$hintText을 입력해주세요.',
-        hintStyle: Theme.of(context).textTheme.bodySmall!.copyWith(fontSize: 14.w, color: AppColor.gray11),
+        hintStyle: Theme.of(context).textTheme.bodySmall!.copyWith(fontSize: 14.w, color: AppColor.grayB2B2B2),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(4),
-          borderSide: const BorderSide(color: AppColor.gray12),
+          borderSide: const BorderSide(color: AppColor.grayDCDCDC),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(4),
@@ -169,7 +169,7 @@ class TitleTextField extends StatelessWidget {
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(4),
-          borderSide: const BorderSide(color: AppColor.gray12),
+          borderSide: const BorderSide(color: AppColor.grayDCDCDC),
         ),
       ),
     );
@@ -197,11 +197,11 @@ class ContentTextField extends StatelessWidget {
       textAlignVertical: TextAlignVertical.top,
       decoration: InputDecoration(
         hintText: hintText,
-        hintStyle: Theme.of(context).textTheme.bodySmall!.copyWith(fontSize: 14.w, color: AppColor.gray11),
+        hintStyle: Theme.of(context).textTheme.bodySmall!.copyWith(fontSize: 14.w, color: AppColor.grayB2B2B2),
         contentPadding: EdgeInsets.all(14.w),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(4),
-          borderSide: const BorderSide(color: AppColor.gray12),
+          borderSide: const BorderSide(color: AppColor.grayDCDCDC),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(4),
@@ -209,7 +209,7 @@ class ContentTextField extends StatelessWidget {
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(4),
-          borderSide: const BorderSide(color: AppColor.gray12),
+          borderSide: const BorderSide(color: AppColor.grayDCDCDC),
         ),
       ),
     );
@@ -230,7 +230,7 @@ class PostCreationCompletionButton extends StatelessWidget {
         height: 46.h,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(6),
-          color: isButtonEnabled ? AppColor.orange5 : AppColor.gray12,
+          color: isButtonEnabled ? AppColor.orange5 : AppColor.grayDCDCDC,
         ),
         child: Center(
           child: Text(

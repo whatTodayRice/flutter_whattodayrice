@@ -18,7 +18,7 @@ class PostCard extends StatelessWidget {
       width: double.infinity,
       height: 82.h,
       decoration: const BoxDecoration(
-        border: Border(bottom: BorderSide(color: AppColor.gray9)),
+        border: Border(bottom: BorderSide(color: AppColor.grayE6E6E6)),
       ),
       margin: EdgeInsets.only(top: 20.h),
       padding: EdgeInsets.only(bottom: 12.h),
@@ -49,14 +49,14 @@ class PostCard extends StatelessWidget {
             children: [
               Text(
                 "${post.nickname} | ${post.createdAt}",
-                style: Theme.of(context).textTheme.bodySmall!.copyWith(fontSize: 11, color: AppColor.gray10),
+                style: Theme.of(context).textTheme.bodySmall!.copyWith(fontSize: 11, color: AppColor.gray949494),
               ),
               const Spacer(),
               SvgPicture.asset("assets/images/icon_댓글.svg", width: 14.w, height: 14.h),
               SizedBox(width: 5.w),
               Text(
                 "${post.commentCount}",
-                style: Theme.of(context).textTheme.bodySmall!.copyWith(fontSize: 11, color: AppColor.gray10),
+                style: Theme.of(context).textTheme.bodySmall!.copyWith(fontSize: 11, color: AppColor.gray949494),
               ),
             ],
           ),

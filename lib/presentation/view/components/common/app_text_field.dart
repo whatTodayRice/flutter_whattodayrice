@@ -51,7 +51,7 @@ class AppTextField extends StatelessWidget {
           border: inputBorder,
           enabledBorder: isRequiredEnabledBorder != null
               ? const UnderlineInputBorder(
-                  borderSide: BorderSide(color: AppColor.gray3, width: 1.2),
+                  borderSide: BorderSide(color: AppColor.grayC1C1C1, width: 1.2),
                 )
               : InputBorder.none,
           focusedBorder: isRequiredFocusedBorder != null

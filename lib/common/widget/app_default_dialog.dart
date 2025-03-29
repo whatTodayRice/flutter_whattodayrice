@@ -65,12 +65,12 @@ class AppDefaultDialog extends StatelessWidget {
               content,
               style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                     fontSize: 13.sp,
-                    color: AppColor.gray16,
+                    color: AppColor.gray727272,
                   ),
               textAlign: TextAlign.center,
             ),
             SizedBox(height: 26.h),
-            const Divider(height: 1, color: AppColor.gray2, thickness: 1),
+            const Divider(height: 1, color: AppColor.grayE2E2E2, thickness: 1),
             SizedBox(
               height: 48,
               child: Row(
@@ -82,7 +82,7 @@ class AppDefaultDialog extends StatelessWidget {
                         onCancel?.call();
                       },
                       style: TextButton.styleFrom(
-                        foregroundColor: AppColor.gray17,
+                        foregroundColor: AppColor.grayA4A4A4,
                         shape: const RoundedRectangleBorder(
                           borderRadius: BorderRadius.only(
                             bottomLeft: Radius.circular(14),
@@ -92,7 +92,7 @@ class AppDefaultDialog extends StatelessWidget {
                       child: Text(cancelButtonText),
                     ),
                   ),
-                  const VerticalDivider(width: 1, color: AppColor.gray2, thickness: 1),
+                  const VerticalDivider(width: 1, color: AppColor.grayE2E2E2, thickness: 1),
                   Expanded(
                     child: TextButton(
                       onPressed: () {

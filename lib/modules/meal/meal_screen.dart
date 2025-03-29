@@ -40,7 +40,7 @@ class _MealScreenState extends State<MealScreen> {
         centerTitle: false,
         actions: [
           IconButton(
-            icon: const Icon(Icons.settings, color: AppColor.gray),
+            icon: const Icon(Icons.settings, color: AppColor.grayD9D9D9),
             onPressed: () => context.pushNamed(AppRouteState.setting.name),
           ),
         ],
