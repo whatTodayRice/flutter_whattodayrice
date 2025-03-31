@@ -21,12 +21,12 @@ final class CreatePostTitleChangeRequested extends CreatePostEvent {
 enum ProductPriceType { sell, share }
 
 final class CreatePostPriceTypeChangeRequested extends CreatePostEvent {
-  const CreatePostPriceTypeChangeRequested({required this.type});
+  const CreatePostPriceTypeChangeRequested({required this.typeIndex});
 
-  final ProductPriceType type;
+  final int typeIndex;
 
   @override
-  List<Object?> get props => [type];
+  List<Object?> get props => [typeIndex];
 }
 
 /// 가격 변경
@@ -60,18 +60,13 @@ final class CreatePostTradeLocationChangeRequested extends CreatePostEvent {
 }
 
 /// 이미지 추가
-final class CreatePostImageAddRequested extends CreatePostEvent {
-  const CreatePostImageAddRequested({required this.imageFile});
+final class CreatePostImageUrlChangeRequested extends CreatePostEvent {
+  const CreatePostImageUrlChangeRequested({required this.imageUrl});
 
-  final XFile imageFile;
+  final String imageUrl;
 
   @override
-  List<Object?> get props => [imageFile];
-}
-
-/// 이미지 삭제
-final class CreatePostImageDeleteRequested extends CreatePostEvent {
-  const CreatePostImageDeleteRequested();
+  List<Object?> get props => [imageUrl];
 }
 
 /// 글 작성 완료

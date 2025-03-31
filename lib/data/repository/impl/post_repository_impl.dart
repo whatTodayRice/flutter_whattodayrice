@@ -2,6 +2,7 @@ import 'package:flutter_whattodayrice/data/data_sources/remote/core/api_response
 import 'package:flutter_whattodayrice/data/data_sources/remote/post_remote_data_source.dart';
 import 'package:flutter_whattodayrice/data/models/comment.dart';
 import 'package:flutter_whattodayrice/data/models/post.dart';
+import 'package:flutter_whattodayrice/data/models/requests/create_post_request.dart';
 import 'package:flutter_whattodayrice/data/repository/post_repository.dart';
 import 'package:injectable/injectable.dart';
 
@@ -18,13 +19,6 @@ class PostRepositoryImpl implements PostRepository {
   @override
   Future<ApiResponse<Comment>> addComment({required String userId, required String postId, required String content}) {
     // TODO: implement addComment
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<ApiResponse<Post>> addPost(
-      {required String userId, required String postType, required String title, required String content}) {
-    // TODO: implement addPost
     throw UnimplementedError();
   }
 
@@ -57,4 +51,8 @@ class PostRepositoryImpl implements PostRepository {
     // TODO: implement getPosts
     throw UnimplementedError();
   }
+
+  @override
+  Future<ApiResponse<bool?>> createPost({required CreatePostRequest request}) =>
+      postRemoteDataSource.createPost(request: request);
 }

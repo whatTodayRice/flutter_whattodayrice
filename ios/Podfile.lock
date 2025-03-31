@@ -1092,6 +1092,8 @@ PODS:
     - nanopb/encode (= 2.30910.0)
   - nanopb/decode (2.30910.0)
   - nanopb/encode (2.30910.0)
+  - permission_handler_apple (9.3.0):
+    - Flutter
   - PromisesObjC (2.4.0)
 
 DEPENDENCIES:
@@ -1100,6 +1102,7 @@ DEPENDENCIES:
   - Flutter (from `Flutter`)
   - home_widget (from `.symlinks/plugins/home_widget/ios`)
   - kakao_flutter_sdk_common (from `.symlinks/plugins/kakao_flutter_sdk_common/ios`)
+  - permission_handler_apple (from `.symlinks/plugins/permission_handler_apple/ios`)
 
 SPEC REPOS:
   trunk:
@@ -1131,6 +1134,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/home_widget/ios"
   kakao_flutter_sdk_common:
     :path: ".symlinks/plugins/kakao_flutter_sdk_common/ios"
+  permission_handler_apple:
+    :path: ".symlinks/plugins/permission_handler_apple/ios"
 
 SPEC CHECKSUMS:
   abseil: d121da9ef7e2ff4cab7666e76c5a3e0915ae08c3
@@ -1153,6 +1158,7 @@ SPEC CHECKSUMS:
   kakao_flutter_sdk_common: 3dc8492c202af7853585d151490b1c5c6b7576cb
   leveldb-library: e8eadf9008a61f9e1dde3978c086d2b6d9b9dc28
   nanopb: 438bc412db1928dac798aa6fd75726007be04262
+  permission_handler_apple: 9878588469a2b0d0fc1e048d9f43605f92e6cec2
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
 
 PODFILE CHECKSUM: 035ef87945d76934df76a971259eb9e794f7967d

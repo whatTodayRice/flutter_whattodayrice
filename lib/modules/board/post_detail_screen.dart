@@ -41,7 +41,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
           Expanded(
             child: CustomScrollView(
               slivers: [
-                SliverToBoxAdapter(child: PostContent(post: widget.post)),
+                // SliverToBoxAdapter(child: PostContent(post: widget.post)),
                 SliverToBoxAdapter(child: Container(height: 10.h, color: AppColor.white1)),
                 const CommentsCountRow(),
                 SliverToBoxAdapter(child: SizedBox(height: 10.h)),

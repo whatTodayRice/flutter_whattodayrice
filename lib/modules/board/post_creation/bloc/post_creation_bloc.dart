@@ -104,18 +104,18 @@ class PostCreationBloc extends Bloc<PostCreationEvent, PostCreationState> {
     PostCreationRegisterRequested event,
     Emitter<PostCreationState> emit,
   ) async {
-    final response = await postRepository.addPost(
-      postType: postType.name,
-      // TODO
-      userId: "",
-      title: title,
-      content: content,
-    );
-
-    if (!response.isSucceed) {
-      return;
-    }
-
-    emit(PostCreationLoaded(createdPost: response.succeedData!));
+    // final response = await postRepository.addPost(
+    //   postType: postType.name,
+    //   // TODO
+    //   userId: "",
+    //   title: title,
+    //   content: content,
+    // );
+    //
+    // if (!response.isSucceed) {
+    //   return;
+    // }
+    //
+    // emit(PostCreationLoaded(createdPost: response.succeedData!));
   }
 }

@@ -1,12 +1,12 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
-class CustomSpinner extends StatefulWidget {
+class AppLoadingIndicator extends StatefulWidget {
   final double size;
   final Color color;
   final Duration duration;
 
-  const CustomSpinner({
+  const AppLoadingIndicator({
     super.key,
     this.size = 30,
     this.color = const Color(0xFFFF9559),
@@ -14,10 +14,10 @@ class CustomSpinner extends StatefulWidget {
   });
 
   @override
-  _CustomSpinnerState createState() => _CustomSpinnerState();
+  _AppLoadingIndicatorState createState() => _AppLoadingIndicatorState();
 }
 
-class _CustomSpinnerState extends State<CustomSpinner> with SingleTickerProviderStateMixin {
+class _AppLoadingIndicatorState extends State<AppLoadingIndicator> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
 
   @override
@@ -70,7 +70,7 @@ class _SpinnerPainter extends CustomPainter {
     for (int i = 0; i < 8; i++) {
       final angle = i * math.pi / 4;
       final opacity = 1.0 - (i * 0.12);
-      paint.color = color.withOpacity(opacity);
+      paint.color = color.withValues(alpha: opacity);
 
       canvas.save();
       canvas.translate(centerX, centerY);
