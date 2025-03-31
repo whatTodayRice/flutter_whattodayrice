@@ -35,7 +35,7 @@ class DateCell extends StatelessWidget {
           children: [
             Text(
               dayOfWeek,
-              style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontSize: 13.w, color: AppColor.gray6),
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontSize: 13.w, color: AppColor.gray4E4E4E),
             ),
             const SizedBox(height: 4),
             Container(
@@ -51,7 +51,7 @@ class DateCell extends StatelessWidget {
                   style: Theme.of(context)
                       .textTheme
                       .bodyMedium!
-                      .copyWith(fontSize: 16.w, color: isSelected ? Colors.white : AppColor.gray7),
+                      .copyWith(fontSize: 16.w, color: isSelected ? Colors.white : AppColor.gray929292),
                 ),
               ),
             ),

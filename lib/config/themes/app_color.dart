@@ -10,8 +10,6 @@ const gray03 = Color.fromRGBO(243, 243, 243, 1);
 const gray04 = Color.fromRGBO(242, 249, 249, 1);
 const black = Color.fromRGBO(0, 0, 0, 1);
 
-//다크 모드
-
 abstract class AppColor {
   static const Color primary = Color(0xFFFF833D);
   static const Color secondary = Color(0xFFFFE2D1);
@@ -23,26 +21,36 @@ abstract class AppColor {
   static const Color gray8 = Color(0xff5C5C5C);
   static const Color pushAlarmSubTitle = Color(0xff969696);
   static const Color homeOptionBackgroundColor = Color(0xffFFFAF8);
-  static const Color black2 = Color(0xff121212);
+
+  static const black000000 = Color(0xFF000000);
+  static const black121212 = Color(0xff121212);
+  static const black373737 = Color(0xff373737);
 
   static const yellow = Color(0xfffee500);
-  static const gray = Color(0xffD9D9D9);
-  static const gray2 = Color(0xffE2E2E2);
-  static const gray3 = Color(0xffC1C1C1);
-  static const gray4 = Color(0xFFF5F5F5);
-  static const gray5 = Color(0xFF8C8C8C);
-  static const gray6 = Color(0xFF4E4E4E);
-  static const gray7 = Color(0xFF929292);
-  static const gray9 = Color(0xFFE6E6E6);
-  static const gray10 = Color(0xFF949494);
-  static const gray11 = Color(0xFFB2B2B2);
-  static const gray12 = Color(0xFFDCDCDC);
-  static const gray13 = Color(0xFFB0B7C0);
-  static const gray14 = Color(0xFFADADAD);
-  static const gray15 = Color(0xFFF6F6F6);
-  static const gray16 = Color(0xFF727272);
-  static const gray17 = Color(0xFFA4A4A4);
+  static const grayD9D9D9 = Color(0xffD9D9D9);
+  static const grayE2E2E2 = Color(0xffE2E2E2);
+  static const grayC1C1C1 = Color(0xffC1C1C1);
+  static const grayF5F5F5 = Color(0xFFF5F5F5);
+  static const gray8C8C8C = Color(0xFF8C8C8C);
+  static const gray4E4E4E = Color(0xFF4E4E4E);
+  static const gray929292 = Color(0xFF929292);
+  static const grayE6E6E6 = Color(0xFFE6E6E6);
+  static const gray949494 = Color(0xFF949494);
+  static const grayB2B2B2 = Color(0xFFB2B2B2);
+  static const grayDCDCDC = Color(0xFFDCDCDC);
+  static const grayB0B7C0 = Color(0xFFB0B7C0);
+  static const grayADADAD = Color(0xFFADADAD);
+  static const grayF6F6F6 = Color(0xFFF6F6F6);
+  static const gray727272 = Color(0xFF727272);
+  static const grayA4A4A4 = Color(0xFFA4A4A4);
+  static const grayA0A0A0 = Color(0xFFA0A0A0);
+  static const grayCBCBCB = Color(0xFFCBCBCB);
   static const borderGray = Color(0xFFEFEFEF);
+  static const grayEAEAEA = Color(0xFFEAEAEA);
+  static const gray636363 = Color(0xFF636363);
+  static const gray515151 = Color(0xFF515151);
 
   static const white1 = Color(0xFFF8F8F8);
+  static const whiteFBFBFB = Color(0xFFFBFBFB);
+  static const whiteF4F4F4 = Color(0xFFF4F4F4);
 }

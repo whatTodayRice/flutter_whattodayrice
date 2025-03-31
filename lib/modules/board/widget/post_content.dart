@@ -34,7 +34,8 @@ class PostContent extends StatelessWidget {
                     ),
                     Text(
                       post.createdAt,
-                      style: Theme.of(context).textTheme.bodySmall!.copyWith(fontSize: 11.sp, color: AppColor.gray13),
+                      style:
+                          Theme.of(context).textTheme.bodySmall!.copyWith(fontSize: 11.sp, color: AppColor.grayB0B7C0),
                     ),
                   ],
                 ),

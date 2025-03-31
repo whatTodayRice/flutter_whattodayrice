@@ -17,13 +17,13 @@ class MealAvailableTimeContainer extends StatelessWidget {
       padding: const EdgeInsets.only(left: 6, right: 6, top: 2, bottom: 3),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5),
-        color: isActive ? AppColor.secondary : AppColor.gray4,
+        color: isActive ? AppColor.secondary : AppColor.grayF5F5F5,
       ),
       child: Text(
         availableMealTime,
         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
               fontSize: 11,
-              color: isActive ? AppColor.primary : AppColor.gray5,
+              color: isActive ? AppColor.primary : AppColor.gray8C8C8C,
             ),
       ),
     );

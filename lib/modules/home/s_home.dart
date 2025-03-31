@@ -49,14 +49,9 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                 label: '홈',
               ),
               BottomNavigationBarItem(
-                activeIcon: SvgPicture.asset("assets/images/중고거래_active.svg"),
-                icon: SvgPicture.asset("assets/images/중고거래_inactive.svg"),
-                label: '게시판',
-              ),
-              BottomNavigationBarItem(
                 activeIcon: SvgPicture.asset("assets/images/MY_active.svg"),
                 icon: SvgPicture.asset("assets/images/MY_inactive.svg"),
-                label: 'MY',
+                label: '중고거래',
               ),
             ],
             currentIndex: widget.navigationShell.currentIndex,
@@ -68,20 +63,6 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
             showSelectedLabels: true,
             showUnselectedLabels: true,
             type: BottomNavigationBarType.fixed,
-          ),
-          BlocBuilder<HomeBloc, HomeState>(
-            buildWhen: (_, current) => current is HomeLoaded,
-            builder: (context, state) {
-              bool isBoardFabExpanded = false;
-
-              if (state is HomeLoaded) {
-                isBoardFabExpanded = state.isBoardFABExpanded!;
-              }
-
-              return isBoardFabExpanded
-                  ? Positioned.fill(child: Container(color: Colors.black54))
-                  : const SizedBox.shrink();
-            },
           ),
         ],
       ),

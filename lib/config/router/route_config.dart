@@ -1,21 +1,14 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_whattodayrice/data/repository/user_repository.dart';
+import 'package:flutter_whattodayrice/modules/second-hand/create_post/bloc/create_post_bloc.dart';
+import 'package:flutter_whattodayrice/modules/second-hand/create_post/create_post_screen.dart';
 import 'package:flutter_whattodayrice/modules/sign_in/bloc/sign_in_bloc.dart';
 import 'package:flutter_whattodayrice/modules/setting/bloc/setting_bloc.dart';
 import 'package:flutter_whattodayrice/modules/splash/bloc/splash_bloc.dart';
-import 'package:flutter_whattodayrice/common/utils/event_bus.dart';
 import 'package:flutter_whattodayrice/config/di/di.dart';
-import 'package:flutter_whattodayrice/data/models/enum/enum_post_type.dart';
-import 'package:flutter_whattodayrice/data/models/post.dart';
 import 'package:flutter_whattodayrice/data/repository/auth_repository.dart';
 import 'package:flutter_whattodayrice/data/repository/meal_repository.dart';
-import 'package:flutter_whattodayrice/data/repository/post_repository.dart';
-import 'package:flutter_whattodayrice/modules/board/bloc/post_bloc.dart';
-import 'package:flutter_whattodayrice/modules/board/board_screen.dart';
-import 'package:flutter_whattodayrice/modules/board/comment/bloc/comment_bloc.dart';
-import 'package:flutter_whattodayrice/modules/board/post_creation/bloc/post_creation_bloc.dart';
-import 'package:flutter_whattodayrice/modules/board/post_creation/post_creation_screen.dart';
-import 'package:flutter_whattodayrice/modules/board/post_detail_screen.dart';
 import 'package:flutter_whattodayrice/modules/home/bloc/home_bloc.dart';
 import 'package:flutter_whattodayrice/modules/home/s_home.dart';
 import 'package:flutter_whattodayrice/modules/meal/bloc/dormitory_meal_bloc.dart';
@@ -32,8 +25,12 @@ part 'app_router_state.dart';
 final AuthRepository _authRepository = getIt<AuthRepository>();
 final DormitoryMealRepository _dormitoryMealRepository = getIt<DormitoryMealRepository>();
 
+final _rootNavigatorKey = GlobalKey<NavigatorState>();
+
 final routerConfig = GoRouter(
   initialLocation: '/${AppRouteState.splash.path}',
+  debugLogDiagnostics: true,
+  navigatorKey: _rootNavigatorKey,
   routes: [
     GoRoute(
       path: '/${AppRouteState.splash.path}',
@@ -84,58 +81,20 @@ final routerConfig = GoRouter(
         StatefulShellBranch(
           routes: [
             GoRoute(
-              path: "/${AppRouteState.board.path}",
-              name: AppRouteState.board.name,
-              builder: (context, state) => BlocProvider(
-                create: (context) => PostBloc(
-                  postRepository: getIt<PostRepository>(),
-                  eventBus: getIt<EventBus>(),
-                ),
-                child: const BoardScreen(),
-              ),
-              routes: [
-                GoRoute(
-                  path: AppRouteState.postCreation.path,
-                  name: AppRouteState.postCreation.name,
-                  builder: (context, state) {
-                    final PostType extra = state.extra as PostType;
-
-                    return BlocProvider(
-                      create: (context) => PostCreationBloc(
-                        authRepository: _authRepository,
-                        postRepository: getIt<PostRepository>(),
-                        postType: extra,
-                      ),
-                      child: PostCreationScreen(postType: extra),
-                    );
-                  },
-                ),
-                GoRoute(
-                  path: AppRouteState.postDetail.path,
-                  name: AppRouteState.postDetail.name,
-                  builder: (context, state) {
-                    final post = state.extra as Post;
-
-                    return BlocProvider(
-                      create: (context) => CommentBloc(
-                        postRepository: getIt<PostRepository>(),
-                        authRepository: getIt<AuthRepository>(),
-                        postId: post.postId,
-                      ),
-                      child: PostDetailScreen(post: post),
-                    );
-                  },
-                ),
-              ],
-            ),
-          ],
-        ),
-        StatefulShellBranch(
-          routes: [
-            GoRoute(
               path: "/${AppRouteState.secondHand.path}",
               name: AppRouteState.secondHand.name,
               builder: (context, state) => const SecondHandScreen(),
+              routes: [
+                GoRoute(
+                  parentNavigatorKey: _rootNavigatorKey,
+                  path: AppRouteState.createPost.path,
+                  name: AppRouteState.createPost.name,
+                  builder: (context, state) => BlocProvider(
+                    create: (state) => CreatePostBloc(),
+                    child: const CreatePostScreen(),
+                  ),
+                )
+              ],
             ),
           ],
         ),

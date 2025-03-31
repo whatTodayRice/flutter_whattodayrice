@@ -79,7 +79,7 @@ class CommentsCountRow extends StatelessWidget {
                   TextSpan(
                     text: '댓글 ',
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                          color: AppColor.black2,
+                          color: AppColor.black121212,
                           fontWeight: FontWeight.w600,
                         ),
                   ),

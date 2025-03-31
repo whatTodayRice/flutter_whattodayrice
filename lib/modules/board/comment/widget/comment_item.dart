@@ -57,7 +57,7 @@ class _CommentItemState extends State<CommentItem> {
                           /// 작성자인지 체크하는 로직 추가
                           style: Theme.of(context).textTheme.titleSmall!.copyWith(
                                 fontSize: 13.sp,
-                                color: AppColor.black2,
+                                color: AppColor.black121212,
                               ),
                         ),
                         SizedBox(height: 8.h),
@@ -65,7 +65,7 @@ class _CommentItemState extends State<CommentItem> {
                           widget.comment.content,
                           style: Theme.of(context).textTheme.bodySmall!.copyWith(
                                 fontSize: 13.sp,
-                                color: AppColor.black2,
+                                color: AppColor.black121212,
                               ),
                         ),
                         SizedBox(height: 4.h),
@@ -73,7 +73,7 @@ class _CommentItemState extends State<CommentItem> {
                           widget.comment.createdAt,
                           style: Theme.of(context).textTheme.bodySmall!.copyWith(
                                 fontSize: 11.sp,
-                                color: AppColor.gray13,
+                                color: AppColor.grayB0B7C0,
                               ),
                         ),
                       ],
