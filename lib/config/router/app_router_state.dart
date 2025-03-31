@@ -6,9 +6,9 @@ enum AppRouteState {
   signIn('sign-in'),
   setting('setting'),
   board('board'),
-  postCreation('post-creation'),
   postDetail('post-detail'),
   secondHand('second-hand'),
+  createPost('create-post'),
   meal('meal');
 
   final String path;
