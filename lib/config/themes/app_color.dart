@@ -21,9 +21,10 @@ abstract class AppColor {
   static const Color gray8 = Color(0xff5C5C5C);
   static const Color pushAlarmSubTitle = Color(0xff969696);
   static const Color homeOptionBackgroundColor = Color(0xffFFFAF8);
-  static const Color black2 = Color(0xff121212);
 
   static const black000000 = Color(0xFF000000);
+  static const black121212 = Color(0xff121212);
+  static const black373737 = Color(0xff373737);
 
   static const yellow = Color(0xfffee500);
   static const grayD9D9D9 = Color(0xffD9D9D9);
@@ -45,6 +46,11 @@ abstract class AppColor {
   static const grayA0A0A0 = Color(0xFFA0A0A0);
   static const grayCBCBCB = Color(0xFFCBCBCB);
   static const borderGray = Color(0xFFEFEFEF);
+  static const grayEAEAEA = Color(0xFFEAEAEA);
+  static const gray636363 = Color(0xFF636363);
+  static const gray515151 = Color(0xFF515151);
 
   static const white1 = Color(0xFFF8F8F8);
+  static const whiteFBFBFB = Color(0xFFFBFBFB);
+  static const whiteF4F4F4 = Color(0xFFF4F4F4);
 }

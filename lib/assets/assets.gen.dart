@@ -19,42 +19,34 @@ class $AssetsImagesGen {
   SvgGenImage get mYActive => const SvgGenImage('assets/images/MY_active.svg');
 
   /// File path: assets/images/MY_inactive.svg
-  SvgGenImage get mYInactive =>
-      const SvgGenImage('assets/images/MY_inactive.svg');
+  SvgGenImage get mYInactive => const SvgGenImage('assets/images/MY_inactive.svg');
 
   /// File path: assets/images/ic_kakao.png
-  AssetGenImage get icKakao =>
-      const AssetGenImage('assets/images/ic_kakao.png');
+  AssetGenImage get icKakao => const AssetGenImage('assets/images/ic_kakao.png');
 
   /// File path: assets/images/ic_글쓰기.svg
   SvgGenImage get ic => const SvgGenImage('assets/images/ic_글쓰기.svg');
 
   /// File path: assets/images/icon_author_profile.svg
-  SvgGenImage get iconAuthorProfile =>
-      const SvgGenImage('assets/images/icon_author_profile.svg');
+  SvgGenImage get iconAuthorProfile => const SvgGenImage('assets/images/icon_author_profile.svg');
 
   /// File path: assets/images/icon_check.svg
-  SvgGenImage get iconCheck =>
-      const SvgGenImage('assets/images/icon_check.svg');
+  SvgGenImage get iconCheck => const SvgGenImage('assets/images/icon_check.svg');
 
   /// File path: assets/images/icon_delete.svg
-  SvgGenImage get iconDelete =>
-      const SvgGenImage('assets/images/icon_delete.svg');
+  SvgGenImage get iconDelete => const SvgGenImage('assets/images/icon_delete.svg');
 
   /// File path: assets/images/icon_free.svg
   SvgGenImage get iconFree => const SvgGenImage('assets/images/icon_free.svg');
 
   /// File path: assets/images/icon_question.svg
-  SvgGenImage get iconQuestion =>
-      const SvgGenImage('assets/images/icon_question.svg');
+  SvgGenImage get iconQuestion => const SvgGenImage('assets/images/icon_question.svg');
 
   /// File path: assets/images/icon_send_disable.svg
-  SvgGenImage get iconSendDisable =>
-      const SvgGenImage('assets/images/icon_send_disable.svg');
+  SvgGenImage get iconSendDisable => const SvgGenImage('assets/images/icon_send_disable.svg');
 
   /// File path: assets/images/icon_send_enable.svg
-  SvgGenImage get iconSendEnable =>
-      const SvgGenImage('assets/images/icon_send_enable.svg');
+  SvgGenImage get iconSendEnable => const SvgGenImage('assets/images/icon_send_enable.svg');
 
   /// File path: assets/images/icon_답글.svg
   SvgGenImage get iconSvg => const SvgGenImage('assets/images/icon_답글.svg');
@@ -66,27 +58,22 @@ class $AssetsImagesGen {
   SvgGenImage get iconSvg__ => const SvgGenImage('assets/images/icon_더보기.svg');
 
   /// File path: assets/images/icon_뒤로가기.svg
-  SvgGenImage get iconSvg___ =>
-      const SvgGenImage('assets/images/icon_뒤로가기.svg');
+  SvgGenImage get iconSvg___ => const SvgGenImage('assets/images/icon_뒤로가기.svg');
 
   /// File path: assets/images/icon_삭제.svg
   SvgGenImage get iconSvg____ => const SvgGenImage('assets/images/icon_삭제.svg');
 
   /// File path: assets/images/icon_신고.svg
-  SvgGenImage get iconSvg_____ =>
-      const SvgGenImage('assets/images/icon_신고.svg');
+  SvgGenImage get iconSvg_____ => const SvgGenImage('assets/images/icon_신고.svg');
 
-  /// File path: assets/images/image_addtion.svg
-  SvgGenImage get imageAddtion =>
-      const SvgGenImage('assets/images/image_addtion.svg');
+  /// File path: assets/images/image_selection.png
+  AssetGenImage get imageSelection => const AssetGenImage('assets/images/image_selection.png');
 
   /// File path: assets/images/img_alarm_dark.png
-  AssetGenImage get imgAlarmDark =>
-      const AssetGenImage('assets/images/img_alarm_dark.png');
+  AssetGenImage get imgAlarmDark => const AssetGenImage('assets/images/img_alarm_dark.png');
 
   /// File path: assets/images/kakao_login_medium_wide.png
-  AssetGenImage get kakaoLoginMediumWide =>
-      const AssetGenImage('assets/images/kakao_login_medium_wide.png');
+  AssetGenImage get kakaoLoginMediumWide => const AssetGenImage('assets/images/kakao_login_medium_wide.png');
 
   /// Directory path: assets/images/launcher
   $AssetsImagesLauncherGen get launcher => const $AssetsImagesLauncherGen();
@@ -98,24 +85,19 @@ class $AssetsImagesGen {
   $AssetsImagesSplashGen get splash => const $AssetsImagesSplashGen();
 
   /// File path: assets/images/washing-machine.png
-  AssetGenImage get washingMachine =>
-      const AssetGenImage('assets/images/washing-machine.png');
+  AssetGenImage get washingMachine => const AssetGenImage('assets/images/washing-machine.png');
 
   /// File path: assets/images/식단_active.svg
-  SvgGenImage get aActiveSvg =>
-      const SvgGenImage('assets/images/식단_active.svg');
+  SvgGenImage get aActiveSvg => const SvgGenImage('assets/images/식단_active.svg');
 
   /// File path: assets/images/중고거래_active.svg
-  SvgGenImage get aActiveSvg_ =>
-      const SvgGenImage('assets/images/중고거래_active.svg');
+  SvgGenImage get aActiveSvg_ => const SvgGenImage('assets/images/중고거래_active.svg');
 
   /// File path: assets/images/식단_inactive.svg
-  SvgGenImage get aInactiveSvg =>
-      const SvgGenImage('assets/images/식단_inactive.svg');
+  SvgGenImage get aInactiveSvg => const SvgGenImage('assets/images/식단_inactive.svg');
 
   /// File path: assets/images/중고거래_inactive.svg
-  SvgGenImage get aInactiveSvg_ =>
-      const SvgGenImage('assets/images/중고거래_inactive.svg');
+  SvgGenImage get aInactiveSvg_ => const SvgGenImage('assets/images/중고거래_inactive.svg');
 
   /// List of all assets
   List<dynamic> get values => [
@@ -136,7 +118,7 @@ class $AssetsImagesGen {
         iconSvg___,
         iconSvg____,
         iconSvg_____,
-        imageAddtion,
+        imageSelection,
         imgAlarmDark,
         kakaoLoginMediumWide,
         pig,
@@ -152,8 +134,7 @@ class $AssetsImagesLauncherGen {
   const $AssetsImagesLauncherGen();
 
   /// File path: assets/images/launcher/launcher_icon.png
-  AssetGenImage get launcherIcon =>
-      const AssetGenImage('assets/images/launcher/launcher_icon.png');
+  AssetGenImage get launcherIcon => const AssetGenImage('assets/images/launcher/launcher_icon.png');
 
   /// List of all assets
   List<AssetGenImage> get values => [launcherIcon];
@@ -163,12 +144,10 @@ class $AssetsImagesSplashGen {
   const $AssetsImagesSplashGen();
 
   /// File path: assets/images/splash/android12.png
-  AssetGenImage get android12 =>
-      const AssetGenImage('assets/images/splash/android12.png');
+  AssetGenImage get android12 => const AssetGenImage('assets/images/splash/android12.png');
 
   /// File path: assets/images/splash/splash.png
-  AssetGenImage get splash =>
-      const AssetGenImage('assets/images/splash/splash.png');
+  AssetGenImage get splash => const AssetGenImage('assets/images/splash/splash.png');
 
   /// List of all assets
   List<AssetGenImage> get values => [android12, splash];
@@ -326,8 +305,7 @@ class SvgGenImage {
       placeholderBuilder: placeholderBuilder,
       semanticsLabel: semanticsLabel,
       excludeFromSemantics: excludeFromSemantics,
-      colorFilter: colorFilter ??
-          (color == null ? null : ColorFilter.mode(color, colorBlendMode)),
+      colorFilter: colorFilter ?? (color == null ? null : ColorFilter.mode(color, colorBlendMode)),
       clipBehavior: clipBehavior,
       cacheColorFilter: cacheColorFilter,
     );
