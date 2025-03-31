@@ -63,10 +63,7 @@ class AppDefaultDialog extends StatelessWidget {
             const SizedBox(height: 8),
             Text(
               content,
-              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                    fontSize: 13.sp,
-                    color: AppColor.gray727272,
-                  ),
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontSize: 13.sp, color: AppColor.gray727272),
               textAlign: TextAlign.center,
             ),
             SizedBox(height: 26.h),
@@ -77,16 +74,11 @@ class AppDefaultDialog extends StatelessWidget {
                 children: [
                   Expanded(
                     child: TextButton(
-                      onPressed: () {
-                        Navigator.of(context).pop(false);
-                        onCancel?.call();
-                      },
+                      onPressed: onCancel ?? () => Navigator.of(context).pop(false),
                       style: TextButton.styleFrom(
                         foregroundColor: AppColor.grayA4A4A4,
                         shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(14),
-                          ),
+                          borderRadius: BorderRadius.only(bottomLeft: Radius.circular(14)),
                         ),
                       ),
                       child: Text(cancelButtonText),
@@ -95,16 +87,11 @@ class AppDefaultDialog extends StatelessWidget {
                   const VerticalDivider(width: 1, color: AppColor.grayE2E2E2, thickness: 1),
                   Expanded(
                     child: TextButton(
-                      onPressed: () {
-                        Navigator.of(context).pop(true);
-                        onConfirm?.call();
-                      },
+                      onPressed: onConfirm ?? () => Navigator.of(context).pop(true),
                       style: TextButton.styleFrom(
                         foregroundColor: AppColor.orange5,
                         shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.only(
-                            bottomRight: Radius.circular(14),
-                          ),
+                          borderRadius: BorderRadius.only(bottomRight: Radius.circular(14)),
                         ),
                       ),
                       child: Text(confirmButtonText),
