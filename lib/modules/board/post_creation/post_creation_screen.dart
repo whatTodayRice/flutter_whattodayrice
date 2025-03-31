@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_whattodayrice/common/utils/event_bus.dart';
@@ -107,7 +108,6 @@ class _PostCreationScreenState extends State<PostCreationScreen> {
                       SizedBox(height: 16.h),
                       Text(title, style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 14.w)),
                       SizedBox(height: 10.h),
-                      TitleTextField(textEditingController: _titleController, hintText: title),
                       const SizedBox(height: 20),
                       Text('내용', style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 14.w)),
                       SizedBox(height: 10.h),
@@ -134,42 +134,6 @@ class _PostCreationScreenState extends State<PostCreationScreen> {
               ],
             ),
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class TitleTextField extends StatelessWidget {
-  const TitleTextField({
-    super.key,
-    required TextEditingController textEditingController,
-    required this.hintText,
-  }) : _titleController = textEditingController;
-
-  final TextEditingController _titleController;
-  final String hintText;
-
-  @override
-  Widget build(BuildContext context) {
-    return TextField(
-      controller: _titleController,
-      style: Theme.of(context).textTheme.bodySmall!.copyWith(fontSize: 14.w, color: Colors.black),
-      decoration: InputDecoration(
-        contentPadding: EdgeInsets.all(13.w),
-        hintText: '$hintText을 입력해주세요.',
-        hintStyle: Theme.of(context).textTheme.bodySmall!.copyWith(fontSize: 14.w, color: AppColor.grayB2B2B2),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(4),
-          borderSide: const BorderSide(color: AppColor.grayDCDCDC),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(4),
-          borderSide: const BorderSide(color: AppColor.black2),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(4),
-          borderSide: const BorderSide(color: AppColor.grayDCDCDC),
         ),
       ),
     );
@@ -205,7 +169,7 @@ class ContentTextField extends StatelessWidget {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(4),
-          borderSide: const BorderSide(color: AppColor.black2),
+          borderSide: const BorderSide(color: AppColor.black121212),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(4),
