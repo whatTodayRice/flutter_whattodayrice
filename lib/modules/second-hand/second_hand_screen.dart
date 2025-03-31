@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_whattodayrice/config/router/route_config.dart';
 import 'package:flutter_whattodayrice/config/themes/app_color.dart';
 import 'package:flutter_whattodayrice/config/themes/app_text_style.dart';
-import 'package:flutter_whattodayrice/modules/second-hand/widget/post_creation_button.dart';
+import 'package:flutter_whattodayrice/modules/second-hand/widget/create_post_submit_button.dart';
+import 'package:go_router/go_router.dart';
 
 class SecondHandScreen extends StatelessWidget {
   const SecondHandScreen({super.key});
@@ -10,29 +12,14 @@ class SecondHandScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          '게시글 작성',
-          style: AppTextStyle.bold16.copyWith(color: AppColor.black000000),
-        ),
-        centerTitle: true,
-        leading: InkWell(
-          onTap: () {},
-          child: Text(
-            '취소',
-            style: AppTextStyle.regular16.copyWith(color: AppColor.grayA0A0A0),
-          ),
-        ),
+        title: Text('행복나눔거래', style: AppTextStyle.bold16.copyWith(color: AppColor.black000000)),
       ),
       body: Column(
         children: [
-          Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [],
-              ),
-            ),
+          CreatePostSubmitButton(
+            isButtonEnabled: true,
+            onTap: () => context.pushNamed(AppRouteState.createPost.name),
           ),
-          SubmitButton(isButtonEnabled: true),
         ],
       ),
     );
