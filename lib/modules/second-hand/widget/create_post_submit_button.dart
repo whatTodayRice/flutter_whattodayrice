@@ -11,9 +11,12 @@ class CreatePostSubmitButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final viewPaddingBottom = MediaQueryData.fromView(View.of(context)).viewPadding.bottom;
+
     return GestureDetector(
       onTap: isButtonEnabled ? onTap : null,
       child: Container(
+        margin: EdgeInsets.only(bottom: viewPaddingBottom != 0 ? viewPaddingBottom : 30),
         width: double.infinity,
         height: 46.h,
         decoration: BoxDecoration(

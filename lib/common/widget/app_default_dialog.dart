@@ -5,8 +5,8 @@ import 'package:flutter_whattodayrice/config/themes/app_color.dart';
 class AppDefaultDialog extends StatelessWidget {
   final String title;
   final String content;
-  final String cancelButtonText;
-  final String confirmButtonText;
+  final String? cancelButtonText;
+  final String? confirmButtonText;
   final VoidCallback? onCancel;
   final VoidCallback? onConfirm;
 
@@ -14,8 +14,8 @@ class AppDefaultDialog extends StatelessWidget {
     super.key,
     required this.title,
     required this.content,
-    this.cancelButtonText = '취소',
-    this.confirmButtonText = '삭제',
+    this.cancelButtonText,
+    this.confirmButtonText,
     this.onCancel,
     this.onConfirm,
   });
@@ -24,8 +24,8 @@ class AppDefaultDialog extends StatelessWidget {
     BuildContext context, {
     required String title,
     required String content,
-    String cancelButtonText = '취소',
-    String confirmButtonText = '삭제',
+    String? cancelButtonText,
+    String? confirmButtonText,
     VoidCallback? onCancel,
     VoidCallback? onConfirm,
   }) async {
@@ -55,12 +55,14 @@ class AppDefaultDialog extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             SizedBox(height: 37.h),
-            Text(
-              title,
-              style: Theme.of(context).textTheme.titleSmall,
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 8),
+            if (title.isNotEmpty == true) ...[
+              Text(
+                title,
+                style: Theme.of(context).textTheme.titleSmall,
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 8),
+            ],
             Text(
               content,
               style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontSize: 13.sp, color: AppColor.gray727272),
@@ -68,38 +70,40 @@ class AppDefaultDialog extends StatelessWidget {
             ),
             SizedBox(height: 26.h),
             const Divider(height: 1, color: AppColor.grayE2E2E2, thickness: 1),
-            SizedBox(
-              height: 48,
-              child: Row(
-                children: [
-                  Expanded(
-                    child: TextButton(
-                      onPressed: onCancel ?? () => Navigator.of(context).pop(false),
-                      style: TextButton.styleFrom(
-                        foregroundColor: AppColor.grayA4A4A4,
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.only(bottomLeft: Radius.circular(14)),
+            if (confirmButtonText?.isNotEmpty == true)
+              SizedBox(
+                height: 48,
+                child: Row(
+                  children: [
+                    if (confirmButtonText?.isNotEmpty == true)
+                      Expanded(
+                        child: TextButton(
+                          onPressed: onCancel ?? () => Navigator.of(context).pop(false),
+                          style: TextButton.styleFrom(
+                            foregroundColor: AppColor.grayA4A4A4,
+                            shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(bottomLeft: Radius.circular(14)),
+                            ),
+                          ),
+                          child: Text(cancelButtonText!),
                         ),
                       ),
-                      child: Text(cancelButtonText),
-                    ),
-                  ),
-                  const VerticalDivider(width: 1, color: AppColor.grayE2E2E2, thickness: 1),
-                  Expanded(
-                    child: TextButton(
-                      onPressed: onConfirm ?? () => Navigator.of(context).pop(true),
-                      style: TextButton.styleFrom(
-                        foregroundColor: AppColor.orange5,
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.only(bottomRight: Radius.circular(14)),
+                    const VerticalDivider(width: 1, color: AppColor.grayE2E2E2, thickness: 1),
+                    Expanded(
+                      child: TextButton(
+                        onPressed: onConfirm ?? () => Navigator.of(context).pop(true),
+                        style: TextButton.styleFrom(
+                          foregroundColor: AppColor.orange5,
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(bottomRight: Radius.circular(14)),
+                          ),
                         ),
+                        child: Text(confirmButtonText!),
                       ),
-                      child: Text(confirmButtonText),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
           ],
         ),
       ),

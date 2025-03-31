@@ -80,20 +80,20 @@ class _BoardScreenState extends State<BoardScreen> with SingleTickerProviderStat
                 child: TabBarView(
                   controller: tabController,
                   children: [
-                    PostListView(
-                      postType: PostType.free,
-                      pagingController: freePostPagingController,
-                      onRefresh: () {
-                        postBloc.add(const FreePostListRefreshRequested());
-                      },
-                    ),
-                    PostListView(
-                      postType: PostType.question,
-                      pagingController: questionPostPagingController,
-                      onRefresh: () {
-                        postBloc.add(const QuestionPostListRefreshRequested());
-                      },
-                    ),
+                    // PostListView(
+                    //   postType: PostType.free,
+                    //   pagingController: freePostPagingController,
+                    //   onRefresh: () {
+                    //     postBloc.add(const FreePostListRefreshRequested());
+                    //   },
+                    // ),
+                    // PostListView(
+                    //   postType: PostType.question,
+                    //   pagingController: questionPostPagingController,
+                    //   onRefresh: () {
+                    //     postBloc.add(const QuestionPostListRefreshRequested());
+                    //   },
+                    // ),
                   ],
                 ),
               ),

@@ -5,7 +5,7 @@ import 'package:flutter_whattodayrice/common/widget/app_default_dialog.dart';
 import 'package:flutter_whattodayrice/config/themes/app_color.dart';
 import 'package:flutter_whattodayrice/config/themes/app_text_style.dart';
 import 'package:flutter_whattodayrice/modules/second-hand/create_post/bloc/create_post_bloc.dart';
-import 'package:flutter_whattodayrice/modules/second-hand/create_post/widget/image_selection_button.dart';
+import 'package:flutter_whattodayrice/modules/second-hand/create_post/widget/image_preview.dart';
 import 'package:flutter_whattodayrice/modules/second-hand/widget/create_post_submit_button.dart';
 import 'package:flutter_whattodayrice/modules/second-hand/create_post/widget/price_type_filtering_button.dart';
 import 'package:flutter_whattodayrice/modules/second-hand/create_post/widget/product_detail_text_filed.dart';
@@ -21,6 +21,7 @@ class CreatePostScreen extends StatefulWidget {
 }
 
 class _CreatePostScreenState extends State<CreatePostScreen> {
+  final imageUrlController = TextEditingController();
   final titleController = TextEditingController();
   final priceController = TextEditingController();
   final productDetailController = TextEditingController();
@@ -31,6 +32,10 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
     super.initState();
 
     final bloc = context.read<CreatePostBloc>();
+
+    imageUrlController.addListener(
+      () => bloc.add(CreatePostImageUrlChangeRequested(imageUrl: imageUrlController.text)),
+    );
 
     titleController.addListener(
       () => bloc.add(CreatePostTitleChangeRequested(title: titleController.text)),
@@ -55,119 +60,199 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
     productDetailController.dispose();
     priceController.dispose();
     titleController.dispose();
+    imageUrlController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          '게시글 작성',
-          style: AppTextStyle.bold16.copyWith(color: AppColor.black000000),
-        ),
-        centerTitle: true,
-        leading: IconButton(
-          onPressed: () async {
-            final result = await AppDefaultDialog.show(
-              context,
-              title: '작성을 중단하시겠어요?',
-              content: '지금까지 작성한 게시글은 삭제됩니다.',
-              cancelButtonText: '네',
-              onCancel: () => Navigator.of(context).pop(true),
-              confirmButtonText: '아니오',
-              onConfirm: () => Navigator.of(context).pop(false),
-            );
+    return BlocListener<CreatePostBloc, CreatePostState>(
+      listener: (context, state) {
+        if (state is CreatePostSucceed) {
+          context.pop(true);
+        } else if (state is CreatePostError) {
+          if (state.errorMessage == null) {
+            return;
+          }
 
-            if (result != true) {
-              return;
-            }
+          AppDefaultDialog.show(
+            context,
+            title: '',
+            content: state.errorMessage!,
+            confirmButtonText: '확인',
+            onConfirm: () => Navigator.pop(context),
+          );
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            '게시글 작성',
+            style: AppTextStyle.bold16.copyWith(color: AppColor.black000000),
+          ),
+          centerTitle: true,
+          leading: IconButton(
+            onPressed: () async {
+              final result = await AppDefaultDialog.show(
+                context,
+                title: '작성을 중단하시겠어요?',
+                content: '지금까지 작성한 게시글은 삭제됩니다.',
+                cancelButtonText: '네',
+                onCancel: () => Navigator.of(context).pop(true),
+                confirmButtonText: '아니오',
+                onConfirm: () => Navigator.of(context).pop(false),
+              );
 
-            context.pop();
-          },
-          icon: Text(
-            '취소',
-            style: AppTextStyle.regular16.copyWith(color: AppColor.grayA0A0A0),
+              if (result != true) {
+                return;
+              }
+
+              context.pop();
+            },
+            icon: Text(
+              '취소',
+              style: AppTextStyle.regular16.copyWith(color: AppColor.grayA0A0A0),
+            ),
           ),
         ),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    ImageSelectionButton(),
-                    const SizedBox(height: 16),
-                    Text(
-                      '제목',
-                      style: AppTextStyle.bold14.copyWith(color: AppColor.black000000),
-                    ),
-                    const SizedBox(height: 8),
-                    TitleTextField(titleController: titleController, hintText: '제목을 입력해주세요.', maxLength: 50),
-                    const SizedBox(height: 24),
-
-                    /// 가격
-                    Text(
-                      '가격',
-                      style: AppTextStyle.bold14.copyWith(color: AppColor.black000000),
-                    ),
-                    const SizedBox(height: 8),
-                    Row(
-                      children: [
-                        PriceTypeButton.sell(isSelected: true),
-                        const SizedBox(width: 6),
-                        PriceTypeButton.share(isSelected: false),
-                      ],
-                    ),
-                    const SizedBox(height: 12),
-                    TitleTextField(
-                      titleController: priceController,
-                      hintText: '₩ 가격을 입력해주세요.',
-                      inputType: TextInputType.number,
-                      inputFormatters: [FilteringTextInputFormatter.digitsOnly, NumberInputFormatter()],
-                    ),
-                    const SizedBox(height: 24),
-
-                    /// 상품 설명
-                    Text(
-                      '상품 설명',
-                      style: AppTextStyle.bold14.copyWith(color: AppColor.black000000),
-                    ),
-                    const SizedBox(height: 8),
-                    SizedBox(
-                      height: 200,
-                      child: ProductDetailTextField(
-                        contentController: productDetailController,
-                        hintText:
-                            '판매와 관련 없는 글은 게시가 제한될 수 있어요.\n\n신뢰할 수 있는 거래를 위해 브랜드, 모델명, 구매시기,\n하자 유무 등 상품 설명을 최대한 자세히 적어주세요.',
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '이미지 URL',
+                        style: AppTextStyle.bold14.copyWith(color: AppColor.black000000),
                       ),
-                    ),
-                    const SizedBox(height: 24),
+                      const SizedBox(height: 4),
+                      Text(
+                        '이미지 URL을 입력하면, 이미지 미리보기가 제공돼요.',
+                        style: AppTextStyle.regular11.copyWith(color: AppColor.grayB2B2B2),
+                      ),
+                      const SizedBox(height: 8),
+                      TitleTextField(titleController: imageUrlController, hintText: '이미지의 URL을 입력해주세요.'),
+                      const SizedBox(height: 16),
+                      BlocBuilder<CreatePostBloc, CreatePostState>(
+                        buildWhen: (previous, current) => current is CreatePostImageUploadChecked,
+                        builder: (context, state) {
+                          String imageUrl = "";
 
-                    /// 거래 희망 장소
-                    Text(
-                      '거래 희망 장소',
-                      style: AppTextStyle.bold14.copyWith(color: AppColor.black000000),
-                    ),
-                    const SizedBox(height: 8),
-                    TitleTextField(
-                      titleController: tradingLocationController,
-                      hintText: '거래를 희망하는 장소를 구체적으로 입력해주세요.',
-                      maxLength: 50,
-                    ),
-                    const SizedBox(height: 24),
-                  ],
+                          if (state is CreatePostImageUploadChecked) {
+                            imageUrl = state.imageUrl;
+                          }
+
+                          return ImagePreview(imageUrl: imageUrl);
+                        },
+                      ),
+                      const SizedBox(height: 24),
+
+                      /// 제목
+                      Text(
+                        '제목',
+                        style: AppTextStyle.bold14.copyWith(color: AppColor.black000000),
+                      ),
+                      const SizedBox(height: 8),
+                      TitleTextField(titleController: titleController, hintText: '제목을 입력해주세요.', maxLength: 50),
+                      const SizedBox(height: 24),
+
+                      /// 가격
+                      Text(
+                        '가격',
+                        style: AppTextStyle.bold14.copyWith(color: AppColor.black000000),
+                      ),
+                      const SizedBox(height: 8),
+                      BlocBuilder<CreatePostBloc, CreatePostState>(
+                        buildWhen: (previous, current) => current is CreatePostSelectedSellTypeChecked,
+                        builder: (context, state) {
+                          int selectedIndex = 0;
+
+                          if (state is CreatePostSelectedSellTypeChecked) {
+                            selectedIndex = state.index;
+                          }
+
+                          return Row(
+                            children: [
+                              PriceTypeButton.sell(
+                                onTap: () => context
+                                    .read<CreatePostBloc>()
+                                    .add(CreatePostPriceTypeChangeRequested(typeIndex: ProductPriceType.sell.index)),
+                                selectedIndex: selectedIndex,
+                              ),
+                              const SizedBox(width: 6),
+                              PriceTypeButton.share(
+                                onTap: () => context
+                                    .read<CreatePostBloc>()
+                                    .add(CreatePostPriceTypeChangeRequested(typeIndex: ProductPriceType.share.index)),
+                                selectedIndex: selectedIndex,
+                              ),
+                            ],
+                          );
+                        },
+                      ),
+                      const SizedBox(height: 12),
+                      TitleTextField(
+                        titleController: priceController,
+                        hintText: '₩ 가격을 입력해주세요.',
+                        inputType: TextInputType.number,
+                        inputFormatters: [FilteringTextInputFormatter.digitsOnly, NumberInputFormatter()],
+                      ),
+                      const SizedBox(height: 24),
+
+                      /// 상품 설명
+                      Text(
+                        '상품 설명',
+                        style: AppTextStyle.bold14.copyWith(color: AppColor.black000000),
+                      ),
+                      const SizedBox(height: 8),
+                      SizedBox(
+                        height: 200,
+                        child: ProductDetailTextField(
+                          contentController: productDetailController,
+                          hintText:
+                              '판매와 관련 없는 글은 게시가 제한될 수 있어요.\n\n신뢰할 수 있는 거래를 위해 브랜드, 모델명, 구매시기,\n하자 유무 등 상품 설명을 최대한 자세히 적어주세요.',
+                        ),
+                      ),
+                      const SizedBox(height: 24),
+
+                      /// 거래 희망 장소
+                      Text(
+                        '거래 희망 장소',
+                        style: AppTextStyle.bold14.copyWith(color: AppColor.black000000),
+                      ),
+                      const SizedBox(height: 8),
+                      TitleTextField(
+                        titleController: tradingLocationController,
+                        hintText: '거래를 희망하는 장소를 구체적으로 입력해주세요.',
+                        maxLength: 50,
+                      ),
+                      const SizedBox(height: 24),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            const SizedBox(height: 16),
-            CreatePostSubmitButton(isButtonEnabled: true),
-          ],
+              const SizedBox(height: 16),
+              BlocBuilder<CreatePostBloc, CreatePostState>(
+                buildWhen: (previous, current) => current is CreatePostSubmitValidationChecked,
+                builder: (context, state) {
+                  bool isValid = false;
+
+                  if (state is CreatePostSubmitValidationChecked) {
+                    isValid = state.isValid;
+                  }
+
+                  return CreatePostSubmitButton(
+                    isButtonEnabled: isValid,
+                    onTap: () => context.read<CreatePostBloc>().add(const CreatePostSubmitRequested()),
+                  );
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );

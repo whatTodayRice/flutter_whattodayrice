@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_whattodayrice/data/repository/post_repository.dart';
 import 'package:flutter_whattodayrice/data/repository/user_repository.dart';
 import 'package:flutter_whattodayrice/modules/second-hand/create_post/bloc/create_post_bloc.dart';
 import 'package:flutter_whattodayrice/modules/second-hand/create_post/create_post_screen.dart';
@@ -90,7 +91,10 @@ final routerConfig = GoRouter(
                   path: AppRouteState.createPost.path,
                   name: AppRouteState.createPost.name,
                   builder: (context, state) => BlocProvider(
-                    create: (state) => CreatePostBloc(),
+                    create: (state) => CreatePostBloc(
+                      postRepository: getIt<PostRepository>(),
+                      userRepository: getIt<UserRepository>(),
+                    ),
                     child: const CreatePostScreen(),
                   ),
                 )

@@ -22,17 +22,14 @@ Post _$PostFromJson(Map<String, dynamic> json) {
 mixin _$Post {
   @JsonKey(name: "id")
   String get postId => throw _privateConstructorUsedError;
-  String get nickname => throw _privateConstructorUsedError;
-  @JsonKey(name: "type", fromJson: PostType.fromString)
-  PostType get type => throw _privateConstructorUsedError;
-  String get title => throw _privateConstructorUsedError;
-  String get content => throw _privateConstructorUsedError;
-  @TimestampConverter()
-  @JsonKey(name: "created_at")
-  String get createdAt => throw _privateConstructorUsedError;
-  @JsonKey(name: "trade_details", readValue: _readTradeDetails)
-  TradeDetails? get tradeDetails => throw _privateConstructorUsedError;
-  int get commentCount => throw _privateConstructorUsedError;
+  int? get userId => throw _privateConstructorUsedError;
+  String? get nickname => throw _privateConstructorUsedError;
+  String? get title => throw _privateConstructorUsedError;
+  String? get content => throw _privateConstructorUsedError;
+  int? get price => throw _privateConstructorUsedError;
+  bool? get isShared => throw _privateConstructorUsedError;
+  String? get location => throw _privateConstructorUsedError;
+  DateTime? get createdAt => throw _privateConstructorUsedError;
 
   /// Serializes this Post to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -50,16 +47,14 @@ abstract class $PostCopyWith<$Res> {
   @useResult
   $Res call(
       {@JsonKey(name: "id") String postId,
-      String nickname,
-      @JsonKey(name: "type", fromJson: PostType.fromString) PostType type,
-      String title,
-      String content,
-      @TimestampConverter() @JsonKey(name: "created_at") String createdAt,
-      @JsonKey(name: "trade_details", readValue: _readTradeDetails)
-      TradeDetails? tradeDetails,
-      int commentCount});
-
-  $TradeDetailsCopyWith<$Res>? get tradeDetails;
+      int? userId,
+      String? nickname,
+      String? title,
+      String? content,
+      int? price,
+      bool? isShared,
+      String? location,
+      DateTime? createdAt});
 }
 
 /// @nodoc
@@ -78,62 +73,53 @@ class _$PostCopyWithImpl<$Res, $Val extends Post>
   @override
   $Res call({
     Object? postId = null,
-    Object? nickname = null,
-    Object? type = null,
-    Object? title = null,
-    Object? content = null,
-    Object? createdAt = null,
-    Object? tradeDetails = freezed,
-    Object? commentCount = null,
+    Object? userId = freezed,
+    Object? nickname = freezed,
+    Object? title = freezed,
+    Object? content = freezed,
+    Object? price = freezed,
+    Object? isShared = freezed,
+    Object? location = freezed,
+    Object? createdAt = freezed,
   }) {
     return _then(_value.copyWith(
       postId: null == postId
           ? _value.postId
           : postId // ignore: cast_nullable_to_non_nullable
               as String,
-      nickname: null == nickname
+      userId: freezed == userId
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      nickname: freezed == nickname
           ? _value.nickname
           : nickname // ignore: cast_nullable_to_non_nullable
-              as String,
-      type: null == type
-          ? _value.type
-          : type // ignore: cast_nullable_to_non_nullable
-              as PostType,
-      title: null == title
+              as String?,
+      title: freezed == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
-              as String,
-      content: null == content
+              as String?,
+      content: freezed == content
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
-              as String,
-      createdAt: null == createdAt
+              as String?,
+      price: freezed == price
+          ? _value.price
+          : price // ignore: cast_nullable_to_non_nullable
+              as int?,
+      isShared: freezed == isShared
+          ? _value.isShared
+          : isShared // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      location: freezed == location
+          ? _value.location
+          : location // ignore: cast_nullable_to_non_nullable
+              as String?,
+      createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as String,
-      tradeDetails: freezed == tradeDetails
-          ? _value.tradeDetails
-          : tradeDetails // ignore: cast_nullable_to_non_nullable
-              as TradeDetails?,
-      commentCount: null == commentCount
-          ? _value.commentCount
-          : commentCount // ignore: cast_nullable_to_non_nullable
-              as int,
+              as DateTime?,
     ) as $Val);
-  }
-
-  /// Create a copy of Post
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $TradeDetailsCopyWith<$Res>? get tradeDetails {
-    if (_value.tradeDetails == null) {
-      return null;
-    }
-
-    return $TradeDetailsCopyWith<$Res>(_value.tradeDetails!, (value) {
-      return _then(_value.copyWith(tradeDetails: value) as $Val);
-    });
   }
 }
 
@@ -146,17 +132,14 @@ abstract class _$$PostImplCopyWith<$Res> implements $PostCopyWith<$Res> {
   @useResult
   $Res call(
       {@JsonKey(name: "id") String postId,
-      String nickname,
-      @JsonKey(name: "type", fromJson: PostType.fromString) PostType type,
-      String title,
-      String content,
-      @TimestampConverter() @JsonKey(name: "created_at") String createdAt,
-      @JsonKey(name: "trade_details", readValue: _readTradeDetails)
-      TradeDetails? tradeDetails,
-      int commentCount});
-
-  @override
-  $TradeDetailsCopyWith<$Res>? get tradeDetails;
+      int? userId,
+      String? nickname,
+      String? title,
+      String? content,
+      int? price,
+      bool? isShared,
+      String? location,
+      DateTime? createdAt});
 }
 
 /// @nodoc
@@ -172,47 +155,52 @@ class __$$PostImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? postId = null,
-    Object? nickname = null,
-    Object? type = null,
-    Object? title = null,
-    Object? content = null,
-    Object? createdAt = null,
-    Object? tradeDetails = freezed,
-    Object? commentCount = null,
+    Object? userId = freezed,
+    Object? nickname = freezed,
+    Object? title = freezed,
+    Object? content = freezed,
+    Object? price = freezed,
+    Object? isShared = freezed,
+    Object? location = freezed,
+    Object? createdAt = freezed,
   }) {
     return _then(_$PostImpl(
       postId: null == postId
           ? _value.postId
           : postId // ignore: cast_nullable_to_non_nullable
               as String,
-      nickname: null == nickname
+      userId: freezed == userId
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      nickname: freezed == nickname
           ? _value.nickname
           : nickname // ignore: cast_nullable_to_non_nullable
-              as String,
-      type: null == type
-          ? _value.type
-          : type // ignore: cast_nullable_to_non_nullable
-              as PostType,
-      title: null == title
+              as String?,
+      title: freezed == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
-              as String,
-      content: null == content
+              as String?,
+      content: freezed == content
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
-              as String,
-      createdAt: null == createdAt
+              as String?,
+      price: freezed == price
+          ? _value.price
+          : price // ignore: cast_nullable_to_non_nullable
+              as int?,
+      isShared: freezed == isShared
+          ? _value.isShared
+          : isShared // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      location: freezed == location
+          ? _value.location
+          : location // ignore: cast_nullable_to_non_nullable
+              as String?,
+      createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as String,
-      tradeDetails: freezed == tradeDetails
-          ? _value.tradeDetails
-          : tradeDetails // ignore: cast_nullable_to_non_nullable
-              as TradeDetails?,
-      commentCount: null == commentCount
-          ? _value.commentCount
-          : commentCount // ignore: cast_nullable_to_non_nullable
-              as int,
+              as DateTime?,
     ));
   }
 }
@@ -222,16 +210,14 @@ class __$$PostImplCopyWithImpl<$Res>
 class _$PostImpl implements _Post {
   const _$PostImpl(
       {@JsonKey(name: "id") required this.postId,
-      required this.nickname,
-      @JsonKey(name: "type", fromJson: PostType.fromString) required this.type,
-      required this.title,
-      required this.content,
-      @TimestampConverter()
-      @JsonKey(name: "created_at")
-      required this.createdAt,
-      @JsonKey(name: "trade_details", readValue: _readTradeDetails)
-      this.tradeDetails,
-      required this.commentCount});
+      this.userId,
+      this.nickname,
+      this.title,
+      this.content,
+      this.price,
+      this.isShared,
+      this.location,
+      this.createdAt});
 
   factory _$PostImpl.fromJson(Map<String, dynamic> json) =>
       _$$PostImplFromJson(json);
@@ -240,27 +226,25 @@ class _$PostImpl implements _Post {
   @JsonKey(name: "id")
   final String postId;
   @override
-  final String nickname;
+  final int? userId;
   @override
-  @JsonKey(name: "type", fromJson: PostType.fromString)
-  final PostType type;
+  final String? nickname;
   @override
-  final String title;
+  final String? title;
   @override
-  final String content;
+  final String? content;
   @override
-  @TimestampConverter()
-  @JsonKey(name: "created_at")
-  final String createdAt;
+  final int? price;
   @override
-  @JsonKey(name: "trade_details", readValue: _readTradeDetails)
-  final TradeDetails? tradeDetails;
+  final bool? isShared;
   @override
-  final int commentCount;
+  final String? location;
+  @override
+  final DateTime? createdAt;
 
   @override
   String toString() {
-    return 'Post(postId: $postId, nickname: $nickname, type: $type, title: $title, content: $content, createdAt: $createdAt, tradeDetails: $tradeDetails, commentCount: $commentCount)';
+    return 'Post(postId: $postId, userId: $userId, nickname: $nickname, title: $title, content: $content, price: $price, isShared: $isShared, location: $location, createdAt: $createdAt)';
   }
 
   @override
@@ -269,23 +253,24 @@ class _$PostImpl implements _Post {
         (other.runtimeType == runtimeType &&
             other is _$PostImpl &&
             (identical(other.postId, postId) || other.postId == postId) &&
+            (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.nickname, nickname) ||
                 other.nickname == nickname) &&
-            (identical(other.type, type) || other.type == type) &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.content, content) || other.content == content) &&
+            (identical(other.price, price) || other.price == price) &&
+            (identical(other.isShared, isShared) ||
+                other.isShared == isShared) &&
+            (identical(other.location, location) ||
+                other.location == location) &&
             (identical(other.createdAt, createdAt) ||
-                other.createdAt == createdAt) &&
-            (identical(other.tradeDetails, tradeDetails) ||
-                other.tradeDetails == tradeDetails) &&
-            (identical(other.commentCount, commentCount) ||
-                other.commentCount == commentCount));
+                other.createdAt == createdAt));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, postId, nickname, type, title,
-      content, createdAt, tradeDetails, commentCount);
+  int get hashCode => Object.hash(runtimeType, postId, userId, nickname, title,
+      content, price, isShared, location, createdAt);
 
   /// Create a copy of Post
   /// with the given fields replaced by the non-null parameter values.
@@ -306,17 +291,14 @@ class _$PostImpl implements _Post {
 abstract class _Post implements Post {
   const factory _Post(
       {@JsonKey(name: "id") required final String postId,
-      required final String nickname,
-      @JsonKey(name: "type", fromJson: PostType.fromString)
-      required final PostType type,
-      required final String title,
-      required final String content,
-      @TimestampConverter()
-      @JsonKey(name: "created_at")
-      required final String createdAt,
-      @JsonKey(name: "trade_details", readValue: _readTradeDetails)
-      final TradeDetails? tradeDetails,
-      required final int commentCount}) = _$PostImpl;
+      final int? userId,
+      final String? nickname,
+      final String? title,
+      final String? content,
+      final int? price,
+      final bool? isShared,
+      final String? location,
+      final DateTime? createdAt}) = _$PostImpl;
 
   factory _Post.fromJson(Map<String, dynamic> json) = _$PostImpl.fromJson;
 
@@ -324,23 +306,21 @@ abstract class _Post implements Post {
   @JsonKey(name: "id")
   String get postId;
   @override
-  String get nickname;
+  int? get userId;
   @override
-  @JsonKey(name: "type", fromJson: PostType.fromString)
-  PostType get type;
+  String? get nickname;
   @override
-  String get title;
+  String? get title;
   @override
-  String get content;
+  String? get content;
   @override
-  @TimestampConverter()
-  @JsonKey(name: "created_at")
-  String get createdAt;
+  int? get price;
   @override
-  @JsonKey(name: "trade_details", readValue: _readTradeDetails)
-  TradeDetails? get tradeDetails;
+  bool? get isShared;
   @override
-  int get commentCount;
+  String? get location;
+  @override
+  DateTime? get createdAt;
 
   /// Create a copy of Post
   /// with the given fields replaced by the non-null parameter values.

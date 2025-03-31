@@ -8,34 +8,27 @@ part of 'post.dart';
 
 _$PostImpl _$$PostImplFromJson(Map<String, dynamic> json) => _$PostImpl(
       postId: json['id'] as String,
-      nickname: json['nickname'] as String,
-      type: PostType.fromString(json['type'] as String),
-      title: json['title'] as String,
-      content: json['content'] as String,
-      createdAt:
-          const TimestampConverter().fromJson(json['created_at'] as String),
-      tradeDetails: _readTradeDetails(json, 'trade_details') == null
+      userId: (json['user_id'] as num?)?.toInt(),
+      nickname: json['nickname'] as String?,
+      title: json['title'] as String?,
+      content: json['content'] as String?,
+      price: (json['price'] as num?)?.toInt(),
+      isShared: json['is_shared'] as bool?,
+      location: json['location'] as String?,
+      createdAt: json['created_at'] == null
           ? null
-          : TradeDetails.fromJson(
-              _readTradeDetails(json, 'trade_details') as Map<String, dynamic>),
-      commentCount: (json['comment_count'] as num).toInt(),
+          : DateTime.parse(json['created_at'] as String),
     );
 
 Map<String, dynamic> _$$PostImplToJson(_$PostImpl instance) =>
     <String, dynamic>{
       'id': instance.postId,
+      'user_id': instance.userId,
       'nickname': instance.nickname,
-      'type': _$PostTypeEnumMap[instance.type]!,
       'title': instance.title,
       'content': instance.content,
-      'created_at': const TimestampConverter().toJson(instance.createdAt),
-      'trade_details': instance.tradeDetails,
-      'comment_count': instance.commentCount,
+      'price': instance.price,
+      'is_shared': instance.isShared,
+      'location': instance.location,
+      'created_at': instance.createdAt?.toIso8601String(),
     };
-
-const _$PostTypeEnumMap = {
-  PostType.free: 'free',
-  PostType.question: 'question',
-  PostType.secondHand: 'secondHand',
-  PostType.none: 'none',
-};
