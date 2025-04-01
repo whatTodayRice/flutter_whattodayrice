@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter_whattodayrice/data/models/comment.dart';
+import 'package:flutter_whattodayrice/data/models/post.dart';
 import 'package:flutter_whattodayrice/data/repository/auth_repository.dart';
 import 'package:flutter_whattodayrice/data/repository/post_repository.dart';
 
@@ -26,72 +26,72 @@ class CommentBloc extends Bloc<CommentEvent, CommentState> {
   int? page = 1;
 
   String content = "";
-  List<Comment> commentList = [];
+  // List<Post> commentList = [];
 
   Future<void> _onCommentListLoadRequested(
     CommentListLoadRequested event,
     Emitter<CommentState> emit,
   ) async {
-    emit(const CommentLoading());
-
-    if (page == null) {
-      emit(CommentListLoaded(comments: [...commentList]));
-
-      return;
-    }
-
-    final response = await postRepository.getComments(page: page!, postId: postId);
-
-    final dataList = response.succeedData ?? [];
-    page = (response.succeedData!.length < 20) ? page = null : page! + 1;
-
-    commentList = [...dataList, ...commentList];
-
-    emit(CommentListLoaded(comments: [...commentList]));
+    // emit(const CommentLoading());
+    //
+    // if (page == null) {
+    //   emit(CommentListLoaded(comments: [...commentList]));
+    //
+    //   return;
+    // }
+    //
+    // final response = await postRepository.getComments(page: page!, postId: postId);
+    //
+    // final dataList = response.succeedData ?? [];
+    // page = (response.succeedData!.length < 20) ? page = null : page! + 1;
+    //
+    // commentList = [...commentList];
+    //
+    // emit(CommentListLoaded(comments: [...commentList]));
   }
 
   Future<void> _onCommentDeleteRequested(
     CommentDeleteRequested event,
     Emitter<CommentState> emit,
   ) async {
-    final response = await postRepository.deleteComment(
-      commentId: commentList[event.commentIndex].id.toString(),
-    );
-
-    if (!response.isSucceed) {
-      return;
-    }
-
-    commentList = [
-      ...commentList.sublist(0, event.commentIndex),
-      ...commentList.sublist(event.commentIndex + 1),
-    ];
-
-    emit(CommentListLoaded(comments: commentList));
+    // final response = await postRepository.deleteComment(
+    //   commentId: commentList[event.commentIndex].id.toString(),
+    // );
+    //
+    // if (!response.isSucceed) {
+    //   return;
+    // }
+    //
+    // commentList = [
+    //   ...commentList.sublist(0, event.commentIndex),
+    //   ...commentList.sublist(event.commentIndex + 1),
+    // ];
+    //
+    // emit(CommentListLoaded(comments: commentList));
   }
 
   Future<void> _onCommentCreateRequested(
     CommentCreateRequested event,
     Emitter<CommentState> emit,
   ) async {
-    final response = await postRepository.addComment(
-      // TODO
-      userId: "",
-      postId: postId,
-      content: content,
-    );
-
-    commentList = [...commentList, response.succeedData!];
-
-    emit(CommentListLoaded(comments: commentList));
+    // final response = await postRepository.(
+    //   // TODO
+    //   userId: "",
+    //   postId: postId,
+    //   content: content,
+    // );
+    //
+    // commentList = [...commentList, response.succeedData!];
+    //
+    // emit(CommentListLoaded(comments: commentList));
   }
 
   Future<void> _onCommentContentChanged(
     CommentContentChanged event,
     Emitter<CommentState> emit,
   ) async {
-    content = event.content;
-
-    emit(CommentListLoaded(comments: commentList, isContentEmpty: content.isEmpty));
+    // content = event.content;
+    //
+    // emit(CommentListLoaded(comments: commentList, isContentEmpty: content.isEmpty));
   }
 }

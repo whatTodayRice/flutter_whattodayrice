@@ -17,9 +17,6 @@ final class CreatePostTitleChangeRequested extends CreatePostEvent {
   List<Object?> get props => [title];
 }
 
-/// 판매 유형 변경
-enum ProductPriceType { sell, share }
-
 final class CreatePostPriceTypeChangeRequested extends CreatePostEvent {
   const CreatePostPriceTypeChangeRequested({required this.typeIndex});
 

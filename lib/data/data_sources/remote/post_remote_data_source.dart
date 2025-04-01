@@ -40,15 +40,16 @@ class PostRemoteDataSource {
     } catch (e) {
       Log.i('getPostList 실패 $e');
 
-      return const UnknownException();
+      return const ServerException();
     }
   }
 
   Future<ApiResponse<Post>> getPost({required String id}) async {
     try {
-      final docSnap = await db.collection('posts').doc(id).get();
+      final postDoc = await db.collection('posts').doc(id).get();
+      final commentsDocs = await db.collection('posts').doc(id).collection('comments').get();
 
-      return SucceedResponse(Post.fromFireStore(docSnap));
+      return SucceedResponse(Post.fromFireStore(postDoc, querySnapshot: commentsDocs));
     } catch (e) {
       Log.i('getPost 실패 $e');
 
@@ -59,9 +60,15 @@ class PostRemoteDataSource {
   Future<ApiResponse<bool?>> createPost({required CreatePostRequest request}) async {
     try {
       Map<String, dynamic> requestJson = request.toJson();
+
+      final postDocRef = db.collection('posts').doc();
+
+      // Auto-Generated Document ID
+      requestJson['id'] = postDocRef.id;
+      // CreatedAt
       requestJson['created_at'] = FieldValue.serverTimestamp();
 
-      await db.collection('posts').doc().set(requestJson);
+      await postDocRef.set(requestJson);
 
       Log.i('중고 거래 글 등록 성공 $requestJson');
 
@@ -69,7 +76,58 @@ class PostRemoteDataSource {
     } catch (e) {
       Log.i('중고 거래 글 등록 실패 $e');
 
-      return const ServerException(message: '일시적으로 문제가 생겼어요.\n잠시 후 다시 시도해주세요.');
+      return const ServerException();
+    }
+  }
+
+  Future<ApiResponse> updatePostSellStatus({required String postId, required int sellStatus}) async {
+    try {
+      await db.collection('posts').doc(postId).update({'sell_status': sellStatus});
+
+      Log.i('중고 거래 판매 상태 변경 성공 $postId: $sellStatus');
+
+      return const SucceedResponse(true);
+    } catch (e) {
+      Log.i('중고 거래 판매 상태 변경 실패 $postId: $sellStatus');
+
+      return const ServerException();
+    }
+  }
+
+  Future<ApiResponse> deletePost({required String postId}) async {
+    try {
+      await db.collection('posts').doc(postId).delete();
+
+      Log.i('중고 거래 글 $postId 삭제 성공');
+
+      return const SucceedResponse(true);
+    } catch (e) {
+      Log.i('중고 거래 글 $postId 삭제 성공');
+
+      return const ServerException();
+    }
+  }
+
+  Future<ApiResponse> createComment({required CreatePostRequest request}) async {
+    try {
+      Map<String, dynamic> requestJson = request.toJson();
+
+      final commentsRef = db.collection('posts').doc(request.parentPostId).collection('comments');
+      final generatedDocId = commentsRef.doc().id;
+      final createdAt = FieldValue.serverTimestamp();
+
+      requestJson['id'] = generatedDocId;
+      requestJson['created_at'] = createdAt;
+
+      await commentsRef.add(requestJson);
+
+      Log.i('중고 거래 댓글 등록 성공\n게시글 Id: ${request.parentPostId}');
+
+      return const SucceedResponse(true);
+    } catch (e) {
+      Log.i('중고 거래 댓글 등록 실패\n게시글 Id: ${request.parentPostId}');
+
+      return const ServerException();
     }
   }
 }

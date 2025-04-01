@@ -9,12 +9,12 @@ class SellTypeButton extends StatelessWidget {
   final VoidCallback? onTap;
   final String data;
   final int? selectedIndex;
-  final ProductPriceType type;
+  final ProductSellStatus type;
 
   factory SellTypeButton.sell({VoidCallback? onTap, int? selectedIndex}) =>
-      SellTypeButton(data: '판매해요', onTap: onTap, type: ProductPriceType.sell, selectedIndex: selectedIndex);
+      SellTypeButton(data: '판매해요', onTap: onTap, type: ProductSellStatus.isOngoing, selectedIndex: selectedIndex);
   factory SellTypeButton.share({VoidCallback? onTap, int? selectedIndex}) =>
-      SellTypeButton(data: '나눔해요', onTap: onTap, type: ProductPriceType.share, selectedIndex: selectedIndex);
+      SellTypeButton(data: '나눔해요', onTap: onTap, type: ProductSellStatus.shared, selectedIndex: selectedIndex);
 
   @override
   Widget build(BuildContext context) {

@@ -1,17 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_whattodayrice/config/themes/app_color.dart';
+import 'package:flutter_whattodayrice/config/themes/app_text_style.dart';
 
 class AppBottomSheet extends StatelessWidget {
-  const AppBottomSheet({
-    super.key,
-    required this.assetPath,
-    required this.content,
-    required this.onTap,
-  });
+  const AppBottomSheet({super.key, this.asset, required this.content, required this.onTap});
 
-  final String assetPath;
+  final Widget? asset;
   final String content;
   final Function()? onTap;
 
@@ -26,15 +21,9 @@ class AppBottomSheet extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SvgPicture.asset(assetPath, width: 24, height: 24),
+                if (asset != null) asset!,
                 SizedBox(width: 8.h),
-                Text(
-                  content,
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleMedium!
-                      .copyWith(fontWeight: FontWeight.w600, color: AppColor.orange6),
-                ),
+                Text(content, style: AppTextStyle.bold20.copyWith(color: AppColor.orangeFF6060)),
               ],
             ),
           ),

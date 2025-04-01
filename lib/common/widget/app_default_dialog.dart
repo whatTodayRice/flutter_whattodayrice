@@ -7,6 +7,7 @@ class AppDefaultDialog extends StatelessWidget {
   final String content;
   final String? cancelButtonText;
   final String? confirmButtonText;
+  final Color? confirmButtonTextColor;
   final VoidCallback? onCancel;
   final VoidCallback? onConfirm;
 
@@ -16,6 +17,7 @@ class AppDefaultDialog extends StatelessWidget {
     required this.content,
     this.cancelButtonText,
     this.confirmButtonText,
+    this.confirmButtonTextColor,
     this.onCancel,
     this.onConfirm,
   });
@@ -26,6 +28,7 @@ class AppDefaultDialog extends StatelessWidget {
     required String content,
     String? cancelButtonText,
     String? confirmButtonText,
+    Color? confirmButtonTextColor,
     VoidCallback? onCancel,
     VoidCallback? onConfirm,
   }) async {
@@ -36,6 +39,7 @@ class AppDefaultDialog extends StatelessWidget {
         content: content,
         cancelButtonText: cancelButtonText,
         confirmButtonText: confirmButtonText,
+        confirmButtonTextColor: confirmButtonTextColor,
         onCancel: onCancel,
         onConfirm: onConfirm,
       ),
@@ -75,7 +79,7 @@ class AppDefaultDialog extends StatelessWidget {
                 height: 48,
                 child: Row(
                   children: [
-                    if (confirmButtonText?.isNotEmpty == true)
+                    if (cancelButtonText?.isNotEmpty == true)
                       Expanded(
                         child: TextButton(
                           onPressed: onCancel ?? () => Navigator.of(context).pop(false),
@@ -93,7 +97,7 @@ class AppDefaultDialog extends StatelessWidget {
                       child: TextButton(
                         onPressed: onConfirm ?? () => Navigator.of(context).pop(true),
                         style: TextButton.styleFrom(
-                          foregroundColor: AppColor.orangeFF823B,
+                          foregroundColor: confirmButtonTextColor ?? AppColor.orangeFF823B,
                           shape: const RoundedRectangleBorder(
                             borderRadius: BorderRadius.only(bottomRight: Radius.circular(14)),
                           ),

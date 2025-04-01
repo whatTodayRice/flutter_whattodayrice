@@ -8,7 +8,7 @@ abstract class CommentState extends Equatable {
     this.parentCommentIndex,
   });
 
-  final List<Comment> comments;
+  final List<Post> comments;
   final bool? isContentEmpty;
   final String? errorMessage;
   final int? parentCommentIndex;

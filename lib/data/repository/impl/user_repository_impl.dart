@@ -42,4 +42,16 @@ class UserRepositoryImpl implements UserRepository {
       },
     );
   }
+
+  @override
+  Future<ApiResponse> updateBlockedUsers({required int userId, required List<int> blockedUserIds}) =>
+      remoteDataSource.updateBlockedUsers(userId: userId, blockedUserIds: blockedUserIds).then(
+        (value) {
+          if (value.isSucceed == true) {
+            _userProfile = _userProfile?.copyWith(blockedUserIds: [...blockedUserIds]);
+          }
+
+          return value;
+        },
+      );
 }

@@ -21,7 +21,7 @@ class UserRemoteDataSource {
   }
 
   Future<void> setUserProfile({required int userId, String? nickname}) async {
-    final newUserProfile = Profile(id: userId, nickname: nickname ?? "행긱 요정 $userId");
+    final newUserProfile = Profile(id: userId, nickname: nickname ?? "행긱 요정 $userId", blockedUserIds: []);
 
     await db.collection('users').doc(userId.toString()).set(newUserProfile.toJson()).then(
           (value) => Log.i("새로운 유저 추가됨. UserId: $userId"),
@@ -37,6 +37,22 @@ class UserRemoteDataSource {
       Log.i('카카오 유저 정보 가져오기 실패 $e');
 
       return const UnknownException();
+    }
+  }
+
+  Future<ApiResponse> updateBlockedUsers({required int userId, required List<int> blockedUserIds}) async {
+    try {
+      await db.collection('users').doc(userId.toString()).update({
+        'blocked_user_ids': [...blockedUserIds]
+      });
+
+      Log.i('차단한 사용자 업데이트 성공: $userId => $blockedUserIds');
+
+      return const SucceedResponse(true);
+    } catch (e) {
+      Log.i('차단한 사용자 업데이트 실패: $userId => $blockedUserIds');
+
+      return const ServerException();
     }
   }
 }

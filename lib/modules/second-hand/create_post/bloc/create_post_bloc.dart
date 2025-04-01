@@ -9,6 +9,17 @@ import 'package:flutter_whattodayrice/data/repository/user_repository.dart';
 part 'create_post_event.dart';
 part 'create_post_state.dart';
 
+enum ProductSellStatus {
+  isOngoing('판매중'),
+  done('판매완료'),
+  shared('나눔해요'),
+  reserved('예약중');
+
+  final String displayValue;
+
+  const ProductSellStatus(this.displayValue);
+}
+
 class CreatePostBloc extends Bloc<CreatePostEvent, CreatePostState> {
   final UserRepository userRepository;
   final PostRepository postRepository;
@@ -28,7 +39,7 @@ class CreatePostBloc extends Bloc<CreatePostEvent, CreatePostState> {
 
   String title = '';
   int? price;
-  int productTypeIndex = ProductPriceType.sell.index;
+  int sellStatusIndex = ProductSellStatus.isOngoing.index;
   String content = '';
   String location = '';
   String imageUrl = '';
@@ -46,9 +57,9 @@ class CreatePostBloc extends Bloc<CreatePostEvent, CreatePostState> {
     CreatePostPriceTypeChangeRequested event,
     Emitter<CreatePostState> emit,
   ) async {
-    productTypeIndex = event.typeIndex;
+    sellStatusIndex = event.typeIndex;
 
-    emit(CreatePostSelectedSellTypeChecked(index: productTypeIndex));
+    emit(CreatePostSelectedSellTypeChecked(index: sellStatusIndex));
   }
 
   FutureOr<void> _onCreatePostPriceChangeRequested(
@@ -110,8 +121,9 @@ class CreatePostBloc extends Bloc<CreatePostEvent, CreatePostState> {
       nickname: userProfile.nickname,
       imageUrl: imageUrl.isEmpty ? null : imageUrl,
       title: title,
+      content: content,
       price: price,
-      isShared: productTypeIndex == ProductPriceType.share.index,
+      sellStatus: sellStatusIndex,
       location: location,
     );
 
@@ -131,7 +143,7 @@ class CreatePostBloc extends Bloc<CreatePostEvent, CreatePostState> {
       return false;
     }
 
-    if (productTypeIndex == ProductPriceType.sell.index && price == null) {
+    if (sellStatusIndex == ProductSellStatus.isOngoing.index && price == null) {
       return false;
     }
 
