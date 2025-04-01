@@ -26,10 +26,12 @@ mixin _$Post {
   String? get nickname => throw _privateConstructorUsedError;
   String? get title => throw _privateConstructorUsedError;
   String? get content => throw _privateConstructorUsedError;
+  String? get imageUrl => throw _privateConstructorUsedError;
   int? get price => throw _privateConstructorUsedError;
   bool? get isShared => throw _privateConstructorUsedError;
   String? get location => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
+  int? get sellStatus => throw _privateConstructorUsedError;
 
   /// Serializes this Post to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -51,10 +53,12 @@ abstract class $PostCopyWith<$Res> {
       String? nickname,
       String? title,
       String? content,
+      String? imageUrl,
       int? price,
       bool? isShared,
       String? location,
-      DateTime? createdAt});
+      DateTime? createdAt,
+      int? sellStatus});
 }
 
 /// @nodoc
@@ -77,10 +81,12 @@ class _$PostCopyWithImpl<$Res, $Val extends Post>
     Object? nickname = freezed,
     Object? title = freezed,
     Object? content = freezed,
+    Object? imageUrl = freezed,
     Object? price = freezed,
     Object? isShared = freezed,
     Object? location = freezed,
     Object? createdAt = freezed,
+    Object? sellStatus = freezed,
   }) {
     return _then(_value.copyWith(
       postId: null == postId
@@ -103,6 +109,10 @@ class _$PostCopyWithImpl<$Res, $Val extends Post>
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
               as String?,
+      imageUrl: freezed == imageUrl
+          ? _value.imageUrl
+          : imageUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
       price: freezed == price
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
@@ -119,6 +129,10 @@ class _$PostCopyWithImpl<$Res, $Val extends Post>
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      sellStatus: freezed == sellStatus
+          ? _value.sellStatus
+          : sellStatus // ignore: cast_nullable_to_non_nullable
+              as int?,
     ) as $Val);
   }
 }
@@ -136,10 +150,12 @@ abstract class _$$PostImplCopyWith<$Res> implements $PostCopyWith<$Res> {
       String? nickname,
       String? title,
       String? content,
+      String? imageUrl,
       int? price,
       bool? isShared,
       String? location,
-      DateTime? createdAt});
+      DateTime? createdAt,
+      int? sellStatus});
 }
 
 /// @nodoc
@@ -159,10 +175,12 @@ class __$$PostImplCopyWithImpl<$Res>
     Object? nickname = freezed,
     Object? title = freezed,
     Object? content = freezed,
+    Object? imageUrl = freezed,
     Object? price = freezed,
     Object? isShared = freezed,
     Object? location = freezed,
     Object? createdAt = freezed,
+    Object? sellStatus = freezed,
   }) {
     return _then(_$PostImpl(
       postId: null == postId
@@ -185,6 +203,10 @@ class __$$PostImplCopyWithImpl<$Res>
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
               as String?,
+      imageUrl: freezed == imageUrl
+          ? _value.imageUrl
+          : imageUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
       price: freezed == price
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
@@ -201,6 +223,10 @@ class __$$PostImplCopyWithImpl<$Res>
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      sellStatus: freezed == sellStatus
+          ? _value.sellStatus
+          : sellStatus // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -214,10 +240,12 @@ class _$PostImpl implements _Post {
       this.nickname,
       this.title,
       this.content,
+      this.imageUrl,
       this.price,
       this.isShared,
       this.location,
-      this.createdAt});
+      this.createdAt,
+      this.sellStatus});
 
   factory _$PostImpl.fromJson(Map<String, dynamic> json) =>
       _$$PostImplFromJson(json);
@@ -234,6 +262,8 @@ class _$PostImpl implements _Post {
   @override
   final String? content;
   @override
+  final String? imageUrl;
+  @override
   final int? price;
   @override
   final bool? isShared;
@@ -241,10 +271,12 @@ class _$PostImpl implements _Post {
   final String? location;
   @override
   final DateTime? createdAt;
+  @override
+  final int? sellStatus;
 
   @override
   String toString() {
-    return 'Post(postId: $postId, userId: $userId, nickname: $nickname, title: $title, content: $content, price: $price, isShared: $isShared, location: $location, createdAt: $createdAt)';
+    return 'Post(postId: $postId, userId: $userId, nickname: $nickname, title: $title, content: $content, imageUrl: $imageUrl, price: $price, isShared: $isShared, location: $location, createdAt: $createdAt, sellStatus: $sellStatus)';
   }
 
   @override
@@ -258,19 +290,23 @@ class _$PostImpl implements _Post {
                 other.nickname == nickname) &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.content, content) || other.content == content) &&
+            (identical(other.imageUrl, imageUrl) ||
+                other.imageUrl == imageUrl) &&
             (identical(other.price, price) || other.price == price) &&
             (identical(other.isShared, isShared) ||
                 other.isShared == isShared) &&
             (identical(other.location, location) ||
                 other.location == location) &&
             (identical(other.createdAt, createdAt) ||
-                other.createdAt == createdAt));
+                other.createdAt == createdAt) &&
+            (identical(other.sellStatus, sellStatus) ||
+                other.sellStatus == sellStatus));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, postId, userId, nickname, title,
-      content, price, isShared, location, createdAt);
+      content, imageUrl, price, isShared, location, createdAt, sellStatus);
 
   /// Create a copy of Post
   /// with the given fields replaced by the non-null parameter values.
@@ -295,10 +331,12 @@ abstract class _Post implements Post {
       final String? nickname,
       final String? title,
       final String? content,
+      final String? imageUrl,
       final int? price,
       final bool? isShared,
       final String? location,
-      final DateTime? createdAt}) = _$PostImpl;
+      final DateTime? createdAt,
+      final int? sellStatus}) = _$PostImpl;
 
   factory _Post.fromJson(Map<String, dynamic> json) = _$PostImpl.fromJson;
 
@@ -314,6 +352,8 @@ abstract class _Post implements Post {
   @override
   String? get content;
   @override
+  String? get imageUrl;
+  @override
   int? get price;
   @override
   bool? get isShared;
@@ -321,6 +361,8 @@ abstract class _Post implements Post {
   String? get location;
   @override
   DateTime? get createdAt;
+  @override
+  int? get sellStatus;
 
   /// Create a copy of Post
   /// with the given fields replaced by the non-null parameter values.

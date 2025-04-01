@@ -7,9 +7,10 @@ part 'create_post_request.g.dart';
 class CreatePostRequest with _$CreatePostRequest {
   const factory CreatePostRequest({
     required int userId,
+    required String nickname,
     required String title,
-    required int price,
-    required int sellTypeIndex,
+    int? price,
+    required bool isShared,
     required String location,
     String? imageUrl,
   }) = _CreatePostRequest;

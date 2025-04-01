@@ -62,9 +62,9 @@ class _PostCreationScreenState extends State<PostCreationScreen> {
     return Theme(
       data: Theme.of(context).copyWith(
         textSelectionTheme: TextSelectionThemeData(
-          selectionColor: AppColor.orange5.withOpacity(0.6),
-          cursorColor: AppColor.orange5,
-          selectionHandleColor: AppColor.orange5,
+          selectionColor: AppColor.orangeFF823B.withOpacity(0.6),
+          cursorColor: AppColor.orangeFF823B,
+          selectionHandleColor: AppColor.orangeFF823B,
         ),
         scaffoldBackgroundColor: Colors.white,
       ),
@@ -194,7 +194,7 @@ class PostCreationCompletionButton extends StatelessWidget {
         height: 46.h,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(6),
-          color: isButtonEnabled ? AppColor.orange5 : AppColor.grayDCDCDC,
+          color: isButtonEnabled ? AppColor.orangeFF823B : AppColor.grayDCDCDC,
         ),
         child: Center(
           child: Text(

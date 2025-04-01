@@ -93,7 +93,7 @@ class AppDefaultDialog extends StatelessWidget {
                       child: TextButton(
                         onPressed: onConfirm ?? () => Navigator.of(context).pop(true),
                         style: TextButton.styleFrom(
-                          foregroundColor: AppColor.orange5,
+                          foregroundColor: AppColor.orangeFF823B,
                           shape: const RoundedRectangleBorder(
                             borderRadius: BorderRadius.only(bottomRight: Radius.circular(14)),
                           ),

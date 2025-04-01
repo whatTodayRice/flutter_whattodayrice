@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_whattodayrice/data/models/enum/enum_post_type.dart';
 import 'package:flutter_whattodayrice/data/models/post.dart';
 import 'package:flutter_whattodayrice/modules/board/bloc/post_bloc.dart';
 import 'package:flutter_whattodayrice/modules/board/widget/board_tab_bar.dart';
-import 'package:flutter_whattodayrice/modules/board/widget/post_list_view.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 class BoardScreen extends StatefulWidget {

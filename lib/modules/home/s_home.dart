@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_whattodayrice/assets/assets.gen.dart';
 import 'package:flutter_whattodayrice/modules/board/bloc/post_bloc.dart';
 import 'package:flutter_whattodayrice/modules/board/board_screen.dart';
 import 'package:flutter_whattodayrice/config/themes/app_color.dart';
@@ -44,13 +45,13 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
             backgroundColor: Colors.white,
             items: <BottomNavigationBarItem>[
               BottomNavigationBarItem(
-                activeIcon: SvgPicture.asset("assets/images/식단_active.svg"),
-                icon: SvgPicture.asset("assets/images/식단_inactive.svg"),
+                activeIcon: Assets.images.png.iconMealActive.image(width: 28, height: 28),
+                icon: Assets.images.png.iconMealInactive.image(width: 28, height: 28),
                 label: '홈',
               ),
               BottomNavigationBarItem(
-                activeIcon: SvgPicture.asset("assets/images/MY_active.svg"),
-                icon: SvgPicture.asset("assets/images/MY_inactive.svg"),
+                activeIcon: Assets.images.iconSecondHandActive.image(width: 28, height: 28),
+                icon: Assets.images.iconSecondHandInactive.image(width: 28, height: 28),
                 label: '중고거래',
               ),
             ],

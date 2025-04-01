@@ -7,7 +7,6 @@ import 'package:flutter_whattodayrice/data/models/post.dart';
 import 'package:flutter_whattodayrice/modules/board/comment/bloc/comment_bloc.dart';
 import 'package:flutter_whattodayrice/modules/board/comment/widget/comment_input.dart';
 import 'package:flutter_whattodayrice/modules/board/comment/widget/comment_sliver_list.dart';
-import 'package:flutter_whattodayrice/modules/board/widget/post_content.dart';
 import 'package:go_router/go_router.dart';
 
 class PostDetailScreen extends StatefulWidget {
@@ -86,7 +85,7 @@ class CommentsCountRow extends StatelessWidget {
                   TextSpan(
                     text: commentListLength.toString(),
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                          color: AppColor.orange5,
+                          color: AppColor.orangeFF823B,
                           fontWeight: FontWeight.w600,
                         ),
                   ),

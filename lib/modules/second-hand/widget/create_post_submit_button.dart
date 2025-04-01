@@ -21,7 +21,7 @@ class CreatePostSubmitButton extends StatelessWidget {
         height: 46.h,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(6),
-          color: isButtonEnabled ? AppColor.orange5 : AppColor.grayDCDCDC,
+          color: isButtonEnabled ? AppColor.orangeFF823B : AppColor.grayDCDCDC,
         ),
         child: Center(
           child: Text("작성완료", style: AppTextStyle.bold15.copyWith(color: AppColor.white1)),

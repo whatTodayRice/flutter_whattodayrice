@@ -11,23 +11,44 @@ class PostRemoteDataSource {
 
   PostRemoteDataSource();
 
+  Future<ApiResponse<List<Post>>> getPostList({
+    int? perPage = 20,
+    int? page = 1,
+    String? lastDocId,
+  }) async {
+    try {
+      Query<Map<String, dynamic>> query =
+          db.collection('posts').orderBy('created_at', descending: true).limit(perPage ?? 20);
+
+      QuerySnapshot<Map<String, dynamic>> querySnapshot;
+
+      List<Post> postList = [];
+
+      if (lastDocId == null) {
+        querySnapshot = await query.get();
+      } else {
+        querySnapshot = await query.startAfter([lastDocId]).get();
+      }
+
+      for (int i = 0; i < querySnapshot.docs.length; i++) {
+        final documentSnapShot = querySnapshot.docs[i];
+
+        postList.add(Post.fromFireStore(documentSnapShot));
+      }
+
+      return SucceedResponse(postList);
+    } catch (e) {
+      Log.i('getPostList 실패 $e');
+
+      return const UnknownException();
+    }
+  }
+
   Future<ApiResponse<Post>> getPost({required String id}) async {
     try {
       final docSnap = await db.collection('posts').doc(id).get();
 
-      final postDoc = docSnap.data();
-
-      return SucceedResponse(
-        Post(
-          postId: id,
-          title: postDoc?['title'],
-          content: postDoc?['content'],
-          price: postDoc?['price'],
-          isShared: postDoc?['isShared'],
-          location: postDoc?['location'],
-          createdAt: postDoc?['created_at'],
-        ),
-      );
+      return SucceedResponse(Post.fromFireStore(docSnap));
     } catch (e) {
       Log.i('getPost 실패 $e');
 

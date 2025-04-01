@@ -53,6 +53,7 @@ abstract class AppTextStyle {
   static const bold15 = TextStyle(fontSize: 15.0, fontWeight: FontWeight.w700);
   static const bold14 = TextStyle(fontSize: 14.0, fontWeight: FontWeight.w700);
 
+  static const regular18 = TextStyle(fontSize: 18.0, fontWeight: FontWeight.w400);
   static const regular16 = TextStyle(fontSize: 16.0, fontWeight: FontWeight.w400);
   static const regular14 = TextStyle(fontSize: 14.0, fontWeight: FontWeight.w400);
   static const regular11 = TextStyle(fontSize: 11.0, fontWeight: FontWeight.w400);

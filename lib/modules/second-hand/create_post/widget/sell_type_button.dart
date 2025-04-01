@@ -3,18 +3,18 @@ import 'package:flutter_whattodayrice/config/themes/app_color.dart';
 import 'package:flutter_whattodayrice/config/themes/app_text_style.dart';
 import 'package:flutter_whattodayrice/modules/second-hand/create_post/bloc/create_post_bloc.dart';
 
-class PriceTypeButton extends StatelessWidget {
-  const PriceTypeButton({super.key, this.onTap, required this.data, this.selectedIndex, required this.type});
+class SellTypeButton extends StatelessWidget {
+  const SellTypeButton({super.key, this.onTap, required this.data, this.selectedIndex, required this.type});
 
   final VoidCallback? onTap;
   final String data;
   final int? selectedIndex;
   final ProductPriceType type;
 
-  factory PriceTypeButton.sell({VoidCallback? onTap, int? selectedIndex}) =>
-      PriceTypeButton(data: '판매해요', onTap: onTap, type: ProductPriceType.sell, selectedIndex: selectedIndex);
-  factory PriceTypeButton.share({VoidCallback? onTap, int? selectedIndex}) =>
-      PriceTypeButton(data: '나눔해요', onTap: onTap, type: ProductPriceType.share, selectedIndex: selectedIndex);
+  factory SellTypeButton.sell({VoidCallback? onTap, int? selectedIndex}) =>
+      SellTypeButton(data: '판매해요', onTap: onTap, type: ProductPriceType.sell, selectedIndex: selectedIndex);
+  factory SellTypeButton.share({VoidCallback? onTap, int? selectedIndex}) =>
+      SellTypeButton(data: '나눔해요', onTap: onTap, type: ProductPriceType.share, selectedIndex: selectedIndex);
 
   @override
   Widget build(BuildContext context) {

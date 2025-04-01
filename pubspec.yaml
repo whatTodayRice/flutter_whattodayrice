@@ -127,6 +127,7 @@ flutter:
     - assets/images/splash/
     - assets/images/
     - assets/images/launcher/
+    - assets/images/png/
 
   # fonts:
   #   - family: NotoSansKR

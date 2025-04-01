@@ -97,23 +97,22 @@ class CreatePostBloc extends Bloc<CreatePostEvent, CreatePostState> {
     CreatePostSubmitRequested event,
     Emitter<CreatePostState> emit,
   ) async {
-    if (price == null) {
-      return;
-    }
+    emit(const CreatePostLoading());
 
-    final userId = userRepository.getUserProfileFromCache()?.id;
+    final userProfile = userRepository.getUserProfileFromCache();
 
-    if (userId == null) {
+    if (userProfile == null) {
       return;
     }
 
     final request = CreatePostRequest(
-      userId: userId,
-      title: title,
-      price: price!,
-      sellTypeIndex: productTypeIndex,
-      location: location,
+      userId: userProfile.id,
+      nickname: userProfile.nickname,
       imageUrl: imageUrl.isEmpty ? null : imageUrl,
+      title: title,
+      price: price,
+      isShared: productTypeIndex == ProductPriceType.share.index,
+      location: location,
     );
 
     final result = await postRepository.createPost(request: request);
@@ -132,7 +131,7 @@ class CreatePostBloc extends Bloc<CreatePostEvent, CreatePostState> {
       return false;
     }
 
-    if (price == null) {
+    if (productTypeIndex == ProductPriceType.sell.index && price == null) {
       return false;
     }
 

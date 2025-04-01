@@ -10,9 +10,7 @@ import 'package:injectable/injectable.dart';
 class PostRepositoryImpl implements PostRepository {
   final PostRemoteDataSource postRemoteDataSource;
 
-  PostRepositoryImpl({
-    required this.postRemoteDataSource,
-  });
+  PostRepositoryImpl({required this.postRemoteDataSource});
 
   final int pageSize = 20;
 
@@ -47,10 +45,8 @@ class PostRepositoryImpl implements PostRepository {
   }
 
   @override
-  Future<ApiResponse<List<Post>>> getPosts({required int page, required String postType}) {
-    // TODO: implement getPosts
-    throw UnimplementedError();
-  }
+  Future<ApiResponse<List<Post>>> getPosts({int? perPage, int? page, String? lastDocId}) =>
+      postRemoteDataSource.getPostList(perPage: page, page: page, lastDocId: lastDocId);
 
   @override
   Future<ApiResponse<bool?>> createPost({required CreatePostRequest request}) =>

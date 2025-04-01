@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_whattodayrice/common/utils/event_bus.dart';
-import 'package:flutter_whattodayrice/data/models/enum/enum_post_type.dart';
 import 'package:flutter_whattodayrice/data/models/post.dart';
 import 'package:flutter_whattodayrice/data/repository/post_repository.dart';
 
@@ -54,12 +53,12 @@ class PostBloc extends Bloc<PostEvent, PostState> {
       return;
     }
 
-    final response = await postRepository.getPosts(postType: PostType.free.name, page: freePostNextPage!);
-
-    final dataList = response.succeedData ?? [];
-    freePostNextPage = (response.succeedData!.length >= 20) ? freePostNextPage! + 1 : null;
-
-    freePostList = [...freePostList, ...dataList];
+    // final response = await postRepository.getPosts(postType: PostType.free.name, page: freePostNextPage!);
+    //
+    // final dataList = response.succeedData ?? [];
+    // freePostNextPage = (response.succeedData!.length >= 20) ? freePostNextPage! + 1 : null;
+    //
+    // freePostList = [...freePostList, ...dataList];
 
     emit(FreePostLoaded(itemList: [...freePostList]));
   }
@@ -123,12 +122,12 @@ class PostBloc extends Bloc<PostEvent, PostState> {
       return;
     }
 
-    final response = await postRepository.getPosts(postType: PostType.question.name, page: questionPostNextPage!);
-
-    final dataList = response.succeedData ?? [];
-    questionPostNextPage = (dataList.length >= 20) ? questionPostNextPage! + 1 : null;
-
-    questionPostList = [...questionPostList, ...dataList];
+    // final response = await postRepository.getPosts(postType: PostType.question.name, page: questionPostNextPage!);
+    //
+    // final dataList = response.succeedData ?? [];
+    // questionPostNextPage = (dataList.length >= 20) ? questionPostNextPage! + 1 : null;
+    //
+    // questionPostList = [...questionPostList, ...dataList];
 
     emit(QuestionPostLoaded(itemList: [...questionPostList], nextPage: questionPostNextPage));
   }
