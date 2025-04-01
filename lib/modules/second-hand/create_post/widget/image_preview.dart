@@ -20,22 +20,24 @@ class ImagePreview extends StatelessWidget {
         width: 100,
         height: 100,
         fit: BoxFit.cover,
-        progressIndicatorBuilder: (context, url, progress) => const PreviewErrorImage(),
-        errorWidget: (context, url, error) => const PreviewErrorImage(),
+        progressIndicatorBuilder: (context, url, progress) => const PreviewErrorImage(size: 100),
+        errorWidget: (context, url, error) => const PreviewErrorImage(size: 100),
       ),
     );
   }
 }
 
 class PreviewErrorImage extends StatelessWidget {
-  const PreviewErrorImage({super.key});
+  const PreviewErrorImage({super.key, this.size});
+
+  final double? size;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: AppColor.grayDCDCDC),
-      width: 100,
-      height: 100,
+      width: size,
+      height: size,
     );
   }
 }

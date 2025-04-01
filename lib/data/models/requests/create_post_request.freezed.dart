@@ -21,9 +21,10 @@ CreatePostRequest _$CreatePostRequestFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$CreatePostRequest {
   int get userId => throw _privateConstructorUsedError;
+  String get nickname => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
-  int get price => throw _privateConstructorUsedError;
-  int get sellTypeIndex => throw _privateConstructorUsedError;
+  int? get price => throw _privateConstructorUsedError;
+  bool get isShared => throw _privateConstructorUsedError;
   String get location => throw _privateConstructorUsedError;
   String? get imageUrl => throw _privateConstructorUsedError;
 
@@ -45,9 +46,10 @@ abstract class $CreatePostRequestCopyWith<$Res> {
   @useResult
   $Res call(
       {int userId,
+      String nickname,
       String title,
-      int price,
-      int sellTypeIndex,
+      int? price,
+      bool isShared,
       String location,
       String? imageUrl});
 }
@@ -68,9 +70,10 @@ class _$CreatePostRequestCopyWithImpl<$Res, $Val extends CreatePostRequest>
   @override
   $Res call({
     Object? userId = null,
+    Object? nickname = null,
     Object? title = null,
-    Object? price = null,
-    Object? sellTypeIndex = null,
+    Object? price = freezed,
+    Object? isShared = null,
     Object? location = null,
     Object? imageUrl = freezed,
   }) {
@@ -79,18 +82,22 @@ class _$CreatePostRequestCopyWithImpl<$Res, $Val extends CreatePostRequest>
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
               as int,
+      nickname: null == nickname
+          ? _value.nickname
+          : nickname // ignore: cast_nullable_to_non_nullable
+              as String,
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
-      price: null == price
+      price: freezed == price
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
-              as int,
-      sellTypeIndex: null == sellTypeIndex
-          ? _value.sellTypeIndex
-          : sellTypeIndex // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
+      isShared: null == isShared
+          ? _value.isShared
+          : isShared // ignore: cast_nullable_to_non_nullable
+              as bool,
       location: null == location
           ? _value.location
           : location // ignore: cast_nullable_to_non_nullable
@@ -113,9 +120,10 @@ abstract class _$$CreatePostRequestImplCopyWith<$Res>
   @useResult
   $Res call(
       {int userId,
+      String nickname,
       String title,
-      int price,
-      int sellTypeIndex,
+      int? price,
+      bool isShared,
       String location,
       String? imageUrl});
 }
@@ -134,9 +142,10 @@ class __$$CreatePostRequestImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? userId = null,
+    Object? nickname = null,
     Object? title = null,
-    Object? price = null,
-    Object? sellTypeIndex = null,
+    Object? price = freezed,
+    Object? isShared = null,
     Object? location = null,
     Object? imageUrl = freezed,
   }) {
@@ -145,18 +154,22 @@ class __$$CreatePostRequestImplCopyWithImpl<$Res>
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
               as int,
+      nickname: null == nickname
+          ? _value.nickname
+          : nickname // ignore: cast_nullable_to_non_nullable
+              as String,
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
-      price: null == price
+      price: freezed == price
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
-              as int,
-      sellTypeIndex: null == sellTypeIndex
-          ? _value.sellTypeIndex
-          : sellTypeIndex // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
+      isShared: null == isShared
+          ? _value.isShared
+          : isShared // ignore: cast_nullable_to_non_nullable
+              as bool,
       location: null == location
           ? _value.location
           : location // ignore: cast_nullable_to_non_nullable
@@ -174,9 +187,10 @@ class __$$CreatePostRequestImplCopyWithImpl<$Res>
 class _$CreatePostRequestImpl implements _CreatePostRequest {
   const _$CreatePostRequestImpl(
       {required this.userId,
+      required this.nickname,
       required this.title,
-      required this.price,
-      required this.sellTypeIndex,
+      this.price,
+      required this.isShared,
       required this.location,
       this.imageUrl});
 
@@ -186,11 +200,13 @@ class _$CreatePostRequestImpl implements _CreatePostRequest {
   @override
   final int userId;
   @override
+  final String nickname;
+  @override
   final String title;
   @override
-  final int price;
+  final int? price;
   @override
-  final int sellTypeIndex;
+  final bool isShared;
   @override
   final String location;
   @override
@@ -198,7 +214,7 @@ class _$CreatePostRequestImpl implements _CreatePostRequest {
 
   @override
   String toString() {
-    return 'CreatePostRequest(userId: $userId, title: $title, price: $price, sellTypeIndex: $sellTypeIndex, location: $location, imageUrl: $imageUrl)';
+    return 'CreatePostRequest(userId: $userId, nickname: $nickname, title: $title, price: $price, isShared: $isShared, location: $location, imageUrl: $imageUrl)';
   }
 
   @override
@@ -207,10 +223,12 @@ class _$CreatePostRequestImpl implements _CreatePostRequest {
         (other.runtimeType == runtimeType &&
             other is _$CreatePostRequestImpl &&
             (identical(other.userId, userId) || other.userId == userId) &&
+            (identical(other.nickname, nickname) ||
+                other.nickname == nickname) &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.price, price) || other.price == price) &&
-            (identical(other.sellTypeIndex, sellTypeIndex) ||
-                other.sellTypeIndex == sellTypeIndex) &&
+            (identical(other.isShared, isShared) ||
+                other.isShared == isShared) &&
             (identical(other.location, location) ||
                 other.location == location) &&
             (identical(other.imageUrl, imageUrl) ||
@@ -219,8 +237,8 @@ class _$CreatePostRequestImpl implements _CreatePostRequest {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, userId, title, price, sellTypeIndex, location, imageUrl);
+  int get hashCode => Object.hash(runtimeType, userId, nickname, title, price,
+      isShared, location, imageUrl);
 
   /// Create a copy of CreatePostRequest
   /// with the given fields replaced by the non-null parameter values.
@@ -242,9 +260,10 @@ class _$CreatePostRequestImpl implements _CreatePostRequest {
 abstract class _CreatePostRequest implements CreatePostRequest {
   const factory _CreatePostRequest(
       {required final int userId,
+      required final String nickname,
       required final String title,
-      required final int price,
-      required final int sellTypeIndex,
+      final int? price,
+      required final bool isShared,
       required final String location,
       final String? imageUrl}) = _$CreatePostRequestImpl;
 
@@ -254,11 +273,13 @@ abstract class _CreatePostRequest implements CreatePostRequest {
   @override
   int get userId;
   @override
+  String get nickname;
+  @override
   String get title;
   @override
-  int get price;
+  int? get price;
   @override
-  int get sellTypeIndex;
+  bool get isShared;
   @override
   String get location;
   @override

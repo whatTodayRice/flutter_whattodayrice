@@ -45,7 +45,7 @@ class _CommentInputState extends State<CommentInput> {
               height: 22 / 14,
               decorationThickness: 0,
             ),
-        cursorColor: AppColor.orange5,
+        cursorColor: AppColor.orangeFF823B,
         decoration: InputDecoration(
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(4), borderSide: BorderSide.none),
           filled: true,

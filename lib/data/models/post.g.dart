@@ -12,12 +12,14 @@ _$PostImpl _$$PostImplFromJson(Map<String, dynamic> json) => _$PostImpl(
       nickname: json['nickname'] as String?,
       title: json['title'] as String?,
       content: json['content'] as String?,
+      imageUrl: json['image_url'] as String?,
       price: (json['price'] as num?)?.toInt(),
       isShared: json['is_shared'] as bool?,
       location: json['location'] as String?,
       createdAt: json['created_at'] == null
           ? null
           : DateTime.parse(json['created_at'] as String),
+      sellStatus: (json['sell_status'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$$PostImplToJson(_$PostImpl instance) =>
@@ -27,8 +29,10 @@ Map<String, dynamic> _$$PostImplToJson(_$PostImpl instance) =>
       'nickname': instance.nickname,
       'title': instance.title,
       'content': instance.content,
+      'image_url': instance.imageUrl,
       'price': instance.price,
       'is_shared': instance.isShared,
       'location': instance.location,
       'created_at': instance.createdAt?.toIso8601String(),
+      'sell_status': instance.sellStatus,
     };

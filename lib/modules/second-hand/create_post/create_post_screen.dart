@@ -7,7 +7,7 @@ import 'package:flutter_whattodayrice/config/themes/app_text_style.dart';
 import 'package:flutter_whattodayrice/modules/second-hand/create_post/bloc/create_post_bloc.dart';
 import 'package:flutter_whattodayrice/modules/second-hand/create_post/widget/image_preview.dart';
 import 'package:flutter_whattodayrice/modules/second-hand/widget/create_post_submit_button.dart';
-import 'package:flutter_whattodayrice/modules/second-hand/create_post/widget/price_type_filtering_button.dart';
+import 'package:flutter_whattodayrice/modules/second-hand/create_post/widget/sell_type_button.dart';
 import 'package:flutter_whattodayrice/modules/second-hand/create_post/widget/product_detail_text_filed.dart';
 import 'package:flutter_whattodayrice/modules/second-hand/create_post/widget/title_text_field.dart';
 import 'package:flutter_whattodayrice/utils/number_input_formatter.dart';
@@ -175,31 +175,36 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                             selectedIndex = state.index;
                           }
 
-                          return Row(
+                          return Column(
+                            mainAxisSize: MainAxisSize.min,
                             children: [
-                              PriceTypeButton.sell(
-                                onTap: () => context
-                                    .read<CreatePostBloc>()
-                                    .add(CreatePostPriceTypeChangeRequested(typeIndex: ProductPriceType.sell.index)),
-                                selectedIndex: selectedIndex,
+                              Row(
+                                children: [
+                                  SellTypeButton.sell(
+                                    onTap: () => context.read<CreatePostBloc>().add(
+                                        CreatePostPriceTypeChangeRequested(typeIndex: ProductPriceType.sell.index)),
+                                    selectedIndex: selectedIndex,
+                                  ),
+                                  const SizedBox(width: 6),
+                                  SellTypeButton.share(
+                                    onTap: () => context.read<CreatePostBloc>().add(
+                                        CreatePostPriceTypeChangeRequested(typeIndex: ProductPriceType.share.index)),
+                                    selectedIndex: selectedIndex,
+                                  ),
+                                ],
                               ),
-                              const SizedBox(width: 6),
-                              PriceTypeButton.share(
-                                onTap: () => context
-                                    .read<CreatePostBloc>()
-                                    .add(CreatePostPriceTypeChangeRequested(typeIndex: ProductPriceType.share.index)),
-                                selectedIndex: selectedIndex,
-                              ),
+                              if (selectedIndex == ProductPriceType.sell.index) ...[
+                                const SizedBox(height: 12),
+                                TitleTextField(
+                                  titleController: priceController,
+                                  hintText: '₩ 가격을 입력해주세요.',
+                                  inputType: TextInputType.number,
+                                  inputFormatters: [FilteringTextInputFormatter.digitsOnly, NumberInputFormatter()],
+                                ),
+                              ],
                             ],
                           );
                         },
-                      ),
-                      const SizedBox(height: 12),
-                      TitleTextField(
-                        titleController: priceController,
-                        hintText: '₩ 가격을 입력해주세요.',
-                        inputType: TextInputType.number,
-                        inputFormatters: [FilteringTextInputFormatter.digitsOnly, NumberInputFormatter()],
                       ),
                       const SizedBox(height: 24),
 

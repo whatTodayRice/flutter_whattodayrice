@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_whattodayrice/data/repository/post_repository.dart';
 import 'package:flutter_whattodayrice/data/repository/user_repository.dart';
+import 'package:flutter_whattodayrice/modules/second-hand/bloc/second_hand_bloc.dart';
 import 'package:flutter_whattodayrice/modules/second-hand/create_post/bloc/create_post_bloc.dart';
 import 'package:flutter_whattodayrice/modules/second-hand/create_post/create_post_screen.dart';
 import 'package:flutter_whattodayrice/modules/sign_in/bloc/sign_in_bloc.dart';
@@ -84,7 +85,10 @@ final routerConfig = GoRouter(
             GoRoute(
               path: "/${AppRouteState.secondHand.path}",
               name: AppRouteState.secondHand.name,
-              builder: (context, state) => const SecondHandScreen(),
+              builder: (context, state) => BlocProvider(
+                create: (context) => SecondHandBloc(postRepository: getIt<PostRepository>()),
+                child: const SecondHandScreen(),
+              ),
               routes: [
                 GoRoute(
                   parentNavigatorKey: _rootNavigatorKey,

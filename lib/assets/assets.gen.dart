@@ -33,6 +33,9 @@ class $AssetsImagesGen {
   /// File path: assets/images/icon_check.svg
   SvgGenImage get iconCheck => const SvgGenImage('assets/images/icon_check.svg');
 
+  /// File path: assets/images/icon_create_post_fab.svg
+  SvgGenImage get iconCreatePostFab => const SvgGenImage('assets/images/icon_create_post_fab.svg');
+
   /// File path: assets/images/icon_delete.svg
   SvgGenImage get iconDelete => const SvgGenImage('assets/images/icon_delete.svg');
 
@@ -41,6 +44,12 @@ class $AssetsImagesGen {
 
   /// File path: assets/images/icon_question.svg
   SvgGenImage get iconQuestion => const SvgGenImage('assets/images/icon_question.svg');
+
+  /// File path: assets/images/icon_second_hand_active.png
+  AssetGenImage get iconSecondHandActive => const AssetGenImage('assets/images/icon_second_hand_active.png');
+
+  /// File path: assets/images/icon_second_hand_inactive.png
+  AssetGenImage get iconSecondHandInactive => const AssetGenImage('assets/images/icon_second_hand_inactive.png');
 
   /// File path: assets/images/icon_send_disable.svg
   SvgGenImage get iconSendDisable => const SvgGenImage('assets/images/icon_send_disable.svg');
@@ -81,23 +90,14 @@ class $AssetsImagesGen {
   /// File path: assets/images/pig.png
   AssetGenImage get pig => const AssetGenImage('assets/images/pig.png');
 
+  /// Directory path: assets/images/png
+  $AssetsImagesPngGen get png => const $AssetsImagesPngGen();
+
   /// Directory path: assets/images/splash
   $AssetsImagesSplashGen get splash => const $AssetsImagesSplashGen();
 
   /// File path: assets/images/washing-machine.png
   AssetGenImage get washingMachine => const AssetGenImage('assets/images/washing-machine.png');
-
-  /// File path: assets/images/식단_active.svg
-  SvgGenImage get aActiveSvg => const SvgGenImage('assets/images/식단_active.svg');
-
-  /// File path: assets/images/중고거래_active.svg
-  SvgGenImage get aActiveSvg_ => const SvgGenImage('assets/images/중고거래_active.svg');
-
-  /// File path: assets/images/식단_inactive.svg
-  SvgGenImage get aInactiveSvg => const SvgGenImage('assets/images/식단_inactive.svg');
-
-  /// File path: assets/images/중고거래_inactive.svg
-  SvgGenImage get aInactiveSvg_ => const SvgGenImage('assets/images/중고거래_inactive.svg');
 
   /// List of all assets
   List<dynamic> get values => [
@@ -107,9 +107,12 @@ class $AssetsImagesGen {
         ic,
         iconAuthorProfile,
         iconCheck,
+        iconCreatePostFab,
         iconDelete,
         iconFree,
         iconQuestion,
+        iconSecondHandActive,
+        iconSecondHandInactive,
         iconSendDisable,
         iconSendEnable,
         iconSvg,
@@ -122,11 +125,7 @@ class $AssetsImagesGen {
         imgAlarmDark,
         kakaoLoginMediumWide,
         pig,
-        washingMachine,
-        aActiveSvg,
-        aActiveSvg_,
-        aInactiveSvg,
-        aInactiveSvg_
+        washingMachine
       ];
 }
 
@@ -138,6 +137,19 @@ class $AssetsImagesLauncherGen {
 
   /// List of all assets
   List<AssetGenImage> get values => [launcherIcon];
+}
+
+class $AssetsImagesPngGen {
+  const $AssetsImagesPngGen();
+
+  /// File path: assets/images/png/icon_meal_active.png
+  AssetGenImage get iconMealActive => const AssetGenImage('assets/images/png/icon_meal_active.png');
+
+  /// File path: assets/images/png/icon_meal_inactive.png
+  AssetGenImage get iconMealInactive => const AssetGenImage('assets/images/png/icon_meal_inactive.png');
+
+  /// List of all assets
+  List<AssetGenImage> get values => [iconMealActive, iconMealInactive];
 }
 
 class $AssetsImagesSplashGen {

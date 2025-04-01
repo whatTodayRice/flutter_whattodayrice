@@ -5,10 +5,7 @@ import 'package:flutter_whattodayrice/data/models/requests/create_post_request.d
 
 abstract interface class PostRepository {
   /// 게시글
-  Future<ApiResponse<List<Post>>> getPosts({
-    required int page,
-    required String postType,
-  });
+  Future<ApiResponse<List<Post>>> getPosts({int? perPage, int? page, String? lastDocId});
 
   Future<ApiResponse<Post>> getPost({required String postId});
 

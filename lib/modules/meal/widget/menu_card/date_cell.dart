@@ -42,7 +42,7 @@ class DateCell extends StatelessWidget {
               height: 36,
               width: 36,
               decoration: BoxDecoration(
-                color: isSelected ? AppColor.orange4 : AppColor.homeOptionBackgroundColor,
+                color: isSelected ? AppColor.orangeFF9559 : AppColor.homeOptionBackgroundColor,
                 borderRadius: BorderRadius.circular(36),
               ),
               child: Center(
