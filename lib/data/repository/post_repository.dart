@@ -1,6 +1,7 @@
 import 'package:flutter_whattodayrice/data/data_sources/remote/core/api_response.dart';
 import 'package:flutter_whattodayrice/data/models/post.dart';
 import 'package:flutter_whattodayrice/data/models/requests/create_post_request.dart';
+import 'package:flutter_whattodayrice/data/models/requests/report_post_request.dart';
 
 abstract interface class PostRepository {
   /// 게시글
@@ -20,4 +21,6 @@ abstract interface class PostRepository {
   Future<ApiResponse> createComment({required CreatePostRequest request});
 
   Future<ApiResponse> deleteComment({required String parentPostId, required String commentId});
+
+  Future<ApiResponse> reportPost({required ReportPostRequest request});
 }

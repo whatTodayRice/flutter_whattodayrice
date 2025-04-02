@@ -2,20 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_whattodayrice/config/themes/app_color.dart';
 import 'package:flutter_whattodayrice/config/themes/app_text_style.dart';
 
-class ProductDetailTextField extends StatelessWidget {
-  const ProductDetailTextField({super.key, required this.contentController, required this.hintText});
+class ContentTextField extends StatelessWidget {
+  const ContentTextField(
+      {super.key, required this.contentController, required this.hintText, this.maxLength, this.focusNode});
 
   final TextEditingController contentController;
+  final FocusNode? focusNode;
   final String hintText;
+  final int? maxLength;
 
   @override
   Widget build(BuildContext context) {
     return TextField(
       controller: contentController,
+      focusNode: focusNode,
       style: AppTextStyle.regular14.copyWith(color: AppColor.black000000),
       expands: true,
       maxLines: null,
-      maxLength: 2000,
+      maxLength: maxLength,
       textAlignVertical: TextAlignVertical.top,
       decoration: InputDecoration(
         hintText: hintText,

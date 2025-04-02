@@ -3,8 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_whattodayrice/config/themes/app_color.dart';
 import 'package:flutter_whattodayrice/config/themes/app_text_style.dart';
 
-class CreatePostSubmitButton extends StatelessWidget {
-  const CreatePostSubmitButton({super.key, required this.isButtonEnabled, this.onTap});
+class Button01 extends StatelessWidget {
+  const Button01({super.key, required this.isButtonEnabled, this.onTap});
 
   final bool isButtonEnabled;
   final Function()? onTap;

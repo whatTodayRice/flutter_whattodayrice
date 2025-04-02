@@ -6,9 +6,9 @@ import 'package:flutter_whattodayrice/config/themes/app_color.dart';
 import 'package:flutter_whattodayrice/config/themes/app_text_style.dart';
 import 'package:flutter_whattodayrice/modules/second-hand/create_post/bloc/create_post_bloc.dart';
 import 'package:flutter_whattodayrice/modules/second-hand/create_post/widget/image_preview.dart';
-import 'package:flutter_whattodayrice/modules/second-hand/widget/create_post_submit_button.dart';
+import 'package:flutter_whattodayrice/modules/second-hand/widget/button_01.dart';
 import 'package:flutter_whattodayrice/modules/second-hand/create_post/widget/sell_type_button.dart';
-import 'package:flutter_whattodayrice/modules/second-hand/create_post/widget/product_detail_text_filed.dart';
+import 'package:flutter_whattodayrice/modules/second-hand/create_post/widget/content_text_field.dart';
 import 'package:flutter_whattodayrice/modules/second-hand/create_post/widget/title_text_field.dart';
 import 'package:flutter_whattodayrice/utils/number_input_formatter.dart';
 import 'package:go_router/go_router.dart';
@@ -216,8 +216,9 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                       const SizedBox(height: 8),
                       SizedBox(
                         height: 200,
-                        child: ProductDetailTextField(
+                        child: ContentTextField(
                           contentController: productDetailController,
+                          maxLength: 2000,
                           hintText:
                               '판매와 관련 없는 글은 게시가 제한될 수 있어요.\n\n신뢰할 수 있는 거래를 위해 브랜드, 모델명, 구매시기,\n하자 유무 등 상품 설명을 최대한 자세히 적어주세요.',
                         ),
@@ -250,7 +251,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                     isValid = state.isValid;
                   }
 
-                  return CreatePostSubmitButton(
+                  return Button01(
                     isButtonEnabled: isValid,
                     onTap: () => context.read<CreatePostBloc>().add(const CreatePostSubmitRequested()),
                   );

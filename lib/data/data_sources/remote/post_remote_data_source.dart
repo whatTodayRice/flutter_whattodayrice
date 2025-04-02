@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_whattodayrice/data/data_sources/remote/core/api_response.dart';
 import 'package:flutter_whattodayrice/data/models/post.dart';
 import 'package:flutter_whattodayrice/data/models/requests/create_post_request.dart';
+import 'package:flutter_whattodayrice/data/models/requests/report_post_request.dart';
 import 'package:flutter_whattodayrice/utils/log/logger.dart';
 import 'package:injectable/injectable.dart';
 
@@ -140,6 +141,20 @@ class PostRemoteDataSource {
       return const SucceedResponse(true);
     } catch (e) {
       Log.i('중고 거래 댓글 삭제 실패: 게시글 $parentPostId / 댓글 $commentId');
+
+      return const ServerException();
+    }
+  }
+
+  Future<ApiResponse> reportPost({required ReportPostRequest request}) async {
+    try {
+      await db.collection('reports').doc().set(request.toJson());
+
+      Log.i('중고 거래 글 신고 성공: 게시글 ${request.postId} / 댓글 ${request.commentId}');
+
+      return const SucceedResponse(true);
+    } catch (e) {
+      Log.i('중고 거래 글 신고 실패: 게시글 ${request.postId} / 댓글 ${request.commentId}');
 
       return const ServerException();
     }

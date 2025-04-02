@@ -47,8 +47,8 @@ class SellStatusFilterButton extends StatelessWidget {
     }
 
     final borderColor = switch (sellStatus) {
-      ProductSellStatus.done => AppColor.orangeFF823B,
-      ProductSellStatus.reserved => AppColor.grayADADAD,
+      ProductSellStatus.done => AppColor.grayADADAD,
+      ProductSellStatus.reserved => AppColor.orangeFF823B,
       _ => null,
     };
 
@@ -59,8 +59,8 @@ class SellStatusFilterButton extends StatelessWidget {
     };
 
     final textColor = switch (sellStatus) {
-      ProductSellStatus.done => AppColor.orangeFF823B,
-      ProductSellStatus.reserved => AppColor.grayADADAD,
+      ProductSellStatus.done => AppColor.grayADADAD,
+      ProductSellStatus.reserved => AppColor.orangeFF823B,
       _ => null,
     };
 
@@ -70,8 +70,8 @@ class SellStatusFilterButton extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(6),
         border: borderColor != null ? Border.all(color: borderColor) : null,
+        color: containerColor,
       ),
-      color: containerColor,
       child: Center(
         child: Text(
           sellStatus.displayValue,

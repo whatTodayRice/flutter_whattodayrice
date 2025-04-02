@@ -2,6 +2,7 @@ import 'package:flutter_whattodayrice/data/data_sources/remote/core/api_response
 import 'package:flutter_whattodayrice/data/data_sources/remote/post_remote_data_source.dart';
 import 'package:flutter_whattodayrice/data/models/post.dart';
 import 'package:flutter_whattodayrice/data/models/requests/create_post_request.dart';
+import 'package:flutter_whattodayrice/data/models/requests/report_post_request.dart';
 import 'package:flutter_whattodayrice/data/repository/post_repository.dart';
 import 'package:injectable/injectable.dart';
 
@@ -44,4 +45,8 @@ class PostRepositoryImpl implements PostRepository {
   @override
   Future<ApiResponse> createComment({required CreatePostRequest request}) =>
       postRemoteDataSource.createComment(request: request);
+
+  @override
+  Future<ApiResponse> reportPost({required ReportPostRequest request}) =>
+      postRemoteDataSource.reportPost(request: request);
 }
