@@ -166,6 +166,12 @@ class $AssetsImagesSplashGen {
 class $AssetsImagesSvgGen {
   const $AssetsImagesSvgGen();
 
+  /// File path: assets/images/svg/icon_check_box_off.svg
+  SvgGenImage get iconCheckBoxOff => const SvgGenImage('assets/images/svg/icon_check_box_off.svg');
+
+  /// File path: assets/images/svg/icon_check_box_on.svg
+  SvgGenImage get iconCheckBoxOn => const SvgGenImage('assets/images/svg/icon_check_box_on.svg');
+
   /// File path: assets/images/svg/icon_down_arrow_gray.svg
   SvgGenImage get iconDownArrowGray => const SvgGenImage('assets/images/svg/icon_down_arrow_gray.svg');
 
@@ -182,7 +188,8 @@ class $AssetsImagesSvgGen {
   SvgGenImage get iconRightArrowGray => const SvgGenImage('assets/images/svg/icon_right_arrow_gray.svg');
 
   /// List of all assets
-  List<SvgGenImage> get values => [iconDownArrowGray, iconMore, iconOut, iconReport, iconRightArrowGray];
+  List<SvgGenImage> get values =>
+      [iconCheckBoxOff, iconCheckBoxOn, iconDownArrowGray, iconMore, iconOut, iconReport, iconRightArrowGray];
 }
 
 class Assets {

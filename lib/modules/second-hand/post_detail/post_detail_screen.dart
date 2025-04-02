@@ -98,6 +98,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                   padding: const EdgeInsets.only(right: 8.0),
                   child: PostDetailMoreButton.post(
                     writerId: post.userId,
+                    postId: post.id,
                     onDelete: () => context.read<PostDetailBloc>().add(const PostDetailDeleteRequested()),
                   ),
                 );
@@ -181,32 +182,35 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                                   Row(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            post.title ?? "-",
-                                            style: AppTextStyle.regular16.copyWith(color: AppColor.black000000),
-                                          ),
-                                          const SizedBox(height: 4),
-                                          if (post.sellStatus != ProductSellStatus.shared.index)
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
                                             Text(
-                                              "${post.price?.getPriceStandardFormat()}원",
-                                              style: AppTextStyle.bold18.copyWith(color: AppColor.black000000),
-                                            )
-                                          else
-                                            Text(
-                                              "무료 나눔해요!",
-                                              style: AppTextStyle.bold18.copyWith(color: AppColor.orangeFF7324),
+                                              post.title ?? "-",
+                                              style: AppTextStyle.regular16.copyWith(color: AppColor.black000000),
+                                              overflow: TextOverflow.ellipsis,
+                                              maxLines: 1,
                                             ),
-                                          const SizedBox(height: 8),
-                                          Text(
-                                            post.createdAt.getRelativeDateFormat(),
-                                            style: AppTextStyle.regular11.copyWith(color: AppColor.gray727272),
-                                          ),
-                                        ],
+                                            const SizedBox(height: 4),
+                                            if (post.sellStatus != ProductSellStatus.shared.index)
+                                              Text(
+                                                "${post.price?.getPriceStandardFormat()}원",
+                                                style: AppTextStyle.bold18.copyWith(color: AppColor.black000000),
+                                              )
+                                            else
+                                              Text(
+                                                "무료 나눔해요!",
+                                                style: AppTextStyle.bold18.copyWith(color: AppColor.orangeFF7324),
+                                              ),
+                                            const SizedBox(height: 8),
+                                            Text(
+                                              post.createdAt.getRelativeDateFormat(),
+                                              style: AppTextStyle.regular11.copyWith(color: AppColor.gray727272),
+                                            ),
+                                          ],
+                                        ),
                                       ),
-                                      const Spacer(),
                                       BlocBuilder<PostDetailBloc, PostDetailState>(
                                         buildWhen: (previous, current) => current is PostDetailLoaded,
                                         builder: (context, state) {

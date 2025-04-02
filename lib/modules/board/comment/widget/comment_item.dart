@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_whattodayrice/assets/assets.gen.dart';
 import 'package:flutter_whattodayrice/config/themes/app_color.dart';
 import 'package:flutter_whattodayrice/data/models/post.dart';
 import 'package:flutter_whattodayrice/modules/second-hand/post_detail/widget/post_detail_more_button.dart';
@@ -34,7 +34,7 @@ class CommentItem extends StatelessWidget {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SvgPicture.asset("assets/images/icon_author_profile.svg", width: 30.w, height: 30.h),
+                    Assets.images.iconAuthorProfile.svg(width: 30, height: 30),
                     SizedBox(width: 6.w),
                     Expanded(
                       child: Column(
@@ -68,11 +68,11 @@ class CommentItem extends StatelessWidget {
                         ],
                       ),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        PostDetailMoreButton.comment(writerId: comment.userId, onDelete: onDelete),
-                      ],
+                    PostDetailMoreButton.comment(
+                      writerId: comment.userId,
+                      onDelete: onDelete,
+                      postId: comment.parentPostId,
+                      commentId: comment.id,
                     ),
                   ],
                 ),

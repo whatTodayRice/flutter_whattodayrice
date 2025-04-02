@@ -2,23 +2,41 @@ import 'package:flutter/material.dart';
 import 'package:flutter_whattodayrice/assets/assets.gen.dart';
 import 'package:flutter_whattodayrice/common/widget/app_bottom_sheet.dart';
 import 'package:flutter_whattodayrice/common/widget/app_default_dialog.dart';
+import 'package:flutter_whattodayrice/common/widget/app_snack_bar.dart';
 import 'package:flutter_whattodayrice/config/di/di.dart';
+import 'package:flutter_whattodayrice/config/router/route_config.dart';
 import 'package:flutter_whattodayrice/config/themes/app_color.dart';
 import 'package:flutter_whattodayrice/data/repository/user_repository.dart';
+import 'package:go_router/go_router.dart';
 
 class PostDetailMoreButton extends StatelessWidget {
-  const PostDetailMoreButton({super.key, this.isPost, this.writerId, this.onDelete, this.size});
+  const PostDetailMoreButton(
+      {super.key, this.postId, this.commentId, this.isPost, this.writerId, this.onDelete, this.size});
 
   final bool? isPost;
+  final String? postId;
+  final String? commentId;
   final int? writerId;
   final VoidCallback? onDelete;
   final double? size;
 
-  factory PostDetailMoreButton.post({int? writerId, VoidCallback? onDelete}) =>
-      PostDetailMoreButton(isPost: true, writerId: writerId, onDelete: onDelete, size: 24);
+  factory PostDetailMoreButton.post({int? writerId, String? postId, VoidCallback? onDelete}) => PostDetailMoreButton(
+        isPost: true,
+        writerId: writerId,
+        postId: postId,
+        onDelete: onDelete,
+        size: 24,
+      );
 
-  factory PostDetailMoreButton.comment({int? writerId, VoidCallback? onDelete}) =>
-      PostDetailMoreButton(isPost: false, writerId: writerId, onDelete: onDelete, size: 20);
+  factory PostDetailMoreButton.comment({int? writerId, String? postId, String? commentId, VoidCallback? onDelete}) =>
+      PostDetailMoreButton(
+        isPost: false,
+        writerId: writerId,
+        postId: postId,
+        commentId: commentId,
+        onDelete: onDelete,
+        size: 20,
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +44,8 @@ class PostDetailMoreButton extends StatelessWidget {
 
     return InkWell(
       onTap: () async {
-        // final goRouter = GoRouter.of(context);
+        final goRouter = GoRouter.of(context);
+        final scaffoldMessenger = ScaffoldMessenger.of(context);
 
         final userId = getIt<UserRepository>().getUserProfileFromCache()?.id;
 
@@ -80,7 +99,16 @@ class PostDetailMoreButton extends StatelessWidget {
           return;
         }
 
-        // TODO: 신고 기능 구현
+        final reportResult = await goRouter.pushNamed(AppRouteState.report.name, queryParameters: {
+          'postId': postId,
+          'commentId': commentId,
+        });
+
+        if (reportResult != true) {
+          return;
+        }
+
+        scaffoldMessenger.showSnackBar(AppSnackBar.text('$postTypeDisplayValue 신고가 완료됐습니다.'));
       },
       child: Assets.images.svg.iconMore.svg(width: size, height: size),
     );

@@ -7,6 +7,8 @@ import 'package:flutter_whattodayrice/modules/second-hand/create_post/bloc/creat
 import 'package:flutter_whattodayrice/modules/second-hand/create_post/create_post_screen.dart';
 import 'package:flutter_whattodayrice/modules/second-hand/post_detail/bloc/post_detail_bloc.dart';
 import 'package:flutter_whattodayrice/modules/second-hand/post_detail/post_detail_screen.dart';
+import 'package:flutter_whattodayrice/modules/second-hand/report/bloc/report_bloc.dart';
+import 'package:flutter_whattodayrice/modules/second-hand/report/report_screen.dart';
 import 'package:flutter_whattodayrice/modules/sign_in/bloc/sign_in_bloc.dart';
 import 'package:flutter_whattodayrice/modules/setting/bloc/setting_bloc.dart';
 import 'package:flutter_whattodayrice/modules/splash/bloc/splash_bloc.dart';
@@ -121,6 +123,30 @@ final routerConfig = GoRouter(
                         userRepository: getIt<UserRepository>(),
                       ),
                       child: PostDetailScreen(postId: state.pathParameters['id'] ?? ''),
+                    );
+                  },
+                ),
+                GoRoute(
+                  parentNavigatorKey: _rootNavigatorKey,
+                  path: AppRouteState.report.path,
+                  name: AppRouteState.report.name,
+                  builder: (context, state) {
+                    final postId = state.uri.queryParameters['postId'];
+
+                    if (postId == null) {
+                      throw Exception('존재하지 않는 게시글입니다.');
+                    }
+
+                    final commentId = state.uri.queryParameters['commentId'];
+
+                    return BlocProvider(
+                      create: (state) => ReportBloc(
+                        postRepository: getIt<PostRepository>(),
+                        userRepository: getIt<UserRepository>(),
+                        postId: postId,
+                        commentId: commentId,
+                      ),
+                      child: const ReportScreen(),
                     );
                   },
                 ),
