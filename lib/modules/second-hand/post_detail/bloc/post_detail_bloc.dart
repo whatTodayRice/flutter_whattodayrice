@@ -2,11 +2,11 @@ import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_whattodayrice/data/data_sources/remote/core/api_response.dart';
 import 'package:flutter_whattodayrice/data/models/post.dart';
 import 'package:flutter_whattodayrice/data/models/requests/create_post_request.dart';
 import 'package:flutter_whattodayrice/data/repository/post_repository.dart';
 import 'package:flutter_whattodayrice/data/repository/user_repository.dart';
-import 'package:flutter_whattodayrice/modules/second-hand/create_post/bloc/create_post_bloc.dart';
 
 part 'post_detail_event.dart';
 part 'post_detail_state.dart';
@@ -72,7 +72,7 @@ class PostDetailBloc extends Bloc<PostDetailEvent, PostDetailState> {
 
     emit(const PostDetailLoading());
 
-    final result = await postRepository.updatePostSellStatus(postId: post!.id!, sellStatus: event.status.index);
+    final result = await postRepository.updatePostSellStatus(postId: post!.id!, sellStatus: event.statusIndex);
 
     if (result.isSucceed != true) {
       emit(PostDetailError(errorMessage: result.errorMessage));
@@ -80,7 +80,7 @@ class PostDetailBloc extends Bloc<PostDetailEvent, PostDetailState> {
       return;
     }
 
-    post = post!.copyWith(sellStatus: event.status.index);
+    post = post!.copyWith(sellStatus: event.statusIndex);
 
     emit(PostDetailLoaded(post: post!));
   }
@@ -91,7 +91,13 @@ class PostDetailBloc extends Bloc<PostDetailEvent, PostDetailState> {
   ) async {
     emit(const PostDetailLoading());
 
-    final response = await postRepository.deletePost(postId: post!.id!);
+    ApiResponse? response;
+
+    if (event.commentId != null) {
+      response = await postRepository.deleteComment(parentPostId: post!.id!, commentId: event.commentId!);
+    } else {
+      response = await postRepository.deletePost(postId: post!.id!);
+    }
 
     if (response.isSucceed != true) {
       emit(PostDetailError(errorMessage: response.errorMessage));
@@ -99,7 +105,7 @@ class PostDetailBloc extends Bloc<PostDetailEvent, PostDetailState> {
       return;
     }
 
-    emit(const PostDetailDeleteSucceed());
+    emit(PostDetailDeleteSucceed(isPost: event.commentId == null));
   }
 
   FutureOr<void> _onPostDetailWriterBlockRequested(

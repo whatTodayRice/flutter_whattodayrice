@@ -19,5 +19,5 @@ abstract interface class PostRepository {
 
   Future<ApiResponse> createComment({required CreatePostRequest request});
 
-  Future<ApiResponse> deleteComment({required String commentId});
+  Future<ApiResponse> deleteComment({required String parentPostId, required String commentId});
 }

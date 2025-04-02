@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_whattodayrice/common/widget/app_default_dialog.dart';
 import 'package:flutter_whattodayrice/config/themes/app_color.dart';
 import 'package:flutter_whattodayrice/data/models/post.dart';
+import 'package:flutter_whattodayrice/modules/second-hand/post_detail/widget/post_detail_more_button.dart';
 import 'package:flutter_whattodayrice/utils/extensions/date_time_extension.dart';
 
 class CommentItem extends StatelessWidget {
@@ -71,25 +71,7 @@ class CommentItem extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        GestureDetector(
-                          onTap: () async {
-                            final result = await AppDefaultDialog.show(
-                              context,
-                              title: "댓글을 삭제하시겠어요?",
-                              content: "삭제한 댓글은 되돌릴 수 없어요.",
-                              cancelButtonText: '취소',
-                              confirmButtonText: '삭제',
-                              onConfirm: () => Navigator.of(context).pop(true),
-                            );
-
-                            if (result != true) {
-                              return;
-                            }
-
-                            onDelete?.call();
-                          },
-                          child: SvgPicture.asset("assets/images/icon_더보기.svg", width: 20.w, height: 20.h),
-                        ),
+                        PostDetailMoreButton.comment(writerId: comment.userId, onDelete: onDelete),
                       ],
                     ),
                   ],

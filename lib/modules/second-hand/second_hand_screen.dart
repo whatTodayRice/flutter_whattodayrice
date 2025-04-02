@@ -225,7 +225,11 @@ class PostItem extends StatelessWidget {
                         '${price?.getPriceStandardFormat() ?? "-"}원',
                         style: AppTextStyle.bold14.copyWith(color: AppColor.black000000),
                       ),
-                      // TODO 판매 상태 배지 추가
+                      const SizedBox(width: 6),
+                      if (sellStatus == ProductSellStatus.reserved.index)
+                        PostSellStatusBadge.reserved()
+                      else if (sellStatus == ProductSellStatus.done.index)
+                        PostSellStatusBadge.sellDone()
                     ],
                   )
                 else

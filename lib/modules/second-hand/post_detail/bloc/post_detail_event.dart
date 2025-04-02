@@ -17,12 +17,12 @@ final class PostDetailLoadRequested extends PostDetailEvent {
 }
 
 final class PostDetailSellStatusChangeRequested extends PostDetailEvent {
-  const PostDetailSellStatusChangeRequested({required this.status});
+  const PostDetailSellStatusChangeRequested({required this.statusIndex});
 
-  final ProductSellStatus status;
+  final int statusIndex;
 
   @override
-  List<Object?> get props => [status];
+  List<Object?> get props => [statusIndex];
 }
 
 final class PostDetailDeleteRequested extends PostDetailEvent {

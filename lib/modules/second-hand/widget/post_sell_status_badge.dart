@@ -40,7 +40,7 @@ class PostSellStatusBadge extends StatelessWidget {
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(6), color: badgeColor),
       child: Text(
         data,
-        style: AppTextStyle.regular11.copyWith(color: textColor),
+        style: AppTextStyle.regular11.copyWith(color: textColor, fontWeight: FontWeight.w500),
       ),
     );
   }

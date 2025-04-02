@@ -43,7 +43,12 @@ final class PostDetailCommentValidationChecked extends PostDetailState {
 }
 
 final class PostDetailDeleteSucceed extends PostDetailState {
-  const PostDetailDeleteSucceed();
+  const PostDetailDeleteSucceed({this.isPost});
+
+  final bool? isPost;
+
+  @override
+  List<Object?> get props => [isPost];
 }
 
 final class PostDetailUserBlockedSucceed extends PostDetailState {

@@ -166,8 +166,14 @@ class $AssetsImagesSplashGen {
 class $AssetsImagesSvgGen {
   const $AssetsImagesSvgGen();
 
+  /// File path: assets/images/svg/icon_down_arrow_gray.svg
+  SvgGenImage get iconDownArrowGray => const SvgGenImage('assets/images/svg/icon_down_arrow_gray.svg');
+
   /// File path: assets/images/svg/icon_more.svg
   SvgGenImage get iconMore => const SvgGenImage('assets/images/svg/icon_more.svg');
+
+  /// File path: assets/images/svg/icon_out.svg
+  SvgGenImage get iconOut => const SvgGenImage('assets/images/svg/icon_out.svg');
 
   /// File path: assets/images/svg/icon_report.svg
   SvgGenImage get iconReport => const SvgGenImage('assets/images/svg/icon_report.svg');
@@ -176,7 +182,7 @@ class $AssetsImagesSvgGen {
   SvgGenImage get iconRightArrowGray => const SvgGenImage('assets/images/svg/icon_right_arrow_gray.svg');
 
   /// List of all assets
-  List<SvgGenImage> get values => [iconMore, iconReport, iconRightArrowGray];
+  List<SvgGenImage> get values => [iconDownArrowGray, iconMore, iconOut, iconReport, iconRightArrowGray];
 }
 
 class Assets {

@@ -47,7 +47,7 @@ class PostRemoteDataSource {
   Future<ApiResponse<Post>> getPost({required String id}) async {
     try {
       final postDoc = await db.collection('posts').doc(id).get();
-      final commentsDocs = await db.collection('posts').doc(id).collection('comments').get();
+      final commentsDocs = await db.collection('posts').doc(id).collection('comments').orderBy('created_at').get();
 
       return SucceedResponse(Post.fromFireStore(postDoc, querySnapshot: commentsDocs));
     } catch (e) {
@@ -61,14 +61,14 @@ class PostRemoteDataSource {
     try {
       Map<String, dynamic> requestJson = request.toJson();
 
-      final postDocRef = db.collection('posts').doc();
+      final postDocRef = db.collection('posts');
 
-      // Auto-Generated Document ID
-      requestJson['id'] = postDocRef.id;
-      // CreatedAt
+      final generatedDocId = postDocRef.doc().id;
+
+      requestJson['id'] = generatedDocId;
       requestJson['created_at'] = FieldValue.serverTimestamp();
 
-      await postDocRef.set(requestJson);
+      await postDocRef.doc(generatedDocId).set(requestJson);
 
       Log.i('중고 거래 글 등록 성공 $requestJson');
 
@@ -119,13 +119,27 @@ class PostRemoteDataSource {
       requestJson['id'] = generatedDocId;
       requestJson['created_at'] = createdAt;
 
-      await commentsRef.add(requestJson);
+      await commentsRef.doc(generatedDocId).set(requestJson);
 
-      Log.i('중고 거래 댓글 등록 성공\n게시글 Id: ${request.parentPostId}');
+      Log.i('중고 거래 댓글 등록 성공\n게시글 Id: ${request.parentPostId}, 댓글 documentId: $generatedDocId');
 
       return const SucceedResponse(true);
     } catch (e) {
       Log.i('중고 거래 댓글 등록 실패\n게시글 Id: ${request.parentPostId}');
+
+      return const ServerException();
+    }
+  }
+
+  Future<ApiResponse> deleteComment({required String parentPostId, required String commentId}) async {
+    try {
+      await db.collection('posts').doc(parentPostId).collection('comments').doc(commentId).delete();
+
+      Log.i('중고 거래 댓글 삭제 성공: 게시글 $parentPostId / 댓글 $commentId');
+
+      return const SucceedResponse(true);
+    } catch (e) {
+      Log.i('중고 거래 댓글 삭제 실패: 게시글 $parentPostId / 댓글 $commentId');
 
       return const ServerException();
     }

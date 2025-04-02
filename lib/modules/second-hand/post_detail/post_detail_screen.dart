@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_whattodayrice/assets/assets.gen.dart';
 import 'package:flutter_whattodayrice/common/widget/app_bottom_sheet.dart';
-import 'package:flutter_whattodayrice/common/widget/app_default_dialog.dart';
 import 'package:flutter_whattodayrice/common/widget/app_loading_indicator.dart';
 import 'package:flutter_whattodayrice/common/widget/app_snack_bar.dart';
 import 'package:flutter_whattodayrice/config/di/di.dart';
@@ -14,6 +13,9 @@ import 'package:flutter_whattodayrice/modules/board/comment/widget/comment_input
 import 'package:flutter_whattodayrice/modules/board/comment/widget/comment_item.dart';
 import 'package:flutter_whattodayrice/modules/second-hand/create_post/bloc/create_post_bloc.dart';
 import 'package:flutter_whattodayrice/modules/second-hand/post_detail/bloc/post_detail_bloc.dart';
+import 'package:flutter_whattodayrice/modules/second-hand/post_detail/widget/full_image_view.dart';
+import 'package:flutter_whattodayrice/modules/second-hand/post_detail/widget/post_detail_more_button.dart';
+import 'package:flutter_whattodayrice/modules/second-hand/post_detail/widget/sell_status_button.dart';
 import 'package:flutter_whattodayrice/utils/extensions/date_time_extension.dart';
 import 'package:flutter_whattodayrice/utils/extensions/int_extension.dart';
 import 'package:go_router/go_router.dart';
@@ -66,6 +68,14 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
           }
 
           bloc.add(PostDetailLoadRequested(postId: widget.postId));
+        } else if (state is PostDetailDeleteSucceed) {
+          if (state.isPost == true) {
+            goRouter.pop(true);
+
+            return;
+          }
+
+          bloc.add(PostDetailLoadRequested(postId: widget.postId));
         }
       },
       child: Scaffold(
@@ -86,77 +96,9 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
 
                 return Padding(
                   padding: const EdgeInsets.only(right: 8.0),
-                  child: InkWell(
-                    onTap: () async {
-                      final goRouter = GoRouter.of(context);
-
-                      final userId = getIt<UserRepository>().getUserProfileFromCache()?.id;
-
-                      if (userId == null) {
-                        return;
-                      }
-
-                      bool? result;
-
-                      if (userId == post.userId) {
-                        final bottomSheetResult = await showModalBottomSheet(
-                          context: context,
-                          isScrollControlled: true,
-                          useRootNavigator: true,
-                          shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-                          ),
-                          builder: (context) => AppBottomSheet(
-                            asset: Assets.images.png.iconDeleteRed.image(width: 24, height: 24),
-                            content: '삭제하기',
-                            onTap: () => Navigator.of(context).pop(true),
-                          ),
-                        );
-
-                        if (bottomSheetResult != true) {
-                          return;
-                        }
-
-                        result = await AppDefaultDialog.show(
-                          context,
-                          title: '게시글을 삭제하시겠어요?',
-                          content: '삭제한 게시글은 되돌릴 수 없어요.',
-                          cancelButtonText: '취소',
-                          confirmButtonText: '삭제',
-                          onConfirm: () => Navigator.of(context).pop(true),
-                          confirmButtonTextColor: AppColor.orangeFF6060,
-                        );
-
-                        if (result != true) {
-                          return;
-                        }
-
-                        goRouter.pop(true);
-
-                        return;
-                      }
-
-                      final bottomSheetResult = await showModalBottomSheet(
-                        context: context,
-                        isScrollControlled: true,
-                        useRootNavigator: true,
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-                        ),
-                        builder: (context) => AppBottomSheet(
-                          asset: Assets.images.svg.iconReport.svg(width: 24, height: 24),
-                          content: '삭제하기',
-                          onTap: () => Navigator.of(context).pop(true),
-                        ),
-                      );
-
-                      if (bottomSheetResult != true) {
-                        return;
-                      }
-
-                      // TODO: 신고 기능 구현
-                    },
-                    child: Assets.images.svg.iconMore.svg(width: 24, height: 24),
+                  child: PostDetailMoreButton.post(
+                    writerId: post.userId,
+                    onDelete: () => context.read<PostDetailBloc>().add(const PostDetailDeleteRequested()),
                   ),
                 );
               },
@@ -171,6 +113,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
             }
 
             final post = state.post;
+            final userId = getIt<UserRepository>().getUserProfileFromCache()?.id;
 
             return Column(
               children: [
@@ -180,56 +123,126 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                       SliverToBoxAdapter(
                         child: Column(
                           children: [
-                            if (post.imageUrl?.isNotEmpty == true)
-                              CachedNetworkImage(
-                                imageUrl: post.imageUrl!,
-                                width: double.infinity,
-                                height: 400,
-                                fit: BoxFit.cover,
-                                progressIndicatorBuilder: (context, url, progress) =>
-                                    const Center(child: AppLoadingIndicator()),
-                                errorWidget: (context, url, error) => Center(
-                                  child: Text(
-                                    '이미지를 불러오는 도중에 문제가 발생했어요. 잠시 후 다시 시도해주세요.',
-                                    style: AppTextStyle.regular16.copyWith(color: AppColor.orangeFF823B),
+                            Stack(
+                              children: [
+                                if (post.imageUrl?.isNotEmpty == true)
+                                  InkWell(
+                                    onTap: () => Navigator.push<void>(
+                                      context,
+                                      MaterialPageRoute<void>(
+                                        builder: (BuildContext context) => FullImageView(imageUrl: post.imageUrl!),
+                                      ),
+                                    ),
+                                    child: CachedNetworkImage(
+                                      imageUrl: post.imageUrl!,
+                                      width: double.infinity,
+                                      height: 400,
+                                      fit: BoxFit.cover,
+                                      progressIndicatorBuilder: (context, url, progress) =>
+                                          const Center(child: AppLoadingIndicator()),
+                                      errorWidget: (context, url, error) => Center(
+                                        child: Text(
+                                          '이미지를 불러오는 도중에 문제가 발생했어요. 잠시 후 다시 시도해주세요.',
+                                          style: AppTextStyle.regular16.copyWith(color: AppColor.orangeFF823B),
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                else
+                                  SizedBox(
+                                    width: double.infinity,
+                                    height: 400,
+                                    child: Center(
+                                      child: Text(
+                                        '이미지를 불러오는 도중에 문제가 발생했어요. 잠시 후 다시 시도해주세요.',
+                                        style: AppTextStyle.regular16.copyWith(color: AppColor.orangeFF823B),
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              )
-                            else
-                              SizedBox(
-                                width: double.infinity,
-                                height: 400,
-                                child: Center(
-                                  child: Text(
-                                    '이미지를 불러오는 도중에 문제가 발생했어요. 잠시 후 다시 시도해주세요.',
-                                    style: AppTextStyle.regular16.copyWith(color: AppColor.orangeFF823B),
+                                if (userId != post.userId && post.sellStatus == ProductSellStatus.done.index)
+                                  Container(
+                                    width: double.infinity,
+                                    height: 400,
+                                    color: AppColor.black000000.withValues(alpha: 0.7),
+                                    child: Center(
+                                      child: Text(
+                                        '판매완료된 상품입니다.',
+                                        style: AppTextStyle.regular16.copyWith(color: AppColor.whiteFFFFFF),
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              ),
+                              ],
+                            ),
                             Container(
                               padding: const EdgeInsets.all(16.0),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    post.title ?? "-",
-                                    style: AppTextStyle.regular16.copyWith(color: AppColor.black000000),
-                                  ),
-                                  const SizedBox(height: 4),
-                                  if (post.sellStatus != ProductSellStatus.shared.index)
-                                    Text(
-                                      "${post.price?.getPriceStandardFormat()}원",
-                                      style: AppTextStyle.bold18.copyWith(color: AppColor.black000000),
-                                    )
-                                  else
-                                    Text(
-                                      "무료 나눔해요!",
-                                      style: AppTextStyle.bold18.copyWith(color: AppColor.orangeFF7324),
-                                    ),
-                                  const SizedBox(height: 8),
-                                  Text(
-                                    post.createdAt.getRelativeDateFormat(),
-                                    style: AppTextStyle.regular11.copyWith(color: AppColor.gray727272),
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            post.title ?? "-",
+                                            style: AppTextStyle.regular16.copyWith(color: AppColor.black000000),
+                                          ),
+                                          const SizedBox(height: 4),
+                                          if (post.sellStatus != ProductSellStatus.shared.index)
+                                            Text(
+                                              "${post.price?.getPriceStandardFormat()}원",
+                                              style: AppTextStyle.bold18.copyWith(color: AppColor.black000000),
+                                            )
+                                          else
+                                            Text(
+                                              "무료 나눔해요!",
+                                              style: AppTextStyle.bold18.copyWith(color: AppColor.orangeFF7324),
+                                            ),
+                                          const SizedBox(height: 8),
+                                          Text(
+                                            post.createdAt.getRelativeDateFormat(),
+                                            style: AppTextStyle.regular11.copyWith(color: AppColor.gray727272),
+                                          ),
+                                        ],
+                                      ),
+                                      const Spacer(),
+                                      BlocBuilder<PostDetailBloc, PostDetailState>(
+                                        buildWhen: (previous, current) => current is PostDetailLoaded,
+                                        builder: (context, state) {
+                                          if (state is! PostDetailLoaded) {
+                                            return const SizedBox.shrink();
+                                          }
+
+                                          final post = state.post;
+                                          final userId = getIt<UserRepository>().getUserProfileFromCache()?.id;
+
+                                          final isWriter = post.userId == userId;
+
+                                          if (isWriter != true) {
+                                            return SellStatusFilterButton.normal(post.sellStatus ?? 0);
+                                          }
+
+                                          return InkWell(
+                                            onTap: () async {
+                                              final result = await SellStatusBottomSheet.show(
+                                                context,
+                                                curSellStatus: post.sellStatus,
+                                              );
+
+                                              if (result == null) {
+                                                return;
+                                              }
+
+                                              context
+                                                  .read<PostDetailBloc>()
+                                                  .add(PostDetailSellStatusChangeRequested(statusIndex: result));
+                                            },
+                                            child: SellStatusFilterButton.writer(post.sellStatus ?? 0),
+                                          );
+                                        },
+                                      ),
+                                    ],
                                   ),
                                   const Divider(color: AppColor.grayF2F3F6),
                                   Padding(

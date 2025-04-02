@@ -14,10 +14,8 @@ class PostRepositoryImpl implements PostRepository {
   final int pageSize = 20;
 
   @override
-  Future<ApiResponse> deleteComment({required String commentId}) {
-    // TODO: implement deleteComment
-    throw UnimplementedError();
-  }
+  Future<ApiResponse> deleteComment({required String parentPostId, required String commentId}) =>
+      postRemoteDataSource.deleteComment(parentPostId: parentPostId, commentId: commentId);
 
   @override
   Future<ApiResponse> deletePost({required String postId}) => postRemoteDataSource.deletePost(postId: postId);
