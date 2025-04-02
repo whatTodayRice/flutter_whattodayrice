@@ -5,6 +5,8 @@ import 'package:flutter_whattodayrice/data/repository/user_repository.dart';
 import 'package:flutter_whattodayrice/modules/second-hand/bloc/second_hand_bloc.dart';
 import 'package:flutter_whattodayrice/modules/second-hand/create_post/bloc/create_post_bloc.dart';
 import 'package:flutter_whattodayrice/modules/second-hand/create_post/create_post_screen.dart';
+import 'package:flutter_whattodayrice/modules/second-hand/post_detail/bloc/post_detail_bloc.dart';
+import 'package:flutter_whattodayrice/modules/second-hand/post_detail/post_detail_screen.dart';
 import 'package:flutter_whattodayrice/modules/sign_in/bloc/sign_in_bloc.dart';
 import 'package:flutter_whattodayrice/modules/setting/bloc/setting_bloc.dart';
 import 'package:flutter_whattodayrice/modules/splash/bloc/splash_bloc.dart';
@@ -101,7 +103,27 @@ final routerConfig = GoRouter(
                     ),
                     child: const CreatePostScreen(),
                   ),
-                )
+                ),
+                GoRoute(
+                  parentNavigatorKey: _rootNavigatorKey,
+                  path: AppRouteState.postDetail.path,
+                  name: AppRouteState.postDetail.name,
+                  builder: (context, state) {
+                    final postId = state.pathParameters['id'];
+
+                    if (postId == null) {
+                      throw Exception('Not Founded PostId Exception');
+                    }
+
+                    return BlocProvider(
+                      create: (state) => PostDetailBloc(
+                        postRepository: getIt<PostRepository>(),
+                        userRepository: getIt<UserRepository>(),
+                      ),
+                      child: PostDetailScreen(postId: state.pathParameters['id'] ?? ''),
+                    );
+                  },
+                ),
               ],
             ),
           ],

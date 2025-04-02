@@ -20,13 +20,16 @@ CreatePostRequest _$CreatePostRequestFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$CreatePostRequest {
-  int get userId => throw _privateConstructorUsedError;
-  String get nickname => throw _privateConstructorUsedError;
-  String get title => throw _privateConstructorUsedError;
+  String? get id => throw _privateConstructorUsedError;
+  int? get userId => throw _privateConstructorUsedError;
+  String? get nickname => throw _privateConstructorUsedError;
+  String? get title => throw _privateConstructorUsedError;
+  String? get content => throw _privateConstructorUsedError;
   int? get price => throw _privateConstructorUsedError;
-  bool get isShared => throw _privateConstructorUsedError;
-  String get location => throw _privateConstructorUsedError;
+  String? get location => throw _privateConstructorUsedError;
   String? get imageUrl => throw _privateConstructorUsedError;
+  int? get sellStatus => throw _privateConstructorUsedError;
+  String? get parentPostId => throw _privateConstructorUsedError;
 
   /// Serializes this CreatePostRequest to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -45,13 +48,16 @@ abstract class $CreatePostRequestCopyWith<$Res> {
       _$CreatePostRequestCopyWithImpl<$Res, CreatePostRequest>;
   @useResult
   $Res call(
-      {int userId,
-      String nickname,
-      String title,
+      {String? id,
+      int? userId,
+      String? nickname,
+      String? title,
+      String? content,
       int? price,
-      bool isShared,
-      String location,
-      String? imageUrl});
+      String? location,
+      String? imageUrl,
+      int? sellStatus,
+      String? parentPostId});
 }
 
 /// @nodoc
@@ -69,42 +75,57 @@ class _$CreatePostRequestCopyWithImpl<$Res, $Val extends CreatePostRequest>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? userId = null,
-    Object? nickname = null,
-    Object? title = null,
+    Object? id = freezed,
+    Object? userId = freezed,
+    Object? nickname = freezed,
+    Object? title = freezed,
+    Object? content = freezed,
     Object? price = freezed,
-    Object? isShared = null,
-    Object? location = null,
+    Object? location = freezed,
     Object? imageUrl = freezed,
+    Object? sellStatus = freezed,
+    Object? parentPostId = freezed,
   }) {
     return _then(_value.copyWith(
-      userId: null == userId
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String?,
+      userId: freezed == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
-              as int,
-      nickname: null == nickname
+              as int?,
+      nickname: freezed == nickname
           ? _value.nickname
           : nickname // ignore: cast_nullable_to_non_nullable
-              as String,
-      title: null == title
+              as String?,
+      title: freezed == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
+      content: freezed == content
+          ? _value.content
+          : content // ignore: cast_nullable_to_non_nullable
+              as String?,
       price: freezed == price
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
               as int?,
-      isShared: null == isShared
-          ? _value.isShared
-          : isShared // ignore: cast_nullable_to_non_nullable
-              as bool,
-      location: null == location
+      location: freezed == location
           ? _value.location
           : location // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       imageUrl: freezed == imageUrl
           ? _value.imageUrl
           : imageUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
+      sellStatus: freezed == sellStatus
+          ? _value.sellStatus
+          : sellStatus // ignore: cast_nullable_to_non_nullable
+              as int?,
+      parentPostId: freezed == parentPostId
+          ? _value.parentPostId
+          : parentPostId // ignore: cast_nullable_to_non_nullable
               as String?,
     ) as $Val);
   }
@@ -119,13 +140,16 @@ abstract class _$$CreatePostRequestImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {int userId,
-      String nickname,
-      String title,
+      {String? id,
+      int? userId,
+      String? nickname,
+      String? title,
+      String? content,
       int? price,
-      bool isShared,
-      String location,
-      String? imageUrl});
+      String? location,
+      String? imageUrl,
+      int? sellStatus,
+      String? parentPostId});
 }
 
 /// @nodoc
@@ -141,42 +165,57 @@ class __$$CreatePostRequestImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? userId = null,
-    Object? nickname = null,
-    Object? title = null,
+    Object? id = freezed,
+    Object? userId = freezed,
+    Object? nickname = freezed,
+    Object? title = freezed,
+    Object? content = freezed,
     Object? price = freezed,
-    Object? isShared = null,
-    Object? location = null,
+    Object? location = freezed,
     Object? imageUrl = freezed,
+    Object? sellStatus = freezed,
+    Object? parentPostId = freezed,
   }) {
     return _then(_$CreatePostRequestImpl(
-      userId: null == userId
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String?,
+      userId: freezed == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
-              as int,
-      nickname: null == nickname
+              as int?,
+      nickname: freezed == nickname
           ? _value.nickname
           : nickname // ignore: cast_nullable_to_non_nullable
-              as String,
-      title: null == title
+              as String?,
+      title: freezed == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
+      content: freezed == content
+          ? _value.content
+          : content // ignore: cast_nullable_to_non_nullable
+              as String?,
       price: freezed == price
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
               as int?,
-      isShared: null == isShared
-          ? _value.isShared
-          : isShared // ignore: cast_nullable_to_non_nullable
-              as bool,
-      location: null == location
+      location: freezed == location
           ? _value.location
           : location // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       imageUrl: freezed == imageUrl
           ? _value.imageUrl
           : imageUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
+      sellStatus: freezed == sellStatus
+          ? _value.sellStatus
+          : sellStatus // ignore: cast_nullable_to_non_nullable
+              as int?,
+      parentPostId: freezed == parentPostId
+          ? _value.parentPostId
+          : parentPostId // ignore: cast_nullable_to_non_nullable
               as String?,
     ));
   }
@@ -186,35 +225,44 @@ class __$$CreatePostRequestImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$CreatePostRequestImpl implements _CreatePostRequest {
   const _$CreatePostRequestImpl(
-      {required this.userId,
-      required this.nickname,
-      required this.title,
+      {this.id,
+      this.userId,
+      this.nickname,
+      this.title,
+      this.content,
       this.price,
-      required this.isShared,
-      required this.location,
-      this.imageUrl});
+      this.location,
+      this.imageUrl,
+      this.sellStatus,
+      this.parentPostId});
 
   factory _$CreatePostRequestImpl.fromJson(Map<String, dynamic> json) =>
       _$$CreatePostRequestImplFromJson(json);
 
   @override
-  final int userId;
+  final String? id;
   @override
-  final String nickname;
+  final int? userId;
   @override
-  final String title;
+  final String? nickname;
+  @override
+  final String? title;
+  @override
+  final String? content;
   @override
   final int? price;
   @override
-  final bool isShared;
-  @override
-  final String location;
+  final String? location;
   @override
   final String? imageUrl;
+  @override
+  final int? sellStatus;
+  @override
+  final String? parentPostId;
 
   @override
   String toString() {
-    return 'CreatePostRequest(userId: $userId, nickname: $nickname, title: $title, price: $price, isShared: $isShared, location: $location, imageUrl: $imageUrl)';
+    return 'CreatePostRequest(id: $id, userId: $userId, nickname: $nickname, title: $title, content: $content, price: $price, location: $location, imageUrl: $imageUrl, sellStatus: $sellStatus, parentPostId: $parentPostId)';
   }
 
   @override
@@ -222,23 +270,27 @@ class _$CreatePostRequestImpl implements _CreatePostRequest {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CreatePostRequestImpl &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.nickname, nickname) ||
                 other.nickname == nickname) &&
             (identical(other.title, title) || other.title == title) &&
+            (identical(other.content, content) || other.content == content) &&
             (identical(other.price, price) || other.price == price) &&
-            (identical(other.isShared, isShared) ||
-                other.isShared == isShared) &&
             (identical(other.location, location) ||
                 other.location == location) &&
             (identical(other.imageUrl, imageUrl) ||
-                other.imageUrl == imageUrl));
+                other.imageUrl == imageUrl) &&
+            (identical(other.sellStatus, sellStatus) ||
+                other.sellStatus == sellStatus) &&
+            (identical(other.parentPostId, parentPostId) ||
+                other.parentPostId == parentPostId));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, userId, nickname, title, price,
-      isShared, location, imageUrl);
+  int get hashCode => Object.hash(runtimeType, id, userId, nickname, title,
+      content, price, location, imageUrl, sellStatus, parentPostId);
 
   /// Create a copy of CreatePostRequest
   /// with the given fields replaced by the non-null parameter values.
@@ -259,31 +311,40 @@ class _$CreatePostRequestImpl implements _CreatePostRequest {
 
 abstract class _CreatePostRequest implements CreatePostRequest {
   const factory _CreatePostRequest(
-      {required final int userId,
-      required final String nickname,
-      required final String title,
+      {final String? id,
+      final int? userId,
+      final String? nickname,
+      final String? title,
+      final String? content,
       final int? price,
-      required final bool isShared,
-      required final String location,
-      final String? imageUrl}) = _$CreatePostRequestImpl;
+      final String? location,
+      final String? imageUrl,
+      final int? sellStatus,
+      final String? parentPostId}) = _$CreatePostRequestImpl;
 
   factory _CreatePostRequest.fromJson(Map<String, dynamic> json) =
       _$CreatePostRequestImpl.fromJson;
 
   @override
-  int get userId;
+  String? get id;
   @override
-  String get nickname;
+  int? get userId;
   @override
-  String get title;
+  String? get nickname;
+  @override
+  String? get title;
+  @override
+  String? get content;
   @override
   int? get price;
   @override
-  bool get isShared;
-  @override
-  String get location;
+  String? get location;
   @override
   String? get imageUrl;
+  @override
+  int? get sellStatus;
+  @override
+  String? get parentPostId;
 
   /// Create a copy of CreatePostRequest
   /// with the given fields replaced by the non-null parameter values.

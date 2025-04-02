@@ -6,13 +6,16 @@ part 'create_post_request.g.dart';
 @freezed
 class CreatePostRequest with _$CreatePostRequest {
   const factory CreatePostRequest({
-    required int userId,
-    required String nickname,
-    required String title,
+    String? id,
+    int? userId,
+    String? nickname,
+    String? title,
+    String? content,
     int? price,
-    required bool isShared,
-    required String location,
+    String? location,
     String? imageUrl,
+    int? sellStatus,
+    String? parentPostId,
   }) = _CreatePostRequest;
 
   factory CreatePostRequest.fromJson(Map<String, dynamic> json) => _$CreatePostRequestFromJson(json);

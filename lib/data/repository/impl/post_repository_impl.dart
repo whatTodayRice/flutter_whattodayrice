@@ -1,6 +1,5 @@
 import 'package:flutter_whattodayrice/data/data_sources/remote/core/api_response.dart';
 import 'package:flutter_whattodayrice/data/data_sources/remote/post_remote_data_source.dart';
-import 'package:flutter_whattodayrice/data/models/comment.dart';
 import 'package:flutter_whattodayrice/data/models/post.dart';
 import 'package:flutter_whattodayrice/data/models/requests/create_post_request.dart';
 import 'package:flutter_whattodayrice/data/repository/post_repository.dart';
@@ -15,34 +14,20 @@ class PostRepositoryImpl implements PostRepository {
   final int pageSize = 20;
 
   @override
-  Future<ApiResponse<Comment>> addComment({required String userId, required String postId, required String content}) {
-    // TODO: implement addComment
-    throw UnimplementedError();
-  }
+  Future<ApiResponse> deleteComment({required String parentPostId, required String commentId}) =>
+      postRemoteDataSource.deleteComment(parentPostId: parentPostId, commentId: commentId);
 
   @override
-  Future<ApiResponse> deleteComment({required String commentId}) {
-    // TODO: implement deleteComment
-    throw UnimplementedError();
-  }
+  Future<ApiResponse> deletePost({required String postId}) => postRemoteDataSource.deletePost(postId: postId);
 
   @override
-  Future<ApiResponse> deletePost({required String postId}) {
-    // TODO: implement deletePost
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<ApiResponse<List<Comment>>> getComments({required int page, required String postId}) {
+  Future<ApiResponse<List<Post>>> getComments({required int page, required String postId}) {
     // TODO: implement getComments
     throw UnimplementedError();
   }
 
   @override
-  Future<ApiResponse<Post>> getPost({required String postId}) {
-    // TODO: implement getPost
-    throw UnimplementedError();
-  }
+  Future<ApiResponse<Post>> getPost({required String postId}) => postRemoteDataSource.getPost(id: postId);
 
   @override
   Future<ApiResponse<List<Post>>> getPosts({int? perPage, int? page, String? lastDocId}) =>
@@ -51,4 +36,12 @@ class PostRepositoryImpl implements PostRepository {
   @override
   Future<ApiResponse<bool?>> createPost({required CreatePostRequest request}) =>
       postRemoteDataSource.createPost(request: request);
+
+  @override
+  Future<ApiResponse> updatePostSellStatus({required String postId, required int sellStatus}) =>
+      postRemoteDataSource.updatePostSellStatus(postId: postId, sellStatus: sellStatus);
+
+  @override
+  Future<ApiResponse> createComment({required CreatePostRequest request}) =>
+      postRemoteDataSource.createComment(request: request);
 }

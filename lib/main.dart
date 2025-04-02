@@ -18,14 +18,6 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  // TODO: 추후 제거 필요
-  // final supabaseEnv = SuPaBaseEnv.instance;
-  //
-  // await Supabase.initialize(
-  //   url: supabaseEnv.projectURL,
-  //   anonKey: supabaseEnv.projectApiKey,
-  // );
-
   KakaoSdk.init(
     nativeAppKey: KakaoConfig.nativeAppKey,
     javaScriptAppKey: KakaoConfig.javascriptAppKey,

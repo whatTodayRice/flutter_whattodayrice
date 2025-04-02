@@ -9,6 +9,8 @@ class Profile with _$Profile {
   const factory Profile({
     required int id,
     required String nickname,
+    @Default([]) List<int> blockedUserIds,
   }) = _Profile;
+
   factory Profile.fromJson(Map<String, dynamic> json) => _$ProfileFromJson(json);
 }

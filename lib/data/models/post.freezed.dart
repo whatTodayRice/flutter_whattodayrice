@@ -20,18 +20,18 @@ Post _$PostFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Post {
-  @JsonKey(name: "id")
-  String get postId => throw _privateConstructorUsedError;
+  String? get id => throw _privateConstructorUsedError;
+  String? get parentPostId => throw _privateConstructorUsedError;
   int? get userId => throw _privateConstructorUsedError;
   String? get nickname => throw _privateConstructorUsedError;
   String? get title => throw _privateConstructorUsedError;
   String? get content => throw _privateConstructorUsedError;
   String? get imageUrl => throw _privateConstructorUsedError;
   int? get price => throw _privateConstructorUsedError;
-  bool? get isShared => throw _privateConstructorUsedError;
   String? get location => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
   int? get sellStatus => throw _privateConstructorUsedError;
+  List<Post> get comments => throw _privateConstructorUsedError;
 
   /// Serializes this Post to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -48,17 +48,18 @@ abstract class $PostCopyWith<$Res> {
       _$PostCopyWithImpl<$Res, Post>;
   @useResult
   $Res call(
-      {@JsonKey(name: "id") String postId,
+      {String? id,
+      String? parentPostId,
       int? userId,
       String? nickname,
       String? title,
       String? content,
       String? imageUrl,
       int? price,
-      bool? isShared,
       String? location,
       DateTime? createdAt,
-      int? sellStatus});
+      int? sellStatus,
+      List<Post> comments});
 }
 
 /// @nodoc
@@ -76,23 +77,28 @@ class _$PostCopyWithImpl<$Res, $Val extends Post>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? postId = null,
+    Object? id = freezed,
+    Object? parentPostId = freezed,
     Object? userId = freezed,
     Object? nickname = freezed,
     Object? title = freezed,
     Object? content = freezed,
     Object? imageUrl = freezed,
     Object? price = freezed,
-    Object? isShared = freezed,
     Object? location = freezed,
     Object? createdAt = freezed,
     Object? sellStatus = freezed,
+    Object? comments = null,
   }) {
     return _then(_value.copyWith(
-      postId: null == postId
-          ? _value.postId
-          : postId // ignore: cast_nullable_to_non_nullable
-              as String,
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String?,
+      parentPostId: freezed == parentPostId
+          ? _value.parentPostId
+          : parentPostId // ignore: cast_nullable_to_non_nullable
+              as String?,
       userId: freezed == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
@@ -117,10 +123,6 @@ class _$PostCopyWithImpl<$Res, $Val extends Post>
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
               as int?,
-      isShared: freezed == isShared
-          ? _value.isShared
-          : isShared // ignore: cast_nullable_to_non_nullable
-              as bool?,
       location: freezed == location
           ? _value.location
           : location // ignore: cast_nullable_to_non_nullable
@@ -133,6 +135,10 @@ class _$PostCopyWithImpl<$Res, $Val extends Post>
           ? _value.sellStatus
           : sellStatus // ignore: cast_nullable_to_non_nullable
               as int?,
+      comments: null == comments
+          ? _value.comments
+          : comments // ignore: cast_nullable_to_non_nullable
+              as List<Post>,
     ) as $Val);
   }
 }
@@ -145,17 +151,18 @@ abstract class _$$PostImplCopyWith<$Res> implements $PostCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: "id") String postId,
+      {String? id,
+      String? parentPostId,
       int? userId,
       String? nickname,
       String? title,
       String? content,
       String? imageUrl,
       int? price,
-      bool? isShared,
       String? location,
       DateTime? createdAt,
-      int? sellStatus});
+      int? sellStatus,
+      List<Post> comments});
 }
 
 /// @nodoc
@@ -170,23 +177,28 @@ class __$$PostImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? postId = null,
+    Object? id = freezed,
+    Object? parentPostId = freezed,
     Object? userId = freezed,
     Object? nickname = freezed,
     Object? title = freezed,
     Object? content = freezed,
     Object? imageUrl = freezed,
     Object? price = freezed,
-    Object? isShared = freezed,
     Object? location = freezed,
     Object? createdAt = freezed,
     Object? sellStatus = freezed,
+    Object? comments = null,
   }) {
     return _then(_$PostImpl(
-      postId: null == postId
-          ? _value.postId
-          : postId // ignore: cast_nullable_to_non_nullable
-              as String,
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String?,
+      parentPostId: freezed == parentPostId
+          ? _value.parentPostId
+          : parentPostId // ignore: cast_nullable_to_non_nullable
+              as String?,
       userId: freezed == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
@@ -211,10 +223,6 @@ class __$$PostImplCopyWithImpl<$Res>
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
               as int?,
-      isShared: freezed == isShared
-          ? _value.isShared
-          : isShared // ignore: cast_nullable_to_non_nullable
-              as bool?,
       location: freezed == location
           ? _value.location
           : location // ignore: cast_nullable_to_non_nullable
@@ -227,6 +235,10 @@ class __$$PostImplCopyWithImpl<$Res>
           ? _value.sellStatus
           : sellStatus // ignore: cast_nullable_to_non_nullable
               as int?,
+      comments: null == comments
+          ? _value._comments
+          : comments // ignore: cast_nullable_to_non_nullable
+              as List<Post>,
     ));
   }
 }
@@ -235,24 +247,27 @@ class __$$PostImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$PostImpl implements _Post {
   const _$PostImpl(
-      {@JsonKey(name: "id") required this.postId,
+      {this.id,
+      this.parentPostId,
       this.userId,
       this.nickname,
       this.title,
       this.content,
       this.imageUrl,
       this.price,
-      this.isShared,
       this.location,
       this.createdAt,
-      this.sellStatus});
+      this.sellStatus,
+      final List<Post> comments = const []})
+      : _comments = comments;
 
   factory _$PostImpl.fromJson(Map<String, dynamic> json) =>
       _$$PostImplFromJson(json);
 
   @override
-  @JsonKey(name: "id")
-  final String postId;
+  final String? id;
+  @override
+  final String? parentPostId;
   @override
   final int? userId;
   @override
@@ -266,17 +281,23 @@ class _$PostImpl implements _Post {
   @override
   final int? price;
   @override
-  final bool? isShared;
-  @override
   final String? location;
   @override
   final DateTime? createdAt;
   @override
   final int? sellStatus;
+  final List<Post> _comments;
+  @override
+  @JsonKey()
+  List<Post> get comments {
+    if (_comments is EqualUnmodifiableListView) return _comments;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_comments);
+  }
 
   @override
   String toString() {
-    return 'Post(postId: $postId, userId: $userId, nickname: $nickname, title: $title, content: $content, imageUrl: $imageUrl, price: $price, isShared: $isShared, location: $location, createdAt: $createdAt, sellStatus: $sellStatus)';
+    return 'Post(id: $id, parentPostId: $parentPostId, userId: $userId, nickname: $nickname, title: $title, content: $content, imageUrl: $imageUrl, price: $price, location: $location, createdAt: $createdAt, sellStatus: $sellStatus, comments: $comments)';
   }
 
   @override
@@ -284,7 +305,9 @@ class _$PostImpl implements _Post {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$PostImpl &&
-            (identical(other.postId, postId) || other.postId == postId) &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.parentPostId, parentPostId) ||
+                other.parentPostId == parentPostId) &&
             (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.nickname, nickname) ||
                 other.nickname == nickname) &&
@@ -293,20 +316,31 @@ class _$PostImpl implements _Post {
             (identical(other.imageUrl, imageUrl) ||
                 other.imageUrl == imageUrl) &&
             (identical(other.price, price) || other.price == price) &&
-            (identical(other.isShared, isShared) ||
-                other.isShared == isShared) &&
             (identical(other.location, location) ||
                 other.location == location) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.sellStatus, sellStatus) ||
-                other.sellStatus == sellStatus));
+                other.sellStatus == sellStatus) &&
+            const DeepCollectionEquality().equals(other._comments, _comments));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, postId, userId, nickname, title,
-      content, imageUrl, price, isShared, location, createdAt, sellStatus);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      parentPostId,
+      userId,
+      nickname,
+      title,
+      content,
+      imageUrl,
+      price,
+      location,
+      createdAt,
+      sellStatus,
+      const DeepCollectionEquality().hash(_comments));
 
   /// Create a copy of Post
   /// with the given fields replaced by the non-null parameter values.
@@ -326,23 +360,25 @@ class _$PostImpl implements _Post {
 
 abstract class _Post implements Post {
   const factory _Post(
-      {@JsonKey(name: "id") required final String postId,
+      {final String? id,
+      final String? parentPostId,
       final int? userId,
       final String? nickname,
       final String? title,
       final String? content,
       final String? imageUrl,
       final int? price,
-      final bool? isShared,
       final String? location,
       final DateTime? createdAt,
-      final int? sellStatus}) = _$PostImpl;
+      final int? sellStatus,
+      final List<Post> comments}) = _$PostImpl;
 
   factory _Post.fromJson(Map<String, dynamic> json) = _$PostImpl.fromJson;
 
   @override
-  @JsonKey(name: "id")
-  String get postId;
+  String? get id;
+  @override
+  String? get parentPostId;
   @override
   int? get userId;
   @override
@@ -356,13 +392,13 @@ abstract class _Post implements Post {
   @override
   int? get price;
   @override
-  bool? get isShared;
-  @override
   String? get location;
   @override
   DateTime? get createdAt;
   @override
   int? get sellStatus;
+  @override
+  List<Post> get comments;
 
   /// Create a copy of Post
   /// with the given fields replaced by the non-null parameter values.

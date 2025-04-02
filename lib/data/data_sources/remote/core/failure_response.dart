@@ -7,7 +7,7 @@ sealed class FailureResponse<T> implements ApiResponse<T> {
   final String? hint;
 
   const FailureResponse({
-    this.message,
+    this.message = ApiErrorMessage.defaultMessage,
     this.code,
     this.details,
     this.hint,

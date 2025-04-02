@@ -28,7 +28,7 @@ class SecondHandBloc extends Bloc<SecondHandEvent, SecondHandState> {
     final response = await postRepository.getPosts(lastDocId: lastDocId);
 
     postList = [...response.succeedData ?? []];
-    lastDocId = (response.succeedData ?? []).length >= 20 ? response.succeedData!.last.postId : null;
+    lastDocId = (response.succeedData ?? []).length >= 20 ? response.succeedData!.last.id : null;
 
     emit(SecondHandLoaded(itemList: [...postList], nextPageKey: lastDocId));
   }

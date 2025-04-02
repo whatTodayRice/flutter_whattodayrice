@@ -69,12 +69,6 @@ class $AssetsImagesGen {
   /// File path: assets/images/icon_뒤로가기.svg
   SvgGenImage get iconSvg___ => const SvgGenImage('assets/images/icon_뒤로가기.svg');
 
-  /// File path: assets/images/icon_삭제.svg
-  SvgGenImage get iconSvg____ => const SvgGenImage('assets/images/icon_삭제.svg');
-
-  /// File path: assets/images/icon_신고.svg
-  SvgGenImage get iconSvg_____ => const SvgGenImage('assets/images/icon_신고.svg');
-
   /// File path: assets/images/image_selection.png
   AssetGenImage get imageSelection => const AssetGenImage('assets/images/image_selection.png');
 
@@ -95,6 +89,9 @@ class $AssetsImagesGen {
 
   /// Directory path: assets/images/splash
   $AssetsImagesSplashGen get splash => const $AssetsImagesSplashGen();
+
+  /// Directory path: assets/images/svg
+  $AssetsImagesSvgGen get svg => const $AssetsImagesSvgGen();
 
   /// File path: assets/images/washing-machine.png
   AssetGenImage get washingMachine => const AssetGenImage('assets/images/washing-machine.png');
@@ -119,8 +116,6 @@ class $AssetsImagesGen {
         iconSvg_,
         iconSvg__,
         iconSvg___,
-        iconSvg____,
-        iconSvg_____,
         imageSelection,
         imgAlarmDark,
         kakaoLoginMediumWide,
@@ -142,6 +137,9 @@ class $AssetsImagesLauncherGen {
 class $AssetsImagesPngGen {
   const $AssetsImagesPngGen();
 
+  /// File path: assets/images/png/icon_delete_red.png
+  AssetGenImage get iconDeleteRed => const AssetGenImage('assets/images/png/icon_delete_red.png');
+
   /// File path: assets/images/png/icon_meal_active.png
   AssetGenImage get iconMealActive => const AssetGenImage('assets/images/png/icon_meal_active.png');
 
@@ -149,7 +147,7 @@ class $AssetsImagesPngGen {
   AssetGenImage get iconMealInactive => const AssetGenImage('assets/images/png/icon_meal_inactive.png');
 
   /// List of all assets
-  List<AssetGenImage> get values => [iconMealActive, iconMealInactive];
+  List<AssetGenImage> get values => [iconDeleteRed, iconMealActive, iconMealInactive];
 }
 
 class $AssetsImagesSplashGen {
@@ -163,6 +161,28 @@ class $AssetsImagesSplashGen {
 
   /// List of all assets
   List<AssetGenImage> get values => [android12, splash];
+}
+
+class $AssetsImagesSvgGen {
+  const $AssetsImagesSvgGen();
+
+  /// File path: assets/images/svg/icon_down_arrow_gray.svg
+  SvgGenImage get iconDownArrowGray => const SvgGenImage('assets/images/svg/icon_down_arrow_gray.svg');
+
+  /// File path: assets/images/svg/icon_more.svg
+  SvgGenImage get iconMore => const SvgGenImage('assets/images/svg/icon_more.svg');
+
+  /// File path: assets/images/svg/icon_out.svg
+  SvgGenImage get iconOut => const SvgGenImage('assets/images/svg/icon_out.svg');
+
+  /// File path: assets/images/svg/icon_report.svg
+  SvgGenImage get iconReport => const SvgGenImage('assets/images/svg/icon_report.svg');
+
+  /// File path: assets/images/svg/icon_right_arrow_gray.svg
+  SvgGenImage get iconRightArrowGray => const SvgGenImage('assets/images/svg/icon_right_arrow_gray.svg');
+
+  /// List of all assets
+  List<SvgGenImage> get values => [iconDownArrowGray, iconMore, iconOut, iconReport, iconRightArrowGray];
 }
 
 class Assets {

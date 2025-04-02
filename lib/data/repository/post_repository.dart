@@ -1,5 +1,4 @@
 import 'package:flutter_whattodayrice/data/data_sources/remote/core/api_response.dart';
-import 'package:flutter_whattodayrice/data/models/comment.dart';
 import 'package:flutter_whattodayrice/data/models/post.dart';
 import 'package:flutter_whattodayrice/data/models/requests/create_post_request.dart';
 
@@ -13,14 +12,12 @@ abstract interface class PostRepository {
 
   Future<ApiResponse> deletePost({required String postId});
 
+  Future<ApiResponse> updatePostSellStatus({required String postId, required int sellStatus});
+
   /// 댓글
-  Future<ApiResponse<List<Comment>>> getComments({required int page, required String postId});
+  Future<ApiResponse<List<Post>>> getComments({required int page, required String postId});
 
-  Future<ApiResponse<Comment>> addComment({
-    required String userId,
-    required String postId,
-    required String content,
-  });
+  Future<ApiResponse> createComment({required CreatePostRequest request});
 
-  Future<ApiResponse> deleteComment({required String commentId});
+  Future<ApiResponse> deleteComment({required String parentPostId, required String commentId});
 }

@@ -22,6 +22,7 @@ Profile _$ProfileFromJson(Map<String, dynamic> json) {
 mixin _$Profile {
   int get id => throw _privateConstructorUsedError;
   String get nickname => throw _privateConstructorUsedError;
+  List<int> get blockedUserIds => throw _privateConstructorUsedError;
 
   /// Serializes this Profile to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -37,7 +38,7 @@ abstract class $ProfileCopyWith<$Res> {
   factory $ProfileCopyWith(Profile value, $Res Function(Profile) then) =
       _$ProfileCopyWithImpl<$Res, Profile>;
   @useResult
-  $Res call({int id, String nickname});
+  $Res call({int id, String nickname, List<int> blockedUserIds});
 }
 
 /// @nodoc
@@ -57,6 +58,7 @@ class _$ProfileCopyWithImpl<$Res, $Val extends Profile>
   $Res call({
     Object? id = null,
     Object? nickname = null,
+    Object? blockedUserIds = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -67,6 +69,10 @@ class _$ProfileCopyWithImpl<$Res, $Val extends Profile>
           ? _value.nickname
           : nickname // ignore: cast_nullable_to_non_nullable
               as String,
+      blockedUserIds: null == blockedUserIds
+          ? _value.blockedUserIds
+          : blockedUserIds // ignore: cast_nullable_to_non_nullable
+              as List<int>,
     ) as $Val);
   }
 }
@@ -78,7 +84,7 @@ abstract class _$$ProfileImplCopyWith<$Res> implements $ProfileCopyWith<$Res> {
       __$$ProfileImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int id, String nickname});
+  $Res call({int id, String nickname, List<int> blockedUserIds});
 }
 
 /// @nodoc
@@ -96,6 +102,7 @@ class __$$ProfileImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? nickname = null,
+    Object? blockedUserIds = null,
   }) {
     return _then(_$ProfileImpl(
       id: null == id
@@ -106,6 +113,10 @@ class __$$ProfileImplCopyWithImpl<$Res>
           ? _value.nickname
           : nickname // ignore: cast_nullable_to_non_nullable
               as String,
+      blockedUserIds: null == blockedUserIds
+          ? _value._blockedUserIds
+          : blockedUserIds // ignore: cast_nullable_to_non_nullable
+              as List<int>,
     ));
   }
 }
@@ -114,7 +125,11 @@ class __$$ProfileImplCopyWithImpl<$Res>
 
 @JsonSerializable()
 class _$ProfileImpl implements _Profile {
-  const _$ProfileImpl({required this.id, required this.nickname});
+  const _$ProfileImpl(
+      {required this.id,
+      required this.nickname,
+      final List<int> blockedUserIds = const []})
+      : _blockedUserIds = blockedUserIds;
 
   factory _$ProfileImpl.fromJson(Map<String, dynamic> json) =>
       _$$ProfileImplFromJson(json);
@@ -123,10 +138,18 @@ class _$ProfileImpl implements _Profile {
   final int id;
   @override
   final String nickname;
+  final List<int> _blockedUserIds;
+  @override
+  @JsonKey()
+  List<int> get blockedUserIds {
+    if (_blockedUserIds is EqualUnmodifiableListView) return _blockedUserIds;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_blockedUserIds);
+  }
 
   @override
   String toString() {
-    return 'Profile(id: $id, nickname: $nickname)';
+    return 'Profile(id: $id, nickname: $nickname, blockedUserIds: $blockedUserIds)';
   }
 
   @override
@@ -136,12 +159,15 @@ class _$ProfileImpl implements _Profile {
             other is _$ProfileImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.nickname, nickname) ||
-                other.nickname == nickname));
+                other.nickname == nickname) &&
+            const DeepCollectionEquality()
+                .equals(other._blockedUserIds, _blockedUserIds));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, nickname);
+  int get hashCode => Object.hash(runtimeType, id, nickname,
+      const DeepCollectionEquality().hash(_blockedUserIds));
 
   /// Create a copy of Profile
   /// with the given fields replaced by the non-null parameter values.
@@ -161,7 +187,9 @@ class _$ProfileImpl implements _Profile {
 
 abstract class _Profile implements Profile {
   const factory _Profile(
-      {required final int id, required final String nickname}) = _$ProfileImpl;
+      {required final int id,
+      required final String nickname,
+      final List<int> blockedUserIds}) = _$ProfileImpl;
 
   factory _Profile.fromJson(Map<String, dynamic> json) = _$ProfileImpl.fromJson;
 
@@ -169,6 +197,8 @@ abstract class _Profile implements Profile {
   int get id;
   @override
   String get nickname;
+  @override
+  List<int> get blockedUserIds;
 
   /// Create a copy of Profile
   /// with the given fields replaced by the non-null parameter values.

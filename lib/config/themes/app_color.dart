@@ -16,8 +16,10 @@ abstract class AppColor {
   static const Color orange3 = Color(0xFFFFEBDF);
   static const Color orangeFF9559 = Color(0xFFFF9559);
   static const Color orangeFF823B = Color(0xFFFF823B);
-  static const Color orange6 = Color(0xFFFF6060);
+  static const orangeFF7324 = Color(0xFFFF7324);
+  static const Color orangeFF6060 = Color(0xFFFF6060);
   static const orangeFFF0E8 = Color(0xFFFFF0E8);
+  static const orangeFFF6F0 = Color(0xFFFFF6F0);
   static const Color pushAlarmContainerBackground = Color(0xFFFFFAF6);
   static const Color gray8 = Color(0xff5C5C5C);
   static const Color pushAlarmSubTitle = Color(0xff969696);
@@ -26,6 +28,7 @@ abstract class AppColor {
   static const black000000 = Color(0xFF000000);
   static const black121212 = Color(0xff121212);
   static const black373737 = Color(0xff373737);
+  static const black474747 = Color(0xFF474747);
 
   static const yellow = Color(0xfffee500);
   static const grayD9D9D9 = Color(0xffD9D9D9);
@@ -53,7 +56,9 @@ abstract class AppColor {
   static const grayF2F3F6 = Color(0xFFF2F3F6);
   static const grayA6A6A6 = Color(0xFFA6A6A6);
 
-  static const white1 = Color(0xFFF8F8F8);
+  static const whiteFFFFFF = Color(0xFFFFFFFF);
+  static const whiteF1F1F1 = Color(0xFFF1F1F1);
+  static const whiteF8F8F8 = Color(0xFFF8F8F8);
   static const whiteFBFBFB = Color(0xFFFBFBFB);
   static const whiteF4F4F4 = Color(0xFFF4F4F4);
   static const whiteFDFDFD = Color(0xFFFDFDFD);

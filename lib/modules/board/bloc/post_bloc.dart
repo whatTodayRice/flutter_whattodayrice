@@ -78,30 +78,30 @@ class PostBloc extends Bloc<PostEvent, PostState> {
     FreePostLoadRequested event,
     Emitter<PostState> emit,
   ) async {
-    final response = await postRepository.getPost(postId: freePostList[event.postIndex].postId);
-
-    if (!response.isSucceed) {
-      return;
-    }
-
-    freePostList[event.postIndex] = response.succeedData!;
-
-    emit(FreePostLoaded(itemList: freePostList, nextPage: freePostNextPage));
+    // final response = await postRepository.getPost(postId: freePostList[event.postIndex].id);
+    //
+    // if (!response.isSucceed) {
+    //   return;
+    // }
+    //
+    // freePostList[event.postIndex] = response.succeedData!;
+    //
+    // emit(FreePostLoaded(itemList: freePostList, nextPage: freePostNextPage));
   }
 
   Future<void> _onFreePostDeleteRequested(
     FreePostDeleteRequested event,
     Emitter<PostState> emit,
   ) async {
-    final response = await postRepository.deletePost(postId: freePostList[event.postIndex].postId);
-
-    if (!response.isSucceed) {
-      return;
-    }
-
-    freePostList.removeAt(event.postIndex);
-
-    emit(FreePostLoaded(itemList: freePostList, nextPage: freePostNextPage));
+    // final response = await postRepository.deletePost(postId: freePostList[event.postIndex].id);
+    //
+    // if (!response.isSucceed) {
+    //   return;
+    // }
+    //
+    // freePostList.removeAt(event.postIndex);
+    //
+    // emit(FreePostLoaded(itemList: freePostList, nextPage: freePostNextPage));
   }
 
   Future<void> _onFreePostCreateRequested(
@@ -147,30 +147,30 @@ class PostBloc extends Bloc<PostEvent, PostState> {
     QuestionPostLoadRequested event,
     Emitter<PostState> emit,
   ) async {
-    final response = await postRepository.getPost(postId: questionPostList[event.postIndex].postId);
-
-    if (!response.isSucceed) {
-      return;
-    }
-
-    questionPostList[event.postIndex] = response.succeedData!;
-
-    emit(QuestionPostLoaded(itemList: questionPostList, nextPage: questionPostNextPage));
+    // final response = await postRepository.getPost(postId: questionPostList[event.postIndex].id);
+    //
+    // if (!response.isSucceed) {
+    //   return;
+    // }
+    //
+    // questionPostList[event.postIndex] = response.succeedData!;
+    //
+    // emit(QuestionPostLoaded(itemList: questionPostList, nextPage: questionPostNextPage));
   }
 
   Future<void> _onQuestionPostDeleteRequested(
     QuestionPostDeleteRequested event,
     Emitter<PostState> emit,
   ) async {
-    final response = await postRepository.deletePost(postId: questionPostList[event.postIndex].postId);
-
-    if (!response.isSucceed) {
-      return;
-    }
-
-    questionPostList.removeAt(event.postIndex);
-
-    emit(QuestionPostLoaded(itemList: questionPostList, nextPage: questionPostNextPage));
+    // final response = await postRepository.deletePost(postId: questionPostList[event.postIndex].id);
+    //
+    // if (!response.isSucceed) {
+    //   return;
+    // }
+    //
+    // questionPostList.removeAt(event.postIndex);
+    //
+    // emit(QuestionPostLoaded(itemList: questionPostList, nextPage: questionPostNextPage));
   }
 
   Future<void> _onQuestionPostCreateRequested(

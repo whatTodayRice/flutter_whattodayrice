@@ -8,6 +8,7 @@ import 'package:flutter_whattodayrice/config/themes/app_color.dart';
 import 'package:flutter_whattodayrice/config/themes/app_text_style.dart';
 import 'package:flutter_whattodayrice/data/models/post.dart';
 import 'package:flutter_whattodayrice/modules/second-hand/bloc/second_hand_bloc.dart';
+import 'package:flutter_whattodayrice/modules/second-hand/create_post/bloc/create_post_bloc.dart';
 import 'package:flutter_whattodayrice/modules/second-hand/create_post/widget/image_preview.dart';
 import 'package:flutter_whattodayrice/modules/second-hand/widget/post_sell_status_badge.dart';
 import 'package:flutter_whattodayrice/utils/extensions/date_time_extension.dart';
@@ -65,7 +66,7 @@ class _SecondHandScreenState extends State<SecondHandScreen> {
               return const SizedBox.shrink();
             }
 
-            return const CreatePostButton();
+            return CreatePostButton(onRefresh: () => _onRefresh());
           },
         ),
         body: RefreshIndicator(
@@ -78,12 +79,30 @@ class _SecondHandScreenState extends State<SecondHandScreen> {
                   pagingController: pagingController,
                   builderDelegate: PagedChildBuilderDelegate(
                     itemBuilder: (context, item, index) => PostItem(
+                      onTap: () async {
+                        if (item.id == null) {
+                          return;
+                        }
+
+                        final goRouter = GoRouter.of(context);
+
+                        final result = await goRouter.pushNamed(
+                          AppRouteState.postDetail.name,
+                          pathParameters: {'id': item.id!},
+                        );
+
+                        if (result != true) {
+                          return;
+                        }
+
+                        _onRefresh();
+                      },
                       imageUrl: item.imageUrl,
                       title: item.title,
                       price: item.price,
                       location: item.location,
-                      isShared: item.isShared,
                       createdAt: item.createdAt,
+                      sellStatus: item.sellStatus,
                     ),
                     newPageProgressIndicatorBuilder: (context) => const Center(child: AppLoadingIndicator()),
                     noItemsFoundIndicatorBuilder: (context) => Column(
@@ -95,7 +114,7 @@ class _SecondHandScreenState extends State<SecondHandScreen> {
                           textAlign: TextAlign.center,
                         ),
                         const SizedBox(height: 16),
-                        const CreatePostButton(),
+                        CreatePostButton(onRefresh: () => _onRefresh()),
                       ],
                     ),
                   ),
@@ -112,7 +131,10 @@ class _SecondHandScreenState extends State<SecondHandScreen> {
 class CreatePostButton extends StatelessWidget {
   const CreatePostButton({
     super.key,
+    this.onRefresh,
   });
+
+  final VoidCallback? onRefresh;
 
   @override
   Widget build(BuildContext context) {
@@ -124,7 +146,7 @@ class CreatePostButton extends StatelessWidget {
           return;
         }
 
-        // 해당 글로 이동 하기
+        onRefresh?.call();
       },
       child: Container(
         width: 100,
@@ -137,7 +159,7 @@ class CreatePostButton extends StatelessWidget {
             const SizedBox(width: 6),
             Text(
               '글쓰기',
-              style: AppTextStyle.regular16.copyWith(color: AppColor.white1),
+              style: AppTextStyle.regular16.copyWith(color: AppColor.whiteF8F8F8),
             ),
           ],
         ),
@@ -149,69 +171,78 @@ class CreatePostButton extends StatelessWidget {
 class PostItem extends StatelessWidget {
   const PostItem({
     super.key,
+    this.onTap,
     this.imageUrl,
     this.title,
     this.price,
     this.location,
-    this.isShared,
+    this.sellStatus,
     this.createdAt,
   });
 
+  final VoidCallback? onTap;
   final String? imageUrl;
   final String? title;
   final String? location;
   final int? price;
-  final bool? isShared;
+  final int? sellStatus;
   final DateTime? createdAt;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 125,
-      padding: const EdgeInsets.symmetric(vertical: 16.0),
-      decoration: const BoxDecoration(border: Border(bottom: BorderSide(color: AppColor.grayF2F3F6))),
-      child: Row(
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(6),
-            child: CachedNetworkImage(
-              imageUrl: imageUrl ?? '',
-              width: 92,
-              height: 92,
-              fit: BoxFit.cover,
-              progressIndicatorBuilder: (context, url, progress) => const PreviewErrorImage(size: 92),
-              errorWidget: (context, url, error) => const PreviewErrorImage(size: 92),
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        height: 125,
+        padding: const EdgeInsets.symmetric(vertical: 16.0),
+        decoration: const BoxDecoration(border: Border(bottom: BorderSide(color: AppColor.grayF2F3F6))),
+        child: Row(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(6),
+              child: CachedNetworkImage(
+                imageUrl: imageUrl ?? '',
+                width: 92,
+                height: 92,
+                fit: BoxFit.cover,
+                progressIndicatorBuilder: (context, url, progress) => const PreviewErrorImage(size: 92),
+                errorWidget: (context, url, error) => const PreviewErrorImage(size: 92),
+              ),
             ),
-          ),
-          const SizedBox(width: 16),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                title ?? "-",
-                style: AppTextStyle.regular14.copyWith(color: AppColor.black000000),
-              ),
-              const SizedBox(height: 8),
-              if (isShared != true)
-                Row(
-                  children: [
-                    Text(
-                      '${price?.getPriceStandardFormat() ?? "-"}원',
-                      style: AppTextStyle.bold14.copyWith(color: AppColor.black000000),
-                    ),
-                    // TODO 판매 상태 배지 추가
-                  ],
-                )
-              else
-                PostSellStatusBadge.shared(),
-              const Spacer(),
-              Text(
-                '${location ?? '행복 기숙사'}  •  ${createdAt.getRelativeDateFormat()}',
-                style: AppTextStyle.regular11.copyWith(color: AppColor.gray727272),
-              ),
-            ],
-          ),
-        ],
+            const SizedBox(width: 16),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title ?? "-",
+                  style: AppTextStyle.regular14.copyWith(color: AppColor.black000000),
+                ),
+                const SizedBox(height: 8),
+                if (sellStatus != ProductSellStatus.shared.index)
+                  Row(
+                    children: [
+                      Text(
+                        '${price?.getPriceStandardFormat() ?? "-"}원',
+                        style: AppTextStyle.bold14.copyWith(color: AppColor.black000000),
+                      ),
+                      const SizedBox(width: 6),
+                      if (sellStatus == ProductSellStatus.reserved.index)
+                        PostSellStatusBadge.reserved()
+                      else if (sellStatus == ProductSellStatus.done.index)
+                        PostSellStatusBadge.sellDone()
+                    ],
+                  )
+                else
+                  PostSellStatusBadge.shared(),
+                const Spacer(),
+                Text(
+                  '${location ?? '행복 기숙사'}  •  ${createdAt.getRelativeDateFormat()}',
+                  style: AppTextStyle.regular11.copyWith(color: AppColor.gray727272),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

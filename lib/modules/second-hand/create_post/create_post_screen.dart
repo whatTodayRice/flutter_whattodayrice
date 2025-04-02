@@ -181,19 +181,19 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                               Row(
                                 children: [
                                   SellTypeButton.sell(
-                                    onTap: () => context.read<CreatePostBloc>().add(
-                                        CreatePostPriceTypeChangeRequested(typeIndex: ProductPriceType.sell.index)),
+                                    onTap: () => context.read<CreatePostBloc>().add(CreatePostPriceTypeChangeRequested(
+                                        typeIndex: ProductSellStatus.isOngoing.index)),
                                     selectedIndex: selectedIndex,
                                   ),
                                   const SizedBox(width: 6),
                                   SellTypeButton.share(
                                     onTap: () => context.read<CreatePostBloc>().add(
-                                        CreatePostPriceTypeChangeRequested(typeIndex: ProductPriceType.share.index)),
+                                        CreatePostPriceTypeChangeRequested(typeIndex: ProductSellStatus.shared.index)),
                                     selectedIndex: selectedIndex,
                                   ),
                                 ],
                               ),
-                              if (selectedIndex == ProductPriceType.sell.index) ...[
+                              if (selectedIndex == ProductSellStatus.isOngoing.index) ...[
                                 const SizedBox(height: 12),
                                 TitleTextField(
                                   titleController: priceController,
