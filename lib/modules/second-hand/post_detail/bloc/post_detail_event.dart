@@ -35,7 +35,7 @@ final class PostDetailDeleteRequested extends PostDetailEvent {
 }
 
 final class PostDetailWriterBlockRequested extends PostDetailEvent {
-  const PostDetailWriterBlockRequested({required this.commentIndex});
+  const PostDetailWriterBlockRequested({this.commentIndex});
 
   final int? commentIndex;
 

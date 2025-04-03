@@ -10,31 +10,60 @@ import 'package:flutter_whattodayrice/data/repository/user_repository.dart';
 import 'package:go_router/go_router.dart';
 
 class PostDetailMoreButton extends StatelessWidget {
-  const PostDetailMoreButton(
-      {super.key, this.postId, this.commentId, this.isPost, this.writerId, this.onDelete, this.size});
+  const PostDetailMoreButton({
+    super.key,
+    this.postId,
+    this.commentId,
+    this.isPost,
+    this.writerId,
+    this.onDelete,
+    this.onUserBlock,
+    this.size,
+    this.nickname,
+  });
 
   final bool? isPost;
   final String? postId;
   final String? commentId;
   final int? writerId;
   final VoidCallback? onDelete;
+  final VoidCallback? onUserBlock;
   final double? size;
+  final String? nickname;
 
-  factory PostDetailMoreButton.post({int? writerId, String? postId, VoidCallback? onDelete}) => PostDetailMoreButton(
+  factory PostDetailMoreButton.post({
+    int? writerId,
+    String? postId,
+    String? nickname,
+    VoidCallback? onDelete,
+    VoidCallback? onUserBlock,
+  }) =>
+      PostDetailMoreButton(
         isPost: true,
         writerId: writerId,
         postId: postId,
         onDelete: onDelete,
+        onUserBlock: onUserBlock,
+        nickname: nickname,
         size: 24,
       );
 
-  factory PostDetailMoreButton.comment({int? writerId, String? postId, String? commentId, VoidCallback? onDelete}) =>
+  factory PostDetailMoreButton.comment({
+    int? writerId,
+    String? postId,
+    String? commentId,
+    String? nickname,
+    VoidCallback? onDelete,
+    VoidCallback? onUserBlock,
+  }) =>
       PostDetailMoreButton(
         isPost: false,
         writerId: writerId,
         postId: postId,
         commentId: commentId,
         onDelete: onDelete,
+        onUserBlock: onUserBlock,
+        nickname: nickname,
         size: 20,
       );
 
@@ -57,7 +86,7 @@ class PostDetailMoreButton extends StatelessWidget {
 
         bool? result;
 
-        if (userId == writerId) {
+        if (userId != writerId) {
           final bottomSheetResult = await AppBottomSheet.show(
             context,
             asset: Assets.images.png.iconDeleteRed.image(width: 24, height: 24),
@@ -88,27 +117,40 @@ class PostDetailMoreButton extends StatelessWidget {
           return;
         }
 
-        final bottomSheetResult = await AppBottomSheet.show(
-          context,
-          asset: Assets.images.svg.iconReport.svg(width: 24, height: 24),
-          content: '신고하기',
-          onTap: () => Navigator.of(context).pop(true),
-        );
+        final bottomSheetResult = await ModerationBottomSheet.show(context);
 
-        if (bottomSheetResult != true) {
+        if (bottomSheetResult == null) {
           return;
         }
 
-        final reportResult = await goRouter.pushNamed(AppRouteState.report.name, queryParameters: {
-          'postId': postId,
-          'commentId': commentId,
-        });
+        if (bottomSheetResult == 0) {
+          final blockResult = await AppDefaultDialog.show(
+            context,
+            title: '$nickname님을 차단하시겠어요?',
+            content: '$nickname님이 쓴 글은 앞으로 볼 수 없어요.',
+            cancelButtonText: '취소',
+            confirmButtonText: '차단',
+            confirmButtonTextColor: AppColor.orangeFF6060,
+            onConfirm: () => Navigator.of(context).pop(true),
+          );
 
-        if (reportResult != true) {
-          return;
+          if (blockResult != true) {
+            return;
+          }
+
+          onUserBlock?.call();
+        } else if (bottomSheetResult == 1) {
+          final reportResult = await goRouter.pushNamed(AppRouteState.report.name, queryParameters: {
+            'postId': postId,
+            'commentId': commentId,
+          });
+
+          if (reportResult != true) {
+            return;
+          }
+
+          scaffoldMessenger.showSnackBar(AppSnackBar.text('$postTypeDisplayValue 신고가 완료됐습니다.'));
         }
-
-        scaffoldMessenger.showSnackBar(AppSnackBar.text('$postTypeDisplayValue 신고가 완료됐습니다.'));
       },
       child: Assets.images.svg.iconMore.svg(width: size, height: size),
     );

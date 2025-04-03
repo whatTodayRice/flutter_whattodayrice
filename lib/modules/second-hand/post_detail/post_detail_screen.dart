@@ -99,7 +99,9 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                   child: PostDetailMoreButton.post(
                     writerId: post.userId,
                     postId: post.id,
+                    nickname: post.nickname,
                     onDelete: () => context.read<PostDetailBloc>().add(const PostDetailDeleteRequested()),
+                    onUserBlock: () => context.read<PostDetailBloc>().add(const PostDetailWriterBlockRequested()),
                   ),
                 );
               },
@@ -290,6 +292,9 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                               commentIndex: index,
                               onDelete: () =>
                                   context.read<PostDetailBloc>().add(PostDetailDeleteRequested(commentId: comment.id)),
+                              onUserBlock: () => context
+                                  .read<PostDetailBloc>()
+                                  .add(PostDetailWriterBlockRequested(commentIndex: index)),
                             );
                           },
                         )
