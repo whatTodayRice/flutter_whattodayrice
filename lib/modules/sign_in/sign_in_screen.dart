@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_whattodayrice/modules/sign_in/bloc/sign_in_bloc.dart';
 import 'package:flutter_whattodayrice/config/router/route_config.dart';
 import 'package:flutter_whattodayrice/config/themes/app_color.dart';
-import 'package:flutter_whattodayrice/presentation/view/components/kakao_button.dart';
+import 'package:flutter_whattodayrice/modules/sign_in/widget/kakao_button.dart';
 import 'package:go_router/go_router.dart';
 
 class SignInScreen extends StatefulWidget {

@@ -1,5 +1,5 @@
 // 주어진 날짜의 요일 인덱스 계산 (월요일=0, 일요일=6) - 한국 시간 기준
-import '../../../data/models/enum/enum_meal_type.dart';
+import 'package:flutter_whattodayrice/data/models/enum/enum_meal_type.dart';
 
 int getDayIndex(DateTime dateTime) {
   // 한국 시간 기준으로 변환 (UTC+9)
@@ -23,10 +23,10 @@ MealType getCurrentAvailableMealType() {
   final breakfastEnd = DateTime(now.year, now.month, now.day, 9, 30);
 
   final lunchStart = DateTime(now.year, now.month, now.day, 11, 30);
-  final lunchEnd = DateTime(now.year, now.month, now.day, 14, 00);
+  final lunchEnd = DateTime(now.year, now.month, now.day, 14);
 
   final dinnerStart = DateTime(now.year, now.month, now.day, 16, 50);
-  final dinnerEnd = DateTime(now.year, now.month, now.day, 19, 00);
+  final dinnerEnd = DateTime(now.year, now.month, now.day, 19);
 
   // 시간 비교를 통해 MealType 결정
   if (now.isAfter(breakfastStart) && now.isBefore(breakfastEnd)) {

@@ -17,8 +17,6 @@ import 'package:flutter_whattodayrice/data/data_sources/remote/happy_meal_data_s
     as _i465;
 import 'package:flutter_whattodayrice/data/data_sources/remote/post_remote_data_source.dart'
     as _i324;
-import 'package:flutter_whattodayrice/data/data_sources/remote/second_hand_remote_data_source.dart'
-    as _i106;
 import 'package:flutter_whattodayrice/data/data_sources/remote/services/happy_meal_service.dart'
     as _i696;
 import 'package:flutter_whattodayrice/data/data_sources/remote/user_remote_data_source.dart'
@@ -31,16 +29,12 @@ import 'package:flutter_whattodayrice/data/repository/impl/meal_repository_impl.
     as _i69;
 import 'package:flutter_whattodayrice/data/repository/impl/post_repository_impl.dart'
     as _i699;
-import 'package:flutter_whattodayrice/data/repository/impl/second_hand_repository_impl.dart'
-    as _i393;
 import 'package:flutter_whattodayrice/data/repository/impl/user_repository_impl.dart'
     as _i945;
 import 'package:flutter_whattodayrice/data/repository/meal_repository.dart'
     as _i785;
 import 'package:flutter_whattodayrice/data/repository/post_repository.dart'
     as _i730;
-import 'package:flutter_whattodayrice/data/repository/second_hand_repository.dart'
-    as _i852;
 import 'package:flutter_whattodayrice/data/repository/user_repository.dart'
     as _i536;
 import 'package:get_it/get_it.dart' as _i174;
@@ -60,8 +54,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i373.EventBus>(() => _i373.EventBus());
     gh.lazySingleton<_i268.AuthLocalDataSource>(
         () => _i268.AuthLocalDataSource());
-    gh.lazySingleton<_i106.SecondHandRemoteDataSource>(
-        () => const _i106.SecondHandRemoteDataSource());
     gh.lazySingleton<_i324.PostRemoteDataSource>(
         () => _i324.PostRemoteDataSource());
     gh.lazySingleton<_i92.UserRemoteDataSource>(
@@ -76,10 +68,6 @@ extension GetItInjectableX on _i174.GetIt {
           authRemoteDataSource: gh<_i83.AuthRemoteDataSource>(),
           authLocalDataSource: gh<_i268.AuthLocalDataSource>(),
         ));
-    gh.lazySingleton<_i852.SecondHandRepository>(() =>
-        _i393.SecondHandRepositoryImpl(
-            secondHandRemoteDataSource:
-                gh<_i106.SecondHandRemoteDataSource>()));
     gh.lazySingleton<_i465.HappyDormsMealRemoteDataSource>(() =>
         _i465.HappyDormsMealRemoteDataSource(
             happyMealService: gh<_i696.HappyMealService>()));

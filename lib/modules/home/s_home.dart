@@ -1,17 +1,8 @@
-// ignore_for_file: unused_import
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_whattodayrice/assets/assets.gen.dart';
-import 'package:flutter_whattodayrice/modules/board/bloc/post_bloc.dart';
-import 'package:flutter_whattodayrice/modules/board/board_screen.dart';
 import 'package:flutter_whattodayrice/config/themes/app_color.dart';
 import 'package:flutter_whattodayrice/modules/home/bloc/home_bloc.dart';
-
-import 'package:flutter_whattodayrice/modules/my_profile/w_my_option.dart';
-import 'package:flutter_whattodayrice/presentation/view/components/common/adaptive_scaffold.dart';
-import 'package:flutter_whattodayrice/presentation/view/components/common/w_appbar_title.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
