@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_whattodayrice/common/widget/app_elevated_button.dart';
 import 'package:flutter_whattodayrice/modules/setting/bloc/setting_bloc.dart';
 import 'package:flutter_whattodayrice/config/router/route_config.dart';
 import 'package:flutter_whattodayrice/config/themes/app_color.dart';
 import 'package:flutter_whattodayrice/common/theme/text_template.dart';
-import 'package:flutter_whattodayrice/common/utils/bottom_sheet_utils.dart';
-import 'package:flutter_whattodayrice/presentation/view/components/common/app_elevated_button.dart';
-import 'package:flutter_whattodayrice/presentation/view/components/notification_switch.dart';
 import 'package:adaptive_theme/adaptive_theme.dart';
+import 'package:flutter_whattodayrice/modules/setting/widget/notification_switch.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:google_fonts/google_fonts.dart';
@@ -94,11 +93,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   buildBoldText('테마 변경'),
                   const Spacer(),
                   TextButton(
-                    onPressed: () {
-                      buildThemeBottomSheet(
-                        context,
-                      );
-                    },
+                    onPressed: () {},
                     child: Text(
                       buildThemeText(convertToThemeMode(AdaptiveTheme.of(context).mode)),
                       style: GoogleFonts.notoSans(fontSize: 14, fontWeight: FontWeight.w600, color: AppColor.primary),

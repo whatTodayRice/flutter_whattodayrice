@@ -75,9 +75,6 @@ class DormitoryMealBloc extends Bloc<DormitoryMealEvent, DormitoryMealState> {
   ) async {
     availableMealType = getCurrentAvailableMealType();
 
-    print("----availableMealType updated----");
-    print(availableMealType);
-
     emit(DormitoryMealLoaded(
       mealDataList: mealDataList,
       availableMealType: availableMealType,
