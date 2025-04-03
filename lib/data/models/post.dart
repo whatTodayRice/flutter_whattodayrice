@@ -37,6 +37,7 @@ class Post with _$Post {
       userId: data?['user_id'],
       title: data?['title'],
       content: data?['content'],
+      nickname: data?['nickname'],
       price: data?['price'],
       imageUrl: data?['image_url'],
       location: data?['location'],

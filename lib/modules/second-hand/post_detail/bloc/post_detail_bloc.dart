@@ -7,6 +7,7 @@ import 'package:flutter_whattodayrice/data/models/post.dart';
 import 'package:flutter_whattodayrice/data/models/requests/create_post_request.dart';
 import 'package:flutter_whattodayrice/data/repository/post_repository.dart';
 import 'package:flutter_whattodayrice/data/repository/user_repository.dart';
+import 'package:flutter_whattodayrice/modules/second-hand/util/post_filter_util.dart';
 
 part 'post_detail_event.dart';
 part 'post_detail_state.dart';
@@ -41,23 +42,9 @@ class PostDetailBloc extends Bloc<PostDetailEvent, PostDetailState> {
       return;
     }
 
-    post = response.succeedData!;
+    final filteredComments = PostBlockedUserFilterUtil.getFilteredPosts(response.succeedData!.comments);
 
-    final curUserProfile = userRepository.getUserProfileFromCache();
-
-    List<Post> filteredComments = [];
-
-    for (int i = 0; i < post!.comments.length; i++) {
-      final comment = post!.comments[i];
-
-      if (curUserProfile?.blockedUserIds.contains(comment.userId) == true) {
-        continue;
-      }
-
-      filteredComments.add(comment);
-    }
-
-    post = post!.copyWith(comments: [...filteredComments]);
+    post = response.succeedData!.copyWith(comments: [...filteredComments]);
 
     emit(PostDetailLoaded(post: post!));
   }

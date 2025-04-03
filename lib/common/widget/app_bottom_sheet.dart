@@ -48,6 +48,43 @@ class AppBottomSheet extends StatelessWidget {
   }
 }
 
+class ModerationBottomSheet extends StatelessWidget {
+  const ModerationBottomSheet({super.key});
+
+  static show(BuildContext context) => showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        useRootNavigator: true,
+        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
+        builder: (context) => const ModerationBottomSheet(),
+      );
+
+  @override
+  Widget build(BuildContext context) {
+    final moderationList = ['사용자 차단하기', '신고하기'];
+
+    return SizedBox(
+      height: 260,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: List.generate(
+          moderationList.length,
+          (index) => InkWell(
+            onTap: () => Navigator.of(context).pop(index),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 12.0),
+              child: Text(
+                moderationList[index],
+                style: AppTextStyle.bold20.copyWith(color: AppColor.orangeFF6060),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class SellStatusBottomSheet extends StatelessWidget {
   const SellStatusBottomSheet({super.key, this.curSellStatus});
 

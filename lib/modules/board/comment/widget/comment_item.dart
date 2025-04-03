@@ -12,11 +12,13 @@ class CommentItem extends StatelessWidget {
     required this.comment,
     required this.commentIndex,
     this.onDelete,
+    this.onUserBlock,
   });
 
   final Post comment;
   final int commentIndex;
   final VoidCallback? onDelete;
+  final VoidCallback? onUserBlock;
 
   @override
   Widget build(BuildContext context) {
@@ -70,6 +72,7 @@ class CommentItem extends StatelessWidget {
                     ),
                     PostDetailMoreButton.comment(
                       writerId: comment.userId,
+                      nickname: comment.nickname,
                       onDelete: onDelete,
                       postId: comment.parentPostId,
                       commentId: comment.id,
