@@ -19,14 +19,15 @@ class DateSelector extends StatelessWidget {
 
         int selectedDayIndex = state.selectedDayIndex;
 
-        return SizedBox(
+        return Container(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
           height: 80,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: dateList.length,
             itemBuilder: (context, index) {
               // 문자열을 DateTime(한국 시간(KST))으로 변환
-              final date = getKoreaDateTime(DateTime.parse(dateList[index]));
+              final date = DormMealHelper.getKoreaDateTime(DateTime.parse(dateList[index]));
 
               final isSelected = index == selectedDayIndex;
 

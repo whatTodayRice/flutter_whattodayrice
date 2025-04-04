@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_whattodayrice/common/widget/app_loading_indicator.dart';
 import 'package:flutter_whattodayrice/config/router/route_config.dart';
 import 'package:flutter_whattodayrice/config/themes/app_color.dart';
 import 'package:flutter_whattodayrice/data/models/enum/enum_meal_type.dart';
@@ -18,15 +19,13 @@ class MealScreen extends StatefulWidget {
 }
 
 class _MealScreenState extends State<MealScreen> {
-  late final DormitoryMealBloc dormitoryMealBloc;
-
   @override
   void initState() {
     super.initState();
 
-    dormitoryMealBloc = context.read<DormitoryMealBloc>();
+    final bloc = context.read<DormitoryMealBloc>();
 
-    dormitoryMealBloc.add(const DormitoryMealLoadRequested());
+    bloc.add(const DormitoryMealLoadRequested());
   }
 
   @override
@@ -47,11 +46,10 @@ class _MealScreenState extends State<MealScreen> {
         backgroundColor: AppColor.homeOptionBackgroundColor,
       ),
       backgroundColor: AppColor.homeOptionBackgroundColor,
-      body: BlocBuilder(
-        bloc: dormitoryMealBloc,
+      body: BlocBuilder<DormitoryMealBloc, DormitoryMealState>(
         builder: (context, state) {
           if (state is! DormitoryMealLoaded) {
-            return const SizedBox();
+            return const Center(child: AppLoadingIndicator());
           }
 
           final List<MealData> mealDataList = state.mealDataList;
@@ -61,44 +59,47 @@ class _MealScreenState extends State<MealScreen> {
 
           final bool isWeekend = selectedDayIndex == 5 || selectedDayIndex == 6;
 
-          return Column(
-            children: [
-              DateSelector(dateList: dateList),
-              SizedBox(height: 12.h),
-              Expanded(
-                  child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    MenuCard(
-                      mealType: MealType.breakfast,
-                      normalMenu: mealDataList[selectedDayIndex].breakfast,
-                      takeOut: mealDataList[selectedDayIndex].takeout,
-                      isActive: availableMealType == MealType.breakfast,
-                      isWeekend: isWeekend,
-                      availableMealTime: "7:30 ~ 9:30",
-                    ),
-                    SizedBox(height: 20.h),
-                    MenuCard(
-                      mealType: MealType.lunch,
-                      normalMenu: mealDataList[selectedDayIndex].lunchNormal,
-                      premiumMenu: mealDataList[selectedDayIndex].lunchPremium,
-                      isActive: availableMealType == MealType.lunch,
-                      isWeekend: isWeekend,
-                      availableMealTime: "11:30 ~ 14:00",
-                    ),
-                    SizedBox(height: 20.h),
-                    MenuCard(
-                      mealType: MealType.dinner,
-                      normalMenu: mealDataList[selectedDayIndex].dinnerNormal,
-                      premiumMenu: mealDataList[selectedDayIndex].dinnerPremium,
-                      isWeekend: isWeekend,
-                      isActive: availableMealType == MealType.dinner,
-                      availableMealTime: "16:50 ~ 19:00",
-                    ),
-                  ],
-                ),
-              )),
-            ],
+          return RefreshIndicator(
+            onRefresh: () async => context.read<DormitoryMealBloc>().add(const DormitoryMealLoadRequested()),
+            child: Column(
+              children: [
+                DateSelector(dateList: dateList),
+                SizedBox(height: 12.h),
+                Expanded(
+                    child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      MenuCard(
+                        mealType: MealType.breakfast,
+                        normalMenu: mealDataList[selectedDayIndex].breakfast,
+                        takeOut: mealDataList[selectedDayIndex].takeout,
+                        isActive: availableMealType == MealType.breakfast,
+                        isWeekend: isWeekend,
+                        availableMealTime: "7:30 ~ 9:30",
+                      ),
+                      SizedBox(height: 20.h),
+                      MenuCard(
+                        mealType: MealType.lunch,
+                        normalMenu: mealDataList[selectedDayIndex].lunchNormal,
+                        premiumMenu: mealDataList[selectedDayIndex].lunchPremium,
+                        isActive: availableMealType == MealType.lunch,
+                        isWeekend: isWeekend,
+                        availableMealTime: "11:30 ~ 14:00",
+                      ),
+                      SizedBox(height: 20.h),
+                      MenuCard(
+                        mealType: MealType.dinner,
+                        normalMenu: mealDataList[selectedDayIndex].dinnerNormal,
+                        premiumMenu: mealDataList[selectedDayIndex].dinnerPremium,
+                        isWeekend: isWeekend,
+                        isActive: availableMealType == MealType.dinner,
+                        availableMealTime: "16:50 ~ 19:00",
+                      ),
+                    ],
+                  ),
+                )),
+              ],
+            ),
           );
         },
       ),
