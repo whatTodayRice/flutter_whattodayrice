@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_whattodayrice/assets/assets.gen.dart';
 import 'package:flutter_whattodayrice/common/widget/app_elevated_button.dart';
 import 'package:flutter_whattodayrice/modules/setting/bloc/setting_bloc.dart';
 import 'package:flutter_whattodayrice/config/router/route_config.dart';
@@ -46,6 +47,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
     return Scaffold(
       appBar: AppBar(
+        leading: InkWell(
+          onTap: () => Navigator.of(context).pop(),
+          child: Assets.images.svg.iconRightArrowGray.svg(fit: BoxFit.scaleDown),
+        ),
         centerTitle: true,
         title: buildSectionTitle('설정'),
       ),
@@ -54,9 +59,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         child: BlocListener<SettingBloc, SettingState>(
           listener: (context, state) {
             if (state is SettingLoaded && state.isLogOut == true) {
-              context.goNamed(AppRouteState.signIn.name);
-
-              return;
+              context.goNamed(AppRouteState.secondHand.name);
             }
           },
           child: Column(

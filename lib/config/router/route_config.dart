@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_whattodayrice/common/widget/app_modal_route.dart';
 import 'package:flutter_whattodayrice/data/repository/post_repository.dart';
 import 'package:flutter_whattodayrice/data/repository/user_repository.dart';
 import 'package:flutter_whattodayrice/modules/second-hand/bloc/second_hand_bloc.dart';
@@ -28,9 +29,6 @@ import 'package:go_router/go_router.dart';
 
 part 'app_router_state.dart';
 
-final AuthRepository _authRepository = getIt<AuthRepository>();
-final DormitoryMealRepository _dormitoryMealRepository = getIt<DormitoryMealRepository>();
-
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 
 final routerConfig = GoRouter(
@@ -41,19 +39,20 @@ final routerConfig = GoRouter(
     GoRoute(
       path: '/${AppRouteState.splash.path}',
       builder: (context, state) => BlocProvider(
-        create: (context) => SplashBloc(authRepository: _authRepository, userRepository: getIt<UserRepository>()),
+        create: (context) =>
+            SplashBloc(authRepository: getIt<AuthRepository>(), userRepository: getIt<UserRepository>()),
         child: const SplashScreen(),
       ),
     ),
     GoRoute(
       path: '/${AppRouteState.signIn.path}',
       name: AppRouteState.signIn.name,
-      builder: (context, state) => BlocProvider(
-        create: (context) => SignInBloc(
-          authRepository: _authRepository,
-          userRepository: getIt<UserRepository>(),
+      pageBuilder: (context, state) => AppModalRoutePage(
+        child: BlocProvider(
+          create: (context) =>
+              SignInBloc(authRepository: getIt<AuthRepository>(), userRepository: getIt<UserRepository>()),
+          child: const SignInScreen(),
         ),
-        child: const SignInScreen(),
       ),
     ),
     StatefulShellRoute.indexedStack(
@@ -62,28 +61,6 @@ final routerConfig = GoRouter(
         child: HomeScreen(navigationShell: navigationShell),
       ),
       branches: [
-        StatefulShellBranch(
-          routes: [
-            GoRoute(
-              path: "/${AppRouteState.meal.path}",
-              name: AppRouteState.meal.name,
-              builder: (context, state) => BlocProvider(
-                create: (context) => DormitoryMealBloc(dormitoryMealRepository: _dormitoryMealRepository),
-                child: const MealScreen(),
-              ),
-              routes: [
-                GoRoute(
-                  path: AppRouteState.setting.path,
-                  name: AppRouteState.setting.name,
-                  builder: (context, state) => BlocProvider(
-                    create: (context) => SettingBloc(authRepository: _authRepository),
-                    child: const SettingsScreen(),
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
         StatefulShellBranch(
           routes: [
             GoRoute(
@@ -149,6 +126,32 @@ final routerConfig = GoRouter(
                       child: const ReportScreen(),
                     );
                   },
+                ),
+              ],
+            ),
+          ],
+        ),
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: "/${AppRouteState.meal.path}",
+              name: AppRouteState.meal.name,
+              builder: (context, state) => BlocProvider(
+                create: (context) => DormitoryMealBloc(dormitoryMealRepository: getIt<DormitoryMealRepository>()),
+                child: const MealScreen(),
+              ),
+              routes: [
+                GoRoute(
+                  parentNavigatorKey: _rootNavigatorKey,
+                  path: AppRouteState.setting.path,
+                  name: AppRouteState.setting.name,
+                  builder: (context, state) => BlocProvider(
+                    create: (context) => SettingBloc(
+                      userRepository: getIt<UserRepository>(),
+                      authRepository: getIt<AuthRepository>(),
+                    ),
+                    child: const SettingsScreen(),
+                  ),
                 ),
               ],
             ),

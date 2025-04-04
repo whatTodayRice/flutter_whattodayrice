@@ -36,14 +36,14 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
             backgroundColor: Colors.white,
             items: <BottomNavigationBarItem>[
               BottomNavigationBarItem(
-                activeIcon: Assets.images.png.iconMealActive.image(width: 28, height: 28),
-                icon: Assets.images.png.iconMealInactive.image(width: 28, height: 28),
+                activeIcon: Assets.images.iconSecondHandActive.image(width: 28, height: 28),
+                icon: Assets.images.iconSecondHandInactive.image(width: 28, height: 28),
                 label: '홈',
               ),
               BottomNavigationBarItem(
-                activeIcon: Assets.images.iconSecondHandActive.image(width: 28, height: 28),
-                icon: Assets.images.iconSecondHandInactive.image(width: 28, height: 28),
-                label: '중고거래',
+                activeIcon: Assets.images.png.iconMealActive.image(width: 28, height: 28),
+                icon: Assets.images.png.iconMealInactive.image(width: 28, height: 28),
+                label: '식단',
               ),
             ],
             currentIndex: widget.navigationShell.currentIndex,

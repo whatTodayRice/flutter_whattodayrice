@@ -5,13 +5,14 @@ import 'package:flutter_whattodayrice/config/themes/app_color.dart';
 import 'package:flutter_whattodayrice/config/themes/app_text_style.dart';
 
 class CommentInput extends StatefulWidget {
-  const CommentInput(
-      {super.key,
-      required this.textEditingController,
-      required this.focusNode,
-      this.onCommentChangeCallback,
-      this.onCommentCreateCallback,
-      this.isButtonEnabled});
+  const CommentInput({
+    super.key,
+    required this.textEditingController,
+    required this.focusNode,
+    this.onCommentChangeCallback,
+    this.onCommentCreateCallback,
+    this.isButtonEnabled,
+  });
 
   final TextEditingController textEditingController;
   final FocusNode focusNode;

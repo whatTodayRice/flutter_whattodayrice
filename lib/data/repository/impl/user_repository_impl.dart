@@ -2,6 +2,7 @@ import 'package:flutter_whattodayrice/data/data_sources/remote/core/api_response
 import 'package:flutter_whattodayrice/data/data_sources/remote/user_remote_data_source.dart';
 import 'package:flutter_whattodayrice/data/models/profile.dart';
 import 'package:flutter_whattodayrice/data/repository/user_repository.dart';
+import 'package:flutter_whattodayrice/utils/log/logger.dart';
 import 'package:injectable/injectable.dart';
 
 @LazySingleton(as: UserRepository)
@@ -54,4 +55,11 @@ class UserRepositoryImpl implements UserRepository {
           return value;
         },
       );
+
+  @override
+  void clearUserProfile() {
+    _userProfile = null;
+
+    Log.i('UserProfile Clear Succeed');
+  }
 }

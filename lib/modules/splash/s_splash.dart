@@ -30,7 +30,7 @@ class _SplashScreenState extends State<SplashScreen> {
           return;
         }
 
-        if (state is SplashLoaded && state.routeName == AppRouteState.meal.name) {
+        if (state is SplashLoaded && state.routeName == AppRouteState.secondHand.name) {
           context.goNamed(state.routeName);
 
           return;

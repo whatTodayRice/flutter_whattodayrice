@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_whattodayrice/assets/assets.gen.dart';
+import 'package:flutter_whattodayrice/common/utils/login_validator.dart';
 import 'package:flutter_whattodayrice/common/widget/app_bottom_sheet.dart';
 import 'package:flutter_whattodayrice/common/widget/app_default_dialog.dart';
 import 'package:flutter_whattodayrice/common/widget/app_snack_bar.dart';
@@ -76,13 +77,17 @@ class PostDetailMoreButton extends StatelessWidget {
         final goRouter = GoRouter.of(context);
         final scaffoldMessenger = ScaffoldMessenger.of(context);
 
-        final userId = getIt<UserRepository>().getUserProfileFromCache()?.id;
+        final isUserLoggedIn = LoginValidator.isUserLoggedIn();
 
-        if (userId == null) {
-          return;
+        if (isUserLoggedIn != true) {
+          final result = await LoginValidator.validate(context);
+
+          if (result != true) {
+            return;
+          }
         }
 
-        // TODO: 로그인 하지 않은 유저에 대한 처리 필요할 지 검토 필요
+        final userId = getIt<UserRepository>().getUserProfileFromCache()?.id;
 
         bool? result;
 
