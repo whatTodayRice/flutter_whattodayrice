@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_whattodayrice/assets/assets.gen.dart';
+import 'package:flutter_whattodayrice/common/utils/login_validator.dart';
 import 'package:flutter_whattodayrice/common/widget/app_bottom_sheet.dart';
 import 'package:flutter_whattodayrice/common/widget/app_loading_indicator.dart';
 import 'package:flutter_whattodayrice/common/widget/app_snack_bar.dart';
@@ -18,6 +19,7 @@ import 'package:flutter_whattodayrice/modules/second-hand/post_detail/widget/pos
 import 'package:flutter_whattodayrice/modules/second-hand/post_detail/widget/sell_status_button.dart';
 import 'package:flutter_whattodayrice/utils/extensions/date_time_extension.dart';
 import 'package:flutter_whattodayrice/utils/extensions/int_extension.dart';
+import 'package:flutter_whattodayrice/utils/log/logger.dart';
 import 'package:go_router/go_router.dart';
 
 class PostDetailScreen extends StatefulWidget {
@@ -30,22 +32,59 @@ class PostDetailScreen extends StatefulWidget {
 }
 
 class _PostDetailScreenState extends State<PostDetailScreen> {
-  final FocusNode commentFocusNode = FocusNode();
-  final TextEditingController commentTextController = TextEditingController();
+  bool _isCheckingLoginState = false;
+
+  final focusNode = FocusNode();
+  final textEditingController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
 
     context.read<PostDetailBloc>().add(PostDetailLoadRequested(postId: widget.postId));
+
+    focusNode.addListener(() async => handleFocusChanged());
   }
 
   @override
   void dispose() {
-    commentTextController.dispose();
-    commentFocusNode.dispose();
+    textEditingController.dispose();
+    focusNode.dispose();
 
     super.dispose();
+  }
+
+  Future<void> handleFocusChanged() async {
+    if (!focusNode.hasFocus) {
+      return;
+    }
+
+    if (_isCheckingLoginState) {
+      return;
+    }
+
+    _isCheckingLoginState = true;
+
+    try {
+      final isLoggedIn = LoginValidator.isUserLoggedIn();
+
+      if (isLoggedIn != true) {
+        final result = await LoginValidator.validate(context);
+
+        if (result != true) {
+          focusNode.unfocus();
+          textEditingController.clear();
+
+          return;
+        }
+      }
+    } catch (e) {
+      Log.i('댓글 입력창 에러: $e');
+
+      return;
+    } finally {
+      _isCheckingLoginState = false;
+    }
   }
 
   @override
@@ -325,13 +364,13 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
 
                     return SafeArea(
                       child: CommentInput(
-                        textEditingController: commentTextController,
-                        focusNode: commentFocusNode,
+                        textEditingController: textEditingController,
+                        focusNode: focusNode,
                         onCommentCreateCallback: () =>
                             context.read<PostDetailBloc>().add(const PostDetailCreateCommentRequested()),
                         onCommentChangeCallback: () => context
                             .read<PostDetailBloc>()
-                            .add(PostDetailCommentContentChangeRequested(content: commentTextController.text)),
+                            .add(PostDetailCommentContentChangeRequested(content: textEditingController.text)),
                         isButtonEnabled: isEnabled,
                       ),
                     );

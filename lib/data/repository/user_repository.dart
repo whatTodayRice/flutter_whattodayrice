@@ -7,4 +7,6 @@ abstract interface class UserRepository {
   Future<ApiResponse<Profile?>> getUserProfile();
 
   Future<ApiResponse> updateBlockedUsers({required int userId, required List<int> blockedUserIds});
+
+  void clearUserProfile();
 }

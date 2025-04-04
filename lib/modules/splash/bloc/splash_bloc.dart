@@ -25,7 +25,7 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
     final accessToken = await authRepository.getAccessTokenFromCache();
 
     if (accessToken == null) {
-      emit(SplashLoaded(routeName: AppRouteState.signIn.name));
+      emit(SplashLoaded(routeName: AppRouteState.secondHand.name));
 
       return;
     }
@@ -39,14 +39,8 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
   ) async {
     emit(const SplashLoading());
 
-    final response = await userRepository.getUserProfile();
+    await userRepository.getUserProfile();
 
-    if (response.succeedData == null) {
-      emit(SplashLoaded(routeName: AppRouteState.signIn.name));
-
-      return;
-    }
-
-    emit(SplashLoaded(routeName: AppRouteState.meal.name));
+    emit(SplashLoaded(routeName: AppRouteState.secondHand.name));
   }
 }
