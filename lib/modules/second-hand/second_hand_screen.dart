@@ -7,7 +7,7 @@ import 'package:flutter_whattodayrice/config/themes/app_text_style.dart';
 import 'package:flutter_whattodayrice/data/models/post.dart';
 import 'package:flutter_whattodayrice/modules/second-hand/bloc/second_hand_bloc.dart';
 import 'package:flutter_whattodayrice/modules/second-hand/widget/create_post_button.dart';
-import 'package:flutter_whattodayrice/modules/second-hand/widget/post_item.dart';
+import 'package:flutter_whattodayrice/common/widget/post_list_item.dart';
 import 'package:go_router/go_router.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
@@ -73,7 +73,7 @@ class _SecondHandScreenState extends State<SecondHandScreen> {
                 PagedSliverList<String, Post>(
                   pagingController: pagingController,
                   builderDelegate: PagedChildBuilderDelegate(
-                    itemBuilder: (context, item, index) => PostItem(
+                    itemBuilder: (context, item, index) => PostListItem(
                       onTap: () async {
                         if (item.id == null) {
                           return;
