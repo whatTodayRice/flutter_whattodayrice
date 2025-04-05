@@ -147,6 +147,7 @@ final routerConfig = GoRouter(
                   name: AppRouteState.setting.name,
                   builder: (context, state) => BlocProvider(
                     create: (context) => SettingBloc(
+                      postRepository: getIt<PostRepository>(),
                       userRepository: getIt<UserRepository>(),
                       authRepository: getIt<AuthRepository>(),
                     ),

@@ -16,14 +16,37 @@ final class SettingLoading extends SettingState {
 }
 
 final class SettingError extends SettingState {
-  const SettingError();
+  const SettingError({this.errorMessage});
+
+  final String? errorMessage;
+
+  @override
+  List<Object?> get props => [errorMessage];
 }
 
 final class SettingLoaded extends SettingState {
-  const SettingLoaded({this.isLogOut});
+  const SettingLoaded({this.profile});
 
-  final bool? isLogOut;
+  final Profile? profile;
 
   @override
-  List<Object?> get props => [isLogOut];
+  List<Object?> get props => [profile];
+}
+
+final class SettingMyPostLoaded extends SettingState {
+  const SettingMyPostLoaded({required this.myPostList, this.lastDocId});
+
+  final List<Post> myPostList;
+  final String? lastDocId;
+
+  @override
+  List<Object?> get props => [myPostList, lastDocId];
+}
+
+final class SettingLoginSucceed extends SettingState {
+  const SettingLoginSucceed();
+}
+
+final class SettingLogoutSucceed extends SettingState {
+  const SettingLogoutSucceed();
 }
