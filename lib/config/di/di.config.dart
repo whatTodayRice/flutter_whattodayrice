@@ -59,7 +59,7 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i92.UserRemoteDataSource>(
         () => _i92.UserRemoteDataSource());
     gh.lazySingleton<_i83.AuthRemoteDataSource>(
-        () => const _i83.AuthRemoteDataSource());
+        () => _i83.AuthRemoteDataSource());
     gh.lazySingleton<_i696.HappyMealService>(
         () => const _i696.HappyMealService());
     gh.lazySingleton<_i730.PostRepository>(() => _i699.PostRepositoryImpl(

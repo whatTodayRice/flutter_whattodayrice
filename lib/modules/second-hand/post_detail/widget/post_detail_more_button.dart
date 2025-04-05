@@ -91,7 +91,7 @@ class PostDetailMoreButton extends StatelessWidget {
 
         bool? result;
 
-        if (userId != writerId) {
+        if (userId == writerId) {
           final bottomSheetResult = await AppBottomSheet.show(
             context,
             asset: Assets.images.png.iconDeleteRed.image(width: 24, height: 24),

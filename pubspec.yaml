@@ -51,8 +51,9 @@ dependencies:
   google_fonts: 6.1.0
 
   # Firebase
-  firebase_core: ^2.32.0
-  cloud_firestore: ^4.15.8
+  firebase_core: ^3.13.0
+  cloud_firestore: ^5.6.6
+  firebase_auth: ^5.5.2
 
   # Auth
   kakao_flutter_sdk: ^1.9.6
