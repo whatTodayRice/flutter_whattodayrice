@@ -15,6 +15,8 @@ abstract interface class PostRepository {
 
   Future<ApiResponse> updatePostSellStatus({required String postId, required int sellStatus});
 
+  Future<ApiResponse<List<Post>>> getMyPostList({required int userId, int? perPage = 20, String? lastDocId});
+
   /// 댓글
   Future<ApiResponse<List<Post>>> getComments({required int page, required String postId});
 

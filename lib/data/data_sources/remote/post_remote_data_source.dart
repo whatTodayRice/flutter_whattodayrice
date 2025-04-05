@@ -159,4 +159,42 @@ class PostRemoteDataSource {
       return const ServerException();
     }
   }
+
+  Future<ApiResponse<List<Post>>> getMyPostList({
+    required int userId,
+    int? perPage = 20,
+    String? lastDocId,
+  }) async {
+    try {
+      Query<Map<String, dynamic>> query = db
+          .collection('posts')
+          .orderBy('created_at', descending: true)
+          .where('user_id', isEqualTo: userId)
+          .limit(perPage ?? 20);
+
+      QuerySnapshot<Map<String, dynamic>> querySnapshot;
+
+      List<Post> postList = [];
+
+      if (lastDocId == null) {
+        querySnapshot = await query.get();
+      } else {
+        querySnapshot = await query.startAfter([lastDocId]).get();
+      }
+
+      for (int i = 0; i < querySnapshot.docs.length; i++) {
+        final documentSnapShot = querySnapshot.docs[i];
+
+        postList.add(Post.fromFireStore(documentSnapShot));
+      }
+
+      Log.i('내가 작성한 중고 거래 글 조회 성공: $userId');
+
+      return SucceedResponse(postList);
+    } catch (e) {
+      Log.i('내가 작성한 중고 거래 글 조회 실패: $e');
+
+      return const ServerException();
+    }
+  }
 }
