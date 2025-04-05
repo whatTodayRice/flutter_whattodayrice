@@ -42,7 +42,7 @@ class SellStatusFilterButton extends StatelessWidget {
       );
     }
 
-    if (sellStatus == ProductSellStatus.isOngoing) {
+    if (sellStatus == ProductSellStatus.isOngoing || sellStatus == ProductSellStatus.shared) {
       return const SizedBox.shrink();
     }
 
