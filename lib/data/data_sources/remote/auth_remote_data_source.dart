@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart' hide User;
 import 'package:flutter/services.dart';
 import 'package:flutter_whattodayrice/data/data_sources/remote/core/api_response.dart';
 import 'package:flutter_whattodayrice/utils/log/logger.dart';
@@ -6,7 +7,26 @@ import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 
 @LazySingleton()
 class AuthRemoteDataSource {
-  const AuthRemoteDataSource();
+  final firebaseAuth = FirebaseAuth.instance;
+
+  AuthRemoteDataSource();
+
+  Future<ApiResponse<UserCredential?>> signInWithCredential({required OAuthToken oauthToken}) async {
+    try {
+      final oauthCredential =
+          OAuthProvider('oidc.kakao').credential(idToken: oauthToken.idToken, accessToken: oauthToken.accessToken);
+
+      final credentialResponse = await firebaseAuth.signInWithCredential(oauthCredential);
+
+      Log.i('Firebase Auth SignIn 성공: ${credentialResponse.credential}');
+
+      return SucceedResponse(credentialResponse);
+    } catch (e) {
+      Log.i('Firebase Auth SignIn 실패: $e');
+
+      return const ServerException();
+    }
+  }
 
   Future<ApiResponse<OAuthToken?>> signInWithKakaoTalk() async {
     try {
@@ -21,7 +41,7 @@ class AuthRemoteDataSource {
         return const ServerException(message: "사용자의 의도적인 로그인 취소");
       }
 
-      return const UnknownException();
+      return const ServerException();
     }
   }
 
@@ -34,7 +54,21 @@ class AuthRemoteDataSource {
     } catch (e) {
       Log.i('로그아웃 실패, SDK에서 토큰 폐기 $e');
 
-      return const UnknownException();
+      return const ServerException();
+    }
+  }
+
+  Future<ApiResponse<bool?>> signOutFromFirebaseAuth() async {
+    try {
+      await firebaseAuth.signOut();
+
+      Log.i('로그아웃 성공, AuthCredential 제거');
+
+      return const SucceedResponse(true);
+    } catch (e) {
+      Log.i('로그아웃 실패, AuthCredential 제거 $e');
+
+      return const ServerException();
     }
   }
 
@@ -46,7 +80,7 @@ class AuthRemoteDataSource {
     } catch (e) {
       Log.i('카카오 유저 정보 가져오기 실패 $e');
 
-      return const UnknownException();
+      return const ServerException();
     }
   }
 }
