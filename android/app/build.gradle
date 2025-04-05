@@ -76,11 +76,7 @@ android {
     }
 
     flavorDimensions += "default"
-    productFlavors {
-        create("production") {
-            dimension = "default"
-        }
-    }
+    productFlavors {}
 
     namespace 'com.example.whatTodayRice'
 }
