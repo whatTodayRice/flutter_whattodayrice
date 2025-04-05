@@ -43,7 +43,6 @@ class MenuCard extends StatelessWidget {
         padding: const EdgeInsets.all(32),
         child: SizedBox(
           width: double.infinity,
-          height: 150,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

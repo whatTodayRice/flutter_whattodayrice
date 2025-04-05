@@ -49,4 +49,13 @@ class PostRepositoryImpl implements PostRepository {
   @override
   Future<ApiResponse> reportPost({required ReportPostRequest request}) =>
       postRemoteDataSource.reportPost(request: request);
+
+  @override
+  Future<ApiResponse<List<Post>>> getMyPostList({
+    required int userId,
+    int? perPage = 20,
+    int? page = 1,
+    String? lastDocId,
+  }) =>
+      postRemoteDataSource.getMyPostList(userId: userId, perPage: perPage, lastDocId: lastDocId);
 }

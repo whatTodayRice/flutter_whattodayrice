@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_whattodayrice/assets/assets.gen.dart';
-import 'package:flutter_whattodayrice/common/widget/app_elevated_button.dart';
+import 'package:flutter_whattodayrice/common/widget/app_loading_indicator.dart';
+import 'package:flutter_whattodayrice/common/widget/post_list_item.dart';
+import 'package:flutter_whattodayrice/config/themes/app_text_style.dart';
+import 'package:flutter_whattodayrice/data/models/post.dart';
 import 'package:flutter_whattodayrice/modules/setting/bloc/setting_bloc.dart';
 import 'package:flutter_whattodayrice/config/router/route_config.dart';
 import 'package:flutter_whattodayrice/config/themes/app_color.dart';
-import 'package:flutter_whattodayrice/common/theme/text_template.dart';
 import 'package:adaptive_theme/adaptive_theme.dart';
-import 'package:flutter_whattodayrice/modules/setting/widget/notification_switch.dart';
+import 'package:flutter_whattodayrice/modules/sign_in/widget/kakao_button.dart';
 import 'package:go_router/go_router.dart';
-
-import 'package:google_fonts/google_fonts.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 const String androidWidgetName = 'FullMealsWidget';
 
@@ -23,18 +23,15 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  bool isDarkMood = false;
-  bool isSwitched = false;
-  static const IconData arrowDropDown = IconData(0xe098, fontFamily: 'MaterialIcons');
+  final pagingController = PagingController<String, Post>(firstPageKey: '');
 
-  Widget buildNotificationSwitch() {
-    return NotificationSwitch(
-        isSwitched: isSwitched,
-        onChanged: (value) {
-          setState(() {
-            isSwitched = value;
-          });
-        });
+  @override
+  void initState() {
+    context.read<SettingBloc>().add(const SettingLoadRequested());
+
+    pagingController.addPageRequestListener((_) => context.read<SettingBloc>().add(const SettingMyPostLoadRequested()));
+
+    super.initState();
   }
 
   @override
@@ -45,77 +42,124 @@ class _SettingsScreenState extends State<SettingsScreen> {
     //
     // HomeWidget.updateWidget(androidName: androidWidgetName);
 
-    return Scaffold(
-      appBar: AppBar(
-        leading: InkWell(
-          onTap: () => Navigator.of(context).pop(),
-          child: Assets.images.svg.iconRightArrowGray.svg(fit: BoxFit.scaleDown),
+    return BlocListener<SettingBloc, SettingState>(
+      listener: (context, state) {
+        final bloc = context.read<SettingBloc>();
+
+        if (state is SettingMyPostLoaded) {
+          pagingController.value = PagingState(itemList: state.myPostList, nextPageKey: state.lastDocId);
+        } else if (state is SettingLogoutSucceed) {
+          context.goNamed(AppRouteState.secondHand.name);
+        } else if (state is SettingLoginSucceed) {
+          bloc.add(const SettingLoadRequested());
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          leading: InkWell(
+            onTap: () => Navigator.of(context).pop(),
+            child: Assets.images.svg.iconRightArrowGray.svg(fit: BoxFit.scaleDown),
+          ),
         ),
-        centerTitle: true,
-        title: buildSectionTitle('설정'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0),
-        child: BlocListener<SettingBloc, SettingState>(
-          listener: (context, state) {
-            if (state is SettingLoaded && state.isLogOut == true) {
-              context.goNamed(AppRouteState.secondHand.name);
-            }
-          },
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              AppElevatedButton(
-                title: '로그아웃',
-                onPressed: () => context.read<SettingBloc>().add(const SettingLogOutRequested()),
-                textStyle: Theme.of(context).textTheme.bodyMedium!,
-                buttonBorderColor: AppColor.primary,
-                backgroundColor: AppColor.primary,
-                foregroundColor: Colors.black,
-                borderRadiusValue: 12,
-                elevation: 0,
-                disabledForegroundColor: AppColor.primary,
-                disabledBackgroundColor: Colors.black,
-              ),
-              Row(
-                children: [
-                  buildBoldText('기숙사 변경'),
-                  const Spacer(),
-                  TextButton(
-                      onPressed: () {},
-                      child: Text(
-                        "행복기숙사",
-                        style: GoogleFonts.notoSans(fontSize: 14, fontWeight: FontWeight.w600, color: AppColor.primary),
-                      )),
-                  const Icon(arrowDropDown)
-                ],
-              ),
-              SizedBox(height: 15.h),
-              Row(
-                children: [
-                  buildBoldText('테마 변경'),
-                  const Spacer(),
-                  TextButton(
-                    onPressed: () {},
-                    child: Text(
-                      buildThemeText(convertToThemeMode(AdaptiveTheme.of(context).mode)),
-                      style: GoogleFonts.notoSans(fontSize: 14, fontWeight: FontWeight.w600, color: AppColor.primary),
+        body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: BlocBuilder<SettingBloc, SettingState>(
+            buildWhen: (previous, current) => current is SettingLoaded,
+            builder: (context, state) {
+              if (state is! SettingLoaded) {
+                return const Center(child: AppLoadingIndicator());
+              }
+
+              final profile = state.profile;
+
+              if (profile == null) {
+                return Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        Text(
+                          '로그인 후 나눔 거래를 시작해보세요.',
+                          style: AppTextStyle.bold20.copyWith(color: AppColor.black121212),
+                        ),
+                        const SizedBox(height: 24),
+                        KakaoButton(
+                          onTap: () => context.read<SettingBloc>().add(const SettingLoginRequested()),
+                        ),
+                        const SizedBox(height: 24),
+                        ClipRRect(
+                            borderRadius: BorderRadius.circular(50),
+                            child: Assets.images.png.imageSecondHandExample.image()),
+                      ],
                     ),
                   ),
-                  const Icon(arrowDropDown)
-                ],
-              ),
-              SizedBox(height: 15.h),
-              Text('🍚 이런 기능이 추가될거예요.', style: Theme.of(context).textTheme.titleSmall),
-              SizedBox(height: 15.h),
-              const Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                      // TODO: 나중에 구현
+                );
+              }
+
+              return SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 8.0),
+                      child: Text(
+                        '안녕하세요 ${profile.nickname}님!',
+                        style: AppTextStyle.bold20.copyWith(color: AppColor.orangeFF823B),
                       ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 8.0),
+                      child: Text(
+                        '${profile.nickname}님이 작성한 글을 모아봤어요.',
+                        style: AppTextStyle.bold16.copyWith(color: AppColor.black121212),
+                      ),
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(color: AppColor.black121212.withValues(alpha: 0.5)),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      height: MediaQueryData.fromView(View.of(context)).size.height * 0.5,
+                      child: PagedListView<String, Post>.separated(
+                        pagingController: pagingController,
+                        builderDelegate: PagedChildBuilderDelegate(
+                          itemBuilder: (context, item, index) => PostListItem(
+                            onTap: () {
+                              if (item.id == null) {
+                                return;
+                              }
+
+                              context.goNamed(AppRouteState.postDetail.name, pathParameters: {'id': item.id!});
+                            },
+                            imageUrl: item.imageUrl,
+                            title: item.title,
+                            price: item.price,
+                            location: item.location,
+                            createdAt: item.createdAt,
+                            sellStatus: item.sellStatus,
+                          ),
+                        ),
+                        separatorBuilder: (context, index) => const SizedBox(height: 8),
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        InkWell(
+                          onTap: () => context.read<SettingBloc>().add(const SettingLogOutRequested()),
+                          child: Text(
+                            '로그아웃',
+                            style: AppTextStyle.regular14
+                                .copyWith(color: AppColor.gray8C8C8C, decoration: TextDecoration.underline),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
-              ),
-            ],
+              );
+            },
           ),
         ),
       ),

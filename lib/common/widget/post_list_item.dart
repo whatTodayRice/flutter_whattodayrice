@@ -8,8 +8,8 @@ import 'package:flutter_whattodayrice/modules/second-hand/widget/post_sell_statu
 import 'package:flutter_whattodayrice/utils/extensions/date_time_extension.dart';
 import 'package:flutter_whattodayrice/utils/extensions/int_extension.dart';
 
-class PostItem extends StatelessWidget {
-  const PostItem({
+class PostListItem extends StatelessWidget {
+  const PostListItem({
     super.key,
     this.onTap,
     this.imageUrl,

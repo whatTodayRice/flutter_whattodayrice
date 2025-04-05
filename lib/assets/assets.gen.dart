@@ -146,8 +146,11 @@ class $AssetsImagesPngGen {
   /// File path: assets/images/png/icon_meal_inactive.png
   AssetGenImage get iconMealInactive => const AssetGenImage('assets/images/png/icon_meal_inactive.png');
 
+  /// File path: assets/images/png/image_second_hand_example.png
+  AssetGenImage get imageSecondHandExample => const AssetGenImage('assets/images/png/image_second_hand_example.png');
+
   /// List of all assets
-  List<AssetGenImage> get values => [iconDeleteRed, iconMealActive, iconMealInactive];
+  List<AssetGenImage> get values => [iconDeleteRed, iconMealActive, iconMealInactive, imageSecondHandExample];
 }
 
 class $AssetsImagesSplashGen {
