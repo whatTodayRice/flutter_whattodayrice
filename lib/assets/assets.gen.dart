@@ -138,11 +138,8 @@ class $AssetsImagesPngGen {
   /// File path: assets/images/png/icon_meal_inactive.png
   AssetGenImage get iconMealInactive => const AssetGenImage('assets/images/png/icon_meal_inactive.png');
 
-  /// File path: assets/images/png/image_second_hand_example.png
-  AssetGenImage get imageSecondHandExample => const AssetGenImage('assets/images/png/image_second_hand_example.png');
-
   /// List of all assets
-  List<AssetGenImage> get values => [iconDeleteRed, iconMealActive, iconMealInactive, imageSecondHandExample];
+  List<AssetGenImage> get values => [iconDeleteRed, iconMealActive, iconMealInactive];
 }
 
 class $AssetsImagesSplashGen {
@@ -170,6 +167,9 @@ class $AssetsImagesSvgGen {
   /// File path: assets/images/svg/icon_down_arrow_gray.svg
   SvgGenImage get iconDownArrowGray => const SvgGenImage('assets/images/svg/icon_down_arrow_gray.svg');
 
+  /// File path: assets/images/svg/icon_left_arrow_gray.svg
+  SvgGenImage get iconLeftArrowGray => const SvgGenImage('assets/images/svg/icon_left_arrow_gray.svg');
+
   /// File path: assets/images/svg/icon_more.svg
   SvgGenImage get iconMore => const SvgGenImage('assets/images/svg/icon_more.svg');
 
@@ -183,8 +183,16 @@ class $AssetsImagesSvgGen {
   SvgGenImage get iconRightArrowGray => const SvgGenImage('assets/images/svg/icon_right_arrow_gray.svg');
 
   /// List of all assets
-  List<SvgGenImage> get values =>
-      [iconCheckBoxOff, iconCheckBoxOn, iconDownArrowGray, iconMore, iconOut, iconReport, iconRightArrowGray];
+  List<SvgGenImage> get values => [
+        iconCheckBoxOff,
+        iconCheckBoxOn,
+        iconDownArrowGray,
+        iconLeftArrowGray,
+        iconMore,
+        iconOut,
+        iconReport,
+        iconRightArrowGray
+      ];
 }
 
 class Assets {

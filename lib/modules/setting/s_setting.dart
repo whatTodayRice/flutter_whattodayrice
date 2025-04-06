@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_whattodayrice/assets/assets.gen.dart';
+import 'package:flutter_whattodayrice/common/widget/app_bar_normal.dart';
 import 'package:flutter_whattodayrice/common/widget/app_loading_indicator.dart';
-import 'package:flutter_whattodayrice/common/widget/post_list_item.dart';
 import 'package:flutter_whattodayrice/config/themes/app_text_style.dart';
 import 'package:flutter_whattodayrice/data/models/post.dart';
 import 'package:flutter_whattodayrice/modules/setting/bloc/setting_bloc.dart';
 import 'package:flutter_whattodayrice/config/router/route_config.dart';
 import 'package:flutter_whattodayrice/config/themes/app_color.dart';
 import 'package:adaptive_theme/adaptive_theme.dart';
-import 'package:flutter_whattodayrice/modules/sign_in/widget/kakao_button.dart';
 import 'package:go_router/go_router.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
@@ -28,9 +27,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   void initState() {
     context.read<SettingBloc>().add(const SettingLoadRequested());
-
-    pagingController.addPageRequestListener((_) => context.read<SettingBloc>().add(const SettingMyPostLoadRequested()));
-
     super.initState();
   }
 
@@ -44,23 +40,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
     return BlocListener<SettingBloc, SettingState>(
       listener: (context, state) {
-        final bloc = context.read<SettingBloc>();
-
-        if (state is SettingMyPostLoaded) {
-          pagingController.value = PagingState(itemList: state.myPostList, nextPageKey: state.lastDocId);
-        } else if (state is SettingLogoutSucceed) {
+        if (state is SettingLogoutSucceed) {
           context.goNamed(AppRouteState.secondHand.name);
-        } else if (state is SettingLoginSucceed) {
-          bloc.add(const SettingLoadRequested());
         }
       },
       child: Scaffold(
-        appBar: AppBar(
-          leading: InkWell(
-            onTap: () => Navigator.of(context).pop(),
-            child: Assets.images.svg.iconRightArrowGray.svg(fit: BoxFit.scaleDown),
-          ),
-        ),
+        appBar: const AppBarNormal(title: '설정', centerTitle: true),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: BlocBuilder<SettingBloc, SettingState>(
@@ -70,77 +55,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 return const Center(child: AppLoadingIndicator());
               }
 
-              final profile = state.profile;
-
-              if (profile == null) {
-                return Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        Text(
-                          '로그인 후 나눔 거래를 시작해보세요.',
-                          style: AppTextStyle.bold20.copyWith(color: AppColor.black121212),
-                        ),
-                        const SizedBox(height: 24),
-                        KakaoButton(
-                          onTap: () => context.read<SettingBloc>().add(const SettingLoginRequested()),
-                        ),
-                        const SizedBox(height: 24),
-                        ClipRRect(
-                            borderRadius: BorderRadius.circular(50),
-                            child: Assets.images.png.imageSecondHandExample.image()),
-                      ],
-                    ),
-                  ),
-                );
-              }
-
               return SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 8.0),
-                      child: Text(
-                        '안녕하세요 ${profile.nickname}님!',
-                        style: AppTextStyle.bold20.copyWith(color: AppColor.orangeFF823B),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 8.0),
-                      child: Text(
-                        '${profile.nickname}님이 작성한 글을 모아봤어요.',
-                        style: AppTextStyle.bold16.copyWith(color: AppColor.black121212),
-                      ),
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(color: AppColor.black121212.withValues(alpha: 0.5)),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      height: MediaQueryData.fromView(View.of(context)).size.height * 0.5,
-                      child: PagedListView<String, Post>.separated(
-                        pagingController: pagingController,
-                        builderDelegate: PagedChildBuilderDelegate(
-                          itemBuilder: (context, item, index) => PostListItem(
-                            onTap: () {
-                              if (item.id == null) {
-                                return;
-                              }
-
-                              context.goNamed(AppRouteState.postDetail.name, pathParameters: {'id': item.id!});
-                            },
-                            imageUrl: item.imageUrl,
-                            title: item.title,
-                            price: item.price,
-                            location: item.location,
-                            createdAt: item.createdAt,
-                            sellStatus: item.sellStatus,
-                          ),
-                        ),
-                        separatorBuilder: (context, index) => const SizedBox(height: 8),
-                      ),
+                    ...List.generate(
+                      state.items.length,
+                      (index) => SettingItem(item: state.items[index]),
                     ),
                     const SizedBox(height: 24),
                     Row(
@@ -188,5 +109,31 @@ ThemeMode convertToThemeMode(AdaptiveThemeMode adaptiveThemeMode) {
 
     case AdaptiveThemeMode.system:
       return ThemeMode.system;
+  }
+}
+
+class SettingItem extends StatelessWidget {
+  const SettingItem({super.key, required this.item});
+
+  final SettingItemEnum item;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () => context.pushNamed(item.routeName),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        child: Row(
+          children: [
+            Text(
+              item.displayValue,
+              style: AppTextStyle.regular16.copyWith(color: AppColor.black121212),
+            ),
+            const Spacer(),
+            Assets.images.svg.iconRightArrowGray.svg(fit: BoxFit.scaleDown),
+          ],
+        ),
+      ),
+    );
   }
 }
