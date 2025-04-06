@@ -24,7 +24,7 @@ class AuthRemoteDataSource {
     } catch (e) {
       Log.i('Firebase Auth SignIn 실패: $e');
 
-      return const ServerException();
+      return ServerException(message: e.toString());
     }
   }
 
@@ -41,7 +41,7 @@ class AuthRemoteDataSource {
         return const ServerException(message: "사용자의 의도적인 로그인 취소");
       }
 
-      return const ServerException();
+      return ServerException(message: e.toString());
     }
   }
 
@@ -54,7 +54,7 @@ class AuthRemoteDataSource {
     } catch (e) {
       Log.i('로그아웃 실패, SDK에서 토큰 폐기 $e');
 
-      return const ServerException();
+      return ServerException(message: e.toString());
     }
   }
 
@@ -68,7 +68,7 @@ class AuthRemoteDataSource {
     } catch (e) {
       Log.i('로그아웃 실패, AuthCredential 제거 $e');
 
-      return const ServerException();
+      return ServerException(message: e.toString());
     }
   }
 
@@ -80,7 +80,7 @@ class AuthRemoteDataSource {
     } catch (e) {
       Log.i('카카오 유저 정보 가져오기 실패 $e');
 
-      return const ServerException();
+      return ServerException(message: e.toString());
     }
   }
 }

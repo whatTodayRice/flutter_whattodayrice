@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_whattodayrice/assets/assets.gen.dart';
+import 'package:flutter_whattodayrice/common/utils/login_validator.dart';
 import 'package:flutter_whattodayrice/common/widget/app_bar_normal.dart';
+import 'package:flutter_whattodayrice/common/widget/app_default_dialog.dart';
 import 'package:flutter_whattodayrice/common/widget/app_loading_indicator.dart';
+import 'package:flutter_whattodayrice/config/di/di.dart';
 import 'package:flutter_whattodayrice/config/themes/app_text_style.dart';
 import 'package:flutter_whattodayrice/data/models/post.dart';
+import 'package:flutter_whattodayrice/data/repository/user_repository.dart';
 import 'package:flutter_whattodayrice/modules/setting/bloc/setting_bloc.dart';
 import 'package:flutter_whattodayrice/config/router/route_config.dart';
 import 'package:flutter_whattodayrice/config/themes/app_color.dart';
@@ -63,20 +67,22 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       state.items.length,
                       (index) => SettingItem(item: state.items[index]),
                     ),
-                    const SizedBox(height: 24),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        InkWell(
-                          onTap: () => context.read<SettingBloc>().add(const SettingLogOutRequested()),
-                          child: Text(
-                            '로그아웃',
-                            style: AppTextStyle.regular14
-                                .copyWith(color: AppColor.gray8C8C8C, decoration: TextDecoration.underline),
+                    if (getIt<UserRepository>().getUserProfileFromCache() != null) ...[
+                      const SizedBox(height: 24),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          InkWell(
+                            onTap: () => context.read<SettingBloc>().add(const SettingLogOutRequested()),
+                            child: Text(
+                              '로그아웃',
+                              style: AppTextStyle.regular14
+                                  .copyWith(color: AppColor.gray8C8C8C, decoration: TextDecoration.underline),
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
+                        ],
+                      ),
+                    ],
                   ],
                 ),
               );
@@ -120,7 +126,47 @@ class SettingItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => context.pushNamed(item.routeName),
+      onTap: () async {
+        switch (item) {
+          case SettingItemEnum.siteTerms:
+            AppDefaultDialog.show(
+              context,
+              title: '안내',
+              content: '추후 안내될 예정이예요.',
+              confirmButtonText: '확인',
+            );
+
+            return;
+
+          default:
+            if (LoginValidator.isUserLoggedIn() != true) {
+              final result = await AppDefaultDialog.show(
+                context,
+                title: '안내',
+                content: '로그인 이후 확인할 수 있어요.',
+                confirmButtonText: '로그인 하기',
+                onConfirm: () => Navigator.of(context).pop(true),
+                cancelButtonText: '취소',
+              );
+
+              if (result != true) {
+                return;
+              }
+
+              final loginResult = await context.pushNamed(AppRouteState.signIn.name);
+
+              if (loginResult != true) {
+                return;
+              }
+
+              context.read<SettingBloc>().add(const SettingLoadRequested());
+
+              return;
+            }
+
+            context.pushNamed(item.routeName);
+        }
+      },
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         child: Row(

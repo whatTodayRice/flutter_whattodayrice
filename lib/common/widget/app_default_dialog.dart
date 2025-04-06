@@ -79,7 +79,7 @@ class AppDefaultDialog extends StatelessWidget {
                 height: 48,
                 child: Row(
                   children: [
-                    if (cancelButtonText?.isNotEmpty == true)
+                    if (cancelButtonText?.isNotEmpty == true) ...[
                       Expanded(
                         child: TextButton(
                           onPressed: onCancel ?? () => Navigator.of(context).pop(false),
@@ -92,7 +92,8 @@ class AppDefaultDialog extends StatelessWidget {
                           child: Text(cancelButtonText!),
                         ),
                       ),
-                    const VerticalDivider(width: 1, color: AppColor.grayE2E2E2, thickness: 1),
+                      const VerticalDivider(width: 1, color: AppColor.grayE2E2E2, thickness: 1),
+                    ],
                     Expanded(
                       child: TextButton(
                         onPressed: onConfirm ?? () => Navigator.of(context).pop(true),

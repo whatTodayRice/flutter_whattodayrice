@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_whattodayrice/assets/assets.gen.dart';
+import 'package:flutter_whattodayrice/common/widget/app_default_dialog.dart';
 import 'package:flutter_whattodayrice/config/themes/app_color.dart';
 import 'package:flutter_whattodayrice/config/themes/app_text_style.dart';
 import 'package:flutter_whattodayrice/modules/sign_in/bloc/sign_in_bloc.dart';
@@ -21,6 +22,13 @@ class _SignInScreenState extends State<SignInScreen> {
       listener: (context, state) {
         if (state is SignInSucceed) {
           context.pop(true);
+        } else if (state is SignInError) {
+          AppDefaultDialog.show(
+            context,
+            title: '로그인 실패',
+            content: state.errorMessage ?? '일시적인 오류입니다. 잠시 후 다시 시도해주세요.',
+            confirmButtonText: '확인',
+          );
         }
       },
       child: SizedBox(
@@ -38,7 +46,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 children: [
                   Text(
                     "로그인",
-                    style: AppTextStyle.bold20.copyWith(color: AppColor.whiteFFFFFF),
+                    style: AppTextStyle.bold20.copyWith(color: AppColor.black000000),
                   ),
                   const Spacer(),
                   GestureDetector(
