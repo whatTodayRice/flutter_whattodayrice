@@ -7,25 +7,6 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:816854486784:android:2556c61ae232243ddaade5",
-        "android_client_info": {
-          "package_name": "com.example.flutter_whattodayrice"
-        }
-      },
-      "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBXCwiZCNIe5GnsUT7Rq4gCh_rgFGjsmEg"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": []
-        }
-      }
-    },
-    {
-      "client_info": {
         "mobilesdk_app_id": "1:816854486784:android:f7b18de5c0778747daade5",
         "android_client_info": {
           "package_name": "com.example.whatTodayRice"
@@ -45,28 +26,9 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:816854486784:android:bad6cc95d66997b0daade5",
+        "mobilesdk_app_id": "1:816854486784:android:a0bc93059436d11edaade5",
         "android_client_info": {
-          "package_name": "com.whatTodayRice"
-        }
-      },
-      "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBXCwiZCNIe5GnsUT7Rq4gCh_rgFGjsmEg"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": []
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:816854486784:android:214259f270b79d4edaade5",
-        "android_client_info": {
-          "package_name": "whattodayrice.ch.sh"
+          "package_name": "com.whatTodayRice.www"
         }
       },
       "oauth_client": [],
