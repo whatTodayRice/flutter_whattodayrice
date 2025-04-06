@@ -121,7 +121,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
         appBar: AppBar(
           leading: InkWell(
             onTap: () => context.pop(),
-            child: Assets.images.svg.iconRightArrowGray.svg(fit: BoxFit.scaleDown),
+            child: Assets.images.svg.iconLeftArrowGray.svg(fit: BoxFit.scaleDown),
           ),
           actions: [
             BlocBuilder<PostDetailBloc, PostDetailState>(

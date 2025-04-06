@@ -9,6 +9,7 @@ enum AppRouteState {
   postDetail('post-detail/:id'),
   secondHand('second-hand'),
   createPost('create-post'),
+  myPosts('my-posts'),
   report('report'),
   meal('meal');
 

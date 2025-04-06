@@ -25,26 +25,12 @@ final class SettingError extends SettingState {
 }
 
 final class SettingLoaded extends SettingState {
-  const SettingLoaded({this.profile});
+  const SettingLoaded({required this.items});
 
-  final Profile? profile;
-
-  @override
-  List<Object?> get props => [profile];
-}
-
-final class SettingMyPostLoaded extends SettingState {
-  const SettingMyPostLoaded({required this.myPostList, this.lastDocId});
-
-  final List<Post> myPostList;
-  final String? lastDocId;
+  final List<SettingItemEnum> items;
 
   @override
-  List<Object?> get props => [myPostList, lastDocId];
-}
-
-final class SettingLoginSucceed extends SettingState {
-  const SettingLoginSucceed();
+  List<Object?> get props => [items];
 }
 
 final class SettingLogoutSucceed extends SettingState {

@@ -10,6 +10,8 @@ import 'package:flutter_whattodayrice/modules/second-hand/post_detail/bloc/post_
 import 'package:flutter_whattodayrice/modules/second-hand/post_detail/post_detail_screen.dart';
 import 'package:flutter_whattodayrice/modules/second-hand/report/bloc/report_bloc.dart';
 import 'package:flutter_whattodayrice/modules/second-hand/report/report_screen.dart';
+import 'package:flutter_whattodayrice/modules/setting/my_posts/bloc/my_post_bloc.dart';
+import 'package:flutter_whattodayrice/modules/setting/my_posts/my_post_screen.dart';
 import 'package:flutter_whattodayrice/modules/sign_in/bloc/sign_in_bloc.dart';
 import 'package:flutter_whattodayrice/modules/setting/bloc/setting_bloc.dart';
 import 'package:flutter_whattodayrice/modules/splash/bloc/splash_bloc.dart';
@@ -147,12 +149,25 @@ final routerConfig = GoRouter(
                   name: AppRouteState.setting.name,
                   builder: (context, state) => BlocProvider(
                     create: (context) => SettingBloc(
-                      postRepository: getIt<PostRepository>(),
                       userRepository: getIt<UserRepository>(),
                       authRepository: getIt<AuthRepository>(),
                     ),
                     child: const SettingsScreen(),
                   ),
+                  routes: [
+                    GoRoute(
+                      parentNavigatorKey: _rootNavigatorKey,
+                      path: AppRouteState.myPosts.path,
+                      name: AppRouteState.myPosts.name,
+                      builder: (context, state) => BlocProvider(
+                        create: (context) => MyPostBloc(
+                          postRepository: getIt<PostRepository>(),
+                          userRepository: getIt<UserRepository>(),
+                        ),
+                        child: const MyPostScreen(),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
