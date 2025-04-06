@@ -1,12 +1,8 @@
-package com.example.whatTodayRice
+package com.whatTodayRice.www
 
-import android.annotation.TargetApi
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
-import android.icu.text.SimpleDateFormat
-import android.os.Build
-import android.util.Log
 import android.widget.RemoteViews
 import es.antonborri.home_widget.HomeWidgetPlugin
 import java.util.Calendar

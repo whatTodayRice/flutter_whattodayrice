@@ -81,9 +81,6 @@ class $AssetsImagesGen {
   /// Directory path: assets/images/launcher
   $AssetsImagesLauncherGen get launcher => const $AssetsImagesLauncherGen();
 
-  /// File path: assets/images/pig.png
-  AssetGenImage get pig => const AssetGenImage('assets/images/pig.png');
-
   /// Directory path: assets/images/png
   $AssetsImagesPngGen get png => const $AssetsImagesPngGen();
 
@@ -92,9 +89,6 @@ class $AssetsImagesGen {
 
   /// Directory path: assets/images/svg
   $AssetsImagesSvgGen get svg => const $AssetsImagesSvgGen();
-
-  /// File path: assets/images/washing-machine.png
-  AssetGenImage get washingMachine => const AssetGenImage('assets/images/washing-machine.png');
 
   /// List of all assets
   List<dynamic> get values => [
@@ -118,9 +112,7 @@ class $AssetsImagesGen {
         iconSvg___,
         imageSelection,
         imgAlarmDark,
-        kakaoLoginMediumWide,
-        pig,
-        washingMachine
+        kakaoLoginMediumWide
       ];
 }
 
@@ -156,14 +148,14 @@ class $AssetsImagesPngGen {
 class $AssetsImagesSplashGen {
   const $AssetsImagesSplashGen();
 
-  /// File path: assets/images/splash/android12.png
-  AssetGenImage get android12 => const AssetGenImage('assets/images/splash/android12.png');
+  /// File path: assets/images/splash/ic_launcher.png
+  AssetGenImage get icLauncher => const AssetGenImage('assets/images/splash/ic_launcher.png');
 
   /// File path: assets/images/splash/splash.png
   AssetGenImage get splash => const AssetGenImage('assets/images/splash/splash.png');
 
   /// List of all assets
-  List<AssetGenImage> get values => [android12, splash];
+  List<AssetGenImage> get values => [icLauncher, splash];
 }
 
 class $AssetsImagesSvgGen {
