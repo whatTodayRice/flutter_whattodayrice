@@ -17,7 +17,7 @@ class UserRepositoryImpl implements UserRepository {
   Profile? getUserProfileFromCache() => _userProfile;
 
   @override
-  Future<ApiResponse<Profile?>> getUserProfile() async {
+  Future<ApiResponse<Profile?>> initUserProfile() async {
     final user = await remoteDataSource.getKakaoUserProfile();
 
     if (user.succeedData == null) {
@@ -45,12 +45,31 @@ class UserRepositoryImpl implements UserRepository {
   }
 
   @override
-  Future<ApiResponse> updateBlockedUsers({required int userId, required List<int> blockedUserIds}) =>
-      remoteDataSource.updateBlockedUsers(userId: userId, blockedUserIds: blockedUserIds).then(
+  Future<ApiResponse> setBlockedUser({required int userId, required BlockedUserProfile profile}) =>
+      remoteDataSource.setBlockedUser(userId: userId, profile: profile).then(
         (value) {
           if (value.isSucceed == true) {
-            _userProfile = _userProfile?.copyWith(blockedUserIds: [...blockedUserIds]);
+            final updateBlockedUsers = [..._userProfile?.blockedUsers ?? [], profile];
+
+            _userProfile = _userProfile?.copyWith(blockedUsers: [...updateBlockedUsers]);
           }
+
+          return value;
+        },
+      );
+
+  @override
+  Future<ApiResponse> deleteBlockedUser({required int userId, required int blockedUserId}) =>
+      remoteDataSource.deleteBlockUser(userId: userId, blockedUserId: blockedUserId).then(
+        (value) {
+          if (value.isSucceed != true) {
+            return value;
+          }
+
+          final curBlockedUsers = [..._userProfile?.blockedUsers ?? []];
+          final updatedBlockedUsers = curBlockedUsers.where((e) => e.id != blockedUserId).toList();
+
+          _userProfile = _userProfile?.copyWith(blockedUsers: [...updatedBlockedUsers]);
 
           return value;
         },

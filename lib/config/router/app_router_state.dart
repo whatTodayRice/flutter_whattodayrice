@@ -10,6 +10,7 @@ enum AppRouteState {
   secondHand('second-hand'),
   createPost('create-post'),
   myPosts('my-posts'),
+  blockedUsers('blocked_ussrs'),
   report('report'),
   meal('meal');
 

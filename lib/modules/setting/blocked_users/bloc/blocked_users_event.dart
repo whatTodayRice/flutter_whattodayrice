@@ -10,3 +10,12 @@ sealed class BlockedUsersEvent extends Equatable {
 final class BlockedUsersLoadRequested extends BlockedUsersEvent {
   const BlockedUsersLoadRequested();
 }
+
+final class BlockedUsersDeleteRequested extends BlockedUsersEvent {
+  const BlockedUsersDeleteRequested({required this.index});
+
+  final int index;
+
+  @override
+  List<Object?> get props => [index];
+}

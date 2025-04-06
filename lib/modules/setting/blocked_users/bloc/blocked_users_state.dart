@@ -25,5 +25,19 @@ final class BlockedUsersError extends BlockedUsersState {
 }
 
 final class BlockedUsersLoaded extends BlockedUsersState {
-  const BlockedUsersLoaded();
+  const BlockedUsersLoaded({required this.blockedUsers});
+
+  final List<BlockedUserProfile> blockedUsers;
+
+  @override
+  List<Object?> get props => [blockedUsers];
+}
+
+final class BlockedUsersDeleteSucceed extends BlockedUsersState {
+  const BlockedUsersDeleteSucceed({required this.message});
+
+  final String message;
+
+  @override
+  List<Object?> get props => [message];
 }

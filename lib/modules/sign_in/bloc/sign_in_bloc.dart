@@ -21,7 +21,7 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
       return;
     }
 
-    await userRepository.getUserProfile();
+    await userRepository.initUserProfile();
 
     emit(const SignInSucceed());
   }

@@ -10,8 +10,9 @@ _$ProfileImpl _$$ProfileImplFromJson(Map<String, dynamic> json) =>
     _$ProfileImpl(
       id: (json['id'] as num).toInt(),
       nickname: json['nickname'] as String,
-      blockedUserIds: (json['blocked_user_ids'] as List<dynamic>?)
-              ?.map((e) => (e as num).toInt())
+      blockedUsers: (json['blocked_users'] as List<dynamic>?)
+              ?.map(
+                  (e) => BlockedUserProfile.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
     );
@@ -20,5 +21,19 @@ Map<String, dynamic> _$$ProfileImplToJson(_$ProfileImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'nickname': instance.nickname,
-      'blocked_user_ids': instance.blockedUserIds,
+      'blocked_users': instance.blockedUsers,
+    };
+
+_$BlockedUserProfileImpl _$$BlockedUserProfileImplFromJson(
+        Map<String, dynamic> json) =>
+    _$BlockedUserProfileImpl(
+      id: (json['id'] as num).toInt(),
+      nickname: json['nickname'] as String?,
+    );
+
+Map<String, dynamic> _$$BlockedUserProfileImplToJson(
+        _$BlockedUserProfileImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'nickname': instance.nickname,
     };

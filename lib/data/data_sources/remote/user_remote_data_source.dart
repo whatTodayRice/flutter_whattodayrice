@@ -21,7 +21,7 @@ class UserRemoteDataSource {
   }
 
   Future<void> setUserProfile({required int userId, String? nickname}) async {
-    final newUserProfile = Profile(id: userId, nickname: nickname ?? "행긱 요정 $userId", blockedUserIds: []);
+    final newUserProfile = Profile(id: userId, nickname: nickname ?? "행긱 요정 $userId", blockedUsers: []);
 
     await db.collection('users').doc(userId.toString()).set(newUserProfile.toJson()).then(
           (value) => Log.i("새로운 유저 추가됨. UserId: $userId"),
@@ -40,17 +40,39 @@ class UserRemoteDataSource {
     }
   }
 
-  Future<ApiResponse> updateBlockedUsers({required int userId, required List<int> blockedUserIds}) async {
+  Future<ApiResponse> setBlockedUser({required int userId, required BlockedUserProfile profile}) async {
     try {
-      await db.collection('users').doc(userId.toString()).update({
-        'blocked_user_ids': [...blockedUserIds]
-      });
+      await db
+          .collection('users')
+          .doc(userId.toString())
+          .collection('blocked_users')
+          .doc(profile.id.toString())
+          .set(profile.toJson());
 
-      Log.i('차단한 사용자 업데이트 성공: $userId => $blockedUserIds');
+      Log.i('차단한 사용자 등록 성공: $userId => $profile');
 
       return const SucceedResponse(true);
     } catch (e) {
-      Log.i('차단한 사용자 업데이트 실패: $userId => $blockedUserIds');
+      Log.i('차단한 사용자 등록 실패: $userId => $profile');
+
+      return const ServerException();
+    }
+  }
+
+  Future<ApiResponse> deleteBlockUser({required int userId, required int blockedUserId}) async {
+    try {
+      await db
+          .collection('users')
+          .doc(userId.toString())
+          .collection('blocked_users')
+          .doc(blockedUserId.toString())
+          .delete();
+
+      Log.i('차단한 사용자 해제 성공: $userId => $blockedUserId');
+
+      return const SucceedResponse(true);
+    } catch (e) {
+      Log.i('차단한 사용자 해제 실패: $userId => $blockedUserId');
 
       return const ServerException();
     }
