@@ -10,6 +10,8 @@ import 'package:flutter_whattodayrice/modules/second-hand/post_detail/bloc/post_
 import 'package:flutter_whattodayrice/modules/second-hand/post_detail/post_detail_screen.dart';
 import 'package:flutter_whattodayrice/modules/second-hand/report/bloc/report_bloc.dart';
 import 'package:flutter_whattodayrice/modules/second-hand/report/report_screen.dart';
+import 'package:flutter_whattodayrice/modules/setting/blocked_users/bloc/blocked_users_bloc.dart';
+import 'package:flutter_whattodayrice/modules/setting/blocked_users/blocked_users_screen.dart';
 import 'package:flutter_whattodayrice/modules/setting/my_posts/bloc/my_post_bloc.dart';
 import 'package:flutter_whattodayrice/modules/setting/my_posts/my_post_screen.dart';
 import 'package:flutter_whattodayrice/modules/sign_in/bloc/sign_in_bloc.dart';
@@ -165,6 +167,15 @@ final routerConfig = GoRouter(
                           userRepository: getIt<UserRepository>(),
                         ),
                         child: const MyPostScreen(),
+                      ),
+                    ),
+                    GoRoute(
+                      parentNavigatorKey: _rootNavigatorKey,
+                      path: AppRouteState.blockedUsers.path,
+                      name: AppRouteState.blockedUsers.name,
+                      builder: (context, state) => BlocProvider(
+                        create: (context) => BlockedUsersBloc(userRepository: getIt<UserRepository>()),
+                        child: const BlockedUsersScreen(),
                       ),
                     ),
                   ],

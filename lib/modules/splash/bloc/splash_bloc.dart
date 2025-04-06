@@ -39,7 +39,7 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
   ) async {
     emit(const SplashLoading());
 
-    await userRepository.getUserProfile();
+    await userRepository.initUserProfile();
 
     emit(SplashLoaded(routeName: AppRouteState.secondHand.name));
   }

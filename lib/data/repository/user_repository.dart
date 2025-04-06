@@ -4,9 +4,11 @@ import 'package:flutter_whattodayrice/data/models/profile.dart';
 abstract interface class UserRepository {
   Profile? getUserProfileFromCache();
 
-  Future<ApiResponse<Profile?>> getUserProfile();
+  Future<ApiResponse<Profile?>> initUserProfile();
 
-  Future<ApiResponse> updateBlockedUsers({required int userId, required List<int> blockedUserIds});
+  Future<ApiResponse> setBlockedUser({required int userId, required BlockedUserProfile profile});
+
+  Future<ApiResponse> deleteBlockedUser({required int userId, required int blockedUserId});
 
   void clearUserProfile();
 }

@@ -15,7 +15,9 @@ abstract class PostBlockedUserFilterUtil {
     for (int i = 0; i < allPosts.length; i++) {
       final post = allPosts[i];
 
-      if (curUserProfile.blockedUserIds.contains(post.userId) == true) {
+      final blockedUserId = curUserProfile.blockedUsers.indexWhere((e) => e.id == post.userId);
+
+      if (blockedUserId != -1) {
         continue;
       }
 

@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_whattodayrice/data/data_sources/remote/core/api_response.dart';
 import 'package:flutter_whattodayrice/data/models/post.dart';
+import 'package:flutter_whattodayrice/data/models/profile.dart';
 import 'package:flutter_whattodayrice/data/models/requests/create_post_request.dart';
 import 'package:flutter_whattodayrice/data/repository/post_repository.dart';
 import 'package:flutter_whattodayrice/data/repository/user_repository.dart';
@@ -107,15 +108,16 @@ class PostDetailBloc extends Bloc<PostDetailEvent, PostDetailState> {
       return;
     }
 
-    List<int> updateBlockedIds = [];
+    BlockedUserProfile? blockedUserProfile;
 
     if (event.commentIndex == null) {
-      updateBlockedIds = [...curProfile.blockedUserIds, post!.userId!];
+      blockedUserProfile = BlockedUserProfile(id: post!.userId!, nickname: post!.nickname);
     } else {
-      updateBlockedIds = [...curProfile.blockedUserIds, post!.comments[event.commentIndex!].userId!];
+      blockedUserProfile = BlockedUserProfile(
+          id: post!.comments[event.commentIndex!].userId!, nickname: post!.comments[event.commentIndex!].nickname);
     }
 
-    final response = await userRepository.updateBlockedUsers(userId: curProfile.id, blockedUserIds: updateBlockedIds);
+    final response = await userRepository.setBlockedUser(userId: curProfile.id, profile: blockedUserProfile);
 
     if (response.isSucceed != true) {
       emit(PostDetailError(errorMessage: response.errorMessage));
@@ -123,7 +125,7 @@ class PostDetailBloc extends Bloc<PostDetailEvent, PostDetailState> {
       return;
     }
 
-    if (updateBlockedIds.contains(post!.userId)) {
+    if (event.commentIndex == null) {
       final message = "${post!.nickname}님을 차단했어요.";
 
       emit(PostDetailUserBlockedSucceed(isPost: true, message: message));
