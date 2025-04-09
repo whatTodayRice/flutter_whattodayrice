@@ -125,10 +125,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        '이미지 URL',
-                        style: AppTextStyle.bold14.copyWith(color: AppColor.black000000),
-                      ),
+                      TitleSpan.imageUrl(),
                       const SizedBox(height: 4),
                       Text(
                         '이미지 URL을 입력하면, 이미지 미리보기가 제공돼요.',
@@ -152,19 +149,13 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                       const SizedBox(height: 24),
 
                       /// 제목
-                      Text(
-                        '제목',
-                        style: AppTextStyle.bold14.copyWith(color: AppColor.black000000),
-                      ),
+                      TitleSpan.title(),
                       const SizedBox(height: 8),
                       TitleTextField(titleController: titleController, hintText: '제목을 입력해주세요.', maxLength: 50),
                       const SizedBox(height: 24),
 
                       /// 가격
-                      Text(
-                        '가격',
-                        style: AppTextStyle.bold14.copyWith(color: AppColor.black000000),
-                      ),
+                      TitleSpan.price(),
                       const SizedBox(height: 8),
                       BlocBuilder<CreatePostBloc, CreatePostState>(
                         buildWhen: (previous, current) => current is CreatePostSelectedSellTypeChecked,
@@ -209,10 +200,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                       const SizedBox(height: 24),
 
                       /// 상품 설명
-                      Text(
-                        '상품 설명',
-                        style: AppTextStyle.bold14.copyWith(color: AppColor.black000000),
-                      ),
+                      TitleSpan.content(),
                       const SizedBox(height: 8),
                       SizedBox(
                         height: 200,
@@ -226,10 +214,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                       const SizedBox(height: 24),
 
                       /// 거래 희망 장소
-                      Text(
-                        '거래 희망 장소',
-                        style: AppTextStyle.bold14.copyWith(color: AppColor.black000000),
-                      ),
+                      TitleSpan.location(),
                       const SizedBox(height: 8),
                       TitleTextField(
                         titleController: tradingLocationController,
@@ -260,6 +245,36 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class TitleSpan extends StatelessWidget {
+  const TitleSpan({super.key, required this.title, required this.isRequired});
+
+  final String title;
+  final bool isRequired;
+
+  factory TitleSpan.imageUrl() => const TitleSpan(title: '이미지 URL', isRequired: false);
+  factory TitleSpan.title() => const TitleSpan(title: '제목', isRequired: true);
+  factory TitleSpan.price() => const TitleSpan(title: '가격', isRequired: true);
+  factory TitleSpan.content() => const TitleSpan(title: '상품 설명', isRequired: true);
+  factory TitleSpan.location() => const TitleSpan(title: '거래 희망 장소', isRequired: true);
+
+  @override
+  Widget build(BuildContext context) {
+    return RichText(
+      text: TextSpan(
+        style: AppTextStyle.bold14.copyWith(color: AppColor.black000000),
+        children: [
+          TextSpan(text: title),
+          if (isRequired)
+            TextSpan(
+              text: ' *',
+              style: AppTextStyle.bold14.copyWith(color: AppColor.orangeFF6060),
+            )
+        ],
       ),
     );
   }

@@ -86,6 +86,42 @@ class _MyPostScreenState extends State<MyPostScreen> {
                           createdAt: item.createdAt,
                           sellStatus: item.sellStatus,
                         ),
+                        noItemsFoundIndicatorBuilder: (context) {
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 150),
+                            child: Center(
+                              child: Column(
+                                children: [
+                                  Text(
+                                    '아직 작성한 글이 없어요.',
+                                    style: AppTextStyle.regular16.copyWith(color: AppColor.grayB2B2B2),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  const SizedBox(height: 12),
+                                  InkWell(
+                                    onTap: () => context.goNamed(AppRouteState.secondHand.name),
+                                    child: Container(
+                                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                                      height: 46,
+                                      decoration: BoxDecoration(
+                                          color: AppColor.orangeFF823B, borderRadius: BorderRadius.circular(23)),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            '게시글 보러가기',
+                                            style: AppTextStyle.regular16.copyWith(color: AppColor.whiteF8F8F8),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
                       ),
                       separatorBuilder: (context, index) => const SizedBox(height: 8),
                     ),

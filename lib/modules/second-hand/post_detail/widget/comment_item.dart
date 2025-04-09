@@ -74,6 +74,7 @@ class CommentItem extends StatelessWidget {
                       writerId: comment.userId,
                       nickname: comment.nickname,
                       onDelete: onDelete,
+                      onUserBlock: onUserBlock,
                       postId: comment.parentPostId,
                       commentId: comment.id,
                     ),

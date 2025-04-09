@@ -38,7 +38,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
               BottomNavigationBarItem(
                 activeIcon: Assets.images.iconSecondHandActive.image(width: 28, height: 28),
                 icon: Assets.images.iconSecondHandInactive.image(width: 28, height: 28),
-                label: '홈',
+                label: '중고 거래',
               ),
               BottomNavigationBarItem(
                 activeIcon: Assets.images.png.iconMealActive.image(width: 28, height: 28),

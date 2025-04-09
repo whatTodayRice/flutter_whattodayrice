@@ -196,7 +196,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                                     height: 400,
                                     child: Center(
                                       child: Text(
-                                        '이미지를 불러오는 도중에 문제가 발생했어요. 잠시 후 다시 시도해주세요.',
+                                        '이미지를 불러오는 도중에 문제가 발생했어요.\n잠시 후 다시 시도해주세요.',
                                         style: AppTextStyle.regular16.copyWith(color: AppColor.orangeFF823B),
                                       ),
                                     ),
